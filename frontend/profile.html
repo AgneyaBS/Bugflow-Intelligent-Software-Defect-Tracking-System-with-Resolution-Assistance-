@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | BugFlow</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        .profile-page {
+            padding: 32px 35px 45px;
+            background: #f5f7fb;
+            min-height: calc(100vh - 76px);
+        }
+
+        .profile-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .profile-header {
+            margin-bottom: 25px;
+        }
+
+        .profile-header span {
+            color: #6366f1;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .profile-header h1 {
+            font-size: 26px;
+            margin: 7px 0;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .profile-header p {
+            color: #7b8495;
+            font-size: 12px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .profile-card,
+        .details-card,
+        .security-card {
+            background: #fff;
+            border: 1px solid #e9edf3;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(15,23,42,.025);
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .profile-picture {
+            width: 115px;
+            height: 115px;
+            border-radius: 50%;
+            margin: 5px auto 15px;
+            background: #e0e7ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            font-weight: 700;
+            overflow: hidden;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #4f46e5;
+            color: white;
+            padding: 9px 14px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background: #4338ca;
+        }
+
+        #profileImageInput {
+            display: none;
+        }
+
+        .profile-card h2 {
+            margin-top: 18px;
+            font-size: 17px;
+            color: #111827;
+        }
+
+        .profile-card p {
+            margin-top: 5px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #eeedff;
+            color: #4f46e5;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .card-title {
+            margin-bottom: 20px;
+        }
+
+        .card-title h3 {
+            font-size: 15px;
+            color: #111827;
+        }
+
+        .card-title p {
+            margin-top: 4px;
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 17px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 7px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 10px 11px;
+            font-family: inherit;
+            font-size: 11px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99,102,241,.08);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .security-card {
+            margin-top: 20px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 38px;
+        }
+
+        .password-wrapper button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            margin-top: 20px;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 17px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #4338ca;
+        }
+
+        @media (max-width: 800px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div>
+                <h2>BugFlow</h2>
+                <span>Intelligent Tracking</span>
+            </div>
+
+        </div>
+
+        <nav>
+
+            <p class="nav-heading">MAIN</p>
+
+            <a href="admin-dashboard.html" class="nav-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="admin-defects.html" class="nav-link">
+                <i class="fa-solid fa-bug"></i>
+                <span>All Issues</span>
+            </a>
+
+            <a href="users.html" class="nav-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="resolution.html" class="nav-link">
+                <i class="fa-solid fa-robot"></i>
+                <span>Resolution Assistance</span>
+            </a>
+
+            <p class="nav-heading second">MANAGEMENT</p>
+
+            <a href="admin-analytics.html" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analytics & APIs</span>
+            </a>
+
+            <a href="reports.html" class="nav-link">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="notifications.html" class="nav-link">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+                <b class="badge">5</b>
+            </a>
+
+            <a href="settings.html" class="nav-link">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="system-support.html"
+               class="support-box"
+               style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+                <strong>System Support</strong>
+                <small>All systems online</small>
+
+            </a>
+
+            <a href="index.html" class="nav-link logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <span>SOFTWARE ISSUE MANAGEMENT</span>
+
+                <strong>My Profile</strong>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <a href="notifications.html"
+                   class="notification-button">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span>5</span>
+
+                </a>
+
+
+                <a href="profile.html"
+                   class="user-profile">
+
+                    <div class="avatar admin-avatar">
+                        BA
+                    </div>
+
+                    <div>
+
+                        <strong id="profileTopName">
+                            BugFlow Administrator
+                        </strong>
+
+                        <small>
+                            ADMIN
+                        </small>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+            <div class="profile-page">
+
+                <div class="profile-container">
+
+                    <div class="profile-header">
+
+                        <span>ACCOUNT MANAGEMENT</span>
+
+                        <h1>My Profile</h1>
+
+                        <p>
+                            Manage your profile information and account security.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-grid">
+
+
+                        <!-- PROFILE CARD -->
+                        <div class="profile-card">
+
+                            <div class="profile-picture"
+                                 id="profilePicture">
+
+                                BA
+
+                            </div>
+
+                            <input
+                                type="file"
+                                id="profileImageInput"
+                                accept="image/*"
+                            >
+
+                            <label
+                                for="profileImageInput"
+                                class="upload-btn">
+
+                                <i class="fa-solid fa-camera"></i>
+                                Change Picture
+
+                            </label>
+
+                            <h2 id="profileName">
+                                BugFlow Administrator
+                            </h2>
+
+                            <p id="profileEmail">
+                                admin@bugflow.com
+                            </p>
+
+                            <span class="role-badge">
+                                SYSTEM ADMIN
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+
+                            <!-- PERSONAL DETAILS -->
+                            <div class="details-card">
+
+                                <div class="card-title">
+
+                                    <h3>Profile Details</h3>
+
+                                    <p>
+                                        Update your personal information.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-grid">
+
+                                    <div class="form-group">
+
+                                        <label>Full Name</label>
+
+                                        <input
+                                            type="text"
+                                            id="fullName"
+                                            value="BugFlow Administrator"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>Username</label>
+
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            value="administrator"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>Email</label>
+
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value="admin@bugflow.com"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>Phone Number</label>
+
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            placeholder="Enter phone number"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>Department</label>
+
+                                        <input
+                                            type="text"
+                                            id="department"
+                                            placeholder="IT / Software Development"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>Role</label>
+
+                                        <input
+                                            type="text"
+                                            value="System Admin"
+                                            readonly
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group full">
+
+                                        <label>About</label>
+
+                                        <textarea
+                                            id="about"
+                                            placeholder="Tell us something about yourself..."
+                                        ></textarea>
+
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    class="save-btn"
+                                    onclick="saveProfile()">
+
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Save Profile
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- CHANGE PASSWORD -->
+                            <div class="security-card">
+
+                                <div class="card-title">
+
+                                    <h3>Change Password</h3>
+
+                                    <p>
+                                        Keep your BugFlow account secure.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-grid">
+
+                                    <div class="form-group full">
+
+                                        <label>Current Password</label>
+
+                                        <div class="password-wrapper">
+
+                                            <input
+                                                type="password"
+                                                id="currentPassword"
+                                            >
+
+                                            <button
+                                                type="button"
+                                                onclick="togglePassword('currentPassword')">
+
+                                                <i class="fa-solid fa-eye"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>New Password</label>
+
+                                        <div class="password-wrapper">
+
+                                            <input
+                                                type="password"
+                                                id="newPassword"
+                                            >
+
+                                            <button
+                                                type="button"
+                                                onclick="togglePassword('newPassword')">
+
+                                                <i class="fa-solid fa-eye"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label>Confirm New Password</label>
+
+                                        <div class="password-wrapper">
+
+                                            <input
+                                                type="password"
+                                                id="confirmPassword"
+                                            >
+
+                                            <button
+                                                type="button"
+                                                onclick="togglePassword('confirmPassword')">
+
+                                                <i class="fa-solid fa-eye"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    class="save-btn"
+                                    onclick="changePassword()">
+
+                                    <i class="fa-solid fa-lock"></i>
+                                    Change Password
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    // Profile picture preview
+    document
+        .getElementById("profileImageInput")
+        .addEventListener("change", function(event) {
+
+            const file = event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+
+                document.getElementById("profilePicture").innerHTML =
+                    `<img src="${e.target.result}" alt="Profile Picture">`;
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+
+    // Toggle password visibility
+    function togglePassword(id) {
+
+        const input = document.getElementById(id);
+
+        if (input.type === "password") {
+            input.type = "text";
+        } else {
+            input.type = "password";
+        }
+
+    }
+
+
+    // Temporary profile save
+    function saveProfile() {
+
+        const name =
+            document.getElementById("fullName").value.trim();
+
+        const username =
+            document.getElementById("username").value.trim();
+
+        if (!name || !username) {
+
+            alert("Please enter your name and username.");
+
+            return;
+
+        }
+
+        document.getElementById("profileName").textContent = name;
+
+        document.getElementById("profileTopName").textContent = name;
+
+        alert("Profile details saved successfully.");
+
+    }
+
+
+    // Temporary password validation
+    function changePassword() {
+
+        const current =
+            document.getElementById("currentPassword").value;
+
+        const newPassword =
+            document.getElementById("newPassword").value;
+
+        const confirm =
+            document.getElementById("confirmPassword").value;
+
+
+        if (!current || !newPassword || !confirm) {
+
+            alert("Please fill all password fields.");
+
+            return;
+
+        }
+
+
+        if (newPassword !== confirm) {
+
+            alert("New password and confirm password do not match.");
+
+            return;
+
+        }
+
+
+        if (newPassword.length < 8) {
+
+            alert("Password must contain at least 8 characters.");
+
+            return;
+
+        }
+
+
+        alert("Password validation successful. Backend connection will be added next.");
+
+    }
+
+</script>
+
+</body>
+</html>

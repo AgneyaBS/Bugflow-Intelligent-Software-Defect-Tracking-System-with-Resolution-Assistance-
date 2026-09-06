@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Users | BugFlow</title>
+
+    <!-- BugFlow Main CSS -->
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="theme.js"></script>
+    <style>
+
+        /* =====================================================
+           USERS PAGE
+        ===================================================== */
+
+        .users-page {
+            padding: 38px 40px 50px;
+            background: #f6f7fb;
+            min-height: calc(100vh - 75px);
+        }
+
+
+        .users-page-inner {
+            max-width: 1135px;
+            margin: 0 auto;
+        }
+
+
+        /* =====================================================
+           PAGE HEADING
+        ===================================================== */
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+
+        .page-heading .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #4f46e5;
+            margin-bottom: 8px;
+        }
+
+
+        .page-heading h1 {
+            font-size: 32px;
+            color: #111827;
+            margin: 0 0 8px;
+            font-weight: 700;
+        }
+
+
+        .page-heading p {
+            font-size: 14px;
+            color: #718096;
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           SEARCH CARD
+        ===================================================== */
+
+        .users-filter-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+
+
+        .filter-heading {
+            margin-bottom: 18px;
+        }
+
+
+        .filter-heading h3 {
+            margin: 0 0 5px;
+            font-size: 17px;
+            color: #172033;
+        }
+
+
+        .filter-heading p {
+            margin: 0;
+            font-size: 12px;
+            color: #8a94a6;
+        }
+
+
+        .search-row {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+
+        .search-box i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+
+        .search-box input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px 0 44px;
+            border: 1px solid #d9e0ea;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            color: #1f2937;
+            background: #ffffff;
+        }
+
+
+        .search-box input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+
+
+        .role-filter {
+            height: 48px;
+            min-width: 170px;
+            padding: 0 14px;
+            border: 1px solid #d9e0ea;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 14px;
+            outline: none;
+        }
+
+
+        .role-filter:focus {
+            border-color: #6366f1;
+        }
+
+
+        .reset-btn {
+            height: 48px;
+            padding: 0 20px;
+            border: 1px solid #d9e0ea;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #4b5563;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+
+        .reset-btn:hover {
+            background: #f8fafc;
+        }
+
+
+        /* =====================================================
+           USERS CARD
+        ===================================================== */
+
+        .users-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+
+
+        .users-card-header {
+            padding: 22px 26px;
+            border-bottom: 1px solid #edf0f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .users-card-title h3 {
+            margin: 0 0 5px;
+            font-size: 17px;
+            color: #172033;
+        }
+
+
+        .users-card-title p {
+            margin: 0;
+            font-size: 12px;
+            color: #8a94a6;
+        }
+
+
+        .user-count {
+            font-size: 12px;
+            color: #6366f1;
+            background: #eef2ff;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .users-table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+
+        .users-table thead {
+            background: #f8fafc;
+        }
+
+
+        .users-table th {
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .users-table td {
+            padding: 17px 20px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #edf0f5;
+            vertical-align: middle;
+        }
+
+
+        .users-table tbody tr:hover {
+            background: #fafbff;
+        }
+
+
+        .users-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =====================================================
+           USER INFO
+        ===================================================== */
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .user-avatar-small {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+
+        .user-username {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+           ROLE BADGES
+        ===================================================== */
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        .role-admin {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+
+        .role-user {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+
+        .role-default {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .active-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        .active-badge i {
+            font-size: 7px;
+        }
+
+
+        .inactive-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #fef2f2;
+            color: #dc2626;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        .inactive-badge i {
+            font-size: 7px;
+        }
+
+
+        /* =====================================================
+           MESSAGES
+        ===================================================== */
+
+        .users-message {
+            text-align: center;
+            padding: 55px 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+        .users-message i {
+            font-size: 28px;
+            color: #a5b4fc;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .users-page {
+                padding: 25px 20px;
+            }
+
+            .search-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .role-filter,
+            .reset-btn {
+                width: 100%;
+            }
+
+        }
+        .sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-logo">
+
+                <i class="fa-solid fa-bug"></i>
+
+            </div>
+
+
+            <div>
+
+                <h2>
+                    BugFlow
+                </h2>
+
+                <span>
+                    Intelligent Tracking
+                </span>
+
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <!-- MAIN NAVIGATION -->
+
+        <nav>
+
+            <p class="nav-heading">
+                MAIN
+            </p>
+
+
+            <a href="admin-dashboard.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="admin-defects.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    All Issues
+                </span>
+
+            </a>
+
+
+            <a href="users.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+
+            </a>
+
+
+            <p class="nav-heading second">
+                MANAGEMENT
+            </p>
+
+
+            <a href="analytics.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Analytics
+                </span>
+
+            </a>
+
+
+            <a href="reports.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="notifications.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <span class="badge">
+                    5
+                </span>
+
+            </a>
+
+
+            <a href="settings.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+      <!-- =====================================================
+     SIDEBAR BOTTOM
+====================================================== -->
+
+<div class="sidebar-bottom">
+
+    <a href="system-support.html"
+       class="support-box"
+       style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+        <strong>System Support</strong>
+        <small>All systems online</small>
+
+    </a>
+
+    <a href="index.html"
+       class="nav-link logout"
+       id="logoutBtn">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        <span>
+            Logout
+        </span>
+
+    </a>
+
+</div>
+
+</aside>
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE ISSUE MANAGEMENT
+                </span>
+
+                <strong>
+                    Administration
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <button class="notification-button"
+                        type="button">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span>
+                        5
+                    </span>
+
+                </button>
+
+
+                <div class="user-profile">
+
+
+                    <div class="avatar admin-avatar"
+                         id="adminAvatar">
+
+                        AD
+
+                    </div>
+
+
+                    <div>
+
+                        <strong id="adminName">
+                            BugFlow Administrator
+                        </strong>
+
+                        <small id="adminRole">
+                            ADMIN
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <div class="content-wrapper">
+
+
+                <div class="users-page">
+
+
+                    <div class="users-page-inner">
+
+
+                        <!-- PAGE HEADING -->
+
+                        <div class="page-heading">
+
+                            <div class="eyebrow">
+                                USER MANAGEMENT
+                            </div>
+
+                            <h1>
+                                Users
+                            </h1>
+
+                            <p>
+                                View and manage registered users across the system.
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- SEARCH & FILTERS -->
+
+                        <section class="users-filter-card">
+
+
+                            <div class="filter-heading">
+
+                                <h3>
+                                    Search & Filters
+                                </h3>
+
+                                <p>
+                                    Find registered users quickly.
+                                </p>
+
+                            </div>
+
+
+                            <div class="search-row">
+
+
+                                <div class="search-box">
+
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                                    <input
+                                        type="text"
+                                        id="userSearch"
+                                        placeholder="Search by name, username or email..."
+                                    >
+
+                                </div>
+
+
+                                <select
+                                    id="roleFilter"
+                                    class="role-filter"
+                                >
+
+                                    <option value="">
+                                        All Roles
+                                    </option>
+
+                                    <option value="ADMIN">
+                                        Admin
+                                    </option>
+
+                                    <option value="USER">
+                                        User
+                                    </option>
+
+                                </select>
+
+
+                                <button
+                                    type="button"
+                                    class="reset-btn"
+                                    id="resetUsers"
+                                >
+                                    Reset
+                                </button>
+
+
+                            </div>
+
+                        </section>
+
+
+
+                        <!-- USERS TABLE -->
+
+                        <section class="users-card">
+
+
+                            <div class="users-card-header">
+
+
+                                <div class="users-card-title">
+
+                                    <h3>
+                                        Registered Users
+                                    </h3>
+
+                                    <p>
+                                        Users currently registered in BugFlow.
+                                    </p>
+
+                                </div>
+
+
+                                <div
+                                    class="user-count"
+                                    id="userCount"
+                                >
+                                    0 users
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="users-table-container">
+
+
+                                <table class="users-table">
+
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>
+                                                USER
+                                            </th>
+
+                                            <th>
+                                                EMAIL
+                                            </th>
+
+                                            <th>
+                                                ROLE
+                                            </th>
+
+                                            <th>
+                                                STATUS
+                                            </th>
+
+                                            <th>
+                                                CREATED
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+
+
+                                    <tbody id="usersTableBody">
+
+                                        <tr>
+
+                                            <td colspan="5">
+
+                                                <div class="users-message">
+
+                                                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                                    Loading users...
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </section>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+let allUsers = [];
+
+
+
+/* ============================================================
+   GET TOKEN
+============================================================ */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "access_token"
+    );
+
+}
+
+
+
+/* ============================================================
+   GET CURRENT USER
+============================================================ */
+
+function getCurrentUser() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("user")
+        );
+
+    }
+    catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+
+/* ============================================================
+   CHECK ADMIN ACCESS
+============================================================ */
+
+function checkAdminAccess() {
+
+    const token =
+        getToken();
+
+    const user =
+        getCurrentUser();
+
+
+    if (!token || !user) {
+
+        window.location.href =
+            "index.html";
+
+        return false;
+
+    }
+
+
+    if (
+        String(user.role).toUpperCase()
+        !== "ADMIN"
+    ) {
+
+        window.location.href =
+            "user-dashboard.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+
+/* ============================================================
+   DISPLAY ADMIN INFORMATION
+============================================================ */
+
+function displayAdminInformation() {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    const adminName =
+        document.getElementById(
+            "adminName"
+        );
+
+
+    const adminRole =
+        document.getElementById(
+            "adminRole"
+        );
+
+
+    const adminAvatar =
+        document.getElementById(
+            "adminAvatar"
+        );
+
+
+    const displayName =
+        user.full_name ||
+        user.username ||
+        "Administrator";
+
+
+    if (adminName) {
+
+        adminName.textContent =
+            displayName;
+
+    }
+
+
+    if (adminRole) {
+
+        adminRole.textContent =
+            user.role ||
+            "ADMIN";
+
+    }
+
+
+    if (adminAvatar) {
+
+        const initials =
+            getInitials(
+                displayName
+            );
+
+
+        adminAvatar.textContent =
+            initials;
+
+    }
+
+}
+
+
+
+/* ============================================================
+   LOAD USERS
+============================================================ */
+
+async function loadUsers() {
+
+    const token =
+        getToken();
+
+
+    const tbody =
+        document.getElementById(
+            "usersTableBody"
+        );
+
+
+    if (!token) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/users/`,
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    }
+
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load users. Status: "
+                + response.status
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (Array.isArray(result)) {
+
+            allUsers =
+                result;
+
+        }
+        else if (
+            result &&
+            Array.isArray(result.items)
+        ) {
+
+            allUsers =
+                result.items;
+
+        }
+        else if (
+            result &&
+            Array.isArray(result.results)
+        ) {
+
+            allUsers =
+                result.results;
+
+        }
+        else {
+
+            allUsers = [];
+
+        }
+
+
+        console.log(
+            "Users loaded:",
+            allUsers
+        );
+
+
+        renderUsers(
+            allUsers
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error loading users:",
+            error
+        );
+
+
+        if (tbody) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="5">
+
+                        <div class="users-message">
+
+                            <i class="fa-solid fa-circle-exclamation"></i>
+
+                            Unable to load users.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+
+/* ============================================================
+   RENDER USERS
+============================================================ */
+
+function renderUsers(users) {
+
+    const tbody =
+        document.getElementById(
+            "usersTableBody"
+        );
+
+
+    const userCount =
+        document.getElementById(
+            "userCount"
+        );
+
+
+    if (!tbody) {
+
+        return;
+
+    }
+
+
+    if (userCount) {
+
+        userCount.textContent =
+            `${users.length} user${users.length === 1 ? "" : "s"}`;
+
+    }
+
+
+    if (users.length === 0) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="5">
+
+                    <div class="users-message">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        No users found.
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        users.map(function(user) {
+
+
+            const userId =
+                user.id ??
+                user.user_id ??
+                "-";
+
+
+            const fullName =
+                user.full_name ||
+                user.name ||
+                user.username ||
+                "Unknown User";
+
+
+            const username =
+                user.username ||
+                "";
+
+
+            const email =
+                user.email ||
+                "Not provided";
+
+
+            const role =
+                String(
+                    user.role ||
+                    "USER"
+                ).toUpperCase();
+
+
+            const isActive =
+                user.is_active !== undefined
+                    ? user.is_active
+                    : (
+                        user.active !== undefined
+                            ? user.active
+                            : true
+                    );
+
+
+            const createdAt =
+                user.created_at ||
+                user.registered_at ||
+                null;
+
+
+            const initials =
+                getInitials(
+                    fullName
+                );
+
+
+            const roleClass =
+                role === "ADMIN"
+                    ? "role-admin"
+                    : (
+                        role === "USER"
+                            ? "role-user"
+                            : "role-default"
+                    );
+
+
+            const statusHTML =
+                isActive
+                    ? `
+                        <span class="active-badge">
+
+                            <i class="fa-solid fa-circle"></i>
+
+                            Active
+
+                        </span>
+                    `
+                    : `
+                        <span class="inactive-badge">
+
+                            <i class="fa-solid fa-circle"></i>
+
+                            Inactive
+
+                        </span>
+                    `;
+
+
+            return `
+
+                <tr>
+
+
+                    <td>
+
+                        <div class="user-info">
+
+
+                            <div class="user-avatar-small">
+
+                                ${escapeHTML(
+                                    initials
+                                )}
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="user-name">
+
+                                    ${escapeHTML(
+                                        fullName
+                                    )}
+
+                                </div>
+
+
+                                <div class="user-username">
+
+                                    @${escapeHTML(
+                                        username ||
+                                        "user" + userId
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            email
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role-badge ${roleClass}">
+
+                            ${escapeHTML(
+                                formatRole(role)
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${statusHTML}
+
+                    </td>
+
+
+                    <td>
+
+                        ${formatDate(
+                            createdAt
+                        )}
+
+                    </td>
+
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+
+/* ============================================================
+   SEARCH + ROLE FILTER
+============================================================ */
+
+function applyUserFilters() {
+
+    const searchInput =
+        document.getElementById(
+            "userSearch"
+        );
+
+
+    const roleFilter =
+        document.getElementById(
+            "roleFilter"
+        );
+
+
+    const search =
+        searchInput
+            ? searchInput.value
+                .trim()
+                .toLowerCase()
+            : "";
+
+
+    const role =
+        roleFilter
+            ? roleFilter.value
+            : "";
+
+
+    const filtered =
+        allUsers.filter(function(user) {
+
+
+            const fullName =
+                String(
+                    user.full_name ||
+                    user.name ||
+                    ""
+                ).toLowerCase();
+
+
+            const username =
+                String(
+                    user.username ||
+                    ""
+                ).toLowerCase();
+
+
+            const email =
+                String(
+                    user.email ||
+                    ""
+                ).toLowerCase();
+
+
+            const userRole =
+                String(
+                    user.role ||
+                    "USER"
+                ).toUpperCase();
+
+
+            const matchesSearch =
+                !search ||
+                fullName.includes(search) ||
+                username.includes(search) ||
+                email.includes(search);
+
+
+            const matchesRole =
+                !role ||
+                userRole === role;
+
+
+            return (
+                matchesSearch &&
+                matchesRole
+            );
+
+        });
+
+
+    renderUsers(
+        filtered
+    );
+
+}
+
+
+
+/* ============================================================
+   RESET FILTERS
+============================================================ */
+
+function resetUserFilters() {
+
+    const searchInput =
+        document.getElementById(
+            "userSearch"
+        );
+
+
+    const roleFilter =
+        document.getElementById(
+            "roleFilter"
+        );
+
+
+    if (searchInput) {
+
+        searchInput.value =
+            "";
+
+    }
+
+
+    if (roleFilter) {
+
+        roleFilter.value =
+            "";
+
+    }
+
+
+    renderUsers(
+        allUsers
+    );
+
+}
+
+
+
+/* ============================================================
+   INITIALS
+============================================================ */
+
+function getInitials(name) {
+
+    if (!name) {
+
+        return "U";
+
+    }
+
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/);
+
+
+    if (parts.length >= 2) {
+
+        return (
+            parts[0][0] +
+            parts[parts.length - 1][0]
+        ).toUpperCase();
+
+    }
+
+
+    return String(name)
+        .substring(0, 2)
+        .toUpperCase();
+
+}
+
+
+
+/* ============================================================
+   FORMAT ROLE
+============================================================ */
+
+function formatRole(role) {
+
+    if (!role) {
+
+        return "User";
+
+    }
+
+
+    return String(role)
+
+        .replaceAll(
+            "_",
+            " "
+        )
+
+        .toLowerCase()
+
+        .replace(
+            /\b\w/g,
+            function(char) {
+
+                return char.toUpperCase();
+
+            }
+        );
+
+}
+
+
+
+/* ============================================================
+   FORMAT DATE
+============================================================ */
+
+function formatDate(value) {
+
+    if (!value) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "-";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+function logoutUser() {
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* ============================================================
+   START
+============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+
+        if (!checkAdminAccess()) {
+
+            return;
+
+        }
+
+
+        displayAdminInformation();
+
+
+        const searchInput =
+            document.getElementById(
+                "userSearch"
+            );
+
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                applyUserFilters
+            );
+
+        }
+
+
+        const roleFilter =
+            document.getElementById(
+                "roleFilter"
+            );
+
+
+        if (roleFilter) {
+
+            roleFilter.addEventListener(
+                "change",
+                applyUserFilters
+            );
+
+        }
+
+
+        const resetButton =
+            document.getElementById(
+                "resetUsers"
+            );
+
+
+        if (resetButton) {
+
+            resetButton.addEventListener(
+                "click",
+                resetUserFilters
+            );
+
+        }
+
+
+        const logoutButton =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    logoutUser();
+
+                }
+            );
+
+        }
+
+
+        await loadUsers();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

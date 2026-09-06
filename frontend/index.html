@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow - Login</title>
+
+    <style>
+
+/* ============================================================
+    GLOBAL
+============================================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: #f5f6fa;
+            color: #111827;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* ============================================================
+           LOGIN CONTAINER
+        ============================================================ */
+
+        .login-container {
+            width: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+
+        /* ============================================================
+           LOGIN CARD
+        ============================================================ */
+
+        .login-card {
+            width: 540px;
+            max-width: 100%;
+
+            background: #ffffff;
+
+            border-radius: 16px;
+
+            padding: 55px 50px;
+
+            box-shadow:
+                0 10px 35px rgba(15, 23, 42, 0.08);
+
+            border: 1px solid #eef0f5;
+        }
+
+
+        /* ============================================================
+           LOGO
+        ============================================================ */
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 42px;
+        }
+
+        .logo-section h1 {
+            font-size: 40px;
+            font-weight: 800;
+            color: #111827;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .logo-section p {
+            font-size: 16px;
+            color: #667085;
+            line-height: 1.5;
+        }
+
+
+        /* ============================================================
+           WELCOME
+        ============================================================ */
+
+        .login-card h2 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #111827;
+
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: #667085;
+            font-size: 17px;
+
+            margin-bottom: 34px;
+        }
+
+
+        /* ============================================================
+           FORM
+        ============================================================ */
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            color: #111827;
+
+            margin-bottom: 9px;
+        }
+
+
+        /* ============================================================
+           INPUT
+        ============================================================ */
+
+        .form-group input {
+            width: 100%;
+
+            height: 54px;
+
+            border: 1px solid #d0d5dd;
+            border-radius: 9px;
+
+            padding: 0 16px;
+
+            font-size: 16px;
+
+            color: #111827;
+            background: #ffffff;
+
+            outline: none;
+
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #4f46e5;
+
+            box-shadow:
+                0 0 0 3px rgba(79, 70, 229, 0.10);
+        }
+
+        .form-group input::placeholder {
+            color: #98a2b3;
+        }
+
+
+        /* ============================================================
+           PASSWORD
+        ============================================================ */
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            padding-right: 52px;
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 10px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 36px;
+            height: 36px;
+
+            border: none;
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #667085;
+
+            font-size: 18px;
+
+            border-radius: 6px;
+        }
+
+        .password-toggle:hover {
+            background: #f2f4f7;
+            color: #4f46e5;
+        }
+
+
+        /* ============================================================
+           LOGIN BUTTON
+        ============================================================ */
+
+        .login-btn {
+            width: 100%;
+
+            height: 56px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 18px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #4338ca;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 6px 15px rgba(79, 70, 229, 0.20);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+
+        /* ============================================================
+           LOGIN MESSAGE
+        ============================================================ */
+
+        .login-message {
+            text-align: center;
+
+            min-height: 24px;
+
+            margin-top: 18px;
+
+            font-size: 15px;
+        }
+
+
+        /* ============================================================
+           REGISTER
+        ============================================================ */
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 28px;
+
+            color: #667085;
+
+            font-size: 16px;
+        }
+
+        .register-link a {
+            color: #4f46e5;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ============================================================
+           MOBILE
+        ============================================================ */
+
+        @media (max-width: 600px) {
+
+            .login-container {
+                padding: 20px;
+            }
+
+            .login-card {
+                padding: 40px 25px;
+            }
+
+            .logo-section h1 {
+                font-size: 34px;
+            }
+
+            .login-card h2 {
+                font-size: 26px;
+            }
+
+        }
+        .forgot-password-link {
+    display: block;
+    text-align: right;
+    margin-top: 6px;
+    color: #4f46e5;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-container">
+
+
+        <div class="login-card">
+
+
+            <!-- ======================================================
+                 LOGO
+            ======================================================= -->
+
+            <div class="logo-section">
+
+                <h1>
+                    BugFlow
+                </h1>
+
+                <p>
+                    Software Issue Tracking &amp; Resolution Platform
+                </p>
+
+            </div>
+
+
+            <!-- ======================================================
+                 WELCOME
+            ======================================================= -->
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="login-subtitle">
+                Sign in to continue to BugFlow
+            </p>
+
+
+            <!-- ======================================================
+                 LOGIN FORM
+            ======================================================= -->
+
+            <form id="loginForm"
+                  autocomplete="off">
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+    <label for="identifier">
+    
+        
+</label>
+
+<input
+    type="text"
+    id="identifier"
+    name="identifier"
+    placeholder="Enter your username or email"
+    autocomplete="off"
+    autocapitalize="none"
+    spellcheck="false"
+    required
+>
+
+</div>
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="password-toggle"
+                            aria-label="Show password"
+                            title="Show password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+<a href="forgot-password.html" class="forgot-password-link">
+    Forgot Password?
+</a>
+                <button
+                    type="submit"
+                    id="loginButton"
+                    class="login-btn"
+                >
+                    Login
+                </button>
+
+
+            </form>
+
+
+            <!-- ======================================================
+                 MESSAGE
+            ======================================================= -->
+
+            <p
+                id="loginMessage"
+                class="login-message"
+            ></p>
+
+
+            <!-- ======================================================
+                 REGISTER
+            ======================================================= -->
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Register here
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================================================
+         LOGIN JAVASCRIPT
+    ============================================================ -->
+
+    <script>
+
+const API_BASE_URL = "http://127.0.0.1:8000";
+
+
+/* ============================================================
+   PASSWORD SHOW / HIDE
+============================================================ */
+
+const passwordInput =
+    document.getElementById("password");
+
+const togglePassword =
+    document.getElementById("togglePassword");
+
+
+togglePassword.addEventListener(
+    "click",
+    function () {
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+
+            togglePassword.textContent = "🙈";
+
+            togglePassword.setAttribute(
+                "aria-label",
+                "Hide password"
+            );
+
+            togglePassword.setAttribute(
+                "title",
+                "Hide password"
+            );
+
+        } else {
+
+            passwordInput.type = "password";
+
+            togglePassword.textContent = "👁";
+
+            togglePassword.setAttribute(
+                "aria-label",
+                "Show password"
+            );
+
+            togglePassword.setAttribute(
+                "title",
+                "Show password"
+            );
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+
+loginForm.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        /* ----------------------------------------------------
+           GET LOGIN DETAILS
+        ---------------------------------------------------- */
+
+        const identifier =
+            document.getElementById("identifier")
+                .value
+                .trim();
+
+        const password =
+            passwordInput.value;
+
+
+        loginMessage.textContent =
+            "Logging in...";
+
+        loginMessage.style.color =
+            "#667085";
+
+        loginButton.disabled = true;
+
+
+        try {
+
+            console.log(
+                "Attempting login for:",
+                identifier
+            );
+
+
+            /* ------------------------------------------------
+               SEND LOGIN REQUEST
+            ------------------------------------------------ */
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}/api/v1/auth/login`,
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+
+                        },
+
+                        body: JSON.stringify({
+
+                            identifier:
+                                identifier,
+
+                            password:
+                                password
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Login response:",
+                data
+            );
+
+
+            /* ------------------------------------------------
+               LOGIN FAILED
+            ------------------------------------------------ */
+
+            if (!response.ok) {
+
+                loginMessage.textContent =
+                    data.detail ||
+                    "Login failed.";
+
+                loginMessage.style.color =
+                    "#dc2626";
+
+                loginButton.disabled = false;
+
+                return;
+
+            }
+
+
+            /* ------------------------------------------------
+               SAVE JWT
+            ------------------------------------------------ */
+
+            localStorage.setItem(
+                "access_token",
+                data.access_token
+            );
+
+
+            /* ------------------------------------------------
+               SAVE USER
+            ------------------------------------------------ */
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
+
+
+            loginMessage.textContent =
+                "Login successful!";
+
+            loginMessage.style.color =
+                "#16a34a";
+
+
+            console.log(
+                "Logged in user:",
+                data.user
+            );
+
+
+            /* ------------------------------------------------
+               REDIRECT BASED ON ROLE
+            ------------------------------------------------ */
+
+            setTimeout(
+                function () {
+
+                    if (
+                        data.user.role ===
+                        "ADMIN"
+                    ) {
+
+                        window.location.href =
+                            "admin-dashboard.html";
+
+                    } else {
+
+                        window.location.href =
+                            "user-dashboard.html";
+
+                    }
+
+                },
+                500
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+
+            loginMessage.textContent =
+                "Unable to connect to BugFlow server.";
+
+            loginMessage.style.color =
+                "#dc2626";
+
+
+            loginButton.disabled = false;
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Issues | BugFlow</title>
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        /* =========================================================
+           MY ISSUES PAGE
+        ========================================================= */
+
+        .issues-page {
+            padding: 42px 48px 60px;
+        }
+
+        .issues-wrapper {
+            width: 100%;
+            max-width: 1380px;
+            margin: auto;
+        }
+
+
+        /* =========================================================
+           PAGE HEADER
+        ========================================================= */
+
+        .issues-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .issues-header-left span {
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+        }
+
+        .issues-header-left h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-top: 7px;
+            font-weight: 750;
+        }
+
+        .issues-header-left p {
+            color: var(--secondary);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+
+        /* =========================================================
+           NEW ISSUE BUTTON
+        ========================================================= */
+
+        .new-issue-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 11px 17px;
+
+            background: var(--primary);
+            color: white;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+        .new-issue-btn:hover {
+            background: var(--primary-dark);
+        }
+
+
+        /* =========================================================
+           ISSUE CARD
+        ========================================================= */
+
+        .issues-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 12px rgba(15,23,42,.03);
+        }
+
+
+        /* =========================================================
+           CARD HEADER
+        ========================================================= */
+
+        .issues-card-header {
+            padding: 22px 24px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .issues-card-title h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .issues-card-title p {
+            color: var(--secondary);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .issue-count {
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: #eef2ff;
+
+            color: var(--primary);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-right: 8px;
+        }
+
+
+        /* =========================================================
+           TABLE
+        ========================================================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .issues-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .issues-table thead {
+            background: #f9fafb;
+        }
+
+        .issues-table th {
+            padding: 14px 22px;
+
+            text-align: left;
+
+            color: var(--secondary);
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .5px;
+
+            white-space: nowrap;
+        }
+
+        .issues-table td {
+            padding: 16px 22px;
+
+            border-top: 1px solid #f3f4f6;
+
+            font-size: 13px;
+
+            color: #4b5563;
+
+            vertical-align: middle;
+        }
+
+        .issues-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+
+        /* =========================================================
+           ISSUE ID
+        ========================================================= */
+
+        .issue-id {
+            color: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+        }
+
+        .issue-title {
+            color: #111827;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================================
+           CLICKABLE ISSUE
+        ========================================================= */
+
+        .issue-details-link {
+            display: block;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .issue-details-link:hover .issue-title {
+            color: var(--primary);
+
+            text-decoration: underline;
+        }
+
+        .issue-details-link:hover .issue-id {
+            text-decoration: underline;
+        }
+
+
+        /* =========================================================
+           RESOLUTION BUTTON
+        ========================================================= */
+
+        .resolution-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 11px;
+
+            background: #eef2ff;
+
+            color: var(--primary);
+
+            border: 1px solid #e0e7ff;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            transition: .2s ease;
+        }
+
+        .resolution-btn:hover {
+            background: var(--primary);
+
+            color: white;
+
+            border-color: var(--primary);
+
+            transform: translateY(-1px);
+        }
+
+        .resolution-btn i {
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           ISSUE BADGES
+        ========================================================= */
+
+        .issue-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           SEVERITY
+        ========================================================= */
+
+        .severity-critical {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .severity-major {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .severity-minor {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .severity-trivial {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+
+        /* =========================================================
+           PRIORITY
+        ========================================================= */
+
+        .priority-urgent {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .priority-high {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .priority-medium {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .priority-low {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+
+        /* =========================================================
+           STATUS
+        ========================================================= */
+
+        .status-reported {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .status-triaged {
+            background: #f5f3ff;
+            color: #7c3aed;
+        }
+
+        .status-in-progress {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .status-code-review {
+            background: #fdf4ff;
+            color: #c026d3;
+        }
+
+        .status-qa-verification {
+            background: #ecfeff;
+            color: #0891b2;
+        }
+
+        .status-resolved {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .status-closed {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+
+        /* =========================================================
+           EMPTY / ERROR MESSAGE
+        ========================================================= */
+
+        .issues-message {
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: var(--secondary);
+
+            font-size: 13px;
+        }
+
+        .issues-message i {
+            display: block;
+
+            font-size: 30px;
+
+            color: #a5b4fc;
+
+            margin-bottom: 14px;
+        }
+
+
+        /* =========================================================
+           BUGFLOW USER SIDEBAR
+           MATCH REPORT ISSUE PAGE
+        ========================================================= */
+
+        .app-layout {
+            display: flex;
+
+            min-height: 100vh;
+
+            width: 100%;
+
+            background: #f5f7fb;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 250px;
+
+            min-width: 250px;
+
+            height: 100vh;
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            bottom: 0;
+
+            background: #111827;
+
+            display: flex;
+
+            flex-direction: column;
+
+            z-index: 1000;
+
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           BRAND
+        ========================================================= */
+
+        .sidebar .brand {
+            height: 105px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 28px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar .brand-icon {
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 12px;
+
+            background: #4f46e5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #ffffff;
+
+            font-size: 21px;
+
+            margin-right: 15px;
+        }
+
+        .sidebar .brand-text {
+            font-size: 23px;
+
+            font-weight: 700;
+
+            color: #ffffff;
+        }
+
+        .sidebar .brand-text span {
+            color: #818cf8;
+        }
+
+
+        /* =========================================================
+           SIDEBAR SECTION
+        ========================================================= */
+
+        .sidebar-section {
+            padding: 30px 18px 20px;
+        }
+
+        .sidebar-heading {
+            padding: 0 15px;
+
+            margin-bottom: 15px;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .sidebar .nav-link {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 14px 18px;
+
+            margin-bottom: 6px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: #d1d5db;
+
+            font-size: 15px;
+
+            font-weight: 500;
+
+            transition: all 0.2s ease;
+        }
+
+        .sidebar .nav-link i {
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        /* HOVER */
+
+        .sidebar .nav-link:hover {
+            background: rgba(79,70,229,0.15);
+
+            color: #ffffff;
+        }
+
+
+        /* ACTIVE */
+
+        .sidebar .nav-link.active {
+            background: #4f46e5;
+
+            color: #ffffff;
+
+            font-weight: 600;
+        }
+
+        .sidebar .nav-link.active i {
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           SIDEBAR BOTTOM
+        ========================================================= */
+
+        .sidebar-bottom {
+            margin-top: auto;
+
+            padding: 20px 18px 25px;
+
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+
+        /* LOGOUT */
+
+        .sidebar-bottom .logout-link {
+            color: #d1d5db;
+
+            margin-bottom: 0;
+        }
+
+        .sidebar-bottom .logout-link:hover {
+            background: rgba(239,68,68,0.12);
+
+            color: #ffffff;
+        }
+
+        .sidebar-bottom .logout-link i {
+            color: #d1d5db;
+        }
+
+        .sidebar-bottom .logout-link:hover i {
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           MAIN CONTENT
+        ========================================================= */
+
+        .main {
+            margin-left: 312px;
+
+            width: calc(100% - 312px);
+
+            min-height: 100vh;
+
+            background: #f5f7fb;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 250px;
+
+                min-width: 250px;
+            }
+
+            .main {
+                margin-left: 250px;
+
+                width: calc(100% - 250px);
+            }
+
+            .issues-page {
+                padding: 30px 24px 45px;
+            }
+
+            .issues-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+            .issues-card-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                width: 220px;
+
+                min-width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+
+                width: calc(100% - 220px);
+            }
+
+            .issues-page {
+                padding: 25px 18px 40px;
+            }
+
+        }
+        .sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     APP LAYOUT
+========================================================= -->
+
+<div class="app-layout">
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+
+                <i class="fa-solid fa-bug"></i>
+
+            </div>
+
+            <div class="brand-text">
+
+                Bug<span>Flow</span>
+
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <!-- MAIN NAVIGATION -->
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+                MAIN
+            </div>
+
+
+            <!-- DASHBOARD -->
+
+            <a href="user-dashboard.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- REPORT ISSUE -->
+
+            <a href="report-defect.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    Report Issue
+                </span>
+
+            </a>
+
+
+            <!-- MY ISSUES -->
+
+            <a href="my-issues.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>
+                    My Issues
+                </span>
+
+            </a>
+
+
+            <!-- RESOLUTION -->
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+
+            </a>
+            <a href="analytics.html" class="nav-link">
+    <i class="fa-solid fa-chart-pie"></i>
+    <span>Analytics & APIs</span>
+</a>
+
+
+        </div>
+
+
+        <!-- =====================================================
+             SIDEBAR BOTTOM
+        ====================================================== -->
+
+        <div class="sidebar-bottom">
+
+            <a href="#"
+               class="nav-link logout-link"
+               id="logoutLink">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================= -->
+
+    <main class="main">
+
+
+        <!-- =====================================================
+             TOP BAR
+        ====================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE ISSUE MANAGEMENT
+                </span>
+
+                <strong>
+                    My Issues
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <!-- NOTIFICATION -->
+
+                <button class="notification-button">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                </button>
+
+
+                <!-- USER -->
+
+                <div class="user-profile">
+
+
+                    <div class="avatar"
+                         id="userAvatar">
+
+                        US
+
+                    </div>
+
+
+                    <div>
+
+                        <strong id="userName">
+                            User
+                        </strong>
+
+                        <small id="userRole">
+                            TESTER
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             PAGE CONTENT
+        ====================================================== -->
+
+        <section class="issues-page">
+
+
+            <div class="issues-wrapper">
+
+
+                <!-- PAGE HEADER -->
+
+                <div class="issues-header">
+
+
+                    <div class="issues-header-left">
+
+                        <span>
+                            ISSUE TRACKING
+                        </span>
+
+                        <h1>
+                            My Issues
+                        </h1>
+
+                        <p>
+                            View and track issues that you have reported.
+                        </p>
+
+                    </div>
+
+
+                    <a href="report-defect.html"
+                       class="new-issue-btn">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        New Issue
+
+                    </a>
+                    
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ISSUES CARD
+                ================================================== -->
+
+                <section class="issues-card">
+
+
+                    <!-- CARD HEADER -->
+
+                    <div class="issues-card-header">
+
+
+                        <div class="issues-card-title">
+
+                            <h3>
+                                Reported Issues
+                            </h3>
+
+                            <p>
+                                Issues submitted by your account.
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                class="issue-count"
+                                id="issueCount">
+
+                                0 issues
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- TABLE -->
+
+                    <div class="table-container">
+
+
+                        <table class="issues-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Issue
+                                    </th>
+
+                                    <th>
+                                        Category
+                                    </th>
+
+                                    <th>
+                                        Severity
+                                    </th>
+
+                                    <th>
+                                        Priority
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Created
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="issuesTableBody">
+
+
+                                <tr>
+
+                                    <td colspan="7">
+
+                                        <div class="issues-message">
+
+                                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                            Loading your issues...
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   API
+========================================================= */
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+/* =========================================================
+   GET TOKEN
+========================================================= */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "access_token"
+    );
+
+}
+
+
+/* =========================================================
+   GET CURRENT USER
+========================================================= */
+
+function getCurrentUser() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("user")
+        );
+
+    }
+    catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK LOGIN
+========================================================= */
+
+function checkLogin() {
+
+    const token =
+        getToken();
+
+    const user =
+        getCurrentUser();
+
+
+    if (!token || !user) {
+
+        window.location.href =
+            "index.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   DISPLAY USER
+========================================================= */
+
+function displayUser() {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    const name =
+        user.full_name ||
+        user.username ||
+        "User";
+
+
+    const nameElement =
+        document.getElementById(
+            "userName"
+        );
+
+
+    const roleElement =
+        document.getElementById(
+            "userRole"
+        );
+
+
+    const avatarElement =
+        document.getElementById(
+            "userAvatar"
+        );
+
+
+    if (nameElement) {
+
+        nameElement.textContent =
+            name;
+
+    }
+
+
+    if (roleElement) {
+
+        roleElement.textContent =
+            user.role ||
+            "USER";
+
+    }
+
+
+    if (avatarElement) {
+
+        avatarElement.textContent =
+            getInitials(name);
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD MY ISSUES
+========================================================= */
+
+async function loadMyIssues() {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+
+    }
+
+
+    const tbody =
+        document.getElementById(
+            "issuesTableBody"
+        );
+
+
+    try {
+
+        console.log(
+            "Loading my issues..."
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/my`,
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    }
+
+                }
+            );
+
+
+        console.log(
+            "My issues status:",
+            response.status
+        );
+
+
+        /* TOKEN ERROR */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        /* OTHER ERROR */
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            console.error(
+                "API error:",
+                errorText
+            );
+
+            throw new Error(
+                "Failed to load issues"
+            );
+
+        }
+
+
+        /* GET JSON */
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "My issues response:",
+            data
+        );
+
+
+        let issues = [];
+
+
+        if (Array.isArray(data)) {
+
+            issues =
+                data;
+
+        }
+        else if (
+            data &&
+            Array.isArray(data.items)
+        ) {
+
+            issues =
+                data.items;
+
+        }
+        else if (
+            data &&
+            Array.isArray(data.issues)
+        ) {
+
+            issues =
+                data.issues;
+
+        }
+
+
+        renderIssues(
+            issues
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Load issues error:",
+            error
+        );
+
+
+        if (tbody) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="7">
+
+                        <div class="issues-message">
+
+                            <i class="fa-solid fa-circle-exclamation"></i>
+
+                            Unable to load your issues.
+
+                            <br><br>
+
+                            Please make sure the BugFlow server is running.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER ISSUES
+========================================================= */
+
+function renderIssues(issues) {
+
+    const tbody =
+        document.getElementById(
+            "issuesTableBody"
+        );
+
+
+    const countElement =
+        document.getElementById(
+            "issueCount"
+        );
+
+
+    if (!tbody) {
+
+        return;
+
+    }
+
+
+    /* COUNT */
+
+    if (countElement) {
+
+        countElement.textContent =
+            `${issues.length} issue${issues.length === 1 ? "" : "s"}`;
+
+    }
+
+
+    /* EMPTY */
+
+    if (issues.length === 0) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="7">
+
+                    <div class="issues-message">
+
+                        <i class="fa-solid fa-bug"></i>
+
+                        You have not reported any issues yet.
+
+                        <br><br>
+
+                        <a
+                            href="report-defect.html"
+                            class="new-issue-btn"
+                        >
+
+                            <i class="fa-solid fa-plus"></i>
+
+                            Report Your First Issue
+
+                        </a>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* TABLE ROWS */
+
+    tbody.innerHTML =
+        issues.map(function(issue) {
+
+
+            const severity =
+                String(
+                    issue.severity ||
+                    "MINOR"
+                ).toUpperCase();
+
+
+            const priority =
+                String(
+                    issue.priority ||
+                    "MEDIUM"
+                ).toUpperCase();
+
+
+            const status =
+                String(
+                    issue.status ||
+                    "REPORTED"
+                ).toUpperCase();
+
+
+            const category =
+                issue.category_name ||
+                issue.category ||
+                getCategoryName(
+                    issue.category_id
+                );
+
+
+            return `
+
+                <tr>
+
+
+                    <!-- ISSUE -->
+
+                    <td>
+
+                        <a
+                            href="issue-details.html?id=${encodeURIComponent(issue.id)}"
+                            class="issue-details-link"
+                        >
+
+                            <div class="issue-id">
+
+                                #${escapeHTML(
+                                    issue.id
+                                )}
+
+                            </div>
+
+                            <div class="issue-title">
+
+                                ${escapeHTML(
+                                    issue.title ||
+                                    "Untitled Issue"
+                                )}
+
+                            </div>
+
+                        </a>
+
+                    </td>
+
+
+                    <!-- CATEGORY -->
+
+                    <td>
+
+                        ${escapeHTML(
+                            category
+                        )}
+
+                    </td>
+
+
+                    <!-- SEVERITY -->
+
+                    <td>
+
+                        <span
+                            class="issue-badge severity-${severity.toLowerCase()}"
+                        >
+
+                            ${formatText(
+                                severity
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- PRIORITY -->
+
+                    <td>
+
+                        <span
+                            class="issue-badge priority-${priority.toLowerCase()}"
+                        >
+
+                            ${formatText(
+                                priority
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- STATUS -->
+
+                    <td>
+
+                        <span
+                            class="issue-badge status-${status.toLowerCase().replaceAll("_", "-")}"
+                        >
+
+                            ${formatText(
+                                status
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- CREATED -->
+
+                    <td>
+
+                        ${formatDate(
+                            issue.created_at
+                        )}
+
+                    </td>
+
+
+                    <!-- RESOLUTION -->
+
+                    <td>
+
+                        <a
+                            href="resolution.html?issue_id=${encodeURIComponent(issue.id)}"
+                            class="resolution-btn"
+                            title="Get resolution assistance for this issue"
+                        >
+
+                            <i class="fa-solid fa-lightbulb"></i>
+
+                            Resolution
+
+                        </a>
+
+                    </td>
+
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   CATEGORY NAME
+========================================================= */
+
+function getCategoryName(categoryId) {
+
+    const categories = {
+
+        2: "Bug",
+
+        3: "Feature Request",
+
+        4: "Enhancement",
+
+        5: "Technical Debt",
+
+        6: "Support Ticket",
+
+        7: "Authentication",
+
+        8: "UI / Frontend",
+
+        9: "Backend / API",
+
+        10: "Database",
+
+        11: "Performance"
+
+    };
+
+
+    return categories[categoryId] ||
+           "Category #" + categoryId;
+
+}
+
+
+/* =========================================================
+   FORMAT TEXT
+========================================================= */
+
+function formatText(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "_",
+            " "
+        )
+
+        .toLowerCase()
+
+        .replace(
+            /\b\w/g,
+            function(char) {
+
+                return char.toUpperCase();
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   FORMAT DATE
+========================================================= */
+
+function formatDate(value) {
+
+    if (!value) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "-";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+
+            month: "short",
+
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function getInitials(name) {
+
+    if (!name) {
+
+        return "US";
+
+    }
+
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/);
+
+
+    if (parts.length >= 2) {
+
+        return (
+            parts[0][0] +
+            parts[parts.length - 1][0]
+        ).toUpperCase();
+
+    }
+
+
+    return String(name)
+        .substring(0, 2)
+        .toUpperCase();
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutUser() {
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================================================
+   PAGE START
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+
+        /* CHECK LOGIN */
+
+        if (!checkLogin()) {
+
+            return;
+
+        }
+
+
+        /* DISPLAY USER */
+
+        displayUser();
+
+
+        /* LOGOUT */
+
+        const logoutButton =
+            document.getElementById(
+                "logoutLink"
+            );
+
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    logoutUser();
+
+                }
+            );
+
+        }
+
+
+        /* LOAD ISSUES */
+
+        await loadMyIssues();
+
+    }
+);
+
+</script>
+<script src="theme.js"></script>
+</body>
+
+</html>

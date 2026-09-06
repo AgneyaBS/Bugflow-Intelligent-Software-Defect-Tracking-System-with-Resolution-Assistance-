@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow | Resolution Assistance</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: #f6f7fb;
+            color: #111827;
+            font-size: 15px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        select {
+            font-family: inherit;
+        }
+
+        /* =====================================================
+           LAYOUT
+        ===================================================== */
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: #ffffff;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .brand {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .brand-text span {
+            color: #818cf8;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        .sidebar-section {
+            padding: 25px 15px 10px;
+        }
+
+        .sidebar-heading {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9ca3af;
+            padding: 0 12px 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 13px;
+            border-radius: 8px;
+            color: #d1d5db;
+            font-size: 15px;
+            margin-bottom: 5px;
+            transition: 0.2s ease;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-link:hover {
+            background: #1f2937;
+            color: #ffffff;
+        }
+
+        .nav-link.active {
+            background: #4f46e5;
+            color: #ffffff;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logout-link:hover {
+            background: #7f1d1d;
+            color: #ffffff;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 75px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            background: #f9fafb;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+            padding: 32px;
+        }
+
+        .welcome-section {
+            margin-bottom: 25px;
+        }
+
+        .welcome-section h1 {
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .welcome-section p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           CARDS
+        ===================================================== */
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-header h2 {
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* =====================================================
+           ISSUE SELECTOR
+        ===================================================== */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        .issue-select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #ffffff;
+            font-size: 13px;
+            color: #374151;
+            outline: none;
+        }
+
+        .issue-select:focus {
+            border-color: #4f46e5;
+        }
+
+        .analyze-btn {
+            border: none;
+            background: #4f46e5;
+            color: #ffffff;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analyze-btn:hover {
+            background: #4338ca;
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* =====================================================
+           ISSUE DETAILS
+        ===================================================== */
+
+        .issue-details {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .issue-details h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .detail-box {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* =====================================================
+           ASSISTANCE
+        ===================================================== */
+
+        .assistance-card {
+            display: none;
+        }
+
+        .assistance-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .assistance-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .assistance-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .assistance-subtitle {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .recommendation {
+            margin-bottom: 14px;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+            background: #fafafa;
+        }
+
+        .recommendation h3 {
+            font-size: 13px;
+            color: #111827;
+            margin-bottom: 7px;
+        }
+
+        .recommendation p {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .steps {
+            padding-left: 20px;
+            margin-top: 7px;
+        }
+
+        .steps li {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+
+        /* =====================================================
+           EMPTY / LOADING
+        ===================================================== */
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 35px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 12px;
+            color: #d1d5db;
+        }
+
+        .error-message {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 7px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .detail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .app-layout {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+        }
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+    </style>
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div class="brand-text">
+                Bug<span>Flow</span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+                Main
+            </div>
+
+
+            <a href="user-dashboard.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="my-issues.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>Report Issue</span>
+
+            </a>
+
+
+            <a href="my-issues.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>My Issues</span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <span>Resolution Assistance</span>
+
+            </a>
+            <a href="analytics.html" class="nav-link">
+    <i class="fa-solid fa-chart-pie"></i>
+    <span>Analytics & APIs</span>
+</a>
+
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="#"
+               class="nav-link logout-link"
+               id="logoutLink">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div class="page-title">
+                Resolution Assistance
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="notification">
+                    <i class="fa-regular fa-bell"></i>
+                </div>
+
+
+                <div class="user-profile">
+
+                    <div class="user-avatar"
+                         id="userAvatar">
+                        U
+                    </div>
+
+
+                    <div>
+
+                        <div class="user-name"
+                             id="topUserName">
+                            User
+                        </div>
+
+                        <div class="user-role"
+                             id="topUserRole">
+                            TESTER
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+            <div class="welcome-section">
+
+                <h1>
+                    Resolution Assistance
+                </h1>
+
+                <p>
+                    Select one of your reported issues to receive
+                    troubleshooting and resolution guidance.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 SELECT ISSUE
+            ================================================== -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Select an Issue
+                    </h2>
+
+                    <p>
+                        Choose the issue you want assistance with.
+                    </p>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Your Issues
+                        </label>
+
+
+                        <select
+                            id="issueSelect"
+                            class="issue-select"
+                        >
+
+                            <option value="">
+                                Loading issues...
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="analyze-btn"
+                        id="analyzeBtn"
+                    >
+
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                        Get Resolution Assistance
+
+                    </button>
+
+
+                    <div
+                        id="errorMessage"
+                        class="error-message">
+                    </div>
+
+
+                    <!-- ISSUE DETAILS -->
+
+                    <div
+                        id="issueDetails"
+                        class="issue-details">
+
+                        <h3>
+                            Issue Details
+                        </h3>
+
+
+                        <div class="detail-grid">
+
+                            <div class="detail-box">
+
+                                <div class="detail-label">
+                                    Issue
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="detailIssue">
+                                    -
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-label">
+                                    Severity
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="detailSeverity">
+                                    -
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-label">
+                                    Priority
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="detailPriority">
+                                    -
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-label">
+                                    Category
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="detailCategory">
+                                    -
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-label">
+                                    Status
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="detailStatus">
+                                    -
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-label">
+                                    Title
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="detailTitle">
+                                    -
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESOLUTION ASSISTANCE RESULT
+            ================================================== -->
+
+            <div
+                class="card assistance-card"
+                id="assistanceCard"
+            >
+
+                <div class="card-header">
+
+                    <div class="assistance-header">
+
+                        <div class="assistance-icon">
+
+                            <i class="fa-solid fa-lightbulb"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="assistance-title">
+                                Recommended Resolution
+                            </div>
+
+                            <div class="assistance-subtitle">
+                                BugFlow Resolution Assistance
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="recommendation">
+
+                        <h3>
+                            Problem Analysis
+                        </h3>
+
+                        <p id="analysisText">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="recommendation">
+
+                        <h3>
+                            Recommended Resolution
+                        </h3>
+
+                        <p id="resolutionText">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="recommendation">
+
+                        <h3>
+                            Suggested Steps
+                        </h3>
+
+                        <ol
+                            class="steps"
+                            id="stepsList">
+                        </ol>
+
+                    </div>
+
+
+                    <div class="recommendation">
+
+                        <h3>
+                            Prevention
+                        </h3>
+
+                        <p id="preventionText">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="warning-box">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        Resolution suggestions are generated from
+                        the issue's available information and should
+                        be reviewed by the development team before
+                        applying changes.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+let userIssues = [];
+
+
+/* =========================================================
+   GET LOGGED-IN USER
+========================================================= */
+
+function getLoggedInUser() {
+
+    const storedUser =
+        localStorage.getItem("user");
+
+    if (storedUser) {
+
+        try {
+            return JSON.parse(storedUser);
+        }
+
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    const oldUser =
+        localStorage.getItem("defectAIUser");
+
+    if (oldUser) {
+
+        try {
+            return JSON.parse(oldUser);
+        }
+
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    return null;
+}
+
+
+/* =========================================================
+   DISPLAY USER
+========================================================= */
+
+function displayUserInformation() {
+
+    const user =
+        getLoggedInUser();
+
+    if (!user) {
+
+        alert("Please login first.");
+
+        window.location.href =
+            "index.html";
+
+        return null;
+    }
+
+
+    const name =
+        user.full_name ||
+        user.fullName ||
+        user.username ||
+        "User";
+
+
+    document.getElementById(
+        "topUserName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "topUserRole"
+    ).textContent =
+        user.role || "TESTER";
+
+
+    document.getElementById(
+        "userAvatar"
+    ).textContent =
+        name.charAt(0).toUpperCase();
+
+
+    return user;
+}
+
+/* =========================================================
+   LOAD USER ISSUES
+========================================================= */
+
+async function loadUserIssues() {
+
+    const token =
+        localStorage.getItem("access_token");
+
+
+    if (!token) {
+
+        window.location.href = "index.html";
+
+        return;
+    }
+
+
+    const select =
+        document.getElementById("issueSelect");
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/my`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load issues."
+            );
+        }
+
+
+        userIssues =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.issues ||
+                    data.items ||
+                    data.data ||
+                    []
+                );
+
+
+        select.innerHTML = "";
+
+
+        if (userIssues.length === 0) {
+
+            select.innerHTML = `
+                <option value="">
+                    No issues available
+                </option>
+            `;
+
+            return;
+        }
+
+
+        /* Default option */
+
+        select.innerHTML = `
+            <option value="">
+                -- Select an issue --
+            </option>
+        `;
+
+
+        /* Add all user issues */
+
+        userIssues.forEach(function(issue) {
+
+            const option =
+                document.createElement("option");
+
+
+            option.value =
+                String(issue.id);
+
+
+            const issueKey =
+                issue.issue_key ||
+                issue.issueKey ||
+                `#${issue.id}`;
+
+
+            option.textContent =
+                `${issueKey} - ${issue.title || "Untitled Issue"}`;
+
+
+            select.appendChild(option);
+
+        });
+
+
+        /* =====================================================
+           CHECK URL FOR ISSUE ID
+           Example:
+           resolution.html?issue_id=8
+        ===================================================== */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const issueId =
+            urlParams.get("issue_id");
+
+
+        console.log(
+            "Issue ID from URL:",
+            issueId
+        );
+
+
+        /* If URL contains issue_id */
+
+        if (issueId) {
+
+            const selectedIssue =
+                userIssues.find(
+                    function(issue) {
+
+                        return String(issue.id) ===
+                               String(issueId);
+
+                    }
+                );
+
+
+            if (selectedIssue) {
+
+                console.log(
+                    "Automatically selected issue:",
+                    selectedIssue
+                );
+
+
+                /* Select issue in dropdown */
+
+                select.value =
+                    String(selectedIssue.id);
+
+
+                /* Display details */
+
+                displayIssueDetails(
+                    selectedIssue
+                );
+
+
+                /* Generate resolution */
+
+                generateResolutionAssistance(
+                    selectedIssue
+                );
+
+
+                hideError();
+
+
+            } else {
+
+                console.warn(
+                    "Issue ID from URL was not found:",
+                    issueId
+                );
+
+
+                showError(
+                    "The selected issue was not found in your issues."
+                );
+
+            }
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Load issues error:",
+            error
+        );
+
+
+        select.innerHTML = `
+            <option value="">
+                Unable to load issues
+            </option>
+        `;
+
+
+        showError(
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   ANALYZE SELECTED ISSUE
+========================================================= */
+
+function analyzeSelectedIssue() {
+
+    const select =
+        document.getElementById(
+            "issueSelect"
+        );
+
+
+    const issueId =
+        Number(select.value);
+
+
+    if (!issueId) {
+
+        showError(
+            "Please select an issue first."
+        );
+
+        return;
+    }
+
+
+    const issue =
+        userIssues.find(
+            function(item) {
+
+                return Number(item.id) === issueId;
+
+            }
+        );
+
+
+    if (!issue) {
+
+        showError(
+            "Unable to find the selected issue."
+        );
+
+        return;
+    }
+
+
+    hideError();
+
+
+    displayIssueDetails(
+        issue
+    );
+
+
+    generateResolutionAssistance(
+        selectedIssue
+    );
+
+}
+
+
+/* =========================================================
+   DISPLAY ISSUE DETAILS
+========================================================= */
+
+function displayIssueDetails(issue) {
+
+    document.getElementById(
+        "detailIssue"
+    ).textContent =
+        issue.issue_key ||
+        issue.issueKey ||
+        `#${issue.id}`;
+
+
+    document.getElementById(
+        "detailSeverity"
+    ).textContent =
+        formatValue(issue.severity);
+
+
+    document.getElementById(
+        "detailPriority"
+    ).textContent =
+        formatValue(issue.priority);
+
+
+    document.getElementById(
+        "detailCategory"
+    ).textContent =
+        issue.category_name ||
+        issue.category ||
+        `Category #${issue.category_id || "-"}`;
+
+
+    document.getElementById(
+        "detailStatus"
+    ).textContent =
+        formatValue(issue.status);
+
+
+    document.getElementById(
+        "detailTitle"
+    ).textContent =
+        issue.title ||
+        "Untitled Issue";
+
+
+    document.getElementById(
+        "issueDetails"
+    ).style.display =
+        "block";
+}
+
+
+/* =========================================================
+   GENERATE RESOLUTION ASSISTANCE
+========================================================= */
+
+function generateResolutionAssistance(issue) {
+
+    const title =
+        String(
+            issue.title || ""
+        ).toLowerCase();
+
+
+    const description =
+        String(
+            issue.description || ""
+        ).toLowerCase();
+
+
+    const category =
+        String(
+            issue.category_name ||
+            issue.category ||
+            ""
+        ).toLowerCase();
+
+
+    const combined =
+        `${title} ${description} ${category}`;
+
+
+    let analysis =
+        "The issue requires investigation based on its reported symptoms.";
+
+
+    let resolution =
+        "Review the affected component, reproduce the issue, identify the root cause, apply the required correction, and verify the result.";
+
+
+    let steps = [
+        "Reproduce the issue using the reported steps.",
+        "Inspect the affected module and application logs.",
+        "Identify the root cause of the failure.",
+        "Apply the appropriate code or configuration change.",
+        "Test the fix and verify that the issue no longer occurs."
+    ];
+
+
+    let prevention =
+        "Add appropriate validation, testing, logging, or monitoring to reduce the chance of the issue occurring again.";
+
+
+    /* DATABASE */
+
+    if (
+        combined.includes("database") ||
+        combined.includes("sql") ||
+        combined.includes("postgres") ||
+        combined.includes("connection") ||
+        combined.includes("query")
+    ) {
+
+        analysis =
+            "The issue appears to be related to database connectivity, queries, or database configuration.";
+
+
+        resolution =
+            "Check the database connection configuration, verify that the PostgreSQL service is running, inspect connection errors, and validate the affected query or transaction.";
+
+
+        steps = [
+            "Verify that the PostgreSQL database server is running.",
+            "Check database host, port, username, password, and database name.",
+            "Inspect backend logs for database connection or query errors.",
+            "Test the affected SQL query or transaction independently.",
+            "Apply the correction and retest the complete operation."
+        ];
+
+
+        prevention =
+            "Use connection health checks, proper exception handling, query validation, and database monitoring.";
+    }
+
+
+    /* AUTHENTICATION */
+
+    else if (
+        combined.includes("login") ||
+        combined.includes("authentication") ||
+        combined.includes("password") ||
+        combined.includes("token") ||
+        combined.includes("jwt")
+    ) {
+
+        analysis =
+            "The issue appears to involve authentication, login credentials, or token validation.";
+
+
+        resolution =
+            "Verify the authentication flow, credential validation, JWT generation or validation, token expiration, and user authorization rules.";
+
+
+        steps = [
+            "Reproduce the authentication failure.",
+            "Check the submitted username and password.",
+            "Inspect JWT creation and token validation.",
+            "Verify token expiration and authorization rules.",
+            "Retest login and protected API requests."
+        ];
+
+
+        prevention =
+            "Use secure password hashing, token expiration, consistent authentication validation, and automated authentication tests.";
+    }
+
+
+    /* FRONTEND */
+
+    else if (
+        combined.includes("ui") ||
+        combined.includes("frontend") ||
+        combined.includes("button") ||
+        combined.includes("page") ||
+        combined.includes("display") ||
+        combined.includes("css")
+    ) {
+
+        analysis =
+            "The issue appears to be related to the frontend interface or browser-side behavior.";
+
+
+        resolution =
+            "Inspect the affected HTML, CSS, and JavaScript components, identify the incorrect behavior, and verify the result across the relevant screen states.";
+
+
+        steps = [
+            "Reproduce the issue in the browser.",
+            "Inspect browser console errors.",
+            "Check the affected HTML and CSS structure.",
+            "Inspect JavaScript event handlers and API calls.",
+            "Retest the interface after applying the fix."
+        ];
+
+
+        prevention =
+            "Use browser testing, JavaScript error handling, UI validation, and regression testing.";
+    }
+
+
+    /* API / BACKEND */
+
+    else if (
+        combined.includes("api") ||
+        combined.includes("backend") ||
+        combined.includes("server") ||
+        combined.includes("fastapi") ||
+        combined.includes("request") ||
+        combined.includes("response")
+    ) {
+
+        analysis =
+            "The issue appears to be related to backend processing or an API request/response.";
+
+
+        resolution =
+            "Inspect the API endpoint, request data, validation rules, authentication, database interaction, and response handling.";
+
+
+        steps = [
+            "Reproduce the API request.",
+            "Check the request payload and authentication token.",
+            "Inspect backend logs and endpoint logic.",
+            "Verify validation and database operations.",
+            "Retest the API and confirm the expected response."
+        ];
+
+
+        prevention =
+            "Add API validation, exception handling, logging, automated endpoint tests, and monitoring.";
+    }
+
+
+    /* PERFORMANCE */
+
+    else if (
+        combined.includes("slow") ||
+        combined.includes("performance") ||
+        combined.includes("timeout") ||
+        combined.includes("latency")
+    ) {
+
+        analysis =
+            "The issue appears to involve application performance, response time, or timeout behavior.";
+
+
+        resolution =
+            "Identify the slow operation by inspecting application logs, database queries, API response times, and resource usage.";
+
+
+        steps = [
+            "Reproduce the slow operation.",
+            "Measure API and database response time.",
+            "Inspect slow queries and backend processing.",
+            "Identify unnecessary or expensive operations.",
+            "Apply the optimization and measure performance again."
+        ];
+
+
+        prevention =
+            "Use performance monitoring, query optimization, caching where appropriate, and regular load testing.";
+    }
+
+
+    document.getElementById(
+        "analysisText"
+    ).textContent =
+        analysis;
+
+
+    document.getElementById(
+        "resolutionText"
+    ).textContent =
+        resolution;
+
+
+    document.getElementById(
+        "preventionText"
+    ).textContent =
+        prevention;
+
+
+    const stepsList =
+        document.getElementById(
+            "stepsList"
+        );
+
+
+    stepsList.innerHTML = "";
+
+
+    steps.forEach(
+        function(step) {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+            li.textContent =
+                step;
+
+            stepsList.appendChild(
+                li
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "assistanceCard"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "assistanceCard"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+}
+/* =========================================================
+   GET RESOLUTION ASSISTANCE FROM BACKEND
+========================================================= */
+
+async function getBackendResolutionAssistance(issue) {
+
+    const token =
+        localStorage.getItem("access_token");
+
+
+    if (!token) {
+
+        window.location.href = "index.html";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/resolution-assistance/${issue.id}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to generate resolution assistance."
+            );
+        }
+
+
+        /* Display backend result */
+
+        document.getElementById(
+            "analysisText"
+        ).textContent =
+            data.analysis ||
+            "No analysis available.";
+
+
+        document.getElementById(
+            "resolutionText"
+        ).textContent =
+            data.resolution ||
+            "No resolution recommendation available.";
+
+
+        document.getElementById(
+            "preventionText"
+        ).textContent =
+            data.prevention ||
+            "No prevention guidance available.";
+
+
+        const stepsList =
+            document.getElementById(
+                "stepsList"
+            );
+
+
+        stepsList.innerHTML = "";
+
+
+        if (
+            Array.isArray(data.steps) &&
+            data.steps.length > 0
+        ) {
+
+            data.steps.forEach(
+                function(step) {
+
+                    const li =
+                        document.createElement(
+                            "li"
+                        );
+
+                    li.textContent =
+                        step;
+
+                    stepsList.appendChild(
+                        li
+                    );
+
+                }
+            );
+
+        } else {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+            li.textContent =
+                "No specific steps available.";
+
+            stepsList.appendChild(
+                li
+            );
+        }
+
+
+        /* Show assistance card */
+
+        document.getElementById(
+            "assistanceCard"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "assistanceCard"
+        ).scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+        hideError();
+
+
+        console.log(
+            "Backend resolution assistance:",
+            data
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Resolution assistance error:",
+            error
+        );
+
+
+        showError(
+            error.message
+        );
+
+    }
+}
+
+/* =========================================================
+   FORMAT VALUE
+========================================================= */
+
+function formatValue(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    return String(value)
+        .replace(
+            /_/g,
+            " "
+        )
+        .toLowerCase()
+        .replace(
+            /\b\w/g,
+            function(letter) {
+                return letter.toUpperCase();
+            }
+        );
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message) {
+
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    box.textContent =
+        message ||
+        "Something went wrong.";
+
+
+    box.style.display =
+        "block";
+}
+
+
+function hideError() {
+
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    box.style.display =
+        "none";
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document
+    .getElementById("logoutLink")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            localStorage.removeItem(
+                "defectAIUser"
+            );
+
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+
+/* =========================================================
+   ANALYZE BUTTON
+========================================================= */
+
+document
+    .getElementById("analyzeBtn")
+    .addEventListener(
+        "click",
+        analyzeSelectedIssue
+    );
+
+
+/* =========================================================
+   PAGE INITIALIZATION
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const user =
+            displayUserInformation();
+
+
+        if (user) {
+
+            loadUserIssues();
+
+        }
+
+    }
+);
+
+</script>
+
+<script src="theme.js"></script>
+</body>
+
+</html>

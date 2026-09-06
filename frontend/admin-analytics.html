@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow | Analytics & APIs</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="theme.js"></script>
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    <style>
+/* =========================================================
+   MILESTONE 3 - ANALYTICS & APIs
+========================================================= */
+
+.milestone3-section {
+    margin-top: 25px;
+}
+
+.m3-service-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.m3-service-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.m3-service-item i {
+    font-size: 18px;
+    color: #16a34a;
+}
+
+.m3-service-item strong {
+    display: block;
+    font-size: 13px;
+    color: #111827;
+}
+
+.m3-service-item span {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    color: #16a34a;
+}
+
+.m3-export-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.m3-btn {
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    border-radius: 7px;
+    padding: 9px 13px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.m3-btn:hover {
+    background: #4338ca;
+}
+
+.m3-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.m3-metric-card {
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.m3-metric-card span {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.m3-metric-card strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 24px;
+    color: #111827;
+}
+
+.m3-chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.m3-chart-card {
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.m3-chart-card h3 {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #111827;
+}
+
+.m3-chart-card h3 i {
+    margin-right: 7px;
+    color: #4f46e5;
+}
+
+#defectTrendChart {
+    width: 100%;
+    min-height: 350px;
+}
+
+#severityDonutChart,
+#workflowPipelineChart {
+    width: 100%;
+    min-height: 320px;
+}
+
+@media (max-width: 800px) {
+
+    .m3-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .m3-chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .m3-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .m3-service-banner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .m3-export-buttons {
+        width: 100%;
+    }
+
+    .m3-btn {
+        flex: 1;
+    }
+
+}/* =========================================================
+   REST API EXPLORER
+========================================================= */
+
+.m3-api-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 20px;
+}
+
+.m3-api-card h3 {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #111827;
+}
+
+.m3-api-card h3 i {
+    margin-right: 7px;
+    color: #4f46e5;
+}
+
+.m3-api-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#m3ApiSelect {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: 13px;
+    background: #ffffff;
+}
+
+#m3ApiResponse {
+    min-height: 180px;
+    max-height: 400px;
+    overflow: auto;
+    padding: 15px;
+    background: #111827;
+    color: #e5e7eb;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
+
+    .m3-api-controls {
+        flex-direction: column;
+    }
+
+}
+/* ============================================================
+   ANALYTICS PAGE HEADER
+============================================================ */
+
+.analytics-page-header {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 22px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.18);
+}
+
+.analytics-page-header::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    right: -45px;
+    top: -70px;
+}
+
+.analytics-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.analytics-title-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.analytics-header-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.analytics-title-area h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.analytics-title-area p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    opacity: 0.88;
+}
+
+.analytics-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 9px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.analytics-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+}
+
+@media (max-width: 700px) {
+
+    .analytics-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .analytics-status {
+        align-self: flex-start;
+    }
+
+}
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: #f6f7fb;
+    color: #111827;
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: 250px;
+    background: #111827;
+    color: #ffffff;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.brand {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.brand-text {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.brand-text span {
+    color: #818cf8;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.sidebar-section {
+    padding: 25px 15px 10px;
+}
+
+.sidebar-heading {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #9ca3af;
+    padding: 0 12px 10px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    border-radius: 8px;
+    color: #d1d5db;
+    font-size: 15px;
+    margin-bottom: 5px;
+    transition: 0.2s ease;
+}
+
+.nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.nav-link:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.nav-link.active {
+    background: #4f46e5;
+    color: #ffffff;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.logout-link {
+    color: #d1d5db;
+}
+
+.logout-link:hover {
+    background: #7f1d1d;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+}
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+</style>
+
+</head>
+
+<body>
+
+
+<div class="app-layout">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div class="brand-text">
+                Bug<span>Flow</span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+                Main
+            </div>
+
+            <a href="admin-dashboard.html" class="nav-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="admin-defects.html" class="nav-link">
+                <i class="fa-solid fa-bug"></i>
+                <span>All Issues</span>
+            </a>
+
+            <a href="users.html" class="nav-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="resolution.html" class="nav-link">
+                <i class="fa-solid fa-robot"></i>
+                <span>Resolution Assistance</span>
+            </a>
+
+            <div class="sidebar-heading" style="margin-top: 18px;">
+                Management
+            </div>
+
+            <a href="admin-analytics.html" class="nav-link active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analytics & APIs</span>
+            </a>
+
+            <a href="reports.html" class="nav-link">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="notifications.html" class="nav-link">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+                <b class="badge">5</b>
+            </a>
+
+            <a href="settings.html" class="nav-link">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+            
+        <div class="sidebar-bottom">
+
+        <div   >         
+<a href="system-support.html"
+   class="support-box"
+   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+    <strong>System Support</strong>
+    <small>All systems online</small>
+
+</a>
+</div>
+            <a href="#"
+               class="nav-link logout-link"
+               id="logoutLink">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main class="main-content">
+
+
+<!-- =========================================================
+    MILESTONE 3 - ANALYTICS & APIs
+========================================================= -->
+
+<section id="milestone3" class="milestone3-section">
+
+    <div class="card">
+
+        <div class="card-header">
+            <div>
+                <h2>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Analytics & APIs
+                </h2>
+
+                <p>
+                    Software quality scorecard, analytics and CI/CD integration
+                </p>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <!-- SERVICE BANNER -->
+            <div class="m3-service-banner">
+
+                <div class="m3-service-item">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <strong>Notification Service</strong>
+                        <span>Running</span>
+                    </div>
+                </div>
+
+                <div class="m3-service-item">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <strong>Security Status</strong>
+                        <span>CI/CD Sync Active</span>
+                    </div>
+                </div>
+
+                <div class="m3-export-buttons">
+
+                    <button
+                        type="button"
+                        class="m3-btn"
+                        onclick="exportQualityPDF()">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        Export PDF
+                    </button>
+
+                    <button
+                        type="button"
+                        class="m3-btn"
+                        onclick="exportQualityCSV()">
+                        <i class="fa-solid fa-file-csv"></i>
+                        Export CSV
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUALITY METRICS -->
+            <div class="m3-metrics-grid">
+
+                <div class="m3-metric-card">
+                    <span>Total Bugs</span>
+                    <strong id="m3TotalBugs">--</strong>
+                </div>
+
+                <div class="m3-metric-card">
+                    <span>Fix Rate</span>
+                    <strong id="m3FixRate">--%</strong>
+                </div>
+
+                <div class="m3-metric-card">
+                    <span>MTTR</span>
+                    <strong id="m3MTTR">-- hrs</strong>
+                </div>
+
+                <div class="m3-metric-card">
+                    <span>Defect Leakage</span>
+                    <strong id="m3Leakage">--%</strong>
+                </div>
+
+                <div class="m3-metric-card">
+                    <span>Critical Backlog</span>
+                    <strong id="m3Critical">--</strong>
+                </div>
+
+                <div class="m3-metric-card">
+                    <span>Backlog Health</span>
+                    <strong id="m3Health">--/100</strong>
+                </div>
+
+            </div>
+
+
+            <!-- CHARTS -->
+            <div class="m3-chart-card">
+
+                <h3>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Defect Trends — Last 14 Days
+                </h3>
+
+                <div id="defectTrendChart"></div>
+
+            </div>
+
+
+            <div class="m3-chart-grid">
+
+                <div class="m3-chart-card">
+
+                    <h3>
+                        <i class="fa-solid fa-chart-pie"></i>
+                        Severity Distribution
+                    </h3>
+
+                    <div id="severityDonutChart"></div>
+
+                </div>
+
+
+                <div class="m3-chart-card">
+
+                    <h3>
+                        <i class="fa-solid fa-chart-column"></i>
+                        Workflow Pipeline
+                    </h3>
+
+                    <div id="workflowPipelineChart"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- =========================================================
+     REST API EXPLORER
+========================================================= -->
+
+<div class="m3-api-card">
+
+    <h3>
+        <i class="fa-solid fa-terminal"></i>
+        Live REST API Explorer
+    </h3>
+
+    <div class="m3-api-controls">
+
+        <select id="m3ApiSelect">
+            <option value="quality-metrics">
+                GET /api/v1/analytics/quality-metrics
+            </option>
+
+            <option value="defect-trends">
+                GET /api/v1/analytics/defect-trends
+            </option>
+
+            <option value="plotly-charts">
+                GET /api/v1/analytics/plotly-charts
+            </option>
+
+            <option value="issues">
+                GET /api/v1/issues/
+            </option>
+        </select>
+
+        <button
+            type="button"
+            class="m3-btn"
+            onclick="runM3ApiExplorer()">
+
+            <i class="fa-solid fa-paper-plane"></i>
+            Send
+
+        </button>
+
+    </div>
+
+    <pre id="m3ApiResponse">Click Send to call the API...</pre>
+
+</div>
+
+    </div>
+    <!-- =========================================================
+     GIT WEBHOOK SIMULATOR
+========================================================= -->
+
+<div class="m3-api-card">
+
+    <h3>
+        <i class="fa-brands fa-github"></i>
+        CI/CD Git Webhook
+    </h3>
+
+    <p style="margin-bottom: 15px; color: #6b7280; font-size: 13px;">
+        Simulate a Git commit that automatically moves a referenced
+        bug to QA verification.
+    </p>
+
+    <select id="webhookIssueSelect" class="m3-webhook-select">
+    <option value="">Loading bugs...</option>
+</select>
+
+<button
+    type="button"
+    class="m3-btn"
+    onclick="simulateGitWebhook()">
+    <i class="fa-solid fa-code-commit"></i>
+    Simulate Git Commit
+</button>
+
+    <pre id="m3WebhookResponse"
+    style="margin-top: 15px;">Click the button to simulate a Git commit...</pre>
+
+</div>
+            </section>
+        </main>
+</div>
+<script>
+// ============================================================
+// MILESTONE 3 - QUALITY METRICS
+// ============================================================
+
+async function loadQualityMetrics() {
+
+    try {
+
+        const token = localStorage.getItem("access_token");
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/analytics/quality-metrics",
+            {
+                method: "GET",
+
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load quality metrics");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("m3TotalBugs").textContent =
+            data.total_bugs;
+
+        document.getElementById("m3FixRate").textContent =
+            `${data.fix_rate_percentage}%`;
+
+        document.getElementById("m3MTTR").textContent =
+            `${data.mean_time_to_resolution_hours} hrs`;
+
+        document.getElementById("m3Leakage").textContent =
+            `${data.defect_leakage_rate_percentage}%`;
+
+        document.getElementById("m3Critical").textContent =
+            data.open_critical_bugs;
+
+        document.getElementById("m3Health").textContent =
+            `${data.backlog_health_score}/100`;
+
+    } catch (error) {
+
+        console.error(
+            "Milestone 3 metrics error:",
+            error
+        );
+
+    }
+}
+
+
+// ============================================================
+// MILESTONE 3 - DEFECT TREND CHART
+// ============================================================
+
+async function loadDefectTrendChart() {
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/analytics/defect-trends"
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load defect trends");
+        }
+
+        const data = await response.json();
+
+        const dates =
+            data.trends.map(item => item.date);
+
+        const newBugs =
+            data.trends.map(item => item.new_bugs);
+
+        const resolvedBugs =
+            data.trends.map(item => item.resolved_bugs);
+
+        const traces = [
+
+            {
+                x: dates,
+                y: newBugs,
+                name: "New Bugs",
+                mode: "lines+markers",
+
+                line: {
+                    color: "red"
+                }
+            },
+
+            {
+                x: dates,
+                y: resolvedBugs,
+                name: "Resolved Bugs",
+                mode: "lines+markers",
+
+                line: {
+                    color: "green"
+                }
+            }
+
+        ];
+
+        const layout = {
+
+            title: "Defect Trend - Last 14 Days",
+
+            xaxis: {
+                title: "Date"
+            },
+
+            yaxis: {
+                title: "Number of Bugs",
+                rangemode: "tozero"
+            },
+
+            hovermode: "x unified",
+
+            margin: {
+                t: 50,
+                r: 30,
+                b: 60,
+                l: 60
+            }
+
+        };
+
+        Plotly.newPlot(
+            "defectTrendChart",
+            traces,
+            layout,
+            {
+                responsive: true
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Defect trend chart error:",
+            error
+        );
+
+    }
+}
+
+
+// ============================================================
+// MILESTONE 3 - SEVERITY DONUT CHART
+// ============================================================
+
+async function loadSeverityDonutChart() {
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/analytics/plotly-charts"
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load chart data");
+        }
+
+        const data = await response.json();
+
+        const severity =
+            data.severity_distribution;
+
+        const values = [
+
+            severity.CRITICAL,
+            severity.MAJOR,
+            severity.MINOR,
+            severity.TRIVIAL
+
+        ];
+
+        const labels = [
+
+            "CRITICAL",
+            "MAJOR",
+            "MINOR",
+            "TRIVIAL"
+
+        ];
+
+        const trace = {
+
+            labels: labels,
+            values: values,
+
+            type: "pie",
+
+            hole: 0.55,
+
+            textinfo: "label+percent",
+
+            hoverinfo: "label+value+percent"
+
+        };
+
+        const layout = {
+
+            title: "Bugs by Severity",
+
+            showlegend: true,
+
+            margin: {
+
+                t: 50,
+                r: 20,
+                b: 20,
+                l: 20
+
+            }
+
+        };
+
+        Plotly.newPlot(
+            "severityDonutChart",
+            [trace],
+            layout,
+            {
+                responsive: true
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Severity donut chart error:",
+            error
+        );
+
+    }
+}
+
+
+// ============================================================
+// MILESTONE 3 - WORKFLOW PIPELINE CHART
+// ============================================================
+
+async function loadWorkflowPipelineChart() {
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/analytics/plotly-charts"
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load workflow data");
+        }
+
+        const data = await response.json();
+
+        const workflow =
+            data.workflow_pipeline;
+
+        const statuses = [
+
+            "REPORTED",
+            "IN_PROGRESS",
+            "QA_VERIFICATION",
+            "RESOLVED"
+
+        ];
+
+        const counts = statuses.map(
+            status => workflow[status] || 0
+        );
+
+        const trace = {
+
+            x: statuses,
+
+            y: counts,
+
+            type: "bar",
+
+            text: counts.map(String),
+
+            textposition: "auto"
+
+        };
+
+        const layout = {
+
+            title: "Workflow Pipeline",
+
+            xaxis: {
+                title: "Status"
+            },
+
+            yaxis: {
+                title: "Number of Bugs",
+                rangemode: "tozero"
+            },
+
+            margin: {
+
+                t: 50,
+                r: 20,
+                b: 70,
+                l: 50
+
+            }
+
+        };
+
+        Plotly.newPlot(
+            "workflowPipelineChart",
+            [trace],
+            layout,
+            {
+                responsive: true
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Workflow pipeline chart error:",
+            error
+        );
+
+    }
+}
+
+
+// ============================================================
+// MILESTONE 3 - REST API EXPLORER
+// ============================================================
+
+async function runM3ApiExplorer() {
+
+    const selectedApi =
+        document.getElementById("m3ApiSelect").value;
+
+    const responseBox =
+        document.getElementById("m3ApiResponse");
+
+    let endpoint = "";
+
+
+    if (selectedApi === "quality-metrics") {
+
+        endpoint =
+            "/api/v1/analytics/quality-metrics";
+
+    }
+
+    else if (selectedApi === "defect-trends") {
+
+        endpoint =
+            "/api/v1/analytics/defect-trends";
+
+    }
+
+    else if (selectedApi === "plotly-charts") {
+
+        endpoint =
+            "/api/v1/analytics/plotly-charts";
+
+    }
+
+    else if (selectedApi === "issues") {
+
+        endpoint =
+            "/api/v1/issues/";
+
+    }
+
+
+    responseBox.textContent =
+        "Loading...";
+
+
+    try {
+
+        const token =
+            localStorage.getItem("access_token");
+
+        const response = await fetch(
+
+            `http://127.0.0.1:8000${endpoint}`,
+
+            {
+                method: "GET",
+
+                headers: {
+
+                    "Accept": "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
+
+                }
+
+            }
+
+        );
+
+
+        const data =
+            await response.json();
+
+
+        responseBox.textContent =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "API Explorer error:",
+            error
+        );
+
+        responseBox.textContent =
+            "Unable to connect to the BugFlow API.";
+
+    }
+
+}
+
+
+// ============================================================
+// MILESTONE 3 - GIT WEBHOOK SIMULATOR
+// ============================================================
+async function simulateGitWebhook() {
+
+    const responseBox =
+        document.getElementById("m3WebhookResponse");
+
+    const issueSelect =
+        document.getElementById("webhookIssueSelect");
+
+    const selectedIssueId =
+        issueSelect.value;
+
+    responseBox.textContent =
+        `Sending simulated Git commit: fixes #${selectedIssueId}...`;
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/webhooks/git",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message:
+                        `Merge PR #45: fixes #${selectedIssueId}`,
+
+                    commit_hash:
+                        "b8c3d91"
+                })
+            }
+        );
+
+        const data =
+            await response.json();
+
+        responseBox.textContent =
+            JSON.stringify(data, null, 2);
+
+    } catch (error) {
+
+        console.error(
+            "Git webhook error:",
+            error
+        );
+
+        responseBox.textContent =
+            "Unable to connect to the BugFlow webhook API.";
+    }
+}
+/* ============================================================
+   MILESTONE 3 - PDF EXPORT
+============================================================ */
+
+async function exportQualityPDF() {
+
+    try {
+
+        const token =
+            localStorage.getItem("access_token");
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/api/v1/export/pdf",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "PDF export failed"
+            );
+
+        }
+
+        const blob =
+            await response.blob();
+
+        const url =
+            window.URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            "bugflow_quality_report.pdf";
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(
+            url
+        );
+
+    } catch (error) {
+
+        console.error(
+            "PDF export error:",
+            error
+        );
+
+        alert(
+            "Unable to export PDF."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   MILESTONE 3 - CSV EXPORT
+============================================================ */
+
+async function exportQualityCSV() {
+
+    try {
+
+        const token =
+            localStorage.getItem("access_token");
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/api/v1/export/csv",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "CSV export failed"
+            );
+
+        }
+
+        const blob =
+            await response.blob();
+
+        const url =
+            window.URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            "bugflow_issues.csv";
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(
+            url
+        );
+
+    } catch (error) {
+
+        console.error(
+            "CSV export error:",
+            error
+        );
+
+        alert(
+            "Unable to export CSV."
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// PAGE LOAD
+// ============================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadQualityMetrics();
+
+        loadDefectTrendChart();
+
+        loadSeverityDonutChart();
+
+        loadWorkflowPipelineChart();
+        loadWebhookIssues();
+    }
+);
+async function exportQualityPDF() {
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/export/pdf"
+        );
+
+        if (!response.ok) {
+            throw new Error("PDF export failed");
+        }
+
+        const blob = await response.blob();
+
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "bugflow_quality_report.pdf";
+
+        document.body.appendChild(link);
+        link.click();
+
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+        console.error("PDF export error:", error);
+        alert("Unable to export PDF.");
+    }
+}
+
+
+async function exportQualityCSV() {
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/export/csv"
+        );
+
+        if (!response.ok) {
+            throw new Error("CSV export failed");
+        }
+
+        const blob = await response.blob();
+
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "bugflow_issue_registry.csv";
+
+        document.body.appendChild(link);
+        link.click();
+
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+        console.error("CSV export error:", error);
+        alert("Unable to export CSV.");
+    }
+}
+async function loadWebhookIssues() {
+
+    const issueSelect =
+        document.getElementById("webhookIssueSelect");
+
+    if (!issueSelect) {
+        return;
+    }
+
+    try {
+
+        const token =
+            localStorage.getItem("access_token");
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/webhooks/issues",
+            {
+                method: "GET",
+
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load issues."
+            );
+        }
+
+        issueSelect.innerHTML = "";
+
+        /*
+         * The issues API returns an array of bugs.
+         */
+        const issues = Array.isArray(data)
+            ? data
+            : data.items || data.issues || [];
+
+        if (issues.length === 0) {
+
+            issueSelect.innerHTML =
+                '<option value="">No bugs found</option>';
+
+            return;
+        }
+
+        issues.forEach(function(issue) {
+
+            const option =
+                document.createElement("option");
+
+            option.value = issue.id;
+
+            option.textContent =
+                `Bug #${issue.id} - ${
+                    issue.title || "Untitled Issue"
+                } [${
+                    String(issue.status || "UNKNOWN")
+                        .replace(/_/g, " ")
+                }]`;
+
+            issueSelect.appendChild(option);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Webhook issue loading error:",
+            error
+        );
+
+        issueSelect.innerHTML =
+            '<option value="">Unable to load bugs</option>';
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,4234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>All Defects | BugFlow</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div>
+                <h2>BugFlow</h2>
+
+                <span>
+                    Intelligent Tracking
+                </span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <nav>
+
+            <p class="nav-heading">
+                MAIN
+            </p>
+
+
+            <a href="admin-dashboard.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="admin-defects.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    All Issues
+                </span>
+
+            </a>
+
+
+            <a href="users.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+
+            </a>
+
+
+            <p class="nav-heading second">
+                MANAGEMENT
+            </p>
+
+
+            <a href="admin-analytics.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Analytics &API'S
+                </span>
+
+            </a>
+
+
+            <a href="reports.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="notifications.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <b class="badge">
+                    5
+                </b>
+
+            </a>
+
+
+            <a href="settings.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            
+<a href="system-support.html"
+   class="support-box"
+   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+    <strong>System Support</strong>
+    <small>All systems online</small>
+
+</a>
+
+            <a href="index.html"
+               class="nav-link logout"
+               id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE DEFECT MANAGEMENT
+                </span>
+
+                <strong>
+                    All Defects
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="notification-button">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span>
+                        5
+                    </span>
+
+                </button>
+
+
+                <div class="user-profile">
+
+                    <div class="avatar admin-avatar"
+                         id="adminAvatar">
+                        AD
+                    </div>
+
+                    <div>
+
+                        <strong id="adminName">
+                            Administrator
+                        </strong>
+
+                        <small>
+                            System Admin
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <section class="content">
+
+            <div class="content-wrapper">
+
+
+                <!-- PAGE HEADER -->
+
+                <div class="welcome">
+
+                    <div>
+
+                        <span>
+                            ISSUE MANAGEMENT
+                        </span>
+
+                        <h1>
+                            All Defects
+                        </h1>
+
+                        <p>
+                            Review, triage, assign and manage
+                            all reported software issues.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     FILTER CARD
+                ================================================== -->
+
+                <div class="card filters-card">
+
+                    <div class="card-title">
+
+                        <div>
+
+                            <h3>
+                                Search & Filters
+                            </h3>
+
+                            <p>
+                                Find specific defects quickly
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="filters">
+
+
+                        <!-- SEARCH -->
+
+                        <div class="filter-group search-group">
+
+                            <label>
+                                Search
+                            </label>
+
+                            <div class="search-box">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input
+                                    type="text"
+                                    id="searchInput"
+                                    placeholder="Search by issue title..."
+                                >
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- STATUS -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Status
+                            </label>
+
+                            <select id="statusFilter">
+
+                                <option value="">
+                                    All Statuses
+                                </option>
+
+                                <option value="REPORTED">
+                                    Reported
+                                </option>
+
+                                <option value="TRIAGED">
+                                    Triaged
+                                </option>
+
+                                <option value="IN_PROGRESS">
+                                    In Progress
+                                </option>
+
+                                <option value="CODE_REVIEW">
+                                    Code Review
+                                </option>
+
+                                <option value="QA_VERIFICATION">
+                                    QA Verification
+                                </option>
+
+                                <option value="RESOLVED">
+                                    Resolved
+                                </option>
+
+                                <option value="CLOSED">
+                                    Closed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- SEVERITY -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Severity
+                            </label>
+
+                            <select id="severityFilter">
+
+                                <option value="">
+                                    All Severities
+                                </option>
+
+                                <option value="CRITICAL">
+                                    Critical
+                                </option>
+
+                                <option value="MAJOR">
+                                    Major
+                                </option>
+
+                                <option value="MINOR">
+                                    Minor
+                                </option>
+
+                                <option value="TRIVIAL">
+                                    Trivial
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- PRIORITY -->
+
+                        <div class="filter-group">
+
+                            <label>
+                                Priority
+                            </label>
+
+                            <select id="priorityFilter">
+
+                                <option value="">
+                                    All Priorities
+                                </option>
+
+                                <option value="URGENT">
+                                    Urgent
+                                </option>
+
+                                <option value="HIGH">
+                                    High
+                                </option>
+
+                                <option value="MEDIUM">
+                                    Medium
+                                </option>
+
+                                <option value="LOW">
+                                    Low
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="filter-actions">
+
+                        <button
+                            class="primary-btn"
+                            id="applyFilters">
+
+                            <i class="fa-solid fa-filter"></i>
+
+                            Apply Filters
+
+                        </button>
+
+
+                        <button
+                            class="reset-btn"
+                            id="resetFilters">
+
+                            Reset
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ISSUE TABLE
+                ================================================== -->
+
+                <div class="card table-card defects-table-card">
+
+                    <div class="card-title">
+
+                        <div>
+
+                            <h3>
+                                Reported Defects
+                            </h3>
+
+                            <p id="issueCount">
+                                Loading issues...
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="tableMessage"
+                         class="table-message">
+
+                        Loading issues...
+
+                    </div>
+
+
+                    <div class="table-container"
+                         id="issuesTableContainer"
+                         style="display:none;">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+
+                                    <th>Issue</th>
+
+                                    <th>Severity</th>
+
+                                    <th>Priority</th>
+
+                                    <th>Status</th>
+
+                                    <th>Assignee</th>
+
+                                    <th>Created</th>
+
+                                    <th>Action</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="issuesTableBody"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     PAGE STYLES
+====================================================== -->
+
+<style>
+
+.filters-card {
+    margin-bottom: 24px;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.search-box input,
+.filter-group select {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #ffffff;
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1e293b;
+    outline: none;
+}
+
+.search-box input {
+    padding-left: 40px;
+}
+
+.search-box input:focus,
+.filter-group select:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.10);
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.reset-btn {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    border-radius: 9px;
+    padding: 0 20px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    background: #f8fafc;
+}
+
+.defects-table-card {
+    overflow: hidden;
+}
+
+.table-message {
+    padding: 50px 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.table-container table {
+    width: 100%;
+    min-width: 950px;
+    border-collapse: collapse;
+}
+
+.table-container th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-container td {
+    padding: 17px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 14px;
+}
+
+.table-container tr:hover td {
+    background: #fafafa;
+}
+
+.issue-id {
+    font-weight: 700;
+    color: #6366f1;
+}
+
+.issue-title {
+    max-width: 280px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.issue-title small {
+    display: block;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-top: 4px;
+}
+
+.priority,
+.severity,
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.priority.urgent,
+.severity.critical {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.priority.high,
+.severity.major {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+.priority.medium {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.priority.low,
+.severity.trivial {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.severity.critical {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.severity.minor {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status.reported,
+.status.triaged {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.status.in_progress,
+.status.code_review {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.status.qa_verification {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.status.resolved,
+.status.closed {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.action-btn {
+    border: none;
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 7px 11px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.action-btn:hover {
+    background: #e0e7ff;
+}
+
+.assignee-control {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 150px;
+}
+
+.assignee-select,
+.modal-select {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background: #ffffff;
+    padding: 0 9px;
+    font-family: inherit;
+    font-size: 12px;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+}
+
+.assignee-select:focus,
+.modal-select:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.10);
+}
+
+.assign-btn {
+    border: none;
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.assign-btn:hover {
+    background: #e0e7ff;
+}
+
+.assign-btn:disabled,
+.modal-update-btn:disabled,
+.modal-triage-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.issue-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+.issue-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.issue-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(3px);
+}
+
+.issue-modal-content {
+    position: relative;
+    width: min(950px, 92%);
+    max-height: 90vh;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.issue-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 26px;
+    border-bottom: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #f8faff, #f5f3ff);
+}
+
+.modal-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #6366f1;
+    margin-bottom: 5px;
+}
+
+.issue-modal-header h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.modal-close {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #6366f1;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: #e0e7ff;
+}
+
+.issue-modal-body {
+    padding: 25px 26px;
+    overflow-y: auto;
+}
+
+.modal-section {
+    margin-bottom: 25px;
+}
+
+.modal-section:last-child {
+    margin-bottom: 0;
+}
+
+.modal-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.modal-section h3 i {
+    color: #6366f1;
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.modal-item {
+    padding: 13px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.modal-item span {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.modal-item strong {
+    display: block;
+    font-size: 14px;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.modal-text {
+    padding: 15px;
+    min-height: 50px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.modal-select {
+    height: 40px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.triage-box {
+    border: 1px solid #c7d2fe;
+    background: #eef2ff;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.triage-box h4 {
+    margin: 0 0 6px;
+    color: #3730a3;
+    font-size: 15px;
+}
+
+.triage-box p {
+    margin: 0 0 15px;
+    color: #4f46e5;
+    font-size: 13px;
+}
+
+.triage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.triage-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.triage-field label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+}
+
+.modal-triage-btn {
+    margin-top: 15px;
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.modal-triage-btn:hover {
+    background: #4338ca;
+}
+
+.issue-modal-footer {
+    padding: 16px 26px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: #fafafa;
+}
+
+.modal-update-btn,
+.modal-close-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-update-btn {
+    background: #6366f1;
+    color: #ffffff;
+}
+
+.modal-update-btn:hover {
+    background: #4f46e5;
+}
+
+.modal-close-btn {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.modal-close-btn:hover {
+    background: #cbd5e1;
+}
+
+@media (max-width: 1000px) {
+
+    .filters {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .triage-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .issue-modal-content {
+        width: 95%;
+        max-height: 94vh;
+    }
+
+    .issue-modal-header,
+    .issue-modal-body,
+    .issue-modal-footer {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .issue-modal-footer {
+        flex-wrap: wrap;
+    }
+
+}
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 15px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+
+</style>
+
+
+
+<!-- =====================================================
+     ISSUE DETAILS MODAL
+====================================================== -->
+
+<div id="issueModal" class="issue-modal">
+
+    <div class="issue-modal-overlay"
+         onclick="closeIssueModal()">
+    </div>
+
+
+    <div class="issue-modal-content">
+
+
+        <!-- HEADER -->
+
+        <div class="issue-modal-header">
+
+            <div>
+
+                <span class="modal-label">
+                    ISSUE DETAILS
+                </span>
+
+                <h2 id="modalIssueTitle">
+                    Issue Details
+                </h2>
+
+            </div>
+
+
+            <button
+                class="modal-close"
+                onclick="closeIssueModal()"
+                aria-label="Close">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <!-- BODY -->
+
+        <div class="issue-modal-body">
+
+
+            <!-- BASIC INFORMATION -->
+
+            <div class="modal-section">
+
+                <h3>
+                    <i class="fa-solid fa-circle-info"></i>
+                    Basic Information
+                </h3>
+
+
+                <div class="modal-grid">
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Issue ID
+                        </span>
+
+                        <strong id="modalIssueId">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Project
+                        </span>
+
+                        <strong id="modalProject">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Category
+                        </span>
+
+                        <select
+                            id="modalCategorySelect"
+                            class="modal-select">
+
+                            <option value="7">
+                                Authentication
+                            </option>
+
+                            <option value="8">
+                                UI / Frontend
+                            </option>
+
+                            <option value="9">
+                                Backend / API
+                            </option>
+
+                            <option value="10">
+                                Database
+                            </option>
+
+                            <option value="11">
+                                Performance
+                            </option>
+
+                            <option value="12">
+                                Technical Debt
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <select
+                            id="modalStatusSelect"
+                            class="modal-select">
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Severity
+                        </span>
+
+                        <select
+                            id="modalSeveritySelect"
+                            class="modal-select">
+
+                            <option value="CRITICAL">
+                                Critical
+                            </option>
+
+                            <option value="MAJOR">
+                                Major
+                            </option>
+
+                            <option value="MINOR">
+                                Minor
+                            </option>
+
+                            <option value="TRIVIAL">
+                                Trivial
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Priority
+                        </span>
+
+                        <strong id="modalPriority">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Priority Score
+                        </span>
+
+                        <strong id="modalPriorityScore">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Reporter
+                        </span>
+
+                        <strong id="modalReporter">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 TRIAGE SECTION
+            ================================================== -->
+
+            <div
+                class="modal-section"
+                id="triageSection"
+                style="display:none;">
+
+                <div class="triage-box">
+
+                    <h4>
+                        <i class="fa-solid fa-list-check"></i>
+                        Admin Triage
+                    </h4>
+
+                    <p>
+                        Review the category and severity,
+                        assign a developer, then complete triage.
+                    </p>
+
+
+                    <div class="triage-grid">
+
+
+                        <div class="triage-field">
+
+                            <label>
+                                Category
+                            </label>
+
+                            <select
+                                id="triageCategory"
+                                class="modal-select">
+
+                                <option value="7">
+                                    Authentication
+                                </option>
+
+                                <option value="8">
+                                    UI / Frontend
+                                </option>
+
+                                <option value="9">
+                                    Backend / API
+                                </option>
+
+                                <option value="10">
+                                    Database
+                                </option>
+
+                                <option value="11">
+                                    Performance
+                                </option>
+
+                                <option value="12">
+                                    Technical Debt
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="triage-field">
+
+                            <label>
+                                Severity
+                            </label>
+
+                            <select
+                                id="triageSeverity"
+                                class="modal-select">
+
+                                <option value="CRITICAL">
+                                    Critical
+                                </option>
+
+                                <option value="MAJOR">
+                                    Major
+                                </option>
+
+                                <option value="MINOR">
+                                    Minor
+                                </option>
+
+                                <option value="TRIVIAL">
+                                    Trivial
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="triage-field">
+
+                            <label>
+                                Developer
+                            </label>
+
+                            <select
+                                id="triageDeveloper"
+                                class="modal-select">
+
+                                <option value="">
+                                    Select Developer
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="completeTriageBtn"
+                        class="modal-triage-btn"
+                        onclick="completeTriage()">
+
+                        <i class="fa-solid fa-check-double"></i>
+
+                        Complete Triage
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PEOPLE -->
+
+            <div class="modal-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-users"></i>
+
+                    People
+
+                </h3>
+
+
+                <div class="modal-grid">
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Assignee
+                        </span>
+
+                        <select
+                            id="modalAssigneeSelect"
+                            class="modal-select">
+
+                            <option value="">
+                                Unassigned
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            type="button"
+                            class="assign-btn"
+                            style="margin-top:8px;"
+                            onclick="assignIssueFromModal()">
+
+                            <i class="fa-solid fa-user-check"></i>
+
+                            Assign Issue
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="modal-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-align-left"></i>
+
+                    Description
+
+                </h3>
+
+
+                <div
+                    id="modalDescription"
+                    class="modal-text">
+
+                    -
+
+                </div>
+
+            </div>
+
+
+
+            <!-- REPRODUCTION -->
+
+            <div class="modal-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-list-ol"></i>
+
+                    Reproduction Steps
+
+                </h3>
+
+
+                <div
+                    id="modalReproduction"
+                    class="modal-text">
+
+                    -
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ENVIRONMENT -->
+
+            <div class="modal-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-desktop"></i>
+
+                    Environment Details
+
+                </h3>
+
+
+                <div
+                    id="modalEnvironment"
+                    class="modal-text">
+
+                    -
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ADDITIONAL INFORMATION -->
+
+            <div class="modal-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-code"></i>
+
+                    Additional Information
+
+                </h3>
+
+
+                <div class="modal-grid">
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Development Stage
+                        </span>
+
+                        <strong id="modalDevStage">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Affected Modules
+                        </span>
+
+                        <strong id="modalModules">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Estimated Effort
+                        </span>
+
+                        <strong id="modalEffort">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Created
+                        </span>
+
+                        <strong id="modalCreated">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="modal-item">
+
+                        <span>
+                            Updated
+                        </span>
+
+                        <strong id="modalUpdated">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FOOTER -->
+
+        <div class="issue-modal-footer">
+
+            <button
+                class="modal-update-btn"
+                onclick="saveIssueChanges()">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Save Changes
+
+            </button>
+
+
+            <button
+                class="modal-close-btn"
+                onclick="closeIssueModal()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+let allIssues = [];
+let allUsers = [];
+
+let currentViewingIssueId = null;
+
+
+/* =====================================================
+   GET CURRENT USER
+===================================================== */
+
+function loadCurrentUser() {
+
+    try {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem("user")
+            );
+
+        if (!user) {
+            return;
+        }
+
+        const name =
+            document.getElementById("adminName");
+
+        const avatar =
+            document.getElementById("adminAvatar");
+
+
+        if (name) {
+
+            name.textContent =
+                user.full_name ||
+                user.username ||
+                "Administrator";
+
+        }
+
+
+        if (avatar) {
+
+            const displayName =
+                user.full_name ||
+                user.username ||
+                "AD";
+
+            const parts =
+                displayName.trim().split(" ");
+
+
+            if (parts.length >= 2) {
+
+                avatar.textContent =
+                    (
+                        parts[0][0] +
+                        parts[parts.length - 1][0]
+                    ).toUpperCase();
+
+            } else {
+
+                avatar.textContent =
+                    displayName
+                        .substring(0, 2)
+                        .toUpperCase();
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load user:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD USERS
+===================================================== */
+
+async function loadUsers() {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        console.error(
+            "No authentication token found."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/users/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Unable to load users:",
+                response.status
+            );
+
+            return;
+
+        }
+
+
+        allUsers =
+            await response.json();
+
+
+        console.log(
+            "Users loaded:",
+            allUsers
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading users:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD ISSUES
+===================================================== */
+
+async function loadIssues() {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        showMessage(
+            "Please login as an administrator first."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        showMessage(
+            "Loading issues..."
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        if (response.status === 401) {
+
+            showMessage(
+                "Your session has expired. Please login again."
+            );
+
+            return;
+
+        }
+
+
+        if (response.status === 403) {
+
+            showMessage(
+                "Administrator access is required."
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            showMessage(
+                "Unable to load issues. Server returned " +
+                response.status
+            );
+
+            return;
+
+        }
+
+
+        allIssues =
+            await response.json();
+
+
+        console.log(
+            "Issues loaded:",
+            allIssues
+        );
+
+
+        renderIssues(
+            allIssues
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading issues:",
+            error
+        );
+
+
+        showMessage(
+            "Unable to connect to BugFlow server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER ISSUES
+===================================================== */
+
+function renderIssues(issues) {
+
+    const tbody =
+        document.getElementById(
+            "issuesTableBody"
+        );
+
+    const tableContainer =
+        document.getElementById(
+            "issuesTableContainer"
+        );
+
+    const message =
+        document.getElementById(
+            "tableMessage"
+        );
+
+    const issueCount =
+        document.getElementById(
+            "issueCount"
+        );
+
+
+    if (!tbody) {
+        return;
+    }
+
+
+    tbody.innerHTML = "";
+
+
+    if (issueCount) {
+
+        issueCount.textContent =
+            `${issues.length} issue${issues.length === 1 ? "" : "s"} found`;
+
+    }
+
+
+    if (issues.length === 0) {
+
+        if (tableContainer) {
+            tableContainer.style.display = "none";
+        }
+
+        if (message) {
+
+            message.style.display = "block";
+
+            message.textContent =
+                "No defects found.";
+
+        }
+
+        return;
+
+    }
+
+
+    if (message) {
+        message.style.display = "none";
+    }
+
+
+    if (tableContainer) {
+        tableContainer.style.display = "block";
+    }
+
+
+    issues.forEach(function(issue) {
+
+        const row =
+            document.createElement("tr");
+
+
+        const severity =
+            String(
+                issue.severity || ""
+            ).toLowerCase();
+
+
+        const priority =
+            String(
+                issue.priority || ""
+            ).toLowerCase();
+
+
+        const status =
+            String(
+                issue.status || ""
+            ).toLowerCase();
+
+
+        row.innerHTML = `
+
+            <td>
+
+                <span class="issue-id">
+                    #${issue.id}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <div class="issue-title">
+
+                    ${escapeHtml(
+                        issue.title ||
+                        "Untitled Issue"
+                    )}
+
+                    <small>
+                        Project #${issue.project_id || "-"}
+                    </small>
+
+                </div>
+
+            </td>
+
+
+            <td>
+
+                <span class="severity ${severity}">
+                    ${formatEnum(issue.severity)}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <span class="priority ${priority}">
+                    ${formatEnum(issue.priority)}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <span class="status ${status}">
+                    ${formatEnum(issue.status)}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <div class="assignee-control">
+
+                    <select
+                        class="assignee-select"
+                        id="assignee-${issue.id}"
+                    >
+
+                        <option value="">
+                            Unassigned
+                        </option>
+
+                        ${
+                            allUsers
+                                .map(function(user) {
+
+                                    return `
+
+                                        <option
+                                            value="${user.id}"
+                                            ${
+                                                Number(issue.assignee_id) ===
+                                                Number(user.id)
+                                                    ? "selected"
+                                                    : ""
+                                            }
+                                        >
+
+                                            ${escapeHtml(
+                                                user.full_name ||
+                                                user.username ||
+                                                "User #" + user.id
+                                            )}
+
+                                        </option>
+
+                                    `;
+
+                                })
+                                .join("")
+                        }
+
+                    </select>
+
+
+                    <button
+                        class="assign-btn"
+                        onclick="assignIssue(${issue.id})">
+
+                        <i class="fa-solid fa-user-check"></i>
+
+                        Assign
+
+                    </button>
+
+                </div>
+
+            </td>
+
+
+            <td>
+                ${formatDate(issue.created_at)}
+            </td>
+
+
+            <td>
+
+                <button
+                    class="action-btn"
+                    onclick="viewIssue(${issue.id})">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    View
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+   APPLY FILTERS
+===================================================== */
+
+function applyFilters() {
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    const severity =
+        document.getElementById(
+            "severityFilter"
+        ).value;
+
+
+    const priority =
+        document.getElementById(
+            "priorityFilter"
+        ).value;
+
+
+    const filtered =
+        allIssues.filter(function(issue) {
+
+            const matchesSearch =
+                !search ||
+                String(issue.id)
+                    .includes(search) ||
+                String(issue.title || "")
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const matchesStatus =
+                !status ||
+                issue.status === status;
+
+
+            const matchesSeverity =
+                !severity ||
+                issue.severity === severity;
+
+
+            const matchesPriority =
+                !priority ||
+                issue.priority === priority;
+
+
+            return (
+                matchesSearch &&
+                matchesStatus &&
+                matchesSeverity &&
+                matchesPriority
+            );
+
+        });
+
+
+    renderIssues(
+        filtered
+    );
+
+}
+
+
+/* =====================================================
+   RESET FILTERS
+===================================================== */
+
+function resetFilters() {
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "statusFilter"
+    ).value = "";
+
+
+    document.getElementById(
+        "severityFilter"
+    ).value = "";
+
+
+    document.getElementById(
+        "priorityFilter"
+    ).value = "";
+
+
+    renderIssues(
+        allIssues
+    );
+
+}
+
+
+/* =====================================================
+   GET NEXT VALID STATUS
+===================================================== */
+
+function getNextStatuses(status) {
+
+    const workflow = {
+
+        "REPORTED": [
+            "TRIAGED"
+        ],
+
+        "TRIAGED": [
+            "IN_PROGRESS"
+        ],
+
+        "IN_PROGRESS": [
+            "CODE_REVIEW"
+        ],
+
+        "CODE_REVIEW": [
+            "QA_VERIFICATION"
+        ],
+
+        "QA_VERIFICATION": [
+            "RESOLVED"
+        ],
+
+        "RESOLVED": [
+            "CLOSED"
+        ],
+
+        "CLOSED": []
+
+    };
+
+
+    return workflow[status] || [];
+
+}
+
+
+/* =====================================================
+   POPULATE STATUS SELECT
+===================================================== */
+
+function populateStatusSelect(currentStatus) {
+
+    const select =
+        document.getElementById(
+            "modalStatusSelect"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    select.innerHTML = "";
+
+
+    const optionCurrent =
+        document.createElement("option");
+
+
+    optionCurrent.value =
+        currentStatus;
+
+
+    optionCurrent.textContent =
+        formatEnum(currentStatus);
+
+
+    select.appendChild(
+        optionCurrent
+    );
+
+
+    const nextStatuses =
+        getNextStatuses(
+            currentStatus
+        );
+
+
+    nextStatuses.forEach(function(status) {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value =
+            status;
+
+
+        option.textContent =
+            formatEnum(status);
+
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   POPULATE DEVELOPER SELECT
+===================================================== */
+
+function populateDeveloperSelect(issue) {
+
+    const select =
+        document.getElementById(
+            "triageDeveloper"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    select.innerHTML = `
+
+        <option value="">
+            Select Developer
+        </option>
+
+    `;
+
+
+    const developers =
+        allUsers.filter(function(user) {
+
+            return String(
+                user.role || ""
+            ).toUpperCase() === "DEVELOPER";
+
+        });
+
+
+    developers.forEach(function(user) {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value =
+            user.id;
+
+
+        option.textContent =
+            user.full_name ||
+            user.username ||
+            "Developer #" + user.id;
+
+
+        if (
+            Number(issue.assignee_id) ===
+            Number(user.id)
+        ) {
+
+            option.selected =
+                true;
+
+        }
+
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+
+    if (developers.length === 0) {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value = "";
+
+
+        option.textContent =
+            "No developers available";
+
+
+        option.disabled =
+            true;
+
+
+        select.appendChild(
+            option
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   VIEW ISSUE
+===================================================== */
+
+function viewIssue(issueId) {
+
+    const numericIssueId =
+        Number(issueId);
+
+
+    const issue =
+        allIssues.find(function(item) {
+
+            return Number(item.id) ===
+                numericIssueId;
+
+        });
+
+
+    if (!issue) {
+
+        alert(
+            "Issue not found."
+        );
+
+        return;
+
+    }
+
+
+    currentViewingIssueId =
+        numericIssueId;
+
+
+    document.getElementById(
+        "modalIssueId"
+    ).textContent =
+        "#" + issue.id;
+
+
+    document.getElementById(
+        "modalIssueTitle"
+    ).textContent =
+        issue.title ||
+        "Untitled Issue";
+
+
+    document.getElementById(
+        "modalProject"
+    ).textContent =
+        issue.project_id
+            ? "Project #" + issue.project_id
+            : "-";
+
+
+    document.getElementById(
+        "modalCategorySelect"
+    ).value =
+        String(
+            issue.category_id || ""
+        );
+
+
+    document.getElementById(
+        "modalSeveritySelect"
+    ).value =
+        issue.severity || "MINOR";
+
+
+    document.getElementById(
+        "modalPriority"
+    ).textContent =
+        formatEnum(
+            issue.priority
+        );
+
+
+    document.getElementById(
+        "modalPriorityScore"
+    ).textContent =
+        issue.priority_score ??
+        "-";
+
+
+    document.getElementById(
+        "modalReporter"
+    ).textContent =
+        issue.reporter_id
+            ? "User #" + issue.reporter_id
+            : "-";
+
+
+    populateStatusSelect(
+        issue.status
+    );
+
+
+    const assigneeSelect =
+        document.getElementById(
+            "modalAssigneeSelect"
+        );
+
+
+    assigneeSelect.innerHTML = `
+
+        <option value="">
+            Unassigned
+        </option>
+
+        ${
+            allUsers
+                .map(function(user) {
+
+                    return `
+
+                        <option
+                            value="${user.id}"
+                            ${
+                                Number(issue.assignee_id) ===
+                                Number(user.id)
+                                    ? "selected"
+                                    : ""
+                            }
+                        >
+
+                            ${escapeHtml(
+                                user.full_name ||
+                                user.username ||
+                                "User #" + user.id
+                            )}
+
+                        </option>
+
+                    `;
+
+                })
+                .join("")
+        }
+
+    `;
+
+
+    document.getElementById(
+        "modalDescription"
+    ).textContent =
+        issue.description ||
+        "No description provided.";
+
+
+    document.getElementById(
+        "modalReproduction"
+    ).textContent =
+        issue.reproduction_steps ||
+        "No reproduction steps provided.";
+
+
+    document.getElementById(
+        "modalEnvironment"
+    ).textContent =
+        issue.environment_details ||
+        "No environment details provided.";
+
+
+    document.getElementById(
+        "modalDevStage"
+    ).textContent =
+        issue.dev_stage ||
+        "-";
+
+
+    document.getElementById(
+        "modalModules"
+    ).textContent =
+        issue.affected_modules ||
+        "-";
+
+
+    document.getElementById(
+        "modalEffort"
+    ).textContent =
+        issue.estimated_effort ??
+        "-";
+
+
+    document.getElementById(
+        "modalCreated"
+    ).textContent =
+        formatDateTime(
+            issue.created_at
+        );
+
+
+    document.getElementById(
+        "modalUpdated"
+    ).textContent =
+        formatDateTime(
+            issue.updated_at
+        );
+
+
+    /* =================================================
+       TRIAGE DATA
+    ================================================= */
+
+    document.getElementById(
+        "triageCategory"
+    ).value =
+        String(
+            issue.category_id || ""
+        );
+
+
+    document.getElementById(
+        "triageSeverity"
+    ).value =
+        issue.severity ||
+        "MINOR";
+
+
+    populateDeveloperSelect(
+        issue
+    );
+
+
+    const triageSection =
+        document.getElementById(
+            "triageSection"
+        );
+
+
+    if (triageSection) {
+
+        triageSection.style.display =
+            issue.status === "REPORTED"
+                ? "block"
+                : "none";
+
+    }
+
+
+    const modal =
+        document.getElementById(
+            "issueModal"
+        );
+
+
+    modal.classList.add(
+        "show"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =====================================================
+   COMPLETE TRIAGE
+===================================================== */
+
+async function completeTriage() {
+
+    if (!currentViewingIssueId) {
+
+        alert(
+            "No issue selected."
+        );
+
+        return;
+
+    }
+
+
+    const issue =
+        allIssues.find(function(item) {
+
+            return Number(item.id) ===
+                Number(currentViewingIssueId);
+
+        });
+
+
+    if (!issue) {
+
+        alert(
+            "Issue not found."
+        );
+
+        return;
+
+    }
+
+
+    if (issue.status !== "REPORTED") {
+
+        alert(
+            "Only reported issues can be triaged."
+        );
+
+        return;
+
+    }
+
+
+    const categoryId =
+        Number(
+            document.getElementById(
+                "triageCategory"
+            ).value
+        );
+
+
+    const severity =
+        document.getElementById(
+            "triageSeverity"
+        ).value;
+
+
+    const developerId =
+        document.getElementById(
+            "triageDeveloper"
+        ).value;
+
+
+    if (!categoryId) {
+
+        alert(
+            "Please select a category."
+        );
+
+        return;
+
+    }
+
+
+    if (!severity) {
+
+        alert(
+            "Please select severity."
+        );
+
+        return;
+
+    }
+
+
+    if (!developerId) {
+
+        alert(
+            "Please select a developer before completing triage."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            `Complete triage for Issue #${issue.id}?\n\n` +
+            `Category: ${formatCategory(categoryId)}\n` +
+            `Severity: ${formatEnum(severity)}\n` +
+            `Developer: ${getUserName(developerId)}`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "completeTriageBtn"
+        );
+
+
+    if (button) {
+
+        button.disabled =
+            true;
+
+        button.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> Triaging...';
+
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    try {
+
+        /*
+         * STEP 1
+         * Update category + severity.
+         *
+         * Backend automatically recalculates
+         * priority and priority_score.
+         */
+
+        const updateResponse =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issue.id}`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        category_id:
+                            categoryId,
+
+                        severity:
+                            severity
+
+                    })
+
+                }
+            );
+
+
+        const updateText =
+            await updateResponse.text();
+
+
+        let updateData = {};
+
+
+        try {
+
+            updateData =
+                JSON.parse(
+                    updateText
+                );
+
+        } catch {
+
+            updateData = {};
+
+        }
+
+
+        if (!updateResponse.ok) {
+
+            throw new Error(
+                updateData.detail ||
+                "Unable to update category/severity."
+            );
+
+        }
+
+
+        /*
+         * STEP 2
+         * Assign developer.
+         */
+
+        const assignResponse =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issue.id}/assign`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        assignee_id:
+                            Number(developerId)
+
+                    })
+
+                }
+            );
+
+
+        const assignText =
+            await assignResponse.text();
+
+
+        let assignData = {};
+
+
+        try {
+
+            assignData =
+                JSON.parse(
+                    assignText
+                );
+
+        } catch {
+
+            assignData = {};
+
+        }
+
+
+        if (!assignResponse.ok) {
+
+            throw new Error(
+                assignData.detail ||
+                "Unable to assign developer."
+            );
+
+        }
+
+
+        /*
+         * STEP 3
+         * REPORTED -> TRIAGED
+         */
+
+        const statusResponse =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issue.id}/status`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        status:
+                            "TRIAGED"
+
+                    })
+
+                }
+            );
+
+
+        const statusText =
+            await statusResponse.text();
+
+
+        let statusData = {};
+
+
+        try {
+
+            statusData =
+                JSON.parse(
+                    statusText
+                );
+
+        } catch {
+
+            statusData = {};
+
+        }
+
+
+        if (!statusResponse.ok) {
+
+            throw new Error(
+                statusData.detail ||
+                "Unable to change issue status to TRIAGED."
+            );
+
+        }
+
+
+        /*
+         * Update local issue.
+         */
+
+        const index =
+            allIssues.findIndex(
+                function(item) {
+
+                    return Number(item.id) ===
+                        Number(issue.id);
+
+                }
+            );
+
+
+        if (index !== -1) {
+
+            allIssues[index] = {
+
+                ...allIssues[index],
+
+                ...(updateData || {}),
+
+                assignee_id:
+                    Number(developerId),
+
+                status:
+                    "TRIAGED"
+
+            };
+
+            if (
+                statusData &&
+                typeof statusData === "object"
+            ) {
+
+                allIssues[index] = {
+
+                    ...allIssues[index],
+
+                    ...statusData
+
+                };
+
+            }
+
+        }
+
+
+        renderIssues(
+            allIssues
+        );
+
+
+        closeIssueModal();
+
+
+        alert(
+            `Issue #${issue.id} triaged successfully!`
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Triage error:",
+            error
+        );
+
+
+        alert(
+            "Triage failed.\n\n" +
+            error.message
+        );
+
+
+    } finally {
+
+        if (button) {
+
+            button.disabled =
+                false;
+
+            button.innerHTML =
+                '<i class="fa-solid fa-check-double"></i> Complete Triage';
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE NORMAL ISSUE CHANGES
+===================================================== */
+
+async function saveIssueChanges() {
+
+    if (!currentViewingIssueId) {
+
+        return;
+
+    }
+
+
+    const issue =
+        allIssues.find(function(item) {
+
+            return Number(item.id) ===
+                Number(currentViewingIssueId);
+
+        });
+
+
+    if (!issue) {
+        return;
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        alert(
+            "Please login again."
+        );
+
+        return;
+
+    }
+
+
+    const categoryId =
+        Number(
+            document.getElementById(
+                "modalCategorySelect"
+            ).value
+        );
+
+
+    const severity =
+        document.getElementById(
+            "modalSeveritySelect"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "modalStatusSelect"
+        ).value;
+
+
+    const oldStatus =
+        issue.status;
+
+
+    try {
+
+        /*
+         * Category + severity update.
+         *
+         * Priority is recalculated by backend.
+         */
+
+        if (
+            categoryId !==
+            Number(issue.category_id) ||
+
+            severity !==
+            issue.severity
+        ) {
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}/api/v1/issues/${issue.id}`,
+                    {
+                        method: "PATCH",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        },
+
+                        body: JSON.stringify({
+
+                            category_id:
+                                categoryId,
+
+                            severity:
+                                severity
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.detail ||
+                    "Unable to save issue changes."
+                );
+
+            }
+
+
+            const index =
+                allIssues.findIndex(
+                    item =>
+                        Number(item.id) ===
+                        Number(issue.id)
+                );
+
+
+            if (index !== -1) {
+
+                allIssues[index] =
+                    data;
+
+            }
+
+        }
+
+
+        /*
+         * Update status only when it changed.
+         */
+
+        if (
+            status !== oldStatus
+        ) {
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}/api/v1/issues/${issue.id}/status`,
+                    {
+                        method: "PATCH",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        },
+
+                        body: JSON.stringify({
+
+                            status:
+                                status
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.detail ||
+                    "Unable to update status."
+                );
+
+            }
+
+
+            const index =
+                allIssues.findIndex(
+                    item =>
+                        Number(item.id) ===
+                        Number(issue.id)
+                );
+
+
+            if (index !== -1) {
+
+                allIssues[index] =
+                    data;
+
+            }
+
+        }
+
+
+        renderIssues(
+            allIssues
+        );
+
+
+        /*
+         * Refresh modal with latest data.
+         */
+
+        const updatedIssue =
+            allIssues.find(
+                item =>
+                    Number(item.id) ===
+                    Number(currentViewingIssueId)
+            );
+
+
+        if (updatedIssue) {
+
+            document.getElementById(
+                "modalPriority"
+            ).textContent =
+                formatEnum(
+                    updatedIssue.priority
+                );
+
+
+            document.getElementById(
+                "modalPriorityScore"
+            ).textContent =
+                updatedIssue.priority_score ??
+                "-";
+
+        }
+
+
+        alert(
+            "Issue changes saved successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Save changes error:",
+            error
+        );
+
+
+        alert(
+            "Unable to save changes.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ASSIGN ISSUE FROM TABLE
+===================================================== */
+
+async function assignIssue(issueId) {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    const select =
+        document.getElementById(
+            `assignee-${issueId}`
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    const assigneeId =
+        select.value;
+
+
+    if (!assigneeId) {
+
+        alert(
+            "Please select a user before assigning."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        select.parentElement.querySelector(
+            ".assign-btn"
+        );
+
+
+    if (button) {
+
+        button.disabled =
+            true;
+
+        button.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> Assigning...';
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issueId}/assign`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        assignee_id:
+                            Number(assigneeId)
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to assign issue."
+            );
+
+        }
+
+
+        const issue =
+            allIssues.find(
+                item =>
+                    Number(item.id) ===
+                    Number(issueId)
+            );
+
+
+        if (issue) {
+
+            issue.assignee_id =
+                data.assignee_id ??
+                Number(assigneeId);
+
+        }
+
+
+        renderIssues(
+            allIssues
+        );
+
+
+        alert(
+            `Issue #${issueId} assigned successfully.`
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Assignment error:",
+            error
+        );
+
+
+        alert(
+            error.message
+        );
+
+
+    } finally {
+
+        if (button) {
+
+            button.disabled =
+                false;
+
+            button.innerHTML =
+                '<i class="fa-solid fa-user-check"></i> Assign';
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   ASSIGN ISSUE FROM MODAL
+===================================================== */
+
+async function assignIssueFromModal() {
+
+    if (!currentViewingIssueId) {
+
+        alert(
+            "No issue selected."
+        );
+
+        return;
+
+    }
+
+
+    const select =
+        document.getElementById(
+            "modalAssigneeSelect"
+        );
+
+
+    const assigneeId =
+        select.value;
+
+
+    if (!assigneeId) {
+
+        alert(
+            "Please select a user."
+        );
+
+        return;
+
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${currentViewingIssueId}/assign`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        assignee_id:
+                            Number(assigneeId)
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to assign issue."
+            );
+
+        }
+
+
+        const issue =
+            allIssues.find(
+                item =>
+                    Number(item.id) ===
+                    Number(currentViewingIssueId)
+            );
+
+
+        if (issue) {
+
+            issue.assignee_id =
+                data.assignee_id ??
+                Number(assigneeId);
+
+        }
+
+
+        renderIssues(
+            allIssues
+        );
+
+
+        alert(
+            "Issue assigned successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Assignment error:",
+            error
+        );
+
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeIssueModal() {
+
+    const modal =
+        document.getElementById(
+            "issueModal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove(
+            "show"
+        );
+
+    }
+
+
+    document.body.style.overflow =
+        "";
+
+
+    currentViewingIssueId =
+        null;
+
+}
+
+
+/* =====================================================
+   CATEGORY NAME
+===================================================== */
+
+function formatCategory(categoryId) {
+
+    const categories = {
+
+        7:
+            "Authentication",
+
+        8:
+            "UI / Frontend",
+
+        9:
+            "Backend / API",
+
+        10:
+            "Database",
+
+        11:
+            "Performance",
+
+        12:
+            "Technical Debt"
+
+    };
+
+
+    return categories[
+        Number(categoryId)
+    ] ||
+        "Category #" + categoryId;
+
+}
+
+
+/* =====================================================
+   GET USER NAME
+===================================================== */
+
+function getUserName(userId) {
+
+    const user =
+        allUsers.find(
+            item =>
+                Number(item.id) ===
+                Number(userId)
+        );
+
+
+    if (!user) {
+
+        return "User #" + userId;
+
+    }
+
+
+    return (
+        user.full_name ||
+        user.username ||
+        "User #" + user.id
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT ENUM
+===================================================== */
+
+function formatEnum(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    return String(value)
+
+        .replaceAll(
+            "_",
+            " "
+        )
+
+        .toLowerCase()
+
+        .replace(
+            /\b\w/g,
+            function(char) {
+
+                return char.toUpperCase();
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (isNaN(date.getTime())) {
+        return "-";
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT DATE TIME
+===================================================== */
+
+function formatDateTime(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (isNaN(date.getTime())) {
+        return "-";
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   SHOW MESSAGE
+===================================================== */
+
+function showMessage(text) {
+
+    const message =
+        document.getElementById(
+            "tableMessage"
+        );
+
+
+    const table =
+        document.getElementById(
+            "issuesTableContainer"
+        );
+
+
+    if (table) {
+
+        table.style.display =
+            "none";
+
+    }
+
+
+    if (message) {
+
+        message.style.display =
+            "block";
+
+        message.textContent =
+            text;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logoutUser() {
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        loadCurrentUser();
+
+        await loadUsers();
+
+        await loadIssues();
+
+    }
+);
+
+
+document.getElementById(
+    "applyFilters"
+).addEventListener(
+    "click",
+    applyFilters
+);
+
+
+document.getElementById(
+    "resetFilters"
+).addEventListener(
+    "click",
+    resetFilters
+);
+
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    applyFilters
+);
+
+
+/* =====================================================
+   ESC CLOSE
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeIssueModal();
+
+        }
+
+    }
+);
+
+</script>
+<script src="theme.js"></script>
+
+</body>
+
+</html>

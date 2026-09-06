@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | BugFlow</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+    .sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+</style>
+        </head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div>
+                <h2>BugFlow</h2>
+                <span>Intelligent Tracking</span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+        <nav>
+
+            <p class="nav-heading">
+                MAIN
+            </p>
+
+            <a href="admin-dashboard.html" class="nav-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="admin-defects.html" class="nav-link">
+                <i class="fa-solid fa-bug"></i>
+                <span>All Issues</span>
+            </a>
+
+            <a href="users.html" class="nav-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="resolution.html" class="nav-link">
+                <i class="fa-solid fa-robot"></i>
+                <span>Resolution Assistance</span>
+            </a>
+
+            <p class="nav-heading second">
+                MANAGEMENT
+            </p>
+
+            <a href="analytics.html" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analytics & APIs</span>
+            </a>
+
+            <a href="reports.html" class="nav-link active">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="notifications.html" class="nav-link">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+                <b class="badge">5</b>
+            </a>
+
+            <a href="settings.html" class="nav-link">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+
+                <i class="fa-solid fa-headset"></i>
+
+                <div>
+                    <strong>System Support</strong>
+                    <small>All systems online</small>
+                </div>
+
+            </div>
+
+            <a href="index.html"
+               class="nav-link logout"
+               id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE ISSUE MANAGEMENT
+                </span>
+
+                <strong>
+                    Reports
+                </strong>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div class="content-wrapper">
+
+                <div class="welcome">
+
+                    <div>
+
+                        <span>
+                            MANAGEMENT
+                        </span>
+
+                        <h1>
+                            Reports
+                        </h1>
+
+                        <p>
+                            Generate and download software quality reports.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REPORT CARDS -->
+
+                <div class="stats">
+
+                    <div class="stat">
+
+                        <div>
+
+                            <span>
+                                PDF Report
+                            </span>
+
+                            <h2>
+                                Quality Report
+                            </h2>
+
+                            <small>
+                                Executive quality summary
+                            </small>
+
+                        </div>
+
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div>
+
+                            <span>
+                                CSV Report
+                            </span>
+
+                            <h2>
+                                Issue Registry
+                            </h2>
+
+                            <small>
+                                Excel-ready issue data
+                            </small>
+
+                        </div>
+
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-file-csv"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EXPORT CARD -->
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <div>
+
+                            <h3>
+                                Export Reports
+                            </h3>
+
+                            <p>
+                                Download the latest BugFlow data.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div style="
+                        display:flex;
+                        gap:15px;
+                        flex-wrap:wrap;
+                        margin-top:20px;
+                    ">
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            onclick="exportPDF()">
+
+                            <i class="fa-solid fa-file-pdf"></i>
+
+                            Download PDF Report
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            onclick="exportCSV()">
+
+                            <i class="fa-solid fa-file-csv"></i>
+
+                            Download CSV Report
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+/* ============================================================
+   PDF EXPORT
+============================================================ */
+
+async function exportPDF() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/export/pdf`
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "PDF export failed."
+            );
+
+        }
+
+        const blob =
+            await response.blob();
+
+        const url =
+            window.URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+        link.href = url;
+
+        link.download =
+            "bugflow_quality_report.pdf";
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(
+            url
+        );
+
+    } catch (error) {
+
+        console.error(
+            "PDF export error:",
+            error
+        );
+
+        alert(
+            "Unable to export PDF."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   CSV EXPORT
+============================================================ */
+
+async function exportCSV() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/export/csv`
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "CSV export failed."
+            );
+
+        }
+
+        const blob =
+            await response.blob();
+
+        const url =
+            window.URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+        link.href = url;
+
+        link.download =
+            "bugflow_issue_registry.csv";
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(
+            url
+        );
+
+    } catch (error) {
+
+        console.error(
+            "CSV export error:",
+            error
+        );
+
+        alert(
+            "Unable to export CSV."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+</script>
+<script src="theme.js"></script>
+</body>
+</html>

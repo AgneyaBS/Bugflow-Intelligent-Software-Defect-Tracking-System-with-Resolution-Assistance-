@@ -1,0 +1,2608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | BugFlow</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+          
+          <script src="theme.js"></script>
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+          <style>
+.issue-chart-card {
+    margin-top: 24px;
+    background: linear-gradient(
+        135deg,
+        #f5f3ff,
+        #eef2ff
+    );
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08);
+    border-radius: 16px;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 330px;
+    padding: 15px 10px 10px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+}
+
+.chart-period {
+    font-size: 13px;
+    color: #4f46e5;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+/* GLOBAL DARK MODE */
+body.dark-mode {
+    background: #111827 !important;
+    color: #f3f4f6;
+}
+
+body.dark-mode .main-content,
+body.dark-mode .content {
+    background: #111827 !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .stat-card,
+body.dark-mode .chart-card,
+body.dark-mode .issue-chart-card,
+body.dark-mode .quick-actions,
+body.dark-mode .recent-issues {
+    background: #1f2937 !important;
+    color: #f3f4f6;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode p,
+body.dark-mode span {
+    color: inherit;
+}
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+.user-profile {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.user-profile:hover {
+    opacity: 0.8;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div>
+                <h2>BugFlow</h2>
+
+                <span>
+                    Intelligent Tracking
+                </span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <nav>
+
+            <p class="nav-heading">
+                MAIN
+            </p>
+
+
+            <a href="admin-dashboard.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="admin-defects.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    All Issues
+                </span>
+
+            </a>
+
+
+            <a href="users.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+
+            </a>
+
+
+            <p class="nav-heading second">
+                MANAGEMENT
+            </p>
+
+
+            <a href="admin-analytics.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Analytics &API'S
+                </span>
+
+            </a>
+
+
+            <a href="reports.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="notifications.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <b class="badge">
+                    5
+                </b>
+
+            </a>
+
+
+            <a href="settings.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            
+<a href="system-support.html"
+   class="support-box"
+   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+    <strong>System Support</strong>
+    <small>All systems online</small>
+
+</a>
+
+            <a href="index.html"
+               class="nav-link logout"
+               id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE ISSUE MANAGEMENT
+                </span>
+
+                <strong>
+                    Administration
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <a href="notifications.html" class="notification-button">
+    <i class="fa-solid fa-bell"></i>
+    <span>5</span>
+                </a>
+
+                </button>
+
+
+                <a href="profile.html" class="user-profile">
+
+    <div class="avatar admin-avatar"
+         id="adminAvatar">
+        AD
+    </div>
+
+    <div>
+        <strong id="adminName">
+            Administrator
+        </strong>
+
+        <small id="adminRole">
+            System Admin
+        </small>
+    </div>
+
+</a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <section class="content">
+
+            <div class="content-wrapper">
+
+
+                <!-- WELCOME -->
+
+                <div class="welcome">
+
+                    <div>
+
+                        <span>
+                            SYSTEM OVERVIEW
+                        </span>
+
+                        <h1>
+                            Admin Dashboard
+                        </h1>
+
+                        <p>
+                            Monitor issues, users and resolution
+                            performance across the entire system.
+                        </p>
+
+                    </div>
+
+
+                    <a href="admin-defects.html"
+                       class="primary-btn">
+
+                        <i class="fa-solid fa-list"></i>
+
+                        View All Issues
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     STAT CARDS
+                ================================================== -->
+
+                <div class="stats">
+
+
+                    <!-- TOTAL USERS -->
+
+                    <div class="stat">
+
+                        <div>
+
+                            <span>
+                                Total Users
+                            </span>
+
+                            <h2 id="totalUsers">
+                                0
+                            </h2>
+
+                            <small class="success">
+
+                                <i class="fa-solid fa-arrow-up"></i>
+
+                                Registered users
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="stat-icon blue">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TOTAL ISSUES -->
+
+                    <div class="stat">
+
+                        <div>
+
+                            <span>
+                                Total Issues
+                            </span>
+
+                            <h2 id="totalIssues">
+                                0
+                            </h2>
+
+                            <small class="success">
+
+                                <i class="fa-solid fa-arrow-up"></i>
+
+                                All reported issues
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="stat-icon orange">
+
+                            <i class="fa-solid fa-bug"></i>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- OPEN ISSUES -->
+
+                    <div class="stat">
+
+                        <div>
+
+                            <span>
+                                Open Issues
+                            </span>
+
+                            <h2 id="openIssues">
+                                0
+                            </h2>
+
+                            <small>
+                                Requires attention
+                            </small>
+
+                        </div>
+
+
+                        <div class="stat-icon purple">
+
+                            <i class="fa-solid fa-folder-open"></i>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RESOLVED -->
+
+                    <div class="stat">
+
+                        <div>
+
+                            <span>
+                                Resolved
+                            </span>
+
+                            <h2 id="resolvedIssues">
+                                0
+                            </h2>
+
+                            <small class="success">
+
+                                <span id="resolutionRate">
+                                    0
+                                </span>% resolution rate
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="stat-icon green">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     OVERVIEW + QUICK ACTIONS
+                ================================================== -->
+
+                <div class="two-column">
+
+
+                    <!-- ISSUE OVERVIEW -->
+
+                    <div class="card">
+
+                        <div class="card-title">
+
+                            <div>
+
+                                <h3>
+                                    Issue Overview
+                                </h3>
+
+                                <p>
+                                    Current issue status distribution
+                                </p>
+
+                            </div>
+
+
+                            <button class="select-btn">
+
+                                This Month
+
+                                <i class="fa-solid fa-chevron-down"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="overview">
+
+
+                            <!-- DONUT -->
+
+                            <div class="donut"
+                                 id="adminDonut">
+
+                                <div>
+
+                                    <strong id="donutTotal">
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        Total
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- LEGEND -->
+
+                            <div class="legend">
+
+
+                                <!-- OPEN -->
+
+                                <div>
+
+                                    <span class="dot orange"></span>
+
+                                    <span>
+                                        Open
+                                    </span>
+
+                                    <strong id="legendOpen">
+                                        0
+                                    </strong>
+
+                                </div>
+
+
+
+                                <!-- IN PROGRESS -->
+
+                                <div>
+
+                                    <span class="dot purple"></span>
+
+                                    <span>
+                                        In Progress
+                                    </span>
+
+                                    <strong id="legendProgress">
+                                        0
+                                    </strong>
+
+                                </div>
+
+
+
+                                <!-- RESOLVED -->
+
+                                <div>
+
+                                    <span class="dot green"></span>
+
+                                    <span>
+                                        Resolved
+                                    </span>
+
+                                    <strong id="legendResolved">
+                                        0
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="card">
+
+                        <div class="card-title">
+
+                            <div>
+
+                                <h3>
+                                    Quick Actions
+                                </h3>
+
+                                <p>
+                                    Manage the system
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- VIEW ISSUES -->
+
+                        <a href="admin-defects.html"
+                           class="quick">
+
+                            <div class="quick-icon blue-bg">
+
+                                <i class="fa-solid fa-list"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    View All Issues
+                                </strong>
+
+                                <span>
+                                    Review reported issues
+                                </span>
+
+                            </div>
+
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+
+
+                        <!-- USERS -->
+
+                        <a href="users.html"
+                           class="quick">
+
+                            <div class="quick-icon purple-bg">
+
+                                <i class="fa-solid fa-users"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Manage Users
+                                </strong>
+
+                                <span>
+                                    View registered users
+                                </span>
+
+                            </div>
+
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+
+
+                        <!-- RESOLUTION -->
+
+                        <a href="resolution.html"
+                           class="quick">
+
+                            <div class="quick-icon green-bg">
+
+                                <i class="fa-solid fa-robot"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Resolution Assistance
+                                </strong>
+
+                                <span>
+                                    Get intelligent suggestions
+                                </span>
+
+                            </div>
+
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+<!-- =================================================
+     ISSUES CREATED OVER TIME
+================================================= -->
+
+<div class="card issue-chart-card">
+
+    <div class="card-title">
+
+        <div>
+
+            <h3>
+                Issues Created Over Time
+            </h3>
+
+            <p>
+                Number of issues reported by date
+            </p>
+
+        </div>
+
+        <span class="chart-period">
+            Recent Activity
+        </span>
+
+    </div>
+
+    <div class="chart-container">
+
+        <canvas id="issuesCreatedChart"></canvas>
+
+    </div>
+
+</div>
+
+
+                <!-- =================================================
+                     AI BANNER
+                ================================================== -->
+
+                <div class="ai-banner">
+
+                    <div class="ai-left">
+
+                        <div class="ai-logo">
+
+                            <i class="fa-solid fa-brain"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                INTELLIGENT ANALYSIS
+                            </span>
+
+                            <h2>
+                                Resolution Assistance
+                            </h2>
+
+                            <p>
+                                Analyse software issues using intelligent
+                                classification, similarity detection and
+                                automated resolution recommendations.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <a href="resolution.html"
+                       class="ai-btn">
+
+                        Open Assistant
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RECENT ISSUES
+                ================================================== -->
+
+                <div class="card table-card">
+
+                    <div class="card-title">
+
+                        <div>
+
+                            <h3>
+                                Recent Issues
+                            </h3>
+
+                            <p>
+                                Latest activity across the system
+                            </p>
+
+                        </div>
+
+
+                        <a href="admin-defects.html">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Issue ID
+                                    </th>
+
+                                    <th>
+                                        Description
+                                    </th>
+
+                                    <th>
+                                        Reported By
+                                    </th>
+
+                                    <th>
+                                        Priority
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="recentIssuesBody">
+
+                                <tr>
+
+                                    <td colspan="5"
+                                        style="text-align:center; padding:30px;">
+
+                                        Loading issues...
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+
+/* ============================================================
+   BUGFLOW ADMIN DASHBOARD
+============================================================ */
+
+const API_BASE_URL = "http://127.0.0.1:8000";
+
+let token =
+    localStorage.getItem("access_token");
+
+let currentUser = null;
+
+let dashboardIssues = [];
+
+let dashboardUsers = [];
+
+let issuesChart = null;
+
+
+/* ============================================================
+   GET CURRENT USER
+============================================================ */
+
+try {
+
+    currentUser =
+        JSON.parse(
+            localStorage.getItem("user")
+        );
+
+} catch (error) {
+
+    console.error(
+        "Unable to read logged-in user:",
+        error
+    );
+
+    currentUser = null;
+
+}
+
+
+/* ============================================================
+   CHECK LOGIN
+============================================================ */
+
+if (!token || !currentUser) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* ============================================================
+   CHECK ADMIN ROLE
+============================================================ */
+
+if (
+    currentUser &&
+    currentUser.role !== "ADMIN"
+) {
+
+    window.location.href =
+        "user-dashboard.html";
+
+}
+
+
+/* ============================================================
+   DISPLAY ADMIN INFORMATION
+============================================================ */
+
+function displayAdminInformation() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    const adminName =
+        document.getElementById(
+            "adminName"
+        );
+
+
+    const adminRole =
+        document.getElementById(
+            "adminRole"
+        );
+
+
+    const adminAvatar =
+        document.getElementById(
+            "adminAvatar"
+        );
+
+
+    const displayName =
+        currentUser.full_name ||
+        currentUser.username ||
+        "Administrator";
+
+
+    if (adminName) {
+
+        adminName.textContent =
+            displayName;
+
+    }
+
+
+    if (adminRole) {
+
+        adminRole.textContent =
+            currentUser.role ||
+            "ADMIN";
+
+    }
+
+
+    if (adminAvatar) {
+
+        const parts =
+            displayName
+                .trim()
+                .split(/\s+/);
+
+
+        let initials = "";
+
+
+        if (parts.length >= 2) {
+
+            initials =
+                parts[0][0] +
+                parts[parts.length - 1][0];
+
+        } else {
+
+            initials =
+                displayName.substring(
+                    0,
+                    2
+                );
+
+        }
+
+
+        adminAvatar.textContent =
+            initials.toUpperCase();
+
+    }
+
+}
+
+
+/* ============================================================
+   HANDLE AUTHENTICATION ERROR
+============================================================ */
+
+function handleAuthenticationFailure() {
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* ============================================================
+   NORMALIZE API ARRAY
+============================================================ */
+
+function normalizeArray(data) {
+
+    if (Array.isArray(data)) {
+
+        return data;
+
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.items)
+    ) {
+
+        return data.items;
+
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.results)
+    ) {
+
+        return data.results;
+
+    }
+
+
+    return [];
+
+}
+
+
+/* ============================================================
+   FETCH ALL ISSUES
+============================================================ */
+
+async function fetchIssues() {
+
+    const response =
+        await fetch(
+            `${API_BASE_URL}/api/v1/issues/`,
+            {
+                method: "GET",
+
+                headers: {
+
+                    "Accept":
+                        "application/json",
+
+                    "Authorization":
+                        "Bearer " + token
+
+                }
+
+            }
+        );
+
+
+    if (
+        response.status === 401 ||
+        response.status === 403
+    ) {
+
+        handleAuthenticationFailure();
+
+        return [];
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Failed to load issues. Status: " +
+            response.status
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    return normalizeArray(
+        data
+    );
+
+}
+
+
+/* ============================================================
+   FETCH ACTIVE USERS
+============================================================ */
+
+async function fetchUsers() {
+
+    const response =
+        await fetch(
+            `${API_BASE_URL}/api/v1/users/`,
+            {
+                method: "GET",
+
+                headers: {
+
+                    "Accept":
+                        "application/json",
+
+                    "Authorization":
+                        "Bearer " + token
+
+                }
+
+            }
+        );
+
+
+    if (
+        response.status === 401 ||
+        response.status === 403
+    ) {
+
+        handleAuthenticationFailure();
+
+        return [];
+
+    }
+
+
+    if (!response.ok) {
+
+        console.warn(
+            "Unable to load users. Status:",
+            response.status
+        );
+
+        return [];
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    return normalizeArray(
+        data
+    );
+
+}
+
+
+/* ============================================================
+   GET ISSUE STATUS
+============================================================ */
+
+function getStatus(issue) {
+
+    return String(
+        issue.status || ""
+    )
+        .trim()
+        .toUpperCase();
+
+}
+
+
+/* ============================================================
+   STATUS CATEGORIES
+============================================================ */
+
+/*
+   OPEN:
+   REPORTED
+   TRIAGED
+
+   IN PROGRESS:
+   IN_PROGRESS
+   CODE_REVIEW
+   QA_VERIFICATION
+
+   RESOLVED:
+   RESOLVED
+   CLOSED
+*/
+
+function isOpen(status) {
+
+    return [
+
+        "REPORTED",
+
+        "OPEN",
+
+        "TRIAGED"
+
+    ].includes(status);
+
+}
+
+
+function isInProgress(status) {
+
+    return [
+
+        "IN_PROGRESS",
+
+        "IN PROGRESS",
+
+        "INPROGRESS",
+
+        "CODE_REVIEW",
+
+        "CODE REVIEW",
+
+        "QA_VERIFICATION",
+
+        "QA VERIFICATION"
+
+    ].includes(status);
+
+}
+
+
+function isResolved(status) {
+
+    return [
+
+        "RESOLVED",
+
+        "CLOSED"
+
+    ].includes(status);
+
+}
+
+
+/* ============================================================
+   FORMAT ENUM
+============================================================ */
+
+function formatEnum(value) {
+
+    if (!value) {
+
+        return "-";
+
+    }
+
+
+    return String(value)
+
+        .replaceAll(
+            "_",
+            " "
+        )
+
+        .toLowerCase()
+
+        .replace(
+            /\b\w/g,
+            function (char) {
+
+                return char.toUpperCase();
+
+            }
+        );
+
+}
+
+
+/* ============================================================
+   PRIORITY CSS CLASS
+============================================================ */
+
+function priorityClass(priority) {
+
+    const value =
+        String(
+            priority || "MEDIUM"
+        )
+        .toLowerCase();
+
+
+    return value
+
+        .replaceAll(
+            "_",
+            "-"
+        )
+
+        .replaceAll(
+            " ",
+            "-"
+        );
+
+}
+
+
+/* ============================================================
+   STATUS HTML
+============================================================ */
+
+function statusHTML(status) {
+
+    if (isOpen(status)) {
+
+        return `
+            <span class="status open">
+                ${formatEnum(status)}
+            </span>
+        `;
+
+    }
+
+
+    if (isInProgress(status)) {
+
+        return `
+            <span class="status progress">
+                ${formatEnum(status)}
+            </span>
+        `;
+
+    }
+
+
+    if (isResolved(status)) {
+
+        return `
+            <span class="status resolved">
+                ${formatEnum(status)}
+            </span>
+        `;
+
+    }
+
+
+    return `
+        <span class="status open">
+            ${formatEnum(status)}
+        </span>
+    `;
+
+}
+
+
+/* ============================================================
+   UPDATE DASHBOARD STATISTICS
+============================================================ */
+
+function updateStatistics(issues) {
+
+    const total =
+        issues.length;
+
+
+    let open = 0;
+
+    let inProgress = 0;
+
+    let resolved = 0;
+
+
+    issues.forEach(
+        function (issue) {
+
+            const status =
+                getStatus(issue);
+
+
+            if (
+                isOpen(status)
+            ) {
+
+                open++;
+
+            }
+            else if (
+                isInProgress(status)
+            ) {
+
+                inProgress++;
+
+            }
+            else if (
+                isResolved(status)
+            ) {
+
+                resolved++;
+
+            }
+
+        }
+    );
+
+
+    /* --------------------------------------------------------
+       TOTAL ISSUES
+    -------------------------------------------------------- */
+
+    const totalIssues =
+        document.getElementById(
+            "totalIssues"
+        );
+
+
+    if (totalIssues) {
+
+        totalIssues.textContent =
+            total;
+
+    }
+
+
+    /* --------------------------------------------------------
+       OPEN ISSUES
+    -------------------------------------------------------- */
+
+    const openIssues =
+        document.getElementById(
+            "openIssues"
+        );
+
+
+    if (openIssues) {
+
+        openIssues.textContent =
+            open;
+
+    }
+
+
+    /* --------------------------------------------------------
+       RESOLVED ISSUES
+    -------------------------------------------------------- */
+
+    const resolvedIssues =
+        document.getElementById(
+            "resolvedIssues"
+        );
+
+
+    if (resolvedIssues) {
+
+        resolvedIssues.textContent =
+            resolved;
+
+    }
+
+
+    /* --------------------------------------------------------
+       RESOLUTION RATE
+    -------------------------------------------------------- */
+
+    const resolutionRate =
+        document.getElementById(
+            "resolutionRate"
+        );
+
+
+    const rate =
+        total > 0
+            ? Math.round(
+                (resolved / total) * 100
+            )
+            : 0;
+
+
+    if (resolutionRate) {
+
+        resolutionRate.textContent =
+            rate;
+
+    }
+
+
+    /* --------------------------------------------------------
+       DONUT CENTER
+    -------------------------------------------------------- */
+
+    const donutTotal =
+        document.getElementById(
+            "donutTotal"
+        );
+
+
+    if (donutTotal) {
+
+        donutTotal.textContent =
+            total;
+
+    }
+
+
+    /* --------------------------------------------------------
+       DONUT LEGEND
+    -------------------------------------------------------- */
+
+    const legendOpen =
+        document.getElementById(
+            "legendOpen"
+        );
+
+
+    const legendProgress =
+        document.getElementById(
+            "legendProgress"
+        );
+
+
+    const legendResolved =
+        document.getElementById(
+            "legendResolved"
+        );
+
+
+    if (legendOpen) {
+
+        legendOpen.textContent =
+            open;
+
+    }
+
+
+    if (legendProgress) {
+
+        legendProgress.textContent =
+            inProgress;
+
+    }
+
+
+    if (legendResolved) {
+
+        legendResolved.textContent =
+            resolved;
+
+    }
+
+
+    /* --------------------------------------------------------
+       DONUT CHART
+    -------------------------------------------------------- */
+
+    const donut =
+        document.getElementById(
+            "adminDonut"
+        );
+
+
+    if (!donut) {
+
+        return;
+
+    }
+
+
+    if (total === 0) {
+
+        donut.style.background =
+            "#e5e7eb";
+
+        return;
+
+    }
+
+
+    const openPercent =
+        (open / total) * 100;
+
+
+    const progressPercent =
+        (inProgress / total) * 100;
+
+
+    const resolvedStart =
+        openPercent +
+        progressPercent;
+
+
+    donut.style.background =
+        `conic-gradient(
+
+            #f59e0b
+            0 ${openPercent}%,
+
+            #8b5cf6
+            ${openPercent}%
+            ${resolvedStart}%,
+
+            #10b981
+            ${resolvedStart}%
+            100%
+
+        )`;
+
+}
+
+
+/* ============================================================
+   UPDATE USER COUNT
+============================================================ */
+
+function updateUserCount(users) {
+
+    const totalUsers =
+        document.getElementById(
+            "totalUsers"
+        );
+
+
+    if (totalUsers) {
+
+        totalUsers.textContent =
+            users.length;
+
+    }
+
+}
+
+
+/* ============================================================
+   DISPLAY RECENT ISSUES
+============================================================ */
+
+function displayRecentIssues(issues) {
+
+    const tbody =
+        document.getElementById(
+            "recentIssuesBody"
+        );
+
+
+    if (!tbody) {
+
+        return;
+
+    }
+
+
+    if (!issues.length) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                    "
+                >
+
+                    No issues reported yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* --------------------------------------------------------
+       SORT NEWEST FIRST
+    -------------------------------------------------------- */
+
+    const recent =
+        [...issues]
+
+            .sort(
+                function (a, b) {
+
+                    return (
+                        new Date(
+                            b.created_at || 0
+                        ) -
+                        new Date(
+                            a.created_at || 0
+                        )
+                    );
+
+                }
+            )
+
+            .slice(
+                0,
+                5
+            );
+
+
+    tbody.innerHTML =
+        recent
+
+            .map(
+                function (issue) {
+
+                    const issueId =
+                        issue.id ??
+                        issue.issue_id ??
+                        "-";
+
+
+                    const title =
+                        issue.title ||
+                        "Untitled Issue";
+
+
+                    const reporter =
+                        issue.reporter?.username ||
+                        issue.reporter?.full_name ||
+                        issue.reporter_name ||
+                        issue.reporter ||
+                        (
+                            "User " +
+                            (
+                                issue.reporter_id ??
+                                "-"
+                            )
+                        );
+
+
+                    const priority =
+                        issue.priority ||
+                        "MEDIUM";
+
+
+                    const status =
+                        getStatus(issue);
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+
+                                <b class="defect-id">
+
+                                    #${issueId}
+
+                                </b>
+
+                            </td>
+
+
+                            <td>
+
+                                ${escapeHTML(
+                                    String(title)
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                ${escapeHTML(
+                                    String(reporter)
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="priority ${priorityClass(priority)}"
+                                >
+
+                                    ${formatEnum(
+                                        priority
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                ${statusHTML(
+                                    status
+                                )}
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            )
+
+            .join("");
+
+}
+
+
+/* ============================================================
+   CREATE DATE-WISE ISSUE CHART
+============================================================ */
+
+function createIssueChart(issues) {
+
+    const chartCanvas =
+        document.getElementById(
+            "issuesCreatedChart"
+        );
+
+
+    if (!chartCanvas) {
+
+        console.warn(
+            "issuesCreatedChart not found."
+        );
+
+        return;
+
+    }
+
+
+    /* --------------------------------------------------------
+       DESTROY OLD CHART
+    -------------------------------------------------------- */
+
+    if (issuesChart) {
+
+        issuesChart.destroy();
+
+        issuesChart = null;
+
+    }
+
+
+    /* --------------------------------------------------------
+       GROUP ISSUES BY LOCAL DATE
+    -------------------------------------------------------- */
+
+    const issuesByDate = {};
+
+
+    issues.forEach(
+        function (issue) {
+
+            if (!issue.created_at) {
+
+                return;
+
+            }
+
+
+            const date =
+                new Date(
+                    issue.created_at
+                );
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+               Use local date instead of
+               UTC date so the graph matches
+               the user's displayed date.
+            */
+
+            const year =
+                date.getFullYear();
+
+
+            const month =
+                String(
+                    date.getMonth() + 1
+                )
+                .padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    date.getDate()
+                )
+                .padStart(
+                    2,
+                    "0"
+                );
+
+
+            const dateKey =
+                `${year}-${month}-${day}`;
+
+
+            if (
+                !issuesByDate[dateKey]
+            ) {
+
+                issuesByDate[dateKey] =
+                    0;
+
+            }
+
+
+            issuesByDate[dateKey]++;
+
+        }
+    );
+
+
+    /* --------------------------------------------------------
+       SORT DATES
+    -------------------------------------------------------- */
+
+    const sortedDates =
+        Object.keys(
+            issuesByDate
+        )
+        .sort();
+
+
+    /* --------------------------------------------------------
+       CREATE LABELS
+    -------------------------------------------------------- */
+
+    let labels = [];
+
+    let issueCounts = [];
+
+
+    sortedDates.forEach(
+        function (dateString) {
+
+            const parts =
+                dateString.split("-");
+
+
+            const year =
+                Number(parts[0]);
+
+
+            const month =
+                Number(parts[1]) - 1;
+
+
+            const day =
+                Number(parts[2]);
+
+
+            const date =
+                new Date(
+                    year,
+                    month,
+                    day
+                );
+
+
+            labels.push(
+                date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day: "2-digit",
+                        month: "short"
+                    }
+                )
+            );
+
+
+            issueCounts.push(
+                issuesByDate[
+                    dateString
+                ]
+            );
+
+        }
+    );
+
+
+    /* --------------------------------------------------------
+       NO ISSUES
+    -------------------------------------------------------- */
+
+    if (labels.length === 0) {
+
+        labels = [
+            "No issues"
+        ];
+
+        issueCounts = [
+            0
+        ];
+
+    }
+
+
+    /* --------------------------------------------------------
+       CREATE CHART
+    -------------------------------------------------------- */
+
+    issuesChart =
+        new Chart(
+            chartCanvas,
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels:
+                        labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Issues Created",
+
+
+                            data:
+                                issueCounts,
+
+
+                            borderWidth:
+                                3,
+
+
+                            tension:
+                                0.35,
+
+
+                            fill:
+                                true,
+
+
+                            pointRadius:
+                                5,
+
+
+                            pointHoverRadius:
+                                7
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                true
+
+                        },
+
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label:
+                                    function (
+                                        context
+                                    ) {
+
+                                        return (
+                                            " Issues: " +
+                                            context.parsed.y
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        x: {
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Date"
+
+                            },
+
+
+                            grid: {
+
+                                display:
+                                    false
+
+                            }
+
+                        },
+
+
+                        y: {
+
+                            beginAtZero:
+                                true,
+
+
+                            ticks: {
+
+                                precision:
+                                    0
+
+                            },
+
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Number of Issues"
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+function logoutUser() {
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* ============================================================
+   LOGOUT BUTTON
+============================================================ */
+
+function setupLogout() {
+
+    const logoutBtn =
+        document.getElementById(
+            "logoutBtn"
+        );
+
+
+    if (!logoutBtn) {
+
+        return;
+
+    }
+
+
+    logoutBtn.addEventListener(
+        "click",
+        function () {
+
+            logoutUser();
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   LOAD DASHBOARD
+============================================================ */
+
+async function loadDashboard() {
+
+    try {
+
+        console.log(
+            "Loading BugFlow Admin Dashboard..."
+        );
+
+
+        /* ----------------------------------------------------
+           FETCH ISSUES
+        ---------------------------------------------------- */
+
+        dashboardIssues =
+            await fetchIssues();
+
+
+        console.log(
+            "Issues loaded:",
+            dashboardIssues
+        );
+
+
+        /* ----------------------------------------------------
+           FETCH USERS
+        ---------------------------------------------------- */
+
+        dashboardUsers =
+            await fetchUsers();
+
+
+        console.log(
+            "Users loaded:",
+            dashboardUsers
+        );
+
+
+        /* ----------------------------------------------------
+           UPDATE USER COUNT
+        ---------------------------------------------------- */
+
+        updateUserCount(
+            dashboardUsers
+        );
+
+
+        /* ----------------------------------------------------
+           UPDATE ISSUE STATISTICS
+        ---------------------------------------------------- */
+
+        updateStatistics(
+            dashboardIssues
+        );
+
+
+        /* ----------------------------------------------------
+           RECENT ISSUES
+        ---------------------------------------------------- */
+
+        displayRecentIssues(
+            dashboardIssues
+        );
+
+
+        /* ----------------------------------------------------
+           ISSUE GRAPH
+        ---------------------------------------------------- */
+
+        createIssueChart(
+            dashboardIssues
+        );
+
+
+        console.log(
+            "Admin dashboard loaded successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        const totalUsers =
+            document.getElementById(
+                "totalUsers"
+            );
+
+
+        const totalIssues =
+            document.getElementById(
+                "totalIssues"
+            );
+
+
+        const openIssues =
+            document.getElementById(
+                "openIssues"
+            );
+
+
+        const resolvedIssues =
+            document.getElementById(
+                "resolvedIssues"
+            );
+
+
+        if (totalUsers) {
+
+            totalUsers.textContent =
+                "0";
+
+        }
+
+
+        if (totalIssues) {
+
+            totalIssues.textContent =
+                "0";
+
+        }
+
+
+        if (openIssues) {
+
+            openIssues.textContent =
+                "0";
+
+        }
+
+
+        if (resolvedIssues) {
+
+            resolvedIssues.textContent =
+                "0";
+
+        }
+
+
+        const tbody =
+            document.getElementById(
+                "recentIssuesBody"
+            );
+
+
+        if (tbody) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="5"
+                        style="
+                            text-align:center;
+                            padding:30px;
+                        "
+                    >
+
+                        Unable to load dashboard data.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   START DASHBOARD
+============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        displayAdminInformation();
+
+        setupLogout();
+
+        await loadDashboard();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

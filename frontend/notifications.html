@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | BugFlow</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fc;
+            color: #171717;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 275px;
+            height: 100vh;
+            background: #171717;
+            color: white;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-left: 8px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: #4530d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 21px;
+        }
+
+        .brand-text small {
+            color: #a1a1aa;
+            font-size: 13px;
+        }
+
+        .nav-heading {
+            color: #71717a;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            margin: 0 8px 12px;
+        }
+
+        .nav-heading.second {
+            margin-top: 24px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #d4d4d8;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 12px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-link:hover {
+            background: #27272a;
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #302b63;
+            color: #8b7cff;
+        }
+
+        .nav-link .badge {
+            margin-left: auto;
+            background: #4530d9;
+            color: white;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .support-box {
+            background: #202020;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 14px;
+        }
+
+        .support-box strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .support-box small {
+            color: #a1a1aa;
+            font-size: 11px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 275px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 32px;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-info small {
+            display: block;
+            color: #71717a;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #4530d9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 34px;
+        }
+
+        .page-label {
+            color: #4530d9;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #71717a;
+            margin-bottom: 28px;
+        }
+
+        /* ================= NOTIFICATIONS ================= */
+
+        .notification-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: 0.2s;
+        }
+
+        .notification-card:hover {
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+        }
+
+        .notification-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #eeebff;
+            color: #4530d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .notification-content p {
+            color: #71717a;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .notification-time {
+            color: #a1a1aa;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .notification-status {
+            width: 8px;
+            height: 8px;
+            background: #4530d9;
+            border-radius: 50%;
+            margin-top: 7px;
+        }
+
+        .notification-card.read .notification-status {
+            background: #d4d4d8;
+        }
+
+        .notification-card.read .notification-icon {
+            background: #f4f4f5;
+            color: #71717a;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .action-btn {
+            border: 1px solid #e5e7eb;
+            background: white;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .action-btn:hover {
+            background: #f4f4f5;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 230px;
+            }
+
+            .main {
+                margin-left: 230px;
+            }
+
+            .content {
+                padding: 24px;
+            }
+        }
+        .sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+    </style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div>
+                <h2>BugFlow</h2>
+
+                <span>
+                    Intelligent Tracking
+                </span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <nav>
+
+            <p class="nav-heading">
+                MAIN
+            </p>
+
+
+            <a href="admin-dashboard.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="admin-defects.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    All Issues
+                </span>
+
+            </a>
+
+
+            <a href="users.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+
+            </a>
+
+
+            <p class="nav-heading second">
+                MANAGEMENT
+            </p>
+
+
+            <a href="admin-analytics.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Analytics &API'S
+                </span>
+
+            </a>
+
+
+            <a href="reports.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="notifications.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <b class="badge">
+                    5
+                </b>
+
+            </a>
+
+
+            <a href="settings.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            
+<a href="system-support.html"
+   class="support-box"
+   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+    <strong>System Support</strong>
+    <small>All systems online</small>
+
+</a>
+
+            <a href="index.html"
+               class="nav-link logout"
+               id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="admin-info">
+            <div>
+                <strong id="adminName">Admin</strong>
+                <small>Administrator</small>
+            </div>
+
+            <div class="avatar" id="adminAvatar">
+                A
+            </div>
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+        <div class="page-label">
+            MANAGEMENT
+        </div>
+
+        <h1>Notifications</h1>
+
+        <p class="subtitle">
+            Stay updated with important BugFlow system activities.
+        </p>
+
+
+        <div class="notification-actions">
+
+            <button class="action-btn" onclick="markAllRead()">
+                <i class="fa-solid fa-check-double"></i>
+                Mark all as read
+            </button>
+
+            <button class="action-btn" onclick="clearNotifications()">
+                <i class="fa-solid fa-trash"></i>
+                Clear notifications
+            </button>
+
+        </div>
+
+
+        <div id="notificationsList">
+
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    <i class="fa-solid fa-bug"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h3>New issue reported</h3>
+                    <p>
+                        A new software issue has been reported and
+                        requires triage.
+                    </p>
+                    <div class="notification-time">
+                        Recently
+                    </div>
+                </div>
+
+                <div class="notification-status"></div>
+
+            </div>
+
+
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    <i class="fa-solid fa-code-branch"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h3>Issue moved to QA verification</h3>
+                    <p>
+                        An issue has completed the development stage
+                        and is ready for QA verification.
+                    </p>
+                    <div class="notification-time">
+                        Recently
+                    </div>
+                </div>
+
+                <div class="notification-status"></div>
+
+            </div>
+
+
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h3>New user activity</h3>
+                    <p>
+                        A user has recently joined or updated activity
+                        in the BugFlow platform.
+                    </p>
+                    <div class="notification-time">
+                        Recently
+                    </div>
+                </div>
+
+                <div class="notification-status"></div>
+
+            </div>
+
+
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h3>Quality metrics updated</h3>
+                    <p>
+                        BugFlow analytics and quality metrics are
+                        available with the latest issue data.
+                    </p>
+                    <div class="notification-time">
+                        Recently
+                    </div>
+                </div>
+
+                <div class="notification-status"></div>
+
+            </div>
+
+
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    <i class="fa-solid fa-file-export"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h3>Reports available</h3>
+                    <p>
+                        PDF and CSV quality reports are available from
+                        the Reports section.
+                    </p>
+                    <div class="notification-time">
+                        Recently
+                    </div>
+                </div>
+
+                <div class="notification-status"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    // ==========================================
+    // LOAD ADMIN INFORMATION
+    // ==========================================
+
+    const currentUser =
+        JSON.parse(localStorage.getItem("user") || "{}");
+
+    if (currentUser.full_name) {
+        document.getElementById("adminName").textContent =
+            currentUser.full_name;
+
+        document.getElementById("adminAvatar").textContent =
+            currentUser.full_name.charAt(0).toUpperCase();
+    }
+
+
+    // ==========================================
+    // MARK ALL AS READ
+    // ==========================================
+
+    function markAllRead() {
+
+        const notifications =
+            document.querySelectorAll(".notification-card");
+
+        notifications.forEach(notification => {
+            notification.classList.add("read");
+        });
+    }
+
+
+    // ==========================================
+    // CLEAR NOTIFICATIONS
+    // ==========================================
+
+    function clearNotifications() {
+
+        const list =
+            document.getElementById("notificationsList");
+
+        list.innerHTML = `
+            <div style="
+                background:white;
+                border:1px solid #e5e7eb;
+                border-radius:14px;
+                padding:40px;
+                text-align:center;
+                color:#71717a;
+            ">
+                <i class="fa-solid fa-bell-slash"
+                   style="font-size:35px;margin-bottom:15px;">
+                </i>
+
+                <h3 style="color:#171717;margin-bottom:8px;">
+                    No notifications
+                </h3>
+
+                <p>
+                    You're all caught up.
+                </p>
+            </div>
+        `;
+    }
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    document.getElementById("logoutBtn")
+        .addEventListener("click", function () {
+
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("user");
+
+        });
+
+</script>
+<script src="theme.js"></script>
+</body>
+</html>

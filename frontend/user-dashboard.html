@@ -1,0 +1,4517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow | User Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+        <!-- Plotly.js -->
+        <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: #f6f7fb;
+            color: #111827;
+            font-size: 15px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           LAYOUT
+        ========================================================= */
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: #ffffff;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .brand {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-text span {
+            color: #818cf8;
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .sidebar-section {
+            padding: 25px 15px 10px;
+        }
+
+        .sidebar-heading {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9ca3af;
+            padding: 0 12px 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 13px;
+            border-radius: 8px;
+            color: #d1d5db;
+            font-size: 15px;
+            margin-bottom: 5px;
+            transition: 0.2s ease;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: #1f2937;
+            color: #ffffff;
+        }
+
+        .nav-link.active {
+            background: #4f46e5;
+            color: #ffffff;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logout-link {
+            color: #d1d5db;
+        }
+
+        .logout-link:hover {
+            background: #7f1d1d;
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           MAIN CONTENT
+        ========================================================= */
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+
+        /* =========================================================
+           TOP BAR
+        ========================================================= */
+
+        .topbar {
+            height: 75px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            background: #f9fafb;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-info {
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
+
+        .content {
+            padding: 32px;
+        }
+
+        .welcome-section {
+            margin-bottom: 28px;
+        }
+
+        .welcome-section h1 {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: #111827;
+        }
+
+        .welcome-section p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           QUICK ACTION
+        ========================================================= */
+
+        .quick-action {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 22px;
+        }
+
+        .primary-btn {
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s ease;
+        }
+
+        .primary-btn:hover {
+            background: #4338ca;
+        }
+
+
+        /* =========================================================
+           STATISTICS
+        ========================================================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .stat-info {
+            min-width: 0;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+
+        /* =========================================================
+           DASHBOARD GRID
+        ========================================================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .card-header p {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .view-link {
+            color: #4f46e5;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+
+        /* =========================================================
+           RECENT ISSUES TABLE
+        ========================================================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 10px;
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 10px;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f1f3;
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .issue-key {
+            color: #4f46e5;
+            font-weight: 700;
+        }
+
+        .issue-title {
+            font-weight: 600;
+            color: #111827;
+        }
+
+
+        /* =========================================================
+           STATUS BADGES
+        ========================================================= */
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-reported,
+        .status-open {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .status-triaged {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-progress {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-resolved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-closed {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+
+        /* =========================================================
+           RIGHT SIDE CARDS
+        ========================================================= */
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid #f0f1f3;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-text {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .activity-text strong {
+            color: #111827;
+        }
+
+        .activity-time {
+            display: block;
+            color: #9ca3af;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 12px;
+            color: #d1d5db;
+        }
+
+        .empty-state h3 {
+            color: #4b5563;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .loading {
+            text-align: center;
+            padding: 35px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .loading i {
+            margin-right: 7px;
+        }
+        /* =========================================================
+   WORKFLOW CARD
+========================================================= */
+
+.workflow-card {
+    margin-top: 20px;
+}
+
+.workflow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.workflow-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+.workflow-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.workflow-issue-key {
+    color: #4f46e5;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.workflow-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.workflow-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-select {
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-size: 11px;
+    color: #374151;
+    cursor: pointer;
+}
+
+.status-update-btn {
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    border-radius: 7px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.status-update-btn:hover {
+    background: #4338ca;
+}
+
+.status-update-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.workflow-message {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 7px;
+    font-size: 12px;
+    display: none;
+}
+
+.workflow-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.workflow-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   SPRINT BOARD
+========================================================= */
+
+.sprint-card {
+    margin-top: 20px;
+}
+
+.sprint-section {
+    margin-bottom: 25px;
+}
+
+.sprint-section:last-child {
+    margin-bottom: 0;
+}
+
+.sprint-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sprint-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sprint-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 15px;
+    background: #fafafa;
+}
+
+.sprint-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.sprint-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    display: block;
+}
+
+.sprint-goal {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 4px;
+    display: block;
+}
+
+.sprint-status {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    background: #dcfce7;
+    color: #166534;
+    white-space: nowrap;
+}
+
+.sprint-dates {
+    font-size: 11px;
+    color: #6b7280;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.sprint-issues {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sprint-issue {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+}
+
+.sprint-issue-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.sprint-issue-key {
+    font-size: 10px;
+    font-weight: 700;
+    color: #4f46e5;
+    display: block;
+}
+
+.sprint-issue-title {
+    font-size: 11px;
+    color: #374151;
+    margin-top: 2px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sprint-issue-status {
+    font-size: 10px;
+    font-weight: 600;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.backlog-section {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+}
+
+.backlog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.backlog-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+    background: #ffffff;
+}
+
+.backlog-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.backlog-issue-key {
+    font-size: 10px;
+    font-weight: 700;
+    color: #4f46e5;
+    display: block;
+}
+
+.backlog-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 3px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.backlog-status {
+    font-size: 10px;
+    color: #6b7280;
+    margin-top: 3px;
+    display: block;
+}
+
+.add-sprint-btn {
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.add-sprint-btn:hover {
+    background: #4338ca;
+}
+
+.add-sprint-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.empty-sprint {
+    padding: 15px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 12px;
+    border: 1px dashed #d1d5db;
+    border-radius: 8px;
+}
+/* =========================================================
+   MILESTONE 2 - LIVE ACTIVITY STREAM
+========================================================= */
+
+.activity-card {
+    margin-top: 20px;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.activity-info {
+    flex: 1;
+}
+
+.activity-text {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.activity-text strong {
+    color: #111827;
+}
+
+.activity-time {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.empty-activity {
+    padding: 20px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.activity-action {
+    font-weight: 600;
+    color: #4f46e5;
+}
+
+@media (max-width: 700px) {
+
+    .activity-item {
+        padding: 12px;
+    }
+
+    .activity-text {
+        font-size: 13px;
+    }
+
+}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        width: 210px;
+    }
+
+    .main-content {
+        margin-left: 210px;
+        width: calc(100% - 210px);
+    }
+
+    .content {
+        padding: 20px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .workflow-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .workflow-controls {
+        width: 100%;
+    }
+
+    .status-select {
+        flex: 1;
+    }
+
+    .sprint-header {
+        flex-direction: column;
+    }
+
+    .backlog-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .add-sprint-btn {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .app-layout {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .content {
+        padding: 18px;
+    }
+}
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div class="brand-text">
+                Bug<span>Flow</span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+                Main
+            </div>
+
+
+            <a href="user-dashboard.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="my-issues.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>Report Issue</span>
+
+            </a>
+
+
+            <a href="my-issues.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>My Issues</span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <span>Resolution Assistance</span>
+
+            </a>
+            <a href="analytics.html" class="nav-link">
+    <i class="fa-solid fa-chart-pie"></i>
+    <span>Analytics & APIs</span>
+</a>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="#"
+               class="nav-link logout-link"
+               id="logoutLink">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =====================================================
+             TOP BAR
+        ====================================================== -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+                User Dashboard
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="notification">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                </div>
+
+
+                <div class="user-profile">
+
+                    <div class="user-avatar"
+                         id="userAvatar">
+                        U
+                    </div>
+
+
+                    <div class="user-info">
+
+                        <div class="user-name"
+                             id="topUserName">
+                            User
+                        </div>
+
+                        <div class="user-role"
+                             id="topUserRole">
+                            TESTER
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             PAGE CONTENT
+        ====================================================== -->
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <div class="welcome-section">
+
+                <h1>
+                    Welcome back,
+                    <span id="welcomeName">
+                        User
+                    </span>!
+                </h1>
+
+                <p>
+                    Here's an overview of your reported issues
+                    and their current status.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTION
+            ================================================== -->
+
+            <div class="quick-action">
+
+                <a href="report-defect.html"
+                   class="primary-btn">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Report New Issue
+
+                </a>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <div class="stat-label">
+                            Total Issues
+                        </div>
+
+                        <div class="stat-value"
+                             id="totalIssues">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-folder-open"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <div class="stat-label">
+                            Open Issues
+                        </div>
+
+                        <div class="stat-value"
+                             id="openIssues">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-spinner"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <div class="stat-label">
+                            In Progress
+                        </div>
+
+                        <div class="stat-value"
+                             id="inProgressIssues">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <div class="stat-label">
+                            Resolved
+                        </div>
+
+                        <div class="stat-value"
+                             id="resolvedIssues">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DASHBOARD CONTENT
+            ================================================== -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- RECENT ISSUES -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                My Recent Issues
+                            </h2>
+
+                            <p>
+                                Latest issues reported by you
+                            </p>
+
+                        </div>
+
+
+                        <a href="my-issues.html"
+                           class="view-link">
+
+                            View All
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="table-container">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Issue
+                                        </th>
+
+                                        <th>
+                                            Title
+                                        </th>
+
+                                        <th>
+                                            Priority
+                                        </th>
+
+                                        <th>
+                                            Status
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="recentIssuesBody">
+
+                                    <tr>
+
+                                        <td colspan="4">
+
+                                            <div class="loading">
+
+                                                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                                Loading issues...
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                Quick Actions
+                            </h2>
+
+                            <p>
+                                Manage your issues
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+
+                                <i class="fa-solid fa-plus"></i>
+
+                            </div>
+
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Report an Issue
+                                </strong>
+
+                                <br>
+
+                                Submit a new software defect
+                                or feature request.
+
+                                <span class="activity-time">
+
+                                    <a href="report-defect.html"
+                                       style="color:#4f46e5;">
+
+                                        Open Report Form →
+
+                                    </a>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+
+                                <i class="fa-solid fa-list-check"></i>
+
+                            </div>
+
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    View My Issues
+                                </strong>
+
+                                <br>
+
+                                Track all issues reported
+                                by your account.
+
+                                <span class="activity-time">
+
+                                    <a href="my-issues.html"
+                                       style="color:#4f46e5;">
+
+                                        View Issues →
+
+                                    </a>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+
+                                <i class="fa-solid fa-lightbulb"></i>
+
+                            </div>
+
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Resolution Assistance
+                                </strong>
+
+                                <br>
+
+                                Get assistance for resolving
+                                reported issues.
+
+                                <span class="activity-time">
+
+                                    <a href="resolution.html"
+                                       style="color:#4f46e5;">
+
+                                        Open Assistance →
+
+                                    </a>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MILESTONE 2
+                 WORKFLOW & COLLABORATION
+            ================================================== -->
+
+            <div class="card workflow-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Workflow & Collaboration
+                        </h2>
+
+                        <p>
+                            Manage the status of your active issues
+                        </p>
+
+                    </div>
+
+
+                    <span class="view-link">
+                        Milestone 2
+                    </span>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div id="workflowList"
+                         class="workflow-list">
+
+                        <div class="loading">
+
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                            Loading active issues...
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="workflowMessage"
+                         class="workflow-message">
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MILESTONE 2
+                 SPRINT BOARD
+            ================================================== -->
+
+            <div class="card sprint-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Sprint Board
+                        </h2>
+
+                        <p>
+                            Manage active sprints and backlog issues
+                        </p>
+
+                    </div>
+
+
+                    <span class="view-link">
+                        Agile Planning
+                    </span>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <!-- ACTIVE SPRINTS -->
+
+                    <div class="sprint-section">
+
+                        <h3 class="sprint-section-title">
+
+                            <i class="fa-solid fa-list-check"></i>
+
+                            Active Sprints
+
+                        </h3>
+
+
+                        <div id="activeSprints"
+                             class="sprint-list">
+
+                            <div class="loading">
+
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                Loading active sprints...
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BACKLOG -->
+
+                    <div class="sprint-section backlog-section">
+
+                        <h3 class="sprint-section-title">
+
+                            <i class="fa-solid fa-layer-group"></i>
+
+                            Backlog
+
+                        </h3>
+
+
+                        <div id="backlogIssues"
+                             class="backlog-list">
+
+                            <div class="loading">
+
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                Loading backlog issues...
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SPRINT MESSAGE -->
+
+                    <div id="sprintMessage"
+                         class="workflow-message">
+                    </div>
+
+
+                </div>
+
+            </div>
+<!-- =========================================================
+     MILESTONE 2 - LIVE ACTIVITY STREAM
+========================================================= -->
+
+<div class="card activity-card">
+
+<div class="card-header">
+
+    <div>
+        <h2>Live Activity Stream</h2>
+
+        <p>
+            Recent activity on your reported issues
+        </p>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+
+        <button
+            type="button"
+            class="add-sprint-btn"
+            onclick="generatePdfReport()"
+        >
+            <i class="fa-solid fa-file-pdf"></i>
+            Generate PDF Report
+        </button>
+
+        <span class="view-link">
+            Live Updates
+        </span>
+
+    </div>
+
+</div>
+
+
+    <div class="card-body">
+
+        <div id="activityList"
+             class="activity-list">
+
+            <div class="loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Loading activity...
+
+            </div>
+
+        </div>
+
+        <div id="activityMessage"
+             class="workflow-message">
+        </div>
+
+    </div>
+
+</div>
+
+        </section>
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+/* =========================================================
+   GET LOGGED-IN USER
+========================================================= */
+
+function getLoggedInUser() {
+
+    const storedUser =
+        localStorage.getItem("user");
+
+    if (storedUser) {
+
+        try {
+
+            return JSON.parse(storedUser);
+
+        } catch (error) {
+
+            console.error(
+                "Invalid user data:",
+                error
+            );
+
+        }
+
+    }
+
+
+    const oldUser =
+        localStorage.getItem("defectAIUser");
+
+    if (oldUser) {
+
+        try {
+
+            return JSON.parse(oldUser);
+
+        } catch (error) {
+
+            console.error(
+                "Invalid old user data:",
+                error
+            );
+
+        }
+
+    }
+
+    return null;
+}
+
+
+
+/* =========================================================
+   DISPLAY USER INFORMATION
+========================================================= */
+
+function displayUserInformation() {
+
+    const user =
+        getLoggedInUser();
+
+    if (!user) {
+
+        alert(
+            "Please login first."
+        );
+
+        window.location.href =
+            "index.html";
+
+        return null;
+    }
+
+
+    const fullName =
+        user.full_name ||
+        user.fullName ||
+        user.username ||
+        "User";
+
+
+    const role =
+        user.role ||
+        "TESTER";
+
+
+    document.getElementById(
+        "welcomeName"
+    ).textContent =
+        fullName;
+
+
+    document.getElementById(
+        "topUserName"
+    ).textContent =
+        fullName;
+
+
+    document.getElementById(
+        "topUserRole"
+    ).textContent =
+        role;
+
+
+    const avatar =
+        document.getElementById(
+            "userAvatar"
+        );
+
+
+    if (avatar) {
+
+        avatar.textContent =
+            fullName
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+    return user;
+}
+
+
+
+/* =========================================================
+   LOAD USER ISSUES
+========================================================= */
+
+async function loadUserIssues() {
+
+    const user =
+        getLoggedInUser();
+
+    if (!user || !user.id) {
+        return;
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        alert(
+            "Your session has expired. Please login again."
+        );
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/my`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Unable to load user issues. Status:",
+                response.status
+            );
+
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "My Issues API Response:",
+            data
+        );
+
+
+        let issues = [];
+
+
+        if (Array.isArray(data)) {
+
+            issues = data;
+
+        }
+
+        else if (Array.isArray(data.issues)) {
+
+            issues = data.issues;
+
+        }
+
+        else if (Array.isArray(data.items)) {
+
+            issues = data.items;
+
+        }
+
+        else if (Array.isArray(data.data)) {
+
+            issues = data.data;
+
+        }
+
+
+        updateStatistics(
+            issues
+        );
+
+        displayRecentIssues(
+            issues
+        );
+
+        loadWorkflowIssues(
+            issues
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error loading user issues:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   UPDATE STATISTICS
+========================================================= */
+
+function updateStatistics(
+    issues
+) {
+
+    const total =
+        issues.length;
+
+
+    let open = 0;
+
+    let inProgress = 0;
+
+    let resolved = 0;
+
+
+    issues.forEach(
+        function(issue) {
+
+            const status =
+                String(
+                    issue.status || ""
+                )
+                .toUpperCase()
+                .replace(
+                    /[\s-]/g,
+                    "_"
+                );
+
+
+            if (
+                status === "REPORTED" ||
+                status === "OPEN" ||
+                status === "TRIAGED"
+            ) {
+
+                open++;
+
+            }
+
+            else if (
+                status === "IN_PROGRESS" ||
+                status === "INPROGRESS" ||
+                status === "CODE_REVIEW" ||
+                status === "QA_VERIFICATION"
+            ) {
+
+                inProgress++;
+
+            }
+
+            else if (
+                status === "RESOLVED" ||
+                status === "CLOSED"
+            ) {
+
+                resolved++;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalIssues"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "openIssues"
+    ).textContent =
+        open;
+
+
+    document.getElementById(
+        "inProgressIssues"
+    ).textContent =
+        inProgress;
+
+
+    document.getElementById(
+        "resolvedIssues"
+    ).textContent =
+        resolved;
+
+}
+
+
+
+/* =========================================================
+   DISPLAY RECENT ISSUES
+========================================================= */
+
+function displayRecentIssues(
+    issues
+) {
+
+    const body =
+        document.getElementById(
+            "recentIssuesBody"
+        );
+
+
+    if (!body) {
+        return;
+    }
+
+
+    if (
+        !issues ||
+        issues.length === 0
+    ) {
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td colspan="4">
+
+                    <div class="empty-state">
+
+                        <i class="fa-solid fa-inbox"></i>
+
+                        <h3>
+                            No Issues Yet
+                        </h3>
+
+                        <p>
+                            You haven't reported any issues.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    const recentIssues =
+        [...issues].slice(
+            0,
+            5
+        );
+
+
+    body.innerHTML = "";
+
+
+    recentIssues.forEach(
+        function(issue) {
+
+            const issueKey =
+                issue.issue_key ||
+                issue.issueKey ||
+                issue.key ||
+                `#${issue.id || ""}`;
+
+
+            const title =
+                issue.title ||
+                "Untitled Issue";
+
+
+            const priority =
+                String(
+                    issue.priority ||
+                    "MEDIUM"
+                );
+
+
+            const status =
+                String(
+                    issue.status ||
+                    "REPORTED"
+                );
+
+
+            const statusClass =
+                getStatusClass(
+                    status
+                );
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    <span class="issue-key">
+
+                        ${escapeHtml(
+                            issueKey
+                        )}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <span class="issue-title">
+
+                        ${escapeHtml(
+                            title
+                        )}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        priority
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <span class="status-badge ${statusClass}">
+
+                        ${escapeHtml(
+                            formatStatus(
+                                status
+                            )
+                        )}
+
+                    </span>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   STATUS CLASS
+========================================================= */
+
+function getStatusClass(
+    status
+) {
+
+    const value =
+        String(status)
+            .toUpperCase()
+            .replace(
+                /[\s-]/g,
+                "_"
+            );
+
+
+    if (
+        value === "REPORTED" ||
+        value === "OPEN"
+    ) {
+
+        return "status-open";
+
+    }
+
+
+    if (
+        value === "TRIAGED"
+    ) {
+
+        return "status-triaged";
+
+    }
+
+
+    if (
+        value === "IN_PROGRESS" ||
+        value === "INPROGRESS" ||
+        value === "CODE_REVIEW" ||
+        value === "QA_VERIFICATION"
+    ) {
+
+        return "status-progress";
+
+    }
+
+
+    if (
+        value === "RESOLVED"
+    ) {
+
+        return "status-resolved";
+
+    }
+
+
+    if (
+        value === "CLOSED"
+    ) {
+
+        return "status-closed";
+
+    }
+
+
+    return "status-open";
+}
+
+
+
+/* =========================================================
+   FORMAT STATUS
+========================================================= */
+
+function formatStatus(
+    status
+) {
+
+    return String(status)
+        .replace(
+            /_/g,
+            " "
+        )
+        .toLowerCase()
+        .replace(
+            /\b\w/g,
+            function(letter) {
+
+                return letter.toUpperCase();
+
+            }
+        );
+
+}
+
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(
+    value
+) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document
+    .getElementById(
+        "logoutLink"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            localStorage.removeItem(
+                "defectAIUser"
+            );
+
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+
+
+/* =========================================================
+   LOAD WORKFLOW ISSUES
+========================================================= */
+
+function loadWorkflowIssues(
+    issues
+) {
+
+    const workflowList =
+        document.getElementById(
+            "workflowList"
+        );
+
+
+    if (!workflowList) {
+        return;
+    }
+
+
+    const activeIssues =
+        issues.filter(
+            function(issue) {
+
+                const status =
+                    String(
+                        issue.status || ""
+                    )
+                    .toUpperCase()
+                    .replace(
+                        /[\s-]/g,
+                        "_"
+                    );
+
+
+                return (
+                    status !== "RESOLVED" &&
+                    status !== "CLOSED"
+                );
+
+            }
+        );
+
+
+    if (
+        activeIssues.length === 0
+    ) {
+
+        workflowList.innerHTML = `
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <h3>
+                    No Active Issues
+                </h3>
+
+                <p>
+                    All your issues are resolved or closed.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    workflowList.innerHTML = "";
+
+
+    activeIssues
+        .slice(0, 5)
+        .forEach(
+            function(issue) {
+
+                const issueKey =
+                    issue.issue_key ||
+                    issue.issueKey ||
+                    issue.key ||
+                    `#${issue.id || ""}`;
+
+
+                const title =
+                    issue.title ||
+                    "Untitled Issue";
+
+
+                const currentStatus =
+                    String(
+                        issue.status ||
+                        "REPORTED"
+                    )
+                    .toUpperCase()
+                    .replace(
+                        /[\s-]/g,
+                        "_"
+                    );
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "workflow-item";
+
+
+                item.innerHTML = `
+
+                    <div class="workflow-info">
+
+                        <div class="workflow-issue-key">
+
+                            ${escapeHtml(
+                                issueKey
+                            )}
+
+                        </div>
+
+
+                        <div class="workflow-title">
+
+                            ${escapeHtml(
+                                title
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="workflow-controls">
+
+                        <select
+                            class="status-select"
+                            id="status-${issue.id}"
+                        >
+
+                            <option
+                                value="REPORTED"
+                                ${currentStatus === "REPORTED" ? "selected" : ""}
+                            >
+                                Reported
+                            </option>
+
+
+                            <option
+                                value="TRIAGED"
+                                ${currentStatus === "TRIAGED" ? "selected" : ""}
+                            >
+                                Triaged
+                            </option>
+
+
+                            <option
+                                value="IN_PROGRESS"
+                                ${currentStatus === "IN_PROGRESS" ? "selected" : ""}
+                            >
+                                In Progress
+                            </option>
+
+
+                            <option
+                                value="CODE_REVIEW"
+                                ${currentStatus === "CODE_REVIEW" ? "selected" : ""}
+                            >
+                                Code Review
+                            </option>
+
+
+                            <option
+                                value="QA_VERIFICATION"
+                                ${currentStatus === "QA_VERIFICATION" ? "selected" : ""}
+                            >
+                                QA Verification
+                            </option>
+
+
+                            <option
+                                value="RESOLVED"
+                                ${currentStatus === "RESOLVED" ? "selected" : ""}
+                            >
+                                Resolved
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            class="status-update-btn"
+                            onclick="updateIssueStatus(${issue.id})"
+                        >
+                            Update
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                workflowList.appendChild(
+                    item
+                );
+
+            }
+        );
+
+}
+
+
+
+/* =========================================================
+   UPDATE ISSUE STATUS
+========================================================= */
+
+async function updateIssueStatus(
+    issueId
+) {
+
+    const select =
+        document.getElementById(
+            `status-${issueId}`
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    const newStatus =
+        select.value;
+
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        alert(
+            "Your session has expired. Please login again."
+        );
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+
+    const buttons =
+        document.querySelectorAll(
+            ".workflow-item button"
+        );
+
+
+    buttons.forEach(
+        function(button) {
+
+            button.disabled =
+                true;
+
+        }
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issueId}/status`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        status:
+                            newStatus
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to update issue status."
+            );
+
+        }
+
+
+        showWorkflowMessage(
+            "Issue status updated successfully.",
+            true
+        );
+
+
+        await loadUserIssues();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Status update error:",
+            error
+        );
+
+
+        showWorkflowMessage(
+            error.message ||
+            "Unable to update issue status.",
+            false
+        );
+
+    }
+
+    finally {
+
+        buttons.forEach(
+            function(button) {
+
+                button.disabled =
+                    false;
+
+            }
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   WORKFLOW MESSAGE
+========================================================= */
+
+function showWorkflowMessage(
+    message,
+    success
+) {
+
+    const messageBox =
+        document.getElementById(
+            "workflowMessage"
+        );
+
+
+    if (!messageBox) {
+        return;
+    }
+
+
+    messageBox.textContent =
+        message;
+
+
+    messageBox.className =
+        "workflow-message " +
+        (
+            success
+                ? "workflow-success"
+                : "workflow-error"
+        );
+
+
+    messageBox.style.display =
+        "block";
+
+
+    setTimeout(
+        function() {
+
+            messageBox.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+
+/* =========================================================
+   LOAD SPRINT BOARD
+========================================================= */
+async function loadSprintBoard() {
+
+    const activeSprints =
+        document.getElementById("activeSprints");
+
+    const backlogIssues =
+        document.getElementById("backlogIssues");
+
+    if (!activeSprints || !backlogIssues) {
+        return;
+    }
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+
+        activeSprints.innerHTML = `
+            <div class="empty-sprint">
+                Please login again.
+            </div>
+        `;
+
+        backlogIssues.innerHTML = "";
+        return;
+    }
+
+    try {
+
+        // ====================================================
+        // GET SPRINTS
+        // ====================================================
+
+        const sprintResponse =
+            await fetch(
+                `${API_BASE_URL}/api/v1/sprints/`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            );
+
+        const sprintData =
+            await sprintResponse.json();
+
+        if (!sprintResponse.ok) {
+
+            throw new Error(
+                sprintData.detail ||
+                "Unable to load sprints."
+            );
+        }
+
+        const sprints =
+            Array.isArray(sprintData)
+                ? sprintData
+                : (
+                    sprintData.sprints ||
+                    sprintData.items ||
+                    sprintData.data ||
+                    []
+                );
+
+        // Only ACTIVE sprints appear in Active Sprints section
+        const active =
+            sprints.filter(function(sprint) {
+
+                return String(
+                    sprint.status || ""
+                ).toUpperCase() === "ACTIVE";
+
+            });
+
+        displayActiveSprints(active);
+
+
+        // ====================================================
+        // GET PROJECT BACKLOG
+        // ====================================================
+
+        const backlogResponse =
+            await fetch(
+                `${API_BASE_URL}/api/v1/collaboration/backlog`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            );
+
+        const backlogData =
+            await backlogResponse.json();
+
+        if (!backlogResponse.ok) {
+
+            throw new Error(
+                backlogData.detail ||
+                "Unable to load backlog issues."
+            );
+        }
+
+        const backlog =
+            Array.isArray(backlogData)
+                ? backlogData
+                : (
+                    backlogData.issues ||
+                    backlogData.items ||
+                    backlogData.data ||
+                    []
+                );
+
+        console.log(
+            "Sprint Board Backlog:",
+            backlog
+        );
+
+        // Display all issues that are not assigned
+        // to a sprint
+        displayBacklog(
+            backlog,
+            active
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Sprint board error:",
+            error
+        );
+
+        activeSprints.innerHTML = `
+            <div class="empty-sprint">
+                Unable to load active sprints.
+            </div>
+        `;
+
+        backlogIssues.innerHTML = `
+            <div class="empty-sprint">
+                Unable to load backlog.
+            </div>
+        `;
+    }
+}
+
+/* =========================================================
+   DISPLAY ACTIVE SPRINTS
+========================================================= */
+
+function displayActiveSprints(
+    sprints
+) {
+
+    const container =
+        document.getElementById(
+            "activeSprints"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (
+        !sprints ||
+        sprints.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-sprint">
+
+                No active sprints available.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    sprints.forEach(
+        function(sprint) {
+
+            const sprintItem =
+                document.createElement(
+                    "div"
+                );
+
+
+            sprintItem.className =
+                "sprint-item";
+
+
+            const goal =
+                sprint.goal ||
+                "No sprint goal provided.";
+
+
+            const startDate =
+                sprint.start_date ||
+                "-";
+
+
+            const endDate =
+                sprint.end_date ||
+                "-";
+
+
+            const sprintName =
+                sprint.name ||
+                "Unnamed Sprint";
+
+
+            sprintItem.innerHTML = `
+
+                <div class="sprint-header">
+
+                    <div>
+
+                        <div class="sprint-name">
+
+                            ${escapeHtml(
+                                sprintName
+                            )}
+
+                        </div>
+
+
+                        <div class="sprint-goal">
+
+                            ${escapeHtml(
+                                goal
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="sprint-status">
+
+                        ACTIVE
+
+                    </span>
+
+                </div>
+
+
+                <div class="sprint-dates">
+
+                    ${escapeHtml(
+                        startDate
+                    )}
+
+                    &nbsp; → &nbsp;
+
+                    ${escapeHtml(
+                        endDate
+                    )}
+
+                </div>
+
+
+                <div
+                    class="sprint-issues"
+                    id="sprint-issues-${sprint.id}"
+                >
+
+                    <div class="empty-sprint">
+
+                        Loading sprint issues...
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                sprintItem
+            );
+
+
+            loadSprintIssues(
+                sprint.id
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   LOAD SPRINT ISSUES
+========================================================= */
+
+async function loadSprintIssues(
+    sprintId
+) {
+
+    const container =
+        document.getElementById(
+            `sprint-issues-${sprintId}`
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/my`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load sprint issues."
+            );
+
+        }
+
+
+        const issues =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.issues ||
+                    data.items ||
+                    data.data ||
+                    []
+                );
+
+
+        const sprintIssues =
+            issues.filter(
+                function(issue) {
+
+                    const issueSprintId =
+    issue.sprint_id ??
+    issue.sprintId;
+
+return Number(issueSprintId) === Number(sprintId);
+
+                }
+            );
+
+
+        if (
+            sprintIssues.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty-sprint">
+
+                    No issues added to this sprint.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            "";
+
+
+        sprintIssues.forEach(
+            function(issue) {
+
+                const issueKey =
+                    issue.issue_key ||
+                    issue.issueKey ||
+                    issue.key ||
+                    `#${issue.id || ""}`;
+
+
+                const title =
+                    issue.title ||
+                    "Untitled Issue";
+
+
+                const status =
+                    formatStatus(
+                        issue.status ||
+                        "REPORTED"
+                    );
+
+
+                const issueElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                issueElement.className =
+                    "sprint-issue";
+
+
+                issueElement.innerHTML = `
+
+                    <div class="sprint-issue-info">
+
+                        <div class="sprint-issue-key">
+
+                            ${escapeHtml(
+                                issueKey
+                            )}
+
+                        </div>
+
+
+                        <div class="sprint-issue-title">
+
+                            ${escapeHtml(
+                                title
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="sprint-issue-status">
+
+                        ${escapeHtml(
+                            status
+                        )}
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    issueElement
+                );
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Sprint issue error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="empty-sprint">
+
+                Unable to load sprint issues.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   DISPLAY BACKLOG
+========================================================= */
+
+function displayBacklog(
+    backlog,
+    activeSprints
+) {
+
+    const container =
+        document.getElementById(
+            "backlogIssues"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (
+        !backlog ||
+        backlog.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-sprint">
+
+                No issues in backlog.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    backlog.forEach(
+        function(issue) {
+
+            const issueKey =
+                issue.issue_key ||
+                issue.issueKey ||
+                issue.key ||
+                `#${issue.id || ""}`;
+
+
+            const title =
+                issue.title ||
+                "Untitled Issue";
+
+
+            const status =
+                formatStatus(
+                    issue.status ||
+                    "REPORTED"
+                );
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "backlog-item";
+
+
+            item.innerHTML = `
+
+                <div class="backlog-info">
+
+                    <div class="backlog-issue-key">
+
+                        ${escapeHtml(
+                            issueKey
+                        )}
+
+                    </div>
+
+
+                    <div class="backlog-title">
+
+                        ${escapeHtml(
+                            title
+                        )}
+
+                    </div>
+
+
+                    <div class="backlog-status">
+
+                        Status:
+                        ${escapeHtml(
+                            status
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="add-sprint-btn"
+                    onclick="showSprintOptions(
+                        ${issue.id},
+                        this
+                    )"
+                >
+
+                    Add to Sprint
+
+                </button>
+
+            `;
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   SHOW ACTIVE SPRINT OPTIONS
+========================================================= */
+
+async function showSprintOptions(
+    issueId,
+    button
+) {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        alert(
+            "Your session has expired. Please login again."
+        );
+
+        return;
+    }
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Loading...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/sprints/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load sprints."
+            );
+
+        }
+
+
+        const sprints =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.sprints ||
+                    data.items ||
+                    data.data ||
+                    []
+                );
+
+
+        const active =
+            sprints.filter(
+                function(sprint) {
+
+                    return String(
+                        sprint.status || ""
+                    )
+                    .toUpperCase()
+                    === "ACTIVE";
+
+                }
+            );
+
+
+        if (
+            active.length === 0
+        ) {
+
+            showWorkflowMessage(
+                "No ACTIVE sprint is available. Create an ACTIVE sprint first.",
+                false
+            );
+
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Add to Sprint";
+
+            return;
+        }
+
+
+        const selector =
+            document.createElement(
+                "select"
+            );
+
+
+        selector.className =
+            "status-select";
+
+
+        selector.style.marginRight =
+            "5px";
+
+
+        active.forEach(
+            function(sprint) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    sprint.id;
+
+
+                option.textContent =
+                    sprint.name;
+
+
+                selector.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        const addButton =
+            document.createElement(
+                "button"
+            );
+
+
+        addButton.className =
+            "add-sprint-btn";
+
+
+        addButton.textContent =
+            "Confirm";
+
+
+        addButton.onclick =
+            function() {
+
+                addIssueToSprint(
+                    issueId,
+                    selector.value,
+                    addButton,
+                    selector
+                );
+
+            };
+
+
+        button.parentNode.replaceChild(
+            selector,
+            button
+        );
+
+
+        selector.parentNode.appendChild(
+            addButton
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Sprint selection error:",
+            error
+        );
+
+
+        showWorkflowMessage(
+            error.message ||
+            "Unable to load active sprints.",
+            false
+        );
+
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Add to Sprint";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ADD ISSUE TO SPRINT
+========================================================= */
+
+async function addIssueToSprint(
+    issueId,
+    sprintId,
+    addButton,
+    selector
+) {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        alert(
+            "Your session has expired. Please login again."
+        );
+
+        return;
+    }
+
+
+    addButton.disabled =
+        true;
+
+    addButton.textContent =
+        "Adding...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/sprints/${sprintId}/add-issue/${issueId}`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to add issue to sprint."
+            );
+
+        }
+
+
+        showWorkflowMessage(
+            "Issue added to sprint successfully.",
+            true
+        );
+
+
+        await loadSprintBoard();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Add issue to sprint error:",
+            error
+        );
+
+
+        showWorkflowMessage(
+            error.message ||
+            "Unable to add issue to sprint.",
+            false
+        );
+
+
+        addButton.disabled =
+            false;
+
+        addButton.textContent =
+            "Confirm";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   PAGE INITIALIZATION
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const user =
+            displayUserInformation();
+
+
+        if (user) {
+
+            loadUserIssues();
+
+            loadSprintBoard();
+            loadLiveActivity();
+
+        }
+
+    }
+);
+// =========================================================
+// MILESTONE 2 - LIVE ACTIVITY STREAM
+// =========================================================
+
+async function loadLiveActivity() {
+
+    const activityList =
+        document.getElementById("activityList");
+
+    if (!activityList) return;
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+
+        activityList.innerHTML = `
+            <div class="empty-activity">
+                Please login again.
+            </div>
+        `;
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/collaboration/activity`,
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load activity."
+            );
+
+        }
+
+        displayLiveActivity(data);
+
+    }
+    catch (error) {
+
+        console.error(
+            "Live activity error:",
+            error
+        );
+
+        activityList.innerHTML = `
+            <div class="empty-activity">
+                Unable to load recent activity.
+            </div>
+        `;
+    }
+}
+
+
+// =========================================================
+// DISPLAY LIVE ACTIVITY
+// =========================================================
+
+function displayLiveActivity(activities) {
+
+    const container =
+        document.getElementById("activityList");
+
+    if (!container) return;
+
+
+    if (!Array.isArray(activities) ||
+        activities.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-activity">
+                No recent activity found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    activities.forEach(function(activity) {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "activity-item";
+
+
+        const oldValue =
+            activity.old_value || "";
+
+        const newValue =
+            activity.new_value || "";
+
+        const action =
+            activity.action || "ACTIVITY";
+
+        const issueId =
+            activity.issue_id || "-";
+
+        const timestamp =
+            formatActivityTime(activity.timestamp);
+
+
+        let activityText =
+            `Issue #${issueId} - ${action}`;
+
+
+        if (activity.field_name) {
+
+            activityText +=
+                `: ${activity.field_name}`;
+
+        }
+
+
+        if (oldValue || newValue) {
+
+            activityText +=
+                ` (${oldValue} → ${newValue})`;
+
+        }
+
+
+        item.innerHTML = `
+
+            <div class="activity-icon">
+
+                <i class="fa-solid fa-bolt"></i>
+
+            </div>
+
+
+            <div class="activity-info">
+
+                <div class="activity-text">
+
+                    ${escapeHtml(activityText)}
+
+                </div>
+
+
+                <div class="activity-time">
+
+                    ${escapeHtml(timestamp)}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+}
+
+
+// =========================================================
+// FORMAT ACTIVITY TIME
+// =========================================================
+
+function formatActivityTime(timestamp) {
+
+    if (!timestamp) {
+        return "Unknown time";
+    }
+
+    const date =
+        new Date(timestamp);
+
+    if (isNaN(date.getTime())) {
+        return timestamp;
+    }
+
+    return date.toLocaleString();
+
+}// =========================================================
+// MILESTONE 2 - LIVE ACTIVITY STREAM
+// =========================================================
+
+async function loadLiveActivity() {
+
+    const activityList =
+        document.getElementById("activityList");
+
+    if (!activityList) return;
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+
+        activityList.innerHTML = `
+            <div class="empty-activity">
+                Please login again.
+            </div>
+        `;
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/collaboration/activity`,
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load activity."
+            );
+
+        }
+
+        displayLiveActivity(data);
+
+    }
+    catch (error) {
+
+        console.error(
+            "Live activity error:",
+            error
+        );
+
+        activityList.innerHTML = `
+            <div class="empty-activity">
+                Unable to load recent activity.
+            </div>
+        `;
+    }
+}
+
+
+// =========================================================
+// DISPLAY LIVE ACTIVITY
+// =========================================================
+
+function displayLiveActivity(activities) {
+
+    const container =
+        document.getElementById("activityList");
+
+    if (!container) return;
+
+
+    if (!Array.isArray(activities) ||
+        activities.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-activity">
+                No recent activity found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    activities.forEach(function(activity) {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "activity-item";
+
+
+        const oldValue =
+            activity.old_value || "";
+
+        const newValue =
+            activity.new_value || "";
+
+        const action =
+            activity.action || "ACTIVITY";
+
+        const issueId =
+            activity.issue_id || "-";
+
+        const timestamp =
+            formatActivityTime(activity.timestamp);
+
+
+        let activityText =
+            `Issue #${issueId} - ${action}`;
+
+
+        if (activity.field_name) {
+
+            activityText +=
+                `: ${activity.field_name}`;
+
+        }
+
+
+        if (oldValue || newValue) {
+
+            activityText +=
+                ` (${oldValue} → ${newValue})`;
+
+        }
+
+
+        item.innerHTML = `
+
+            <div class="activity-icon">
+
+                <i class="fa-solid fa-bolt"></i>
+
+            </div>
+
+
+            <div class="activity-info">
+
+                <div class="activity-text">
+
+                    ${escapeHtml(activityText)}
+
+                </div>
+
+
+                <div class="activity-time">
+
+                    ${escapeHtml(timestamp)}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+}
+
+
+// =========================================================
+// FORMAT ACTIVITY TIME
+// =========================================================
+
+function formatActivityTime(timestamp) {
+
+    if (!timestamp) {
+        return "Unknown time";
+    }
+
+    const date =
+        new Date(timestamp);
+
+    if (isNaN(date.getTime())) {
+        return timestamp;
+    }
+
+    return date.toLocaleString();
+
+}
+// =========================================================
+// MILESTONE 2 - GENERATE PDF REPORT
+// =========================================================
+
+async function generatePdfReport() {
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+
+        alert("Please login again.");
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/collaboration/report/pdf`,
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to generate PDF report.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                errorMessage =
+                    errorData.detail ||
+                    errorMessage;
+
+            } catch (e) {
+                // Response was not JSON
+            }
+
+            throw new Error(errorMessage);
+        }
+
+        const blob =
+            await response.blob();
+
+        const downloadUrl =
+            window.URL.createObjectURL(blob);
+
+        const link =
+            document.createElement("a");
+
+        link.href = downloadUrl;
+
+        link.download =
+            "bugflow_issue_report.pdf";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(downloadUrl);
+
+    }
+    catch (error) {
+
+        console.error(
+            "PDF report error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to generate PDF report."
+        );
+    }
+}
+async function simulateGitWebhook() {
+
+    const responseBox =
+        document.getElementById("m3WebhookResponse");
+
+    responseBox.textContent =
+        "Sending simulated Git commit...";
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/api/v1/webhooks/git",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        message:
+                            "Merge PR #45: fixes #2 login password crash",
+
+                        commit_hash:
+                            "a7f8c92"
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        responseBox.textContent =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
+
+
+        /*
+         * REFRESH ISSUE DATA
+         *
+         * This makes the dashboard
+         * reflect the webhook result live.
+         */
+
+        if (response.ok) {
+
+            if (typeof loadMyIssues === "function") {
+
+                await loadMyIssues();
+
+            }
+
+            if (typeof loadQualityMetrics === "function") {
+
+                await loadQualityMetrics();
+
+            }
+
+            if (typeof loadDefectTrendChart === "function") {
+
+                await loadDefectTrendChart();
+
+            }
+
+            if (typeof loadSeverityDonutChart === "function") {
+
+                await loadSeverityDonutChart();
+
+            }
+
+            if (typeof loadWorkflowPipelineChart === "function") {
+
+                await loadWorkflowPipelineChart();
+
+            }
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Git webhook error:",
+            error
+        );
+
+        responseBox.textContent =
+            "Unable to connect to the BugFlow webhook API.";
+
+    }
+
+}
+
+</script>
+<script src="theme.js"></script>
+
+</body>
+
+</html>

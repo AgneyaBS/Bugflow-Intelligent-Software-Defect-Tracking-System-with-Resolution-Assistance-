@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow - Settings</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: white;
+            padding: 22px 15px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 12px;
+        }
+
+        .nav-heading {
+            font-size: 11px;
+            color: #9ca3af;
+            margin: 18px 12px 8px;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #1f2937;
+            color: white;
+        }
+
+        .nav-link i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            margin-left: auto;
+            background: #ef4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 7px;
+            font-size: 10px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 20px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .support-box {
+            background: #1f2937;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .support-box strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .support-box small {
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 26px;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #374151;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* SETTINGS CARDS */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .settings-card h2 {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .settings-card > p {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .setting-info span {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+        }
+
+        /* TOGGLE */
+        .switch {
+            position: relative;
+            width: 42px;
+            height: 23px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #d1d5db;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 17px;
+            height: 17px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        input:checked + .slider {
+            background: #2563eb;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(19px);
+        }
+
+        .save-btn {
+            margin-top: 25px;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 900px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* DARK MODE */
+body.dark-mode {
+    background: #111827;
+    color: #f3f4f6;
+}
+
+body.dark-mode .settings-card {
+    background: #1f2937;
+    color: #f3f4f6;
+}
+
+body.dark-mode .settings-card > p,
+body.dark-mode .setting-info span,
+body.dark-mode .topbar p {
+    color: #9ca3af;
+}
+
+body.dark-mode .setting-row {
+    border-bottom-color: #374151;
+}
+
+body.dark-mode select {
+    background: #374151;
+    color: white;
+    border-color: #4b5563;
+}
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div>
+                <h2>BugFlow</h2>
+
+                <span>
+                    Intelligent Tracking
+                </span>
+            </div>
+
+        </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+        <nav>
+
+            <p class="nav-heading">
+                MAIN
+            </p>
+
+
+            <a href="admin-dashboard.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="admin-defects.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    All Issues
+                </span>
+
+            </a>
+
+
+            <a href="users.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a href="resolution.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+
+            </a>
+
+
+            <p class="nav-heading second">
+                MANAGEMENT
+            </p>
+
+
+            <a href="admin-analytics.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Analytics &API'S
+                </span>
+
+            </a>
+
+
+            <a href="reports.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="notifications.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <b class="badge">
+                    5
+                </b>
+
+            </a>
+
+
+            <a href="settings.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            
+<a href="system-support.html"
+   class="support-box"
+   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+
+    <strong>System Support</strong>
+    <small>All systems online</small>
+
+</a>
+
+            <a href="index.html"
+               class="nav-link logout"
+               id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Settings</h1>
+                <p>Manage your BugFlow preferences and system settings.</p>
+            </div>
+
+            <div class="user-info">
+                <div>
+                    <strong id="adminName">Admin</strong>
+                    <small>Administrator</small>
+                </div>
+
+                <div class="avatar" id="adminAvatar">
+                    A
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="settings-grid">
+
+            <!-- ACCOUNT -->
+            <div class="settings-card">
+
+                <h2>Account Settings</h2>
+                <p>Manage your administrator account preferences.</p>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Username</strong>
+                        <span id="username">Admin</span>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Email</strong>
+                        <span id="email">admin@bugflow.com</span>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Role</strong>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- NOTIFICATIONS -->
+            <div class="settings-card">
+
+                <h2>Notification Settings</h2>
+                <p>Control how BugFlow notifications are displayed.</p>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Issue Notifications</strong>
+                        <span>Receive updates about issues.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>Assignment Alerts</strong>
+                        <span>Notify when issues are assigned.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>System Alerts</strong>
+                        <span>Receive important system alerts.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+            </div>
+
+
+            <!-- DISPLAY -->
+            <div class="settings-card">
+
+                <h2>Display Settings</h2>
+                <p>Customize the BugFlow dashboard experience.</p>
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+                        <strong>Theme</strong>
+                        <span>Select dashboard theme.</span>
+                    </div>
+
+                    <select id="themeSelect">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="system">System</option>
+                    </select>
+
+                </div>
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+                        <strong>Items Per Page</strong>
+                        <span>Number of records displayed.</span>
+                    </div>
+
+                    <select>
+                        <option>10</option>
+                        <option>25</option>
+                        <option>50</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM -->
+            <div class="settings-card">
+
+                <h2>System Settings</h2>
+                <p>General BugFlow system preferences.</p>
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+                        <strong>Automatic Refresh</strong>
+                        <span>Refresh dashboard data automatically.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+                        <strong>API Status Monitoring</strong>
+                        <span>Monitor backend API availability.</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+                <button class="save-btn" onclick="saveSettings()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Settings
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    // Load logged-in admin information
+    const currentUser =
+        JSON.parse(localStorage.getItem("user") || "null");
+
+    if (currentUser) {
+
+        const name =
+            currentUser.full_name ||
+            currentUser.username ||
+            "Admin";
+
+        document.getElementById("adminName").textContent = name;
+
+        document.getElementById("adminAvatar").textContent =
+            name.charAt(0).toUpperCase();
+
+        document.getElementById("username").textContent =
+            currentUser.username || name;
+
+        document.getElementById("email").textContent =
+            currentUser.email || "Not available";
+    }
+
+
+    function saveSettings() {
+
+    const theme =
+        document.getElementById("themeSelect").value;
+
+    localStorage.setItem("bugflow_theme", theme);
+
+    applyTheme(theme);
+
+    alert("Settings saved successfully!");
+}
+
+
+function applyTheme(theme) {
+
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
+    }
+}
+
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("user");
+
+        }
+    );
+// Load saved theme when Settings page opens
+const savedTheme =
+    localStorage.getItem("bugflow_theme") || "light";
+
+document.getElementById("themeSelect").value = savedTheme;
+
+applyTheme(savedTheme);
+</script>
+<script src="theme.js"></script>
+</body>
+</html>

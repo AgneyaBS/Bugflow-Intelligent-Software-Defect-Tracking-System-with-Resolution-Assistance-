@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow | Issue Details</title>
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        /* =========================================================
+           ISSUE DETAILS PAGE
+        ========================================================= */
+
+        .details-page {
+            padding: 30px 50px 50px;
+        }
+
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .details-header-left {
+            max-width: 850px;
+        }
+
+        .details-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .details-title {
+            font-size: 30px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .details-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #f9fafb;
+        }
+
+
+        /* =========================================================
+           STATUS SUMMARY
+        ========================================================= */
+
+        .issue-summary {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .issue-number {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .issue-main-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .summary-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .issue-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .severity-critical {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .severity-major {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .severity-minor {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .severity-trivial {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .priority-urgent {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .priority-high {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .priority-low {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .status-reported {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .status-triaged {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .status-in-progress {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .status-code-review {
+            background: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        .status-qa-verification {
+            background: #ecfeff;
+            color: #0e7490;
+        }
+
+        .status-resolved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-closed {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+
+        /* =========================================================
+           CONTENT GRID
+        ========================================================= */
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 22px;
+        }
+
+        .details-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+
+        .details-card-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid #f0f1f3;
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .details-card-body {
+            padding: 22px;
+        }
+
+
+        /* =========================================================
+           INFORMATION
+        ========================================================= */
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 20px;
+            padding: 13px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #111827;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+
+        /* =========================================================
+           DESCRIPTION
+        ========================================================= */
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        .description-text {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .empty-value {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+
+        /* =========================================================
+           MESSAGE
+        ========================================================= */
+
+        .details-message {
+            padding: 18px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .details-error {
+            color: #b91c1c;
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+/* =========================================================
+   STATUS UPDATE
+========================================================= */
+
+.status-update-card {
+    margin-bottom: 22px;
+}
+
+.status-update-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 20px;
+    align-items: end;
+}
+
+.status-current,
+.status-select-area {
+    min-width: 0;
+}
+
+.status-current > .section-label,
+.status-select-area > .section-label {
+    margin-bottom: 8px;
+}
+
+#currentStatusDisplay {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+#newStatus {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    color: #111827;
+    font-size: 14px;
+    outline: none;
+}
+
+#newStatus:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.10);
+}
+
+.update-status-btn {
+    height: 40px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.update-status-btn:hover {
+    background: #4338ca;
+}
+
+.update-status-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.status-message {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.status-message.success {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.status-message.error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+@media (max-width: 900px) {
+
+    .status-update-content {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .update-status-btn {
+        width: 100%;
+    }
+
+}
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .details-page {
+                padding: 25px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+/* =========================================================
+   ISSUE DETAILS - USER SIDEBAR
+   Matches Report Issue / User Dashboard
+========================================================= */
+
+.sidebar {
+    width: 275px;
+    min-width: 275px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    background: #111827;
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.sidebar .brand {
+    height: 82px;
+    padding: 0 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    border-bottom: 1px solid #1f2937;
+    box-sizing: border-box;
+}
+
+.sidebar .brand-logo {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 10px;
+
+    background: #4f46e5;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.sidebar .brand h2 {
+    margin: 0;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+.sidebar .brand h2::first-letter {
+    color: #ffffff;
+}
+
+.sidebar .brand span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.sidebar nav {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 25px 16px 16px;
+
+    box-sizing: border-box;
+}
+
+.sidebar .nav-heading {
+    margin: 0 14px 14px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 1.2px;
+
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   NAV LINKS
+========================================================= */
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    width: 100%;
+    min-height: 48px;
+
+    padding: 0 14px;
+    margin-bottom: 5px;
+
+    border-radius: 9px;
+
+    box-sizing: border-box;
+
+    color: #d1d5db;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.sidebar .nav-link i {
+    width: 20px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    color: #d1d5db;
+}
+
+
+/* Hover */
+
+.sidebar .nav-link:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.sidebar .nav-link:hover i {
+    color: #ffffff;
+}
+
+
+/* Active */
+
+.sidebar .nav-link.active {
+    background: #4f46e5;
+    color: #ffffff;
+}
+
+.sidebar .nav-link.active i {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   LOGOUT AT BOTTOM
+========================================================= */
+
+.sidebar .sidebar-bottom {
+    margin-top: auto;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #1f2937;
+}
+
+.sidebar .logout-link {
+    margin-bottom: 0;
+
+    color: #d1d5db;
+}
+
+.sidebar .logout-link:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MAIN CONTENT POSITION
+========================================================= */
+
+.issue-details-page,
+.main {
+    margin-left: 275px;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.main .topbar {
+    margin-left: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 230px;
+        min-width: 230px;
+    }
+
+    .issue-details-page,
+    .main {
+        margin-left: 230px;
+    }
+
+}
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 15px 15px 20px auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button:hover {
+    background: #e2e8f0;
+    transform: translateX(-2px);
+}
+    </style>
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-logo">
+            <i class="fa-solid fa-bug"></i>
+        </div>
+
+        <div>
+            <h2>BugFlow</h2>
+            <span>Intelligent Tracking</span>
+        </div>
+    </div>
+    <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+    <nav>
+
+        <p class="nav-heading">MAIN</p>
+
+        <a href="user-dashboard.html" class="nav-link">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="report-defect.html" class="nav-link">
+            <i class="fa-solid fa-bug"></i>
+            <span>Report Issue</span>
+        </a>
+
+        <a href="my-issues.html" class="nav-link active">
+            <i class="fa-solid fa-list-check"></i>
+            <span>My Issues</span>
+        </a>
+
+        <a href="resolution.html" class="nav-link">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Resolution Assistance</span>
+        </a>
+
+        <a href="analytics.html" class="nav-link">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Analytics & APIs</span>
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="nav-link logout-link" id="logoutLink">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </nav>
+
+</aside>
+
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE ISSUE MANAGEMENT
+                </span>
+
+                <strong>
+                    Issue Details
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="notification-button">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+
+                <div class="user-profile">
+
+                    <div class="avatar" id="userAvatar">
+                        U
+                    </div>
+
+                    <div>
+                        <strong id="topUserName">
+                            User
+                        </strong>
+
+                        <small id="topUserRole">
+                            TESTER
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             PAGE CONTENT
+        ===================================================== -->
+
+        <section class="details-page">
+
+
+            <!-- HEADER -->
+
+            <div class="details-header">
+
+                <div class="details-header-left">
+
+                    <div class="details-eyebrow">
+                        ISSUE TRACKING
+                    </div>
+
+                    <div class="details-title">
+                        Issue Details
+                    </div>
+
+                    <div class="details-subtitle">
+                        View complete information about this reported issue.
+                    </div>
+
+                </div>
+
+
+                <a href="my-issues.html" class="back-button">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to My Issues
+
+                </a>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="detailsMessage"
+                class="details-message"
+                style="display:none;"
+            >
+            </div>
+
+
+            <!-- =================================================
+                 ISSUE SUMMARY
+            ================================================= -->
+
+            <div
+                id="issueSummary"
+                class="issue-summary"
+                style="display:none;"
+            >
+
+                <div class="summary-top">
+
+                    <div>
+
+                        <div
+                            class="issue-number"
+                            id="issueNumber"
+                        >
+                            #-
+                        </div>
+
+                        <div
+                            class="issue-main-title"
+                            id="issueMainTitle"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="summary-badges"
+                        id="summaryBadges"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+<!-- =================================================
+     UPDATE ISSUE STATUS
+================================================= -->
+
+<div
+    id="statusUpdateCard"
+    class="details-card status-update-card"
+    style="display:none;"
+>
+
+    <div class="details-card-header">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        Update Issue Status
+    </div>
+
+    <div class="details-card-body">
+
+        <div class="status-update-content">
+
+            <div class="status-current">
+
+                <div class="section-label">
+                    Current Status
+                </div>
+
+                <div id="currentStatusDisplay">
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="status-select-area">
+
+                <div class="section-label">
+                    Next Status
+                </div>
+
+                <select id="newStatus">
+
+                    <option value="">
+                        Select next status
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="updateStatusBtn"
+                class="update-status-btn"
+            >
+
+                <i class="fa-solid fa-check"></i>
+
+                Update Status
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="statusMessage"
+            class="status-message"
+            style="display:none;"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+            <!-- =================================================
+                 DETAILS GRID
+            ================================================= -->
+
+            <div
+                id="detailsContent"
+                class="details-grid"
+                style="display:none;"
+            >
+
+
+                <!-- LEFT COLUMN -->
+
+                <div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="details-card">
+
+                        <div class="details-card-header">
+                            Description
+                        </div>
+
+                        <div class="details-card-body">
+
+                            <div
+                                id="description"
+                                class="description-text"
+                            >
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REPRODUCTION STEPS -->
+
+                    <div class="details-card">
+
+                        <div class="details-card-header">
+                            Reproduction Steps
+                        </div>
+
+                        <div class="details-card-body">
+
+                            <div
+                                id="reproductionSteps"
+                                class="description-text"
+                            >
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TECHNICAL INFORMATION -->
+
+                    <div class="details-card">
+
+                        <div class="details-card-header">
+                            Technical Information
+                        </div>
+
+                        <div class="details-card-body">
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Development Stage
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="devStage"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Affected Modules
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="affectedModules"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Environment
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="environmentDetails"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Estimated Effort
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="estimatedEffort"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Priority Score
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="priorityScore"
+                                >
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT COLUMN -->
+
+                <div>
+
+
+                    <!-- ISSUE INFORMATION -->
+
+                    <div class="details-card">
+
+                        <div class="details-card-header">
+                            Issue Information
+                        </div>
+
+                        <div class="details-card-body">
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Issue ID
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="infoIssueId"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Project
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="projectId"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Category
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="category"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Severity
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="severity"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Priority
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="priority"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Status
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="status"
+                                >
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PEOPLE -->
+
+                    <div class="details-card">
+
+                        <div class="details-card-header">
+                            People
+                        </div>
+
+                        <div class="details-card-body">
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Reporter
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="reporter"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Assignee
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="assignee"
+                                >
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DATES -->
+
+                    <div class="details-card">
+
+                        <div class="details-card-header">
+                            Dates
+                        </div>
+
+                        <div class="details-card-body">
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Created
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="createdAt"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Updated
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="updatedAt"
+                                >
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-row">
+
+                                <div class="info-label">
+                                    Resolved
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="resolvedAt"
+                                >
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       CONFIGURATION
+    ========================================================= */
+
+    const API_BASE_URL =
+        "http://127.0.0.1:8000";
+
+
+    /* =========================================================
+       CATEGORY MAP
+    ========================================================= */
+
+    const categoryMap = {
+
+        2: "Bug",
+        3: "Feature Request",
+        4: "Enhancement",
+        5: "Technical Debt",
+        6: "Support Ticket",
+
+        7: "Authentication",
+        8: "UI / Frontend",
+        9: "Backend / API",
+        10: "Database",
+        11: "Performance"
+
+    };
+
+
+    /* =========================================================
+       GET LOGGED-IN USER
+    ========================================================= */
+
+    function getLoggedInUser() {
+
+        const storedUser =
+            localStorage.getItem("user");
+
+        if (!storedUser) {
+
+            window.location.href =
+                "index.html";
+
+            return null;
+        }
+
+        try {
+
+            return JSON.parse(storedUser);
+
+        } catch (error) {
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "index.html";
+
+            return null;
+        }
+    }
+
+
+    /* =========================================================
+       DISPLAY USER
+    ========================================================= */
+
+    function displayUser() {
+
+        const user =
+            getLoggedInUser();
+
+        if (!user) {
+            return;
+        }
+
+        const name =
+            user.full_name ||
+            user.username ||
+            "User";
+
+        const role =
+            user.role ||
+            "TESTER";
+
+
+        document.getElementById(
+            "topUserName"
+        ).textContent = name;
+
+
+        document.getElementById(
+            "topUserRole"
+        ).textContent = role;
+
+
+        document.getElementById(
+            "userAvatar"
+        ).textContent =
+            name.charAt(0).toUpperCase();
+    }
+
+
+    /* =========================================================
+       GET ISSUE ID FROM URL
+    ========================================================= */
+
+    function getIssueId() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        return params.get("id");
+    }
+
+
+    /* =========================================================
+       FORMAT DATE
+    ========================================================= */
+
+    function formatDate(value) {
+
+        if (!value) {
+
+            return `
+                <span class="empty-value">
+                    Not available
+                </span>
+            `;
+        }
+
+        const date =
+            new Date(value);
+
+        if (isNaN(date.getTime())) {
+            return value;
+        }
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+    }
+
+
+    /* =========================================================
+       DISPLAY EMPTY VALUE
+    ========================================================= */
+
+    function displayValue(value) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+
+            return `
+                <span class="empty-value">
+                    Not provided
+                </span>
+            `;
+        }
+
+        return value;
+    }
+
+
+    /* =========================================================
+       BADGE CLASS
+    ========================================================= */
+
+    function getBadgeClass(type, value) {
+
+        if (!value) {
+            return "";
+        }
+
+        const normalized =
+            String(value)
+                .toLowerCase()
+                .replace(/_/g, "-")
+                .replace(/ /g, "-");
+
+        return `${type}-${normalized}`;
+    }
+
+
+    /* =========================================================
+       LOAD ISSUE
+    ========================================================= */
+
+    async function loadIssue() {
+
+        const token =
+            localStorage.getItem(
+                "access_token"
+            );
+
+        if (!token) {
+
+            alert(
+                "Your session has expired. Please login again."
+            );
+
+            window.location.href =
+                "index.html";
+
+            return;
+        }
+
+
+        const issueId =
+            getIssueId();
+
+
+        if (!issueId) {
+
+            showMessage(
+                "No issue ID was provided.",
+                true
+            );
+
+            return;
+        }
+
+
+        console.log(
+            "Loading issue:",
+            issueId
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}/api/v1/issues/${issueId}`,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Issue Details Response:",
+                data
+            );
+
+
+            if (!response.ok) {
+
+                let message =
+                    "Unable to load issue.";
+
+                if (data.detail) {
+                    message =
+                        data.detail;
+                }
+
+                showMessage(
+                    message,
+                    true
+                );
+
+                return;
+            }
+
+
+            renderIssue(data);
+
+
+        } catch (error) {
+
+            console.error(
+                "Issue details error:",
+                error
+            );
+
+            showMessage(
+                "Unable to connect to the BugFlow server.",
+                true
+            );
+        }
+    }
+
+
+    /* =========================================================
+       RENDER ISSUE
+    ========================================================= */
+
+    function renderIssue(issue) {
+
+        document.getElementById(
+            "issueSummary"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "detailsContent"
+        ).style.display = "grid";
+
+
+        document.getElementById(
+            "issueNumber"
+        ).textContent =
+            `#${issue.id}`;
+
+
+        document.getElementById(
+            "issueMainTitle"
+        ).textContent =
+            issue.title ||
+            "Untitled Issue";
+
+
+        /* ---------------------------------------------
+           BADGES
+        --------------------------------------------- */
+
+        const severity =
+            issue.severity || "";
+
+        const priority =
+            issue.priority || "";
+
+        const status =
+            issue.status || "";
+
+
+        document.getElementById(
+            "summaryBadges"
+        ).innerHTML = `
+
+            <span class="issue-badge ${getBadgeClass(
+                "severity",
+                severity
+            )}">
+                ${formatEnum(severity)}
+            </span>
+
+            <span class="issue-badge ${getBadgeClass(
+                "priority",
+                priority
+            )}">
+                ${formatEnum(priority)}
+            </span>
+
+            <span class="issue-badge ${getBadgeClass(
+                "status",
+                status
+            )}">
+                ${formatEnum(status)}
+            </span>
+
+        `;
+
+
+        /* ---------------------------------------------
+           DESCRIPTION
+        --------------------------------------------- */
+
+        document.getElementById(
+            "description"
+        ).innerHTML =
+            displayValue(
+                escapeHtml(
+                    issue.description
+                )
+            );
+
+
+        /* ---------------------------------------------
+           REPRODUCTION STEPS
+        --------------------------------------------- */
+
+        document.getElementById(
+            "reproductionSteps"
+        ).innerHTML =
+            displayValue(
+                escapeHtml(
+                    issue.reproduction_steps
+                )
+            );
+
+
+        /* ---------------------------------------------
+           ISSUE INFORMATION
+        --------------------------------------------- */
+
+        document.getElementById(
+            "infoIssueId"
+        ).textContent =
+            issue.id;
+
+
+        document.getElementById(
+            "projectId"
+        ).textContent =
+            displayValue(
+                issue.project_id
+            );
+
+
+        document.getElementById(
+            "category"
+        ).textContent =
+            categoryMap[
+                issue.category_id
+            ] ||
+            `Category #${issue.category_id}`;
+
+
+        document.getElementById(
+            "severity"
+        ).innerHTML = `
+            <span class="issue-badge ${getBadgeClass(
+                "severity",
+                severity
+            )}">
+                ${formatEnum(severity)}
+            </span>
+        `;
+
+
+        document.getElementById(
+            "priority"
+        ).innerHTML = `
+            <span class="issue-badge ${getBadgeClass(
+                "priority",
+                priority
+            )}">
+                ${formatEnum(priority)}
+            </span>
+        `;
+
+
+        document.getElementById(
+            "status"
+        ).innerHTML = `
+            <span class="issue-badge ${getBadgeClass(
+                "status",
+                status
+            )}">
+                ${formatEnum(status)}
+            </span>
+        `;
+
+
+        /* ---------------------------------------------
+           PEOPLE
+        --------------------------------------------- */
+
+        document.getElementById(
+            "reporter"
+        ).textContent =
+            issue.reporter_id
+                ? `User #${issue.reporter_id}`
+                : "Not available";
+
+
+        document.getElementById(
+            "assignee"
+        ).textContent =
+            issue.assignee_id
+                ? `User #${issue.assignee_id}`
+                : "Unassigned";
+
+
+        /* ---------------------------------------------
+           TECHNICAL INFORMATION
+        --------------------------------------------- */
+
+        document.getElementById(
+            "devStage"
+        ).innerHTML =
+            displayValue(
+                escapeHtml(
+                    issue.dev_stage
+                )
+            );
+
+
+        document.getElementById(
+            "affectedModules"
+        ).innerHTML =
+            displayValue(
+                escapeHtml(
+                    issue.affected_modules
+                )
+            );
+
+
+        document.getElementById(
+            "environmentDetails"
+        ).innerHTML =
+            displayValue(
+                escapeHtml(
+                    issue.environment_details
+                )
+            );
+
+
+        document.getElementById(
+            "estimatedEffort"
+        ).innerHTML =
+            displayValue(
+                issue.estimated_effort
+            );
+
+
+        document.getElementById(
+            "priorityScore"
+        ).innerHTML =
+            displayValue(
+                issue.priority_score
+            );
+
+
+        /* ---------------------------------------------
+           DATES
+        --------------------------------------------- */
+
+        document.getElementById(
+            "createdAt"
+        ).innerHTML =
+            formatDate(
+                issue.created_at
+            );
+
+
+        document.getElementById(
+            "updatedAt"
+        ).innerHTML =
+            formatDate(
+                issue.updated_at
+            );
+
+
+        document.getElementById(
+    "resolvedAt"
+).innerHTML =
+    formatDate(
+        issue.resolved_at
+    );
+
+
+/* ---------------------------------------------
+   STATUS WORKFLOW
+--------------------------------------------- */
+setupStatusWorkflow(issue);
+
+}
+    /* =========================================================
+       ENUM FORMATTER
+    ========================================================= */
+
+    function formatEnum(value) {
+
+        if (!value) {
+            return "Not available";
+        }
+
+        return String(value)
+            .toLowerCase()
+            .split("_")
+            .map(
+                word =>
+                    word.charAt(0).toUpperCase() +
+                    word.slice(1)
+            )
+            .join(" ");
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================================================
+       SHOW MESSAGE
+    ========================================================= */
+
+    function showMessage(
+        message,
+        isError = false
+    ) {
+
+        const box =
+            document.getElementById(
+                "detailsMessage"
+            );
+
+
+        box.innerHTML =
+            escapeHtml(message);
+
+
+        box.className =
+            isError
+                ? "details-message details-error"
+                : "details-message";
+
+
+        box.style.display =
+            "block";
+    }
+/* =========================================================
+   STATUS WORKFLOW
+========================================================= */
+
+function setupStatusWorkflow(issue) {
+
+    const statusCard =
+        document.getElementById(
+            "statusUpdateCard"
+        );
+
+    const currentStatusDisplay =
+        document.getElementById(
+            "currentStatusDisplay"
+        );
+
+    const newStatusSelect =
+        document.getElementById(
+            "newStatus"
+        );
+
+    const updateStatusBtn =
+        document.getElementById(
+            "updateStatusBtn"
+        );
+
+
+    if (
+        !statusCard ||
+        !currentStatusDisplay ||
+        !newStatusSelect ||
+        !updateStatusBtn
+    ) {
+        return;
+    }
+
+
+    const currentStatus =
+        String(
+            issue.status || "REPORTED"
+        ).toUpperCase();
+
+
+    /* ---------------------------------------------------------
+       VALID NEXT STATUS
+    --------------------------------------------------------- */
+
+    const nextStatusMap = {
+
+        REPORTED: [
+            "TRIAGED"
+        ],
+
+        TRIAGED: [
+            "IN_PROGRESS"
+        ],
+
+        IN_PROGRESS: [
+            "CODE_REVIEW"
+        ],
+
+        CODE_REVIEW: [
+            "QA_VERIFICATION"
+        ],
+
+        QA_VERIFICATION: [
+            "RESOLVED"
+        ],
+
+        RESOLVED: [
+            "CLOSED"
+        ],
+
+        CLOSED: []
+
+    };
+
+
+    const nextStatuses =
+        nextStatusMap[currentStatus] || [];
+
+
+    /* ---------------------------------------------------------
+       SHOW CURRENT STATUS
+    --------------------------------------------------------- */
+
+    currentStatusDisplay.innerHTML = `
+        <span class="issue-badge ${getBadgeClass(
+            "status",
+            currentStatus
+        )}">
+            ${formatEnum(currentStatus)}
+        </span>
+    `;
+
+
+    /* ---------------------------------------------------------
+       CLEAR OLD OPTIONS
+    --------------------------------------------------------- */
+
+    newStatusSelect.innerHTML = `
+        <option value="">
+            Select next status
+        </option>
+    `;
+
+
+    /* ---------------------------------------------------------
+       ADD NEXT STATUS
+    --------------------------------------------------------- */
+
+    nextStatuses.forEach(function(status) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = status;
+
+        option.textContent =
+            formatEnum(status);
+
+        newStatusSelect.appendChild(
+            option
+        );
+
+    });
+
+
+    /* ---------------------------------------------------------
+       CLOSED = NO MORE UPDATES
+    --------------------------------------------------------- */
+
+    if (nextStatuses.length === 0) {
+
+        newStatusSelect.disabled = true;
+
+        updateStatusBtn.disabled = true;
+
+        updateStatusBtn.innerHTML =
+            '<i class="fa-solid fa-lock"></i> Workflow Complete';
+
+        statusCard.style.display = "block";
+
+        return;
+    }
+
+/* ---------------------------------------------------------
+   ENABLE STATUS UPDATE
+--------------------------------------------------------- */
+
+newStatusSelect.disabled = false;
+
+updateStatusBtn.disabled = false;
+
+/* Reset button text after successful update */
+updateStatusBtn.innerHTML =
+    '<i class="fa-solid fa-check"></i> Update Status';
+
+statusCard.style.display = "block";
+    /* ---------------------------------------------------------
+       REMOVE OLD EVENT
+       PREVENT DUPLICATE LISTENERS
+    --------------------------------------------------------- */
+
+    updateStatusBtn.onclick =
+        function() {
+
+            updateIssueStatus(
+                issue.id,
+                newStatusSelect.value
+            );
+
+        };
+}
+
+
+/* =========================================================
+   UPDATE ISSUE STATUS
+========================================================= */
+
+async function updateIssueStatus(
+    issueId,
+    newStatus
+) {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    if (!token) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+
+    if (!newStatus) {
+
+        showStatusMessage(
+            "Please select the next status.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const updateButton =
+        document.getElementById(
+            "updateStatusBtn"
+        );
+
+
+    const statusSelect =
+        document.getElementById(
+            "newStatus"
+        );
+
+
+    updateButton.disabled = true;
+
+    statusSelect.disabled = true;
+
+    updateButton.innerHTML =
+        '<i class="fa-solid fa-spinner fa-spin"></i> Updating...';
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issueId}/status`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            status: newStatus
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Update Status Response:",
+            data
+        );
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to update issue status.";
+
+
+            if (data.detail) {
+
+                if (
+                    Array.isArray(data.detail)
+                ) {
+
+                    errorMessage =
+                        data.detail
+                            .map(
+                                item =>
+                                    item.msg
+                            )
+                            .join(", ");
+
+                } else {
+
+                    errorMessage =
+                        data.detail;
+
+                }
+
+            }
+
+
+            showStatusMessage(
+                errorMessage,
+                "error"
+            );
+
+
+            updateButton.disabled =
+                false;
+
+            statusSelect.disabled =
+                false;
+
+            updateButton.innerHTML =
+                '<i class="fa-solid fa-check"></i> Update Status';
+
+            return;
+        }
+
+
+        /* -----------------------------------------------------
+           SUCCESS
+        ----------------------------------------------------- */
+
+        showStatusMessage(
+            "Issue status updated successfully!",
+            "success"
+        );
+
+
+        /*
+           Reload the issue details from
+           the backend so the displayed
+           status is always the database value.
+        */
+
+        setTimeout(
+            function() {
+
+                loadIssue();
+
+            },
+            700
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Update status error:",
+            error
+        );
+
+
+        showStatusMessage(
+            "Unable to connect to the BugFlow server.",
+            "error"
+        );
+
+
+        updateButton.disabled =
+            false;
+
+        statusSelect.disabled =
+            false;
+
+        updateButton.innerHTML =
+            '<i class="fa-solid fa-check"></i> Update Status';
+
+    }
+
+}
+
+
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
+
+function showStatusMessage(
+    message,
+    type
+) {
+
+    const box =
+        document.getElementById(
+            "statusMessage"
+        );
+
+
+    if (!box) {
+        return;
+    }
+
+
+    box.textContent =
+        message;
+
+
+    box.className =
+        `status-message ${type}`;
+
+
+    box.style.display =
+        "block";
+}
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    document
+        .getElementById("logoutLink")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                localStorage.removeItem(
+                    "access_token"
+                );
+
+                localStorage.removeItem(
+                    "user"
+                );
+
+                window.location.href =
+                    "index.html";
+            }
+        );
+
+
+    /* =========================================================
+       INITIALIZATION
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            displayUser();
+
+            loadIssue();
+
+        }
+    );
+
+</script>
+<script src="theme.js"></script>
+</body>
+</html>
