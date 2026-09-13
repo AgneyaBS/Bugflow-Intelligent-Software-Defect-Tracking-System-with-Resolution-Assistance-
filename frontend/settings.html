@@ -8,7 +8,7 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<script src="notification.js"></script>
     <style>
         * {
             margin: 0;
@@ -372,7 +372,10 @@ body.dark-mode select {
 
             </a>
 
-
+<a href="sprints.html" class="nav-link">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Sprints</span>
+</a>
             <a href="users.html"
                class="nav-link">
 
@@ -414,16 +417,6 @@ body.dark-mode select {
             </a>
 
 
-            <a href="reports.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-file-lines"></i>
-
-                <span>
-                    Reports
-                </span>
-
-            </a>
 
 
             <a href="notifications.html"
@@ -435,9 +428,7 @@ body.dark-mode select {
                     Notifications
                 </span>
 
-                <b class="badge">
-                    5
-                </b>
+               <b class="badge" id="sidebarNotificationBadge">0</b>
 
             </a>
 

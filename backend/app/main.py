@@ -21,6 +21,9 @@ from app.routers.analytics import router as analytics_router
 from app.routers.webhooks import router as webhooks_router
 from app.routers.password_router import router as password_router
 from app.routers.exports import router as exports_router
+from app.routers.notifications import router as notifications_router
+
+
 app = FastAPI(
     title="BugFlow - Software Issue Tracking & Resolution Platform",
     description="Module 1: Issue Reporting & Foundation Management",
@@ -60,9 +63,16 @@ app.include_router(resolution_router)
 app.include_router(password_router)
 app.include_router(exports_router)
 
+app.include_router(notifications_router)
+
 @app.get("/")
 def root():
     return {
         "message": "BugFlow API is running",
         "version": "1.0.0"
+    }
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy"
     }

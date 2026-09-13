@@ -59,6 +59,25 @@ class User(Base):
         String(50),
         nullable=True
     )
+    phone: Mapped[str | None] = mapped_column(
+        String(20),
+        nullable=True
+    )
+
+    department: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True
+    )
+
+    about: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True
+    )
+
+    profile_picture: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True
+    )
 
     is_active: Mapped[bool] = mapped_column(
         Boolean,

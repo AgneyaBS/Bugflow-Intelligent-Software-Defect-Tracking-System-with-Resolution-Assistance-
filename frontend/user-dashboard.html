@@ -1069,6 +1069,35 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+.notification {
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 10px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-link {
+    position: relative;
+}
+
+#sidebarNotificationBadge {
+    margin-left: auto;
+}
 </style>
 </head>
 
@@ -1103,55 +1132,116 @@
 
         <div class="sidebar-section">
 
-            <div class="sidebar-heading">
-                Main
-            </div>
+    <div class="sidebar-heading">
+        Main
+    </div>
+
+    <!-- Dashboard -->
+    <a href="user-dashboard.html"
+       class="nav-link active">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <span>Dashboard</span>
+
+    </a>
 
 
-            <a href="user-dashboard.html"
-               class="nav-link active">
+    <!-- Report Issue -->
+    <a href="report-defect.html"
+       class="nav-link">
 
-                <i class="fa-solid fa-chart-line"></i>
+        <i class="fa-solid fa-bug"></i>
 
-                <span>Dashboard</span>
+        <span>Report Issue</span>
 
-            </a>
-
-
-            <a href="my-issues.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-bug"></i>
-
-                <span>Report Issue</span>
-
-            </a>
+    </a>
 
 
-            <a href="my-issues.html"
-               class="nav-link">
+    <!-- My Issues -->
+    <a href="my-issues.html"
+       class="nav-link">
 
-                <i class="fa-solid fa-list-check"></i>
+        <i class="fa-solid fa-list-check"></i>
 
-                <span>My Issues</span>
+        <span>My Issues</span>
 
-            </a>
+    </a>
 
 
-            <a href="resolution.html"
-               class="nav-link">
+    <!-- Projects -->
+    <a href="projects.html"
+       class="nav-link">
 
-                <i class="fa-solid fa-lightbulb"></i>
+        <i class="fa-solid fa-folder-open"></i>
 
-                <span>Resolution Assistance</span>
+        <span>Projects</span>
 
-            </a>
-            <a href="analytics.html" class="nav-link">
-    <i class="fa-solid fa-chart-pie"></i>
-    <span>Analytics & APIs</span>
+    </a>
+
+
+    <!-- Resolution Assistance -->
+    <a href="resolution.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-lightbulb"></i>
+
+        <span>Resolution Assistance</span>
+
+    </a>
+
+
+    <!-- Analytics & Reports -->
+    <a href="user-analytics.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <span>Analytics & Reports</span>
+
+    </a>
+
+
+
+
+
+    <!-- Notifications -->
+    <a href="notifications.html"
+   class="nav-link">
+
+    <i class="fa-solid fa-bell"></i>
+
+    <span>Notifications</span>
+
+    <span id="sidebarNotificationBadge"
+          class="notification-badge"></span>
+
 </a>
 
-        </div>
+
+
+    <!-- Settings -->
+    <a href="settings.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-gear"></i>
+
+        <span>Settings</span>
+
+    </a>
+
+
+    <!-- System Support -->
+    <a href="system-support.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-circle-question"></i>
+
+        <span>System Support</span>
+
+    </a>
+
+</div>
 
 
         <div class="sidebar-bottom">
@@ -1192,11 +1282,10 @@
 
             <div class="topbar-right">
 
-                <div class="notification">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                </div>
+               <a href="notifications.html" class="notification" id="topNotificationBell">
+    <i class="fa-regular fa-bell"></i>
+    <span id="topNotificationBadge" class="notification-badge"></span>
+</a>
 
 
                 <div class="user-profile">
@@ -1645,11 +1734,6 @@
                         </p>
 
                     </div>
-
-
-                    <span class="view-link">
-                        Milestone 2
-                    </span>
 
                 </div>
 
@@ -4511,7 +4595,7 @@ async function simulateGitWebhook() {
 
 </script>
 <script src="theme.js"></script>
-
+<script src="notification.js"></script>
 </body>
 
 </html>

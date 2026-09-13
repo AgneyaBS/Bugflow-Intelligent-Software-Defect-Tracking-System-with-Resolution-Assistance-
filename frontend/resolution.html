@@ -562,6 +562,34 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+.notification-button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 18px;
+
+    margin-left: auto;
+    margin-right: 12px;
+}
+
+.notification-button:hover {
+    background: #f3f4f6;
+    color: #2563eb;
+}
     </style>
 </head>
 
@@ -593,58 +621,84 @@
 </button>
 
 
-        <div class="sidebar-section">
+       <div class="sidebar-section">
 
-            <div class="sidebar-heading">
-                Main
-            </div>
+    <div class="sidebar-heading">
+        Main
+    </div>
 
+    <a href="user-dashboard.html"
+       class="nav-link">
 
-            <a href="user-dashboard.html"
-               class="nav-link">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Dashboard</span>
 
-                <i class="fa-solid fa-chart-line"></i>
+    </a>
 
-                <span>Dashboard</span>
+    <a href="report-defect.html"
+       class="nav-link">
 
-            </a>
+        <i class="fa-solid fa-bug"></i>
+        <span>Report Issue</span>
 
+    </a>
 
-            <a href="my-issues.html"
-               class="nav-link">
+    <a href="my-issues.html"
+       class="nav-link">
 
-                <i class="fa-solid fa-bug"></i>
+        <i class="fa-solid fa-list-check"></i>
+        <span>My Issues</span>
 
-                <span>Report Issue</span>
+    </a>
 
-            </a>
-
-
-            <a href="my-issues.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-list-check"></i>
-
-                <span>My Issues</span>
-
-            </a>
-
-
-            <a href="resolution.html"
-               class="nav-link active">
-
-                <i class="fa-solid fa-lightbulb"></i>
-
-                <span>Resolution Assistance</span>
-
-            </a>
-            <a href="analytics.html" class="nav-link">
-    <i class="fa-solid fa-chart-pie"></i>
-    <span>Analytics & APIs</span>
+    <a href="sprints.html" class="nav-link">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Sprints</span>
 </a>
 
+    <a href="resolution.html"
+       class="nav-link active">
 
-        </div>
+        <i class="fa-solid fa-lightbulb"></i>
+        <span>Resolution Assistance</span>
+
+    </a>
+
+    <a href="user-analytics.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Analytics & Reports</span>
+
+    </a>
+
+
+
+    <a href="notifications.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-bell"></i>
+        <span>Notifications</span>
+
+    </a>
+
+    <a href="settings.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+
+    </a>
+
+    <a href="system-support.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-circle-question"></i>
+        <span>System Support</span>
+
+    </a>
+
+</div> 
 
 
         <div class="sidebar-bottom">
@@ -670,47 +724,62 @@
 
     <main class="main-content">
 
-        <header class="topbar">
+          <!-- TOPBAR -->
 
-            <div class="page-title">
-                Resolution Assistance
-            </div>
+<header class="topbar">
 
+    <div class="topbar-title">
 
-            <div class="topbar-right">
+        <span>
+            SOFTWARE DEFECT MANAGEMENT
+        </span>
 
-                <div class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </div>
+        <strong>
+            All Defects
+        </strong>
 
-
-                <div class="user-profile">
-
-                    <div class="user-avatar"
-                         id="userAvatar">
-                        U
-                    </div>
+    </div>
 
 
-                    <div>
+    <div class="topbar-right">
 
-                        <div class="user-name"
-                             id="topUserName">
-                            User
-                        </div>
+        <!-- Notifications -->
 
-                        <div class="user-role"
-                             id="topUserRole">
-                            TESTER
-                        </div>
+        <a href="notifications.html"
+   class="notification-button"
+   id="notificationButton">
 
-                    </div>
+    <i class="fa-regular fa-bell"></i>
 
-                </div>
+</a>
 
-            </div>
 
-        </header>
+        <!-- Admin Profile -->
+
+        <a href="profile.html"
+           class="user-profile">
+<div class="user-avatar"
+     id="userAvatar">
+    U
+</div>
+
+<div>
+    <strong class="user-name"
+            id="topUserName">
+        User
+    </strong>
+<br>
+    <small class="user-role"
+           id="topUserRole">
+        TESTER
+    </small>
+</div>
+
+        </a>
+
+    </div>
+
+</header>
 
 
         <!-- =================================================
@@ -1227,7 +1296,25 @@ async function loadUserIssues() {
 
         });
 
+select.addEventListener("change", function () {
 
+    const issueId = Number(select.value);
+
+    if (!issueId) {
+        document.getElementById("issueDetails").style.display = "none";
+        return;
+    }
+
+    const issue = userIssues.find(function (item) {
+        return Number(item.id) === issueId;
+    });
+
+    if (issue) {
+    displayIssueDetails(issue);
+    hideError();
+}
+
+});
         /* =====================================================
            CHECK URL FOR ISSUE ID
            Example:
@@ -1391,7 +1478,7 @@ function analyzeSelectedIssue() {
 
 
     generateResolutionAssistance(
-        selectedIssue
+        issue
     );
 
 }
@@ -1449,282 +1536,24 @@ function displayIssueDetails(issue) {
     ).style.display =
         "block";
 }
-
-
 /* =========================================================
    GENERATE RESOLUTION ASSISTANCE
+   Uses FastAPI backend
 ========================================================= */
 
-function generateResolutionAssistance(issue) {
+async function generateResolutionAssistance(issue) {
 
-    const title =
-        String(
-            issue.title || ""
-        ).toLowerCase();
-
-
-    const description =
-        String(
-            issue.description || ""
-        ).toLowerCase();
-
-
-    const category =
-        String(
-            issue.category_name ||
-            issue.category ||
-            ""
-        ).toLowerCase();
-
-
-    const combined =
-        `${title} ${description} ${category}`;
-
-
-    let analysis =
-        "The issue requires investigation based on its reported symptoms.";
-
-
-    let resolution =
-        "Review the affected component, reproduce the issue, identify the root cause, apply the required correction, and verify the result.";
-
-
-    let steps = [
-        "Reproduce the issue using the reported steps.",
-        "Inspect the affected module and application logs.",
-        "Identify the root cause of the failure.",
-        "Apply the appropriate code or configuration change.",
-        "Test the fix and verify that the issue no longer occurs."
-    ];
-
-
-    let prevention =
-        "Add appropriate validation, testing, logging, or monitoring to reduce the chance of the issue occurring again.";
-
-
-    /* DATABASE */
-
-    if (
-        combined.includes("database") ||
-        combined.includes("sql") ||
-        combined.includes("postgres") ||
-        combined.includes("connection") ||
-        combined.includes("query")
-    ) {
-
-        analysis =
-            "The issue appears to be related to database connectivity, queries, or database configuration.";
-
-
-        resolution =
-            "Check the database connection configuration, verify that the PostgreSQL service is running, inspect connection errors, and validate the affected query or transaction.";
-
-
-        steps = [
-            "Verify that the PostgreSQL database server is running.",
-            "Check database host, port, username, password, and database name.",
-            "Inspect backend logs for database connection or query errors.",
-            "Test the affected SQL query or transaction independently.",
-            "Apply the correction and retest the complete operation."
-        ];
-
-
-        prevention =
-            "Use connection health checks, proper exception handling, query validation, and database monitoring.";
+    if (!issue || !issue.id) {
+        showError("Unable to identify the selected issue.");
+        return;
     }
 
-
-    /* AUTHENTICATION */
-
-    else if (
-        combined.includes("login") ||
-        combined.includes("authentication") ||
-        combined.includes("password") ||
-        combined.includes("token") ||
-        combined.includes("jwt")
-    ) {
-
-        analysis =
-            "The issue appears to involve authentication, login credentials, or token validation.";
-
-
-        resolution =
-            "Verify the authentication flow, credential validation, JWT generation or validation, token expiration, and user authorization rules.";
-
-
-        steps = [
-            "Reproduce the authentication failure.",
-            "Check the submitted username and password.",
-            "Inspect JWT creation and token validation.",
-            "Verify token expiration and authorization rules.",
-            "Retest login and protected API requests."
-        ];
-
-
-        prevention =
-            "Use secure password hashing, token expiration, consistent authentication validation, and automated authentication tests.";
-    }
-
-
-    /* FRONTEND */
-
-    else if (
-        combined.includes("ui") ||
-        combined.includes("frontend") ||
-        combined.includes("button") ||
-        combined.includes("page") ||
-        combined.includes("display") ||
-        combined.includes("css")
-    ) {
-
-        analysis =
-            "The issue appears to be related to the frontend interface or browser-side behavior.";
-
-
-        resolution =
-            "Inspect the affected HTML, CSS, and JavaScript components, identify the incorrect behavior, and verify the result across the relevant screen states.";
-
-
-        steps = [
-            "Reproduce the issue in the browser.",
-            "Inspect browser console errors.",
-            "Check the affected HTML and CSS structure.",
-            "Inspect JavaScript event handlers and API calls.",
-            "Retest the interface after applying the fix."
-        ];
-
-
-        prevention =
-            "Use browser testing, JavaScript error handling, UI validation, and regression testing.";
-    }
-
-
-    /* API / BACKEND */
-
-    else if (
-        combined.includes("api") ||
-        combined.includes("backend") ||
-        combined.includes("server") ||
-        combined.includes("fastapi") ||
-        combined.includes("request") ||
-        combined.includes("response")
-    ) {
-
-        analysis =
-            "The issue appears to be related to backend processing or an API request/response.";
-
-
-        resolution =
-            "Inspect the API endpoint, request data, validation rules, authentication, database interaction, and response handling.";
-
-
-        steps = [
-            "Reproduce the API request.",
-            "Check the request payload and authentication token.",
-            "Inspect backend logs and endpoint logic.",
-            "Verify validation and database operations.",
-            "Retest the API and confirm the expected response."
-        ];
-
-
-        prevention =
-            "Add API validation, exception handling, logging, automated endpoint tests, and monitoring.";
-    }
-
-
-    /* PERFORMANCE */
-
-    else if (
-        combined.includes("slow") ||
-        combined.includes("performance") ||
-        combined.includes("timeout") ||
-        combined.includes("latency")
-    ) {
-
-        analysis =
-            "The issue appears to involve application performance, response time, or timeout behavior.";
-
-
-        resolution =
-            "Identify the slow operation by inspecting application logs, database queries, API response times, and resource usage.";
-
-
-        steps = [
-            "Reproduce the slow operation.",
-            "Measure API and database response time.",
-            "Inspect slow queries and backend processing.",
-            "Identify unnecessary or expensive operations.",
-            "Apply the optimization and measure performance again."
-        ];
-
-
-        prevention =
-            "Use performance monitoring, query optimization, caching where appropriate, and regular load testing.";
-    }
-
-
-    document.getElementById(
-        "analysisText"
-    ).textContent =
-        analysis;
-
-
-    document.getElementById(
-        "resolutionText"
-    ).textContent =
-        resolution;
-
-
-    document.getElementById(
-        "preventionText"
-    ).textContent =
-        prevention;
-
-
-    const stepsList =
-        document.getElementById(
-            "stepsList"
-        );
-
-
-    stepsList.innerHTML = "";
-
-
-    steps.forEach(
-        function(step) {
-
-            const li =
-                document.createElement(
-                    "li"
-                );
-
-            li.textContent =
-                step;
-
-            stepsList.appendChild(
-                li
-            );
-
-        }
-    );
-
-
-    document.getElementById(
-        "assistanceCard"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "assistanceCard"
-    ).scrollIntoView({
-        behavior: "smooth"
-    });
+    await getBackendResolutionAssistance(issue);
 }
+
 /* =========================================================
    GET RESOLUTION ASSISTANCE FROM BACKEND
 ========================================================= */
-
 async function getBackendResolutionAssistance(issue) {
 
     const token =
@@ -2009,6 +1838,7 @@ document.addEventListener(
 </script>
 
 <script src="theme.js"></script>
+<script src="notification.js"></script>
 </body>
 
 </html>

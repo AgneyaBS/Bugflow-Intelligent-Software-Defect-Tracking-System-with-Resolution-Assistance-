@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Projects - BugFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <style>
+
+        /* ============================================================
+           GLOBAL
+           ============================================================ */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            background: #ffffff;
+
+            border-right: 1px solid #e5e7eb;
+
+            display: flex;
+            flex-direction: column;
+
+            z-index: 1000;
+
+            overflow-y: auto;
+        }
+
+
+        /* BRAND */
+
+        .brand {
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 22px 20px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .brand-icon {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 10px;
+
+            background: #2563eb;
+
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .brand-text {
+
+            font-size: 22px;
+            font-weight: 700;
+
+            color: #111827;
+        }
+
+        .brand-text span {
+            color: #2563eb;
+        }
+
+
+        /* BACK BUTTON */
+
+        .sidebar-back-button {
+
+            display: flex;
+            align-items: center;
+
+            gap: 7px;
+
+            margin: 15px 15px 20px auto;
+
+            padding: 8px 14px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #f1f5f9;
+
+            color: #334155;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-back-button:hover {
+
+            background: #e2e8f0;
+
+            transform: translateX(-2px);
+        }
+
+
+        /* SIDEBAR SECTION */
+
+        .sidebar-section {
+
+            padding: 0 12px;
+
+            flex: 1;
+        }
+
+
+        .sidebar-heading {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #9ca3af;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            padding: 0 10px 10px;
+        }
+
+
+        /* NAV LINKS */
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+
+            color: #4b5563;
+
+            padding: 11px 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: all 0.2s ease;
+        }
+
+        .nav-link i {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+
+            background: #f3f4f6;
+
+            color: #2563eb;
+        }
+
+
+        /* ACTIVE LINK */
+
+        .nav-link.active {
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-weight: 600;
+        }
+
+
+        /* SIDEBAR BOTTOM */
+
+        .sidebar-bottom {
+
+            padding: 15px 12px 20px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .logout-link:hover {
+
+            color: #dc2626;
+
+            background: #fef2f2;
+        }
+
+
+        /* ============================================================
+           MAIN PAGE
+           ============================================================ */
+
+        .page {
+
+            min-height: 100vh;
+
+            padding: 35px;
+
+            margin-left: 250px;
+        }
+
+
+        /* ============================================================
+           TOP SECTION
+           ============================================================ */
+
+        .top-section {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+        .top-section h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+        }
+
+        .top-section p {
+
+            margin-top: 8px;
+
+            color: #6b7280;
+        }
+
+
+        /* ADD PROJECT BUTTON */
+
+        .add-project-btn {
+
+            border: none;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .add-project-btn:hover {
+
+            background: #1d4ed8;
+        }
+
+        .add-project-btn i {
+
+            margin-right: 7px;
+        }
+
+
+        /* ============================================================
+           PROJECT GRID
+           ============================================================ */
+
+        .projects-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+
+        /* PROJECT CARD */
+
+        .project-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            border: 1px solid #e5e7eb;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 22px rgba(0,0,0,0.12);
+        }
+
+
+        .project-icon {
+
+            width: 48px;
+            height: 48px;
+
+            border-radius: 10px;
+
+            background: #eff6ff;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #2563eb;
+
+            font-size: 21px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .project-card h3 {
+
+            margin: 0 0 8px;
+
+            font-size: 20px;
+        }
+
+
+        .project-card p {
+
+            margin: 6px 0;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .project-info {
+
+            margin-top: 18px;
+
+            padding-top: 15px;
+
+            border-top:
+                1px solid #e5e7eb;
+        }
+
+
+        .empty-message {
+
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 50px;
+
+            color: #6b7280;
+        }
+
+
+        /* ============================================================
+           PROJECT ISSUES SECTION
+           ============================================================ */
+
+        .project-issues-section {
+
+            width: 100%;
+        }
+
+
+        .issues-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+
+        .issues-header h2 {
+
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .issues-header p {
+
+            margin-top: 8px;
+
+            color: #6b7280;
+        }
+
+
+        .back-projects-btn {
+
+            border: none;
+
+            background: #ffffff;
+
+            color: #374151;
+
+            border:
+                1px solid #d1d5db;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .back-projects-btn:hover {
+
+            background: #f3f4f6;
+        }
+
+
+        .project-issues-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .issue-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.07);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .issue-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.10);
+        }
+
+
+        .issue-card-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 16px;
+        }
+
+
+        .issue-id {
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #6b7280;
+        }
+
+
+        .issue-status {
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .issue-card h3 {
+
+            margin: 0 0 10px;
+
+            font-size: 18px;
+        }
+
+
+        .issue-card > p {
+
+            color: #6b7280;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .issue-card-bottom {
+
+            display: flex;
+
+            gap: 20px;
+
+            padding-top: 15px;
+
+            border-top:
+                1px solid #e5e7eb;
+
+            color: #6b7280;
+
+            font-size: 13px;
+        }
+
+
+        /* ============================================================
+           ADD PROJECT MODAL
+           ============================================================ */
+
+        .modal-overlay {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(15, 23, 42, 0.55);
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 9999;
+
+            padding: 20px;
+        }
+
+
+        .modal-overlay.show {
+
+            display: flex;
+        }
+
+
+        .add-project-modal {
+
+            width: 100%;
+
+            max-width: 520px;
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.20);
+
+            animation:
+                modalOpen 0.2s ease;
+        }
+
+
+        @keyframes modalOpen {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-15px)
+                    scale(0.98);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        .modal-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-start;
+
+            margin-bottom: 25px;
+        }
+
+
+        .modal-header h2 {
+
+            margin: 0;
+
+            font-size: 24px;
+        }
+
+
+        .modal-header p {
+
+            margin: 7px 0 0;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .modal-close {
+
+            width: 36px;
+
+            height: 36px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #f3f4f6;
+
+            color: #4b5563;
+
+            cursor: pointer;
+
+            font-size: 17px;
+        }
+
+
+        .modal-close:hover {
+
+            background: #e5e7eb;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            background: #ffffff;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #2563eb;
+        }
+
+
+        .modal-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        .cancel-btn,
+        .create-btn {
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .cancel-btn {
+
+            border:
+                1px solid #d1d5db;
+
+            background: #ffffff;
+
+            color: #374151;
+        }
+
+
+        .create-btn {
+
+            border: none;
+
+            background: #2563eb;
+
+            color: #ffffff;
+        }
+
+
+        .create-btn:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+
+        @media (max-width: 1000px) {
+
+            .projects-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                width: 210px;
+            }
+
+            .page {
+
+                margin-left: 210px;
+
+                padding: 25px;
+            }
+
+            .project-issues-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .issues-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+            }
+
+            .sidebar-section {
+
+                flex: none;
+            }
+
+            .sidebar-bottom {
+
+                margin-top: 10px;
+            }
+
+            .page {
+
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .projects-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .top-section {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+            .modal-actions {
+
+                flex-direction:
+                    column-reverse;
+            }
+
+            .cancel-btn,
+            .create-btn {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     USER SIDEBAR
+     ============================================================ -->
+
+<aside class="sidebar">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="fa-solid fa-bug"></i>
+
+        </div>
+
+        <div class="brand-text">
+
+            Bug<span>Flow</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+
+    <button class="sidebar-back-button"
+            onclick="history.back()">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        <span>Back</span>
+
+    </button>
+
+
+    <!-- MAIN NAVIGATION -->
+
+    <div class="sidebar-section">
+
+        <div class="sidebar-heading">
+
+            Main
+
+        </div>
+
+
+        <!-- Dashboard -->
+
+        <a href="user-dashboard.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <!-- Report Issue -->
+
+        <a href="report-defect.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-bug"></i>
+
+            <span>Report Issue</span>
+
+        </a>
+
+
+        <!-- My Issues -->
+
+        <a href="my-issues.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-list-check"></i>
+
+            <span>My Issues</span>
+
+        </a>
+
+
+        <!-- Projects -->
+
+        <a href="projects.html"
+           class="nav-link active">
+
+            <i class="fa-solid fa-folder-open"></i>
+
+            <span>Projects</span>
+
+        </a>
+
+
+        <!-- Resolution Assistance -->
+
+        <a href="resolution.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            <span>Resolution Assistance</span>
+
+        </a>
+
+
+        <!-- Analytics & Reports -->
+
+        <a href="user-analytics.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>Analytics &Reports</span>
+
+        </a>
+
+
+    
+
+
+        <!-- Notifications -->
+
+        <a href="notifications.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <span>Notifications</span>
+
+        </a>
+
+
+        <!-- Settings -->
+
+        <a href="settings.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Settings</span>
+
+        </a>
+
+
+        <!-- System Support -->
+
+        <a href="system-support.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-circle-question"></i>
+
+            <span>System Support</span>
+
+        </a>
+
+    </div>
+
+
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="sidebar-bottom">
+
+        <a href="#"
+           class="nav-link logout-link"
+           id="logoutLink">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- ============================================================
+     MAIN PAGE
+     ============================================================ -->
+
+<div class="page">
+
+
+    <!-- TOP SECTION -->
+
+    <div class="top-section">
+
+        <div>
+
+            <h1>
+                Projects
+            </h1>
+
+            <p>
+                Manage and monitor your BugFlow projects.
+            </p>
+
+        </div>
+
+
+        <button class="add-project-btn"
+                onclick="openAddProject()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add New Project
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ============================================================
+         PROJECTS GRID
+         ============================================================ -->
+
+    <div id="projectsGrid"
+         class="projects-grid">
+
+        <div class="empty-message">
+
+            Loading projects...
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================================================
+         PROJECT ISSUES
+         ============================================================ -->
+
+    <div id="projectIssuesSection"
+         class="project-issues-section"
+         style="display: none;">
+
+
+        <div class="issues-header">
+
+            <div>
+
+                <h2 id="selectedProjectName">
+
+                    Project Issues
+
+                </h2>
+
+                <p id="selectedProjectDescription">
+
+                    Issues reported under this project
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="back-projects-btn"
+                onclick="backToProjects()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Projects
+
+            </button>
+
+        </div>
+
+
+        <div id="projectIssuesGrid"
+             class="project-issues-grid">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ============================================================
+     ADD PROJECT MODAL
+     ============================================================ -->
+
+<div id="addProjectModal"
+     class="modal-overlay">
+
+
+    <div class="add-project-modal">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    Add New Project
+                </h2>
+
+                <p>
+                    Create a new BugFlow project.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closeAddProject()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <!-- PROJECT FORM -->
+
+        <form id="addProjectForm">
+
+
+            <!-- PROJECT NAME -->
+
+            <div class="form-group">
+
+                <label for="newProjectName">
+
+                    Project Name
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="newProjectName"
+                    placeholder="Enter project name"
+                    required>
+
+            </div>
+
+
+
+            <!-- CODEBASE -->
+
+            <div class="form-group">
+
+                <label for="newProjectCodebase">
+
+                    Codebase
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="newProjectCodebase"
+                    placeholder="Enter codebase">
+
+            </div>
+
+
+
+            <!-- DEVELOPMENT CYCLE -->
+
+            <div class="form-group">
+
+                <label for="newProjectCycle">
+
+                    Development Cycle
+
+                </label>
+
+
+                <select id="newProjectCycle">
+
+                    <option value="">
+
+                        Select development cycle
+
+                    </option>
+
+                    <option value="Agile">
+
+                        Agile
+
+                    </option>
+
+                    <option value="Scrum">
+
+                        Scrum
+
+                    </option>
+
+                    <option value="Waterfall">
+
+                        Waterfall
+
+                    </option>
+
+                    <option value="Kanban">
+
+                        Kanban
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- MODAL ACTIONS -->
+
+            <div class="modal-actions">
+
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeAddProject()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="create-btn">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Create Project
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+
+<script>
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+// ============================================================
+// LOAD PROJECTS
+// ============================================================
+
+async function loadProjects() {
+
+    const token =
+        localStorage.getItem("access_token");
+
+    const projectsGrid =
+        document.getElementById(
+            "projectsGrid"
+        );
+
+
+    if (!token) {
+
+        projectsGrid.innerHTML = `
+
+            <div class="empty-message">
+
+                Please login to view projects.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                `${API_BASE_URL}/api/v1/projects/`,
+
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Accept":
+                            "application/json"
+
+                    }
+
+                }
+
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load projects."
+            );
+
+        }
+
+
+        const projects =
+            await response.json();
+
+
+        projectsGrid.innerHTML = "";
+
+
+        if (projects.length === 0) {
+
+            projectsGrid.innerHTML = `
+
+                <div class="empty-message">
+
+                    No projects found.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        projects.forEach(project => {
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "project-card";
+
+
+            card.style.cursor =
+                "pointer";
+
+
+            card.onclick =
+                function() {
+
+                    viewProjectIssues(
+
+                        project.project_id,
+
+                        project.project_name
+
+                    );
+
+                };
+
+
+            card.innerHTML = `
+
+                <div class="project-icon">
+
+                    <i class="fa-solid fa-folder-open"></i>
+
+                </div>
+
+
+                <h3>
+
+                    ${project.project_name}
+
+                </h3>
+
+
+                <p>
+
+                    <strong>
+                        Codebase:
+                    </strong>
+
+                    ${project.codebase ||
+                        "Not specified"}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Development Cycle:
+                    </strong>
+
+                    ${project.development_cycle ||
+                        "Not specified"}
+
+                </p>
+
+
+                <div class="project-info">
+
+                    <p>
+
+                        <strong>
+                            Project ID:
+                        </strong>
+
+                        ${project.project_id}
+
+                    </p>
+
+                </div>
+
+            `;
+
+
+            projectsGrid.appendChild(
+                card
+            );
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Project loading error:",
+            error
+        );
+
+
+        projectsGrid.innerHTML = `
+
+            <div class="empty-message">
+
+                Unable to load projects.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+// ============================================================
+// ADD PROJECT
+// ============================================================
+
+function openAddProject() {
+
+    const modal =
+        document.getElementById(
+            "addProjectModal"
+        );
+
+
+    modal.classList.add("show");
+
+
+    document.getElementById(
+        "newProjectName"
+    ).focus();
+
+}
+
+
+
+function closeAddProject() {
+
+    const modal =
+        document.getElementById(
+            "addProjectModal"
+        );
+
+
+    modal.classList.remove("show");
+
+
+    document.getElementById(
+        "addProjectForm"
+    ).reset();
+
+}
+
+
+
+// ============================================================
+// SHOW PROJECT ISSUES
+// ============================================================
+
+function showProjectIssues(
+    projectName,
+    issues
+) {
+
+
+    document.getElementById(
+        "projectsGrid"
+    ).style.display =
+        "none";
+
+
+    document.querySelector(
+        ".top-section"
+    ).style.display =
+        "none";
+
+
+    const section =
+        document.getElementById(
+            "projectIssuesSection"
+        );
+
+
+    section.style.display =
+        "block";
+
+
+    document.getElementById(
+        "selectedProjectName"
+    ).textContent =
+        projectName;
+
+
+    const issuesGrid =
+        document.getElementById(
+            "projectIssuesGrid"
+        );
+
+
+    issuesGrid.innerHTML = "";
+
+
+    if (issues.length === 0) {
+
+        issuesGrid.innerHTML = `
+
+            <div class="empty-message">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <h3>
+                    No Issues Found
+                </h3>
+
+                <p>
+                    This project currently has no reported issues.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    issues.forEach(issue => {
+
+
+        const issueCard =
+            document.createElement(
+                "div"
+            );
+
+
+        issueCard.className =
+            "issue-card";
+
+
+        issueCard.innerHTML = `
+
+            <div class="issue-card-top">
+
+                <span class="issue-id">
+
+                    #${issue.id}
+
+                </span>
+
+
+                <span class="issue-status">
+
+                    ${issue.status ||
+                        "REPORTED"}
+
+                </span>
+
+            </div>
+
+
+            <h3>
+
+                ${issue.title}
+
+            </h3>
+
+
+            <p>
+
+                ${issue.description ||
+                    "No description provided."}
+
+            </p>
+
+
+            <div class="issue-card-bottom">
+
+                <span>
+
+                    <strong>
+                        Severity:
+                    </strong>
+
+                    ${issue.severity ||
+                        "N/A"}
+
+                </span>
+
+
+                <span>
+
+                    <strong>
+                        Type:
+                    </strong>
+
+                    ${issue.issue_type ||
+                        "N/A"}
+
+                </span>
+
+            </div>
+
+        `;
+
+
+        issuesGrid.appendChild(
+            issueCard
+        );
+
+    });
+
+}
+
+
+
+// ============================================================
+// BACK TO PROJECTS
+// ============================================================
+
+function backToProjects() {
+
+    document.getElementById(
+        "projectIssuesSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "projectsGrid"
+    ).style.display =
+        "grid";
+
+
+    document.querySelector(
+        ".top-section"
+    ).style.display =
+        "flex";
+
+}
+
+
+
+// ============================================================
+// CREATE PROJECT
+// ============================================================
+
+document.getElementById(
+    "addProjectForm"
+).addEventListener(
+    "submit",
+    async function(event) {
+
+
+        event.preventDefault();
+
+
+        const projectName =
+            document.getElementById(
+                "newProjectName"
+            ).value.trim();
+
+
+        const codebase =
+            document.getElementById(
+                "newProjectCodebase"
+            ).value.trim();
+
+
+        const developmentCycle =
+            document.getElementById(
+                "newProjectCycle"
+            ).value;
+
+
+        const token =
+            localStorage.getItem(
+                "access_token"
+            );
+
+
+        if (!token) {
+
+            alert(
+                "Please login again."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+
+                    `${API_BASE_URL}/api/v1/projects/`,
+
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Authorization":
+                                `Bearer ${token}`,
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+
+                        },
+
+
+                        body:
+                            JSON.stringify({
+
+                                project_name:
+                                    projectName,
+
+                                codebase:
+                                    codebase ||
+                                    null,
+
+                                development_cycle:
+                                    developmentCycle ||
+                                    null
+
+                            })
+
+                    }
+
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+
+                    data.detail ||
+                    "Unable to create project."
+
+                );
+
+                return;
+            }
+
+
+            closeAddProject();
+
+
+            await loadProjects();
+
+
+            alert(
+
+                `Project "${data.project_name}" created successfully!`
+
+            );
+
+
+        } catch (error) {
+
+            console.error(
+
+                "Project creation error:",
+
+                error
+
+            );
+
+
+            alert(
+
+                "Unable to connect to the BugFlow server."
+
+            );
+
+        }
+
+    }
+);
+
+
+
+// ============================================================
+// PAGE LOAD
+// ============================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadProjects();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

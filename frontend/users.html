@@ -26,7 +26,6 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
-<script src="theme.js"></script>
     <style>
 
         /* =====================================================
@@ -461,7 +460,175 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+/* =====================================================
+   CREATE USER / DEVELOPER CARD
+===================================================== */
 
+.create-user-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.create-user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.create-user-header h3 {
+    margin: 0 0 5px;
+    font-size: 17px;
+    color: #172033;
+}
+
+.create-user-header p {
+    margin: 0;
+    font-size: 12px;
+    color: #8a94a6;
+}
+
+.create-user-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+}
+
+.create-user-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.create-user-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.create-user-field.full-width {
+    grid-column: 1 / -1;
+}
+
+.create-user-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.create-user-field input,
+.create-user-field select {
+    width: 100%;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #d9e0ea;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #1f2937;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.create-user-field input:focus,
+.create-user-field select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+.create-user-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.create-user-btn {
+    height: 44px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 9px;
+    background: #4f46e5;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.create-user-btn:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+}
+
+.create-user-reset-btn {
+    height: 44px;
+    padding: 0 18px;
+    border: 1px solid #d9e0ea;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #475569;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.create-user-reset-btn:hover {
+    background: #f8fafc;
+}
+
+.create-user-message {
+    display: none;
+    margin-top: 15px;
+    padding: 11px 14px;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.create-user-message.success {
+    display: block;
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.create-user-message.error {
+    display: block;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+@media (max-width: 700px) {
+
+    .create-user-form {
+        grid-template-columns: 1fr;
+    }
+
+    .create-user-field.full-width {
+        grid-column: auto;
+    }
+
+    .create-user-actions {
+        flex-direction: column;
+    }
+
+    .create-user-btn,
+    .create-user-reset-btn {
+        width: 100%;
+    }
+}
     </style>
 
 </head>
@@ -541,7 +708,11 @@
                 </span>
 
             </a>
-
+            
+<a href="sprints.html" class="nav-link">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Sprints</span>
+</a>
 
             <a href="users.html"
                class="nav-link active">
@@ -572,7 +743,7 @@
             </p>
 
 
-            <a href="analytics.html"
+            <a href="admin-analytics.html"
                class="nav-link">
 
                 <i class="fa-solid fa-chart-line"></i>
@@ -584,17 +755,6 @@
             </a>
 
 
-            <a href="reports.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-file-lines"></i>
-
-                <span>
-                    Reports
-                </span>
-
-            </a>
-
 
             <a href="notifications.html"
                class="nav-link">
@@ -605,9 +765,7 @@
                     Notifications
                 </span>
 
-                <span class="badge">
-                    5
-                </span>
+              <span id="topNotificationBadge">0</span>
 
             </a>
 
@@ -668,65 +826,66 @@
              TOPBAR
         ================================================== -->
 
-        <header class="topbar">
+        <!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="topbar-title">
+
+        <span>
+            SOFTWARE DEFECT MANAGEMENT
+        </span>
+
+        <strong>
+            All Defects
+        </strong>
+
+    </div>
 
 
-            <div class="topbar-title">
+    <div class="topbar-right">
 
-                <span>
-                    SOFTWARE ISSUE MANAGEMENT
-                </span>
+        <!-- Notifications -->
 
-                <strong>
-                    Administration
+        <a href="notifications.html"
+           class="notification-button">
+
+            <i class="fa-regular fa-bell"></i>
+
+           <span id="topNotificationBadge">0</span>
+
+        </a>
+
+
+        <!-- Admin Profile -->
+
+        <a href="profile.html"
+           class="user-profile">
+
+            <div class="avatar admin-avatar"
+                 id="adminAvatar">
+
+                AD
+
+            </div>
+
+
+            <div>
+
+                <strong id="adminName">
+                    Administrator
                 </strong>
+                <small id="adminRole">
+                    System Admin
+                </small>
 
             </div>
 
+        </a>
 
-            <div class="topbar-right">
+    </div>
 
-
-                <button class="notification-button"
-                        type="button">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                    <span>
-                        5
-                    </span>
-
-                </button>
-
-
-                <div class="user-profile">
-
-
-                    <div class="avatar admin-avatar"
-                         id="adminAvatar">
-
-                        AD
-
-                    </div>
-
-
-                    <div>
-
-                        <strong id="adminName">
-                            BugFlow Administrator
-                        </strong>
-
-                        <small id="adminRole">
-                            ADMIN
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </header>
+</header>
 
 
 
@@ -833,7 +992,250 @@
 
                         </section>
 
+<!-- =====================================================
+     CREATE USER / DEVELOPER
+===================================================== -->
 
+<section class="create-user-card">
+
+    <div class="create-user-header">
+
+        <div>
+            <h3>
+                <i class="fa-solid fa-user-plus"></i>
+                Create User / Developer
+            </h3>
+
+            <p>
+                Register a new BugFlow user and developer profile.
+            </p>
+        </div>
+
+        <div class="create-user-icon">
+            <i class="fa-solid fa-user-plus"></i>
+        </div>
+
+    </div>
+
+
+    <form id="createUserForm">
+
+        <div class="create-user-form">
+
+            <!-- FULL NAME -->
+
+            <div class="create-user-field">
+
+                <label for="newFullName">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="newFullName"
+                    placeholder="Enter full name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- USERNAME -->
+
+            <div class="create-user-field">
+
+                <label for="newUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="newUsername"
+                    placeholder="Enter username"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="create-user-field">
+
+                <label for="newEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="newEmail"
+                    placeholder="Enter email address"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="create-user-field">
+
+                <label for="newPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="newPassword"
+                    placeholder="Minimum 6 characters"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ROLE -->
+
+            <div class="create-user-field">
+
+                <label for="newRole">
+                    Role
+                </label>
+
+                <select id="newRole" required>
+
+                    <option value="DEVELOPER">
+                        Developer
+                    </option>
+
+                    <option value="TESTER">
+                        Tester
+                    </option>
+
+                    <option value="TRIAGER">
+                        Triager
+                    </option>
+
+                    <option value="ADMIN">
+                        Admin
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TEAM -->
+
+            <div class="create-user-field">
+
+                <label for="newTeam">
+                    Team
+                </label>
+
+                <input
+                    type="text"
+                    id="newTeam"
+                    placeholder="e.g. Backend Team"
+                >
+
+            </div>
+
+
+            <!-- CORE SKILLS -->
+
+            <div class="create-user-field">
+
+                <label for="newCoreSkills">
+                    Core Skills
+                </label>
+
+                <input
+                    type="text"
+                    id="newCoreSkills"
+                    placeholder="e.g. Python, FastAPI, PostgreSQL"
+                >
+
+            </div>
+
+
+            <!-- PROFICIENCY -->
+
+            <div class="create-user-field">
+
+                <label for="newProficiency">
+                    Proficiency
+                </label>
+
+                <select id="newProficiency">
+
+                    <option value="">
+                        Select proficiency
+                    </option>
+
+                    <option value="BEGINNER">
+                        Beginner
+                    </option>
+
+                    <option value="INTERMEDIATE">
+                        Intermediate
+                    </option>
+
+                    <option value="ADVANCED">
+                        Advanced
+                    </option>
+
+                    <option value="EXPERT">
+                        Expert
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="createUserMessage"
+            class="create-user-message">
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="create-user-actions">
+
+            <button
+                type="button"
+                class="create-user-reset-btn"
+                id="resetCreateUser">
+
+                Reset
+
+            </button>
+
+
+            <button
+                type="submit"
+                class="create-user-btn"
+                id="createUserButton">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Create User
+
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
 
                         <!-- USERS TABLE -->
 
@@ -1924,9 +2326,264 @@ document.addEventListener(
 
     }
 );
+/* ============================================================
+   CREATE USER / DEVELOPER
+============================================================ */
 
+async function createUser(event) {
+
+    event.preventDefault();
+
+    const token = getToken();
+
+    const message =
+        document.getElementById("createUserMessage");
+
+    const button =
+        document.getElementById("createUserButton");
+
+
+    if (!token) {
+
+        message.className =
+            "create-user-message error";
+
+        message.textContent =
+            "Please login again.";
+
+        return;
+    }
+
+
+    const fullName =
+        document.getElementById("newFullName")
+            .value
+            .trim();
+
+    const username =
+        document.getElementById("newUsername")
+            .value
+            .trim();
+
+    const email =
+        document.getElementById("newEmail")
+            .value
+            .trim();
+
+    const password =
+        document.getElementById("newPassword")
+            .value;
+
+    const role =
+        document.getElementById("newRole")
+            .value;
+
+    const team =
+        document.getElementById("newTeam")
+            .value
+            .trim();
+
+    const coreSkills =
+        document.getElementById("newCoreSkills")
+            .value
+            .trim();
+
+    const proficiency =
+        document.getElementById("newProficiency")
+            .value;
+
+
+    if (
+        !fullName ||
+        !username ||
+        !email ||
+        !password
+    ) {
+
+        message.className =
+            "create-user-message error";
+
+        message.textContent =
+            "Please fill in all required fields.";
+
+        return;
+    }
+
+
+    if (password.length < 6) {
+
+        message.className =
+            "create-user-message error";
+
+        message.textContent =
+            "Password must contain at least 6 characters.";
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.innerHTML =
+        `<i class="fa-solid fa-spinner fa-spin"></i>
+         Creating...`;
+
+
+    message.style.display = "none";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/users/`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+
+                        username:
+                            username,
+
+                        email:
+                            email,
+
+                        password:
+                            password,
+
+                        full_name:
+                            fullName,
+
+                        role:
+                            role,
+
+                        team:
+                            team || null,
+
+                        core_skills:
+                            coreSkills || null,
+
+                        proficiency:
+                            proficiency || null
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to create user."
+            );
+
+        }
+
+
+        message.className =
+            "create-user-message success";
+
+        message.textContent =
+            `${data.user.full_name} was created successfully.`;
+
+
+        document
+            .getElementById("createUserForm")
+            .reset();
+
+
+        /*
+         * Reload users so the new developer
+         * immediately appears in the table.
+         */
+
+        await loadUsers();
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Create user error:",
+            error
+        );
+
+
+        message.className =
+            "create-user-message error";
+
+        message.textContent =
+            error.message ||
+            "Unable to create user.";
+
+    }
+    finally {
+
+        button.disabled = false;
+
+        button.innerHTML =
+            `<i class="fa-solid fa-user-plus"></i>
+             Create User`;
+
+    }
+
+}
+
+
+/* ============================================================
+   RESET CREATE USER FORM
+============================================================ */
+
+function resetCreateUserForm() {
+
+    const form =
+        document.getElementById(
+            "createUserForm"
+        );
+
+    const message =
+        document.getElementById(
+            "createUserMessage"
+        );
+
+
+    if (form) {
+
+        form.reset();
+
+    }
+
+
+    if (message) {
+
+        message.style.display =
+            "none";
+
+        message.textContent =
+            "";
+
+    }
+
+}
 </script>
-
+<script src="theme.js"></script>
+<script src="notification.js"></script>
 
 </body>
 

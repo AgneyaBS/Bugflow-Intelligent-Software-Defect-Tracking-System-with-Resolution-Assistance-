@@ -276,7 +276,7 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="admin-defects.html" class="nav-link">
+            <a href="admin-defects.html" class="nav-link active ">
                 <i class="fa-solid fa-bug"></i>
                 <span>All Issues</span>
             </a>
@@ -295,18 +295,12 @@
 
             <a href="admin-analytics.html" class="nav-link">
                 <i class="fa-solid fa-chart-line"></i>
-                <span>Analytics & APIs</span>
+                <span>Analytics & Reports</span>
             </a>
-
-            <a href="reports.html" class="nav-link">
-                <i class="fa-solid fa-file-lines"></i>
-                <span>Reports</span>
-            </a>
-
             <a href="notifications.html" class="nav-link">
                 <i class="fa-solid fa-bell"></i>
                 <span>Notifications</span>
-                <b class="badge">5</b>
+                <b class="badge" id="sidebarNotificationBadge">0</b>
             </a>
 
             <a href="settings.html" class="nav-link">
@@ -360,7 +354,7 @@
 
                     <i class="fa-solid fa-bell"></i>
 
-                    <span>5</span>
+                   <span id="topNotificationBadge">0</span>
 
                 </a>
 
@@ -692,10 +686,101 @@
 
 </div>
 
-
 <script>
 
-    // Profile picture preview
+    const API_BASE_URL = "http://127.0.0.1:8000";
+
+    // ============================================================
+    // LOAD PROFILE FROM DATABASE
+    // ============================================================
+
+    async function loadProfile() {
+
+        const token = localStorage.getItem("access_token");
+
+        if (!token) {
+            window.location.href = "index.html";
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE_URL}/api/v1/profile/`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            );
+
+            if (response.status === 401) {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("user");
+                window.location.href = "index.html";
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error("Unable to load profile.");
+            }
+
+            const user = await response.json();
+
+            // Fill profile fields
+            document.getElementById("fullName").value =
+                user.full_name || "";
+
+            document.getElementById("username").value =
+                user.username || "";
+
+            document.getElementById("email").value =
+                user.email || "";
+
+            document.getElementById("phone").value =
+                user.phone || "";
+
+            document.getElementById("department").value =
+                user.department || "";
+
+            document.getElementById("about").value =
+                user.about || "";
+
+            // Top profile information
+            document.getElementById("profileName").textContent =
+                user.full_name || "Administrator";
+
+            document.getElementById("profileEmail").textContent =
+                user.email || "";
+
+            document.getElementById("profileTopName").textContent =
+                user.full_name || "Administrator";
+
+            // Profile picture
+            if (user.profile_picture) {
+
+                document.getElementById("profilePicture").innerHTML =
+                    `<img src="${user.profile_picture}" alt="Profile Picture">`;
+
+            }
+
+        } catch (error) {
+
+            console.error("Profile loading error:", error);
+
+            alert("Unable to load profile from the database.");
+
+        }
+
+    }
+
+
+    // ============================================================
+    // PROFILE PICTURE PREVIEW
+    // ============================================================
+
     document
         .getElementById("profileImageInput")
         .addEventListener("change", function(event) {
@@ -703,6 +788,16 @@
             const file = event.target.files[0];
 
             if (!file) {
+                return;
+            }
+
+            // Limit image size to 2 MB
+            if (file.size > 2 * 1024 * 1024) {
+
+                alert("Profile picture must be smaller than 2 MB.");
+
+                event.target.value = "";
+
                 return;
             }
 
@@ -720,7 +815,10 @@
         });
 
 
-    // Toggle password visibility
+    // ============================================================
+    // TOGGLE PASSWORD VISIBILITY
+    // ============================================================
+
     function togglePassword(id) {
 
         const input = document.getElementById(id);
@@ -734,8 +832,18 @@
     }
 
 
-    // Temporary profile save
-    function saveProfile() {
+    // ============================================================
+    // SAVE PROFILE TO DATABASE
+    // ============================================================
+
+    async function saveProfile() {
+
+        const token = localStorage.getItem("access_token");
+
+        if (!token) {
+            window.location.href = "index.html";
+            return;
+        }
 
         const name =
             document.getElementById("fullName").value.trim();
@@ -743,25 +851,133 @@
         const username =
             document.getElementById("username").value.trim();
 
-        if (!name || !username) {
+        const email =
+            document.getElementById("email").value.trim();
 
-            alert("Please enter your name and username.");
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const department =
+            document.getElementById("department").value.trim();
+
+        const about =
+            document.getElementById("about").value.trim();
+
+
+        if (!name || !username || !email) {
+
+            alert("Please enter your name, username and email.");
 
             return;
 
         }
 
-        document.getElementById("profileName").textContent = name;
 
-        document.getElementById("profileTopName").textContent = name;
+        // Get profile picture currently displayed
+        let profilePicture = null;
 
-        alert("Profile details saved successfully.");
+        const profileImage =
+            document.querySelector("#profilePicture img");
+
+        if (profileImage) {
+            profilePicture = profileImage.src;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE_URL}/api/v1/profile/`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        full_name: name,
+                        username: username,
+                        email: email,
+                        phone: phone || null,
+                        department: department || null,
+                        about: about || null,
+                        profile_picture: profilePicture
+                    })
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    data.detail ||
+                    "Unable to update profile."
+                );
+
+                return;
+
+            }
+
+
+            // Update displayed information
+            document.getElementById("profileName").textContent =
+                name;
+
+            document.getElementById("profileTopName").textContent =
+                name;
+
+            document.getElementById("profileEmail").textContent =
+                email;
+
+
+            // Update localStorage user information
+            const storedUser =
+                JSON.parse(localStorage.getItem("user") || "{}");
+
+            storedUser.full_name = name;
+            storedUser.username = username;
+            storedUser.email = email;
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(storedUser)
+            );
+
+
+            alert("Profile details saved successfully.");
+
+        } catch (error) {
+
+            console.error("Profile update error:", error);
+
+            alert(
+                "Unable to connect to the BugFlow server."
+            );
+
+        }
 
     }
 
 
-    // Temporary password validation
-    function changePassword() {
+    // ============================================================
+    // CHANGE PASSWORD
+    // ============================================================
+
+    async function changePassword() {
+
+        const token = localStorage.getItem("access_token");
+
+        if (!token) {
+            window.location.href = "index.html";
+            return;
+        }
+
 
         const current =
             document.getElementById("currentPassword").value;
@@ -784,7 +1000,9 @@
 
         if (newPassword !== confirm) {
 
-            alert("New password and confirm password do not match.");
+            alert(
+                "New password and confirm password do not match."
+            );
 
             return;
 
@@ -793,16 +1011,84 @@
 
         if (newPassword.length < 8) {
 
-            alert("Password must contain at least 8 characters.");
+            alert(
+                "Password must contain at least 8 characters."
+            );
 
             return;
 
         }
 
 
-        alert("Password validation successful. Backend connection will be added next.");
+        try {
+
+            const response = await fetch(
+                `${API_BASE_URL}/api/v1/profile/password`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        current_password: current,
+                        new_password: newPassword
+                    })
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    data.detail ||
+                    "Unable to change password."
+                );
+
+                return;
+
+            }
+
+
+            // Clear password fields
+            document.getElementById("currentPassword").value = "";
+            document.getElementById("newPassword").value = "";
+            document.getElementById("confirmPassword").value = "";
+
+
+            alert(
+                "Password changed successfully."
+            );
+
+        } catch (error) {
+
+            console.error("Password change error:", error);
+
+            alert(
+                "Unable to connect to the BugFlow server."
+            );
+
+        }
 
     }
+
+
+    // ============================================================
+    // LOAD PROFILE WHEN PAGE OPENS
+    // ============================================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+            loadProfile();
+        }
+    );
 
 </script>
 

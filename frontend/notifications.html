@@ -325,6 +325,44 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+/* ============================================================
+   NOTIFICATION SELECTION
+   ============================================================ */
+
+.notification-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.notification-checkbox {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   INDIVIDUAL DELETE BUTTON
+   ============================================================ */
+
+.notification-delete-btn {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.notification-delete-btn:hover {
+    color: #dc2626;
+    background: #fee2e2;
+}
     </style>
 </head>
 
@@ -385,7 +423,10 @@
                 </span>
 
             </a>
-
+<a href="sprints.html" class="nav-link">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Sprints</span>
+</a>
 
             <a href="users.html"
                class="nav-link">
@@ -428,18 +469,6 @@
             </a>
 
 
-            <a href="reports.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-file-lines"></i>
-
-                <span>
-                    Reports
-                </span>
-
-            </a>
-
-
             <a href="notifications.html"
                class="nav-link">
 
@@ -449,9 +478,7 @@
                     Notifications
                 </span>
 
-                <b class="badge">
-                    5
-                </b>
+                <b class="badge" id="sidebarNotificationBadge">0</b>
 
             </a>
 
@@ -539,7 +566,14 @@
                 <i class="fa-solid fa-check-double"></i>
                 Mark all as read
             </button>
-
+<button
+    class="action-btn"
+    id="deleteSelectedBtn"
+    onclick="deleteSelectedNotifications()"
+>
+    <i class="fa-solid fa-trash"></i>
+    Delete selected
+</button>
             <button class="action-btn" onclick="clearNotifications()">
                 <i class="fa-solid fa-trash"></i>
                 Clear notifications
@@ -550,160 +584,172 @@
 
         <div id="notificationsList">
 
-            <div class="notification-card">
-
-                <div class="notification-icon">
-                    <i class="fa-solid fa-bug"></i>
-                </div>
-
-                <div class="notification-content">
-                    <h3>New issue reported</h3>
-                    <p>
-                        A new software issue has been reported and
-                        requires triage.
-                    </p>
-                    <div class="notification-time">
-                        Recently
-                    </div>
-                </div>
-
-                <div class="notification-status"></div>
-
-            </div>
-
-
-            <div class="notification-card">
-
-                <div class="notification-icon">
-                    <i class="fa-solid fa-code-branch"></i>
-                </div>
-
-                <div class="notification-content">
-                    <h3>Issue moved to QA verification</h3>
-                    <p>
-                        An issue has completed the development stage
-                        and is ready for QA verification.
-                    </p>
-                    <div class="notification-time">
-                        Recently
-                    </div>
-                </div>
-
-                <div class="notification-status"></div>
-
-            </div>
-
-
-            <div class="notification-card">
-
-                <div class="notification-icon">
-                    <i class="fa-solid fa-user-plus"></i>
-                </div>
-
-                <div class="notification-content">
-                    <h3>New user activity</h3>
-                    <p>
-                        A user has recently joined or updated activity
-                        in the BugFlow platform.
-                    </p>
-                    <div class="notification-time">
-                        Recently
-                    </div>
-                </div>
-
-                <div class="notification-status"></div>
-
-            </div>
-
-
-            <div class="notification-card">
-
-                <div class="notification-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-
-                <div class="notification-content">
-                    <h3>Quality metrics updated</h3>
-                    <p>
-                        BugFlow analytics and quality metrics are
-                        available with the latest issue data.
-                    </p>
-                    <div class="notification-time">
-                        Recently
-                    </div>
-                </div>
-
-                <div class="notification-status"></div>
-
-            </div>
-
-
-            <div class="notification-card">
-
-                <div class="notification-icon">
-                    <i class="fa-solid fa-file-export"></i>
-                </div>
-
-                <div class="notification-content">
-                    <h3>Reports available</h3>
-                    <p>
-                        PDF and CSV quality reports are available from
-                        the Reports section.
-                    </p>
-                    <div class="notification-time">
-                        Recently
-                    </div>
-                </div>
-
-                <div class="notification-status"></div>
-
-            </div>
-
-        </div>
+           
 
     </section>
 
 </main>
 
-
 <script>
 
-    // ==========================================
-    // LOAD ADMIN INFORMATION
-    // ==========================================
+    // ============================================================
+    // BUGFLOW NOTIFICATIONS
+    // ============================================================
+
+    const API_BASE = "http://127.0.0.1:8000";
 
     const currentUser =
         JSON.parse(localStorage.getItem("user") || "{}");
 
+    const token =
+        localStorage.getItem("access_token");
+
+
+    // ============================================================
+    // LOAD ADMIN INFORMATION
+    // ============================================================
+
     if (currentUser.full_name) {
+
         document.getElementById("adminName").textContent =
             currentUser.full_name;
 
         document.getElementById("adminAvatar").textContent =
-            currentUser.full_name.charAt(0).toUpperCase();
+            currentUser.full_name
+                .charAt(0)
+                .toUpperCase();
     }
 
 
-    // ==========================================
-    // MARK ALL AS READ
-    // ==========================================
+    // ============================================================
+    // NOTIFICATION ICON
+    // ============================================================
 
-    function markAllRead() {
+    function getNotificationIcon(type) {
 
-        const notifications =
-            document.querySelectorAll(".notification-card");
+        switch (type) {
 
-        notifications.forEach(notification => {
-            notification.classList.add("read");
-        });
+            case "NEW_ISSUE":
+                return "fa-bug";
+
+            case "ISSUE_STATUS":
+                return "fa-code-branch";
+
+            case "NEW_USER":
+                return "fa-user-plus";
+
+            case "ANALYTICS":
+                return "fa-chart-line";
+
+            case "REPORT":
+                return "fa-file-export";
+
+            default:
+                return "fa-bell";
+        }
     }
 
 
-    // ==========================================
-    // CLEAR NOTIFICATIONS
-    // ==========================================
+    // ============================================================
+    // FORMAT TIME
+    // ============================================================
 
-    function clearNotifications() {
+    function formatNotificationTime(dateString) {
+
+        const date = new Date(dateString);
+        const now = new Date();
+
+        const difference =
+            Math.floor((now - date) / 1000);
+
+        if (difference < 60) {
+            return "Just now";
+        }
+
+        if (difference < 3600) {
+            const minutes =
+                Math.floor(difference / 60);
+
+            return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+        }
+
+        if (difference < 86400) {
+            const hours =
+                Math.floor(difference / 3600);
+
+            return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+        }
+
+        if (difference < 604800) {
+            const days =
+                Math.floor(difference / 86400);
+
+            return `${days} day${days > 1 ? "s" : ""} ago`;
+        }
+
+        return date.toLocaleDateString();
+    }
+
+
+    // ============================================================
+    // UPDATE NOTIFICATION BADGE
+    // ============================================================
+async function updateNotificationBadge() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/api/v1/notifications/unread-count`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        if (!response.ok) {
+            console.error(
+                "Unable to get unread notification count."
+            );
+            return;
+        }
+
+        const data = await response.json();
+
+        const badge =
+            document.getElementById("notificationBadge");
+
+        if (!badge) {
+            return;
+        }
+
+        const unreadCount =
+            Number(data.unread_count || 0);
+
+        badge.textContent = unreadCount;
+
+        if (unreadCount > 0) {
+            badge.style.display = "flex";
+        } else {
+            badge.style.display = "none";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Notification count error:",
+            error
+        );
+    }
+}
+
+    // ============================================================
+    // DISPLAY EMPTY STATE
+    // ============================================================
+
+    function showNoNotifications() {
 
         const list =
             document.getElementById("notificationsList");
@@ -717,34 +763,625 @@
                 text-align:center;
                 color:#71717a;
             ">
+
                 <i class="fa-solid fa-bell-slash"
-                   style="font-size:35px;margin-bottom:15px;">
+                   style="
+                       font-size:35px;
+                       margin-bottom:15px;
+                   ">
                 </i>
 
-                <h3 style="color:#171717;margin-bottom:8px;">
-                    No notifications
+                <h3 style="
+                    color:#171717;
+                    margin-bottom:8px;
+                ">
+                    No new notifications
                 </h3>
 
                 <p>
                     You're all caught up.
                 </p>
+
             </div>
         `;
     }
 
 
-    // ==========================================
+    // ============================================================
+    // ESCAPE HTML
+    // ============================================================
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+// ============================================================
+// DISPLAY NOTIFICATIONS
+// ============================================================
+
+function displayNotifications(notifications) {
+
+    const list =
+        document.getElementById("notificationsList");
+
+    // Show all notifications that are not deleted
+    const visibleNotifications =
+        notifications.filter(
+            notification => !notification.is_deleted
+        );
+
+    if (visibleNotifications.length === 0) {
+
+        showNoNotifications();
+
+        return;
+    }
+
+    list.innerHTML = "";
+
+    visibleNotifications.forEach(notification => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "notification-card";
+
+        card.dataset.notificationId =
+            notification.id;
+
+        card.innerHTML = `
+
+            <div class="notification-select">
+
+                <input
+                    type="checkbox"
+                    class="notification-checkbox"
+                    value="${notification.id}"
+                    onclick="event.stopPropagation();"
+                >
+
+            </div>
+
+            <div class="notification-icon">
+
+                <i class="fa-solid ${getNotificationIcon(
+                    notification.notification_type
+                )}">
+                </i>
+
+            </div>
+
+            <div class="notification-content">
+
+                <h3>
+                    ${escapeHtml(notification.title)}
+                </h3>
+
+                <p>
+                    ${escapeHtml(notification.message)}
+                </p>
+
+                <div class="notification-time">
+
+                    ${formatNotificationTime(
+                        notification.created_at
+                    )}
+
+                </div>
+
+            </div>
+
+            <div class="notification-status"></div>
+
+            <button
+                type="button"
+                class="notification-delete-btn"
+                title="Delete notification"
+                onclick="
+                    event.stopPropagation();
+                    deleteNotification(${notification.id});
+                "
+            >
+                <i class="fa-solid fa-trash"></i>
+            </button>
+
+        `;
+
+        // Click notification = mark as read
+        card.addEventListener(
+            "click",
+            function () {
+
+                markNotificationRead(
+                    notification.id,
+                    card
+                );
+
+            }
+        );
+
+        list.appendChild(card);
+
+    });
+
+}
+
+   // ============================================================
+    // LOAD NOTIFICATIONS FROM DATABASE
+    // ============================================================
+
+    async function loadNotifications() {
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE}/api/v1/notifications/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+
+            if (response.status === 401) {
+
+                console.error(
+                    "Notification authentication failed."
+                );
+
+                return;
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
+
+
+            const notifications =
+                await response.json();
+
+
+            displayNotifications(
+                notifications
+            );
+
+
+            await updateNotificationBadge();
+
+
+        } catch (error) {
+
+            console.error(
+                "Unable to load notifications:",
+                error
+            );
+
+        }
+    }
+
+
+    // ============================================================
+    // MARK ONE NOTIFICATION AS READ
+    // ============================================================
+
+    async function markNotificationRead(
+        notificationId,
+        card
+    ) {
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE}/api/v1/notifications/${notificationId}/read`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
+
+
+            // Remove it immediately from the screen
+            // Keep notification visible,
+// but show it as read
+card.classList.add("read");
+
+const status =
+    card.querySelector(".notification-status");
+
+if (status) {
+    status.style.background = "#d4d4d8";
+}
+
+
+            // Update badge
+            await updateNotificationBadge();
+
+
+            // Show empty state if no notifications remain
+            const remaining =
+                document.querySelectorAll(
+                    "#notificationsList .notification-card"
+                );
+
+
+            if (remaining.length === 0) {
+
+                showNoNotifications();
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Unable to mark notification as read:",
+                error
+            );
+
+        }
+    }
+
+
+    // ============================================================
+    // MARK ALL NOTIFICATIONS AS READ
+    // ============================================================
+
+    async function markAllRead() {
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE}/api/v1/notifications/read-all`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
+
+
+            showNoNotifications();
+
+            await updateNotificationBadge();
+
+
+        } catch (error) {
+
+            console.error(
+                "Unable to mark all notifications as read:",
+                error
+            );
+        }
+    }
+
+
+    // ============================================================
+    // DELETE ALL NOTIFICATIONS
+    // ============================================================
+
+    async function clearNotifications() {
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE}/api/v1/notifications/`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
+
+
+            showNoNotifications();
+
+            await updateNotificationBadge();
+
+
+        } catch (error) {
+
+            console.error(
+                "Unable to clear notifications:",
+                error
+            );
+        }
+    }
+// ============================================================
+// DELETE ONE NOTIFICATION
+// ============================================================
+
+async function deleteNotification(notificationId) {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/api/v1/notifications/${notificationId}/delete`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        // Reload notifications after deletion
+        await loadNotifications();
+
+        // Update unread count
+        await updateNotificationBadge();
+
+    } catch (error) {
+
+        console.error(
+            "Unable to delete notification:",
+            error
+        );
+
+        alert("Unable to delete notification.");
+    }
+}
+
+
+// ============================================================
+// DELETE SELECTED NOTIFICATIONS
+// ============================================================
+
+async function deleteSelectedNotifications() {
+
+    const checkboxes =
+        document.querySelectorAll(
+            ".notification-checkbox:checked"
+        );
+
+    const notificationIds =
+        Array.from(checkboxes).map(
+            checkbox => Number(checkbox.value)
+        );
+
+    if (notificationIds.length === 0) {
+
+        alert(
+            "Please select at least one notification."
+        );
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/api/v1/notifications/selected`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(
+                    notificationIds
+                )
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        // Reload notifications
+        await loadNotifications();
+
+        // Update unread count
+        await updateNotificationBadge();
+
+    } catch (error) {
+
+        console.error(
+            "Unable to delete selected notifications:",
+            error
+        );
+
+        alert(
+            "Unable to delete selected notifications."
+        );
+    }
+}
+
+    // ============================================================
+    // INITIAL LOAD
+    // ============================================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadNotifications();
+
+            updateNotificationBadge();
+
+        }
+    );
+
+
+
+    // ============================================================
     // LOGOUT
-    // ==========================================
+    // ============================================================
 
     document.getElementById("logoutBtn")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            function () {
 
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("user");
+                localStorage.removeItem(
+                    "access_token"
+                );
 
-        });
+                localStorage.removeItem(
+                    "user"
+                );
 
+            }
+        );
+// ============================================================
+// REAL-TIME WEBSOCKET NOTIFICATIONS
+// ============================================================
+
+let notificationSocket = null;
+
+function connectNotificationWebSocket() {
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+        return;
+    }
+
+    notificationSocket =
+        new WebSocket(
+            "ws://127.0.0.1:8000/api/v1/notifications/ws"
+        );
+
+
+    notificationSocket.onopen = function () {
+
+        console.log(
+            "BugFlow WebSocket connected."
+        );
+
+        // Send JWT as the first message
+        notificationSocket.send(token);
+
+    };
+
+
+    notificationSocket.onmessage = function (event) {
+
+        try {
+
+            const notification =
+                JSON.parse(event.data);
+
+            console.log(
+                "Real-time notification:",
+                notification
+            );
+
+
+            // Refresh notification list
+            loadNotifications();
+
+            // Refresh notification badge
+            updateNotificationBadge();
+
+
+        } catch (error) {
+
+            console.error(
+                "WebSocket notification error:",
+                error
+            );
+
+        }
+
+    };
+
+
+    notificationSocket.onclose = function () {
+
+        console.log(
+            "WebSocket disconnected. Reconnecting..."
+        );
+
+        // Reconnect after 3 seconds
+        setTimeout(
+            connectNotificationWebSocket,
+            3000
+        );
+
+    };
+
+
+    notificationSocket.onerror = function (error) {
+
+        console.error(
+            "Notification WebSocket error:",
+            error
+        );
+
+    };
+}
+
+
+// Connect when page loads
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        connectNotificationWebSocket();
+
+    }
+);
 </script>
 <script src="theme.js"></script>
 </body>

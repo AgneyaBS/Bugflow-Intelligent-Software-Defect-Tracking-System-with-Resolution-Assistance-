@@ -494,60 +494,98 @@
     <span>Back</span>
 </button>
 
+<div class="sidebar-section">
 
-        <div class="sidebar-section">
+    <div class="sidebar-heading">
+        Main
+    </div>
 
-            <div class="sidebar-heading">
-                Main
-            </div>
+    <!-- Dashboard -->
+    <a href="user-dashboard.html"
+       class="nav-link">
 
+        <i class="fa-solid fa-chart-line"></i>
 
-            <a href="user-dashboard.html"
-               class="nav-link">
+        <span>Dashboard</span>
 
-                <i class="fa-solid fa-chart-line"></i>
+    </a>
 
-                <span>Dashboard</span>
+    <!-- Report Issue -->
+    <a href="report-defect.html"
+       class="nav-link active">
 
-            </a>
+        <i class="fa-solid fa-bug"></i>
 
+        <span>Report Issue</span>
 
-            <a href="report-defect.html"
-               class="nav-link active">
+    </a>
 
-                <i class="fa-solid fa-bug"></i>
+    <!-- My Issues -->
+    <a href="my-issues.html"
+       class="nav-link">
 
-                <span>Report Issue</span>
+        <i class="fa-solid fa-list-check"></i>
 
-            </a>
+        <span>My Issues</span>
 
-
-            <a href="my-issues.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-list-check"></i>
-
-                <span>My Issues</span>
-
-            </a>
-
-
-            <a href="resolution.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-lightbulb"></i>
-
-                <span>Resolution Assistance</span>
-
-            </a>
-            <a href="analytics.html" class="nav-link">
-    <i class="fa-solid fa-chart-pie"></i>
-    <span>Analytics & APIs</span>
-</a>
+    </a>
 
 
-        </div>
 
+    <!-- Resolution Assistance -->
+    <a href="resolution.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-lightbulb"></i>
+
+        <span>Resolution Assistance</span>
+
+    </a>
+
+    <!-- Analytics & Reports -->
+    <a href="user-analytics.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <span>Analytics & Reports</span>
+
+    </a>
+
+   
+
+    <!-- Notifications -->
+    <a href="notifications.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-bell"></i>
+
+        <span>Notifications</span>
+
+    </a>
+
+    <!-- Settings -->
+    <a href="settings.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-gear"></i>
+
+        <span>Settings</span>
+
+    </a>
+
+    <!-- System Support -->
+    <a href="system-support.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-circle-question"></i>
+
+        <span>System Support</span>
+
+    </a>
+
+</div>
+        
 
         <div class="sidebar-bottom">
 
@@ -583,9 +621,9 @@
 
             <div class="topbar-right">
 
-                <div class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </div>
+               <a href="notifications.html" class="notification">
+    <i class="fa-regular fa-bell"></i>
+</a>
 
 
                 <div class="user-profile">
@@ -693,23 +731,14 @@
                                     <span class="required">*</span>
                                 </label>
 
-                                <select id="project_id" required>
+                               <select id="project_id" required>
 
-                                    <option value="">
-                                        Select Project
-                                    </option>
+    <option value="">
+        Select Project
+    </option>
 
-                                    <!--
-                                        BugTracking project.
-                                        Change this value only if your
-                                        database uses another project_id.
-                                    -->
-
-                                    <option value="1">
-                                        BugTracking
-                                    </option>
-
-                                </select>
+</select>
+                            
 
                             </div>
 
@@ -1619,20 +1648,102 @@
             }
         );
     }
+async function loadProjects() {
 
+    const token =
+        localStorage.getItem("access_token");
 
-    /* =========================================================
-       INITIALIZATION
-    ========================================================= */
+    if (!token) {
+        return;
+    }
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function() {
+    const projectDropdown =
+        document.getElementById("project_id");
 
-            displayUser();
+    try {
 
+        console.log("Loading projects...");
+console.log("Token exists:", !!token);
+console.log(
+    "Project API:",
+    `${API_BASE_URL}/api/v1/projects/`
+);
+
+const response =
+    await fetch(
+        `${API_BASE_URL}/api/v1/projects/`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+        if (!response.ok) {
+            console.error(
+                "Unable to load projects."
+            );
+            return;
         }
-    );
+
+        const projects =
+            await response.json();
+        console.log(
+    "Project API response:",
+    response.status,
+    projects
+);
+            
+
+        projectDropdown.innerHTML = `
+            <option value="">
+                Select Project
+            </option>
+        `;
+
+        projects.forEach(project => {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                project.project_id;
+
+            option.textContent =
+                project.project_name;
+
+            projectDropdown.appendChild(
+                option
+            );
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Error loading projects:",
+            error
+        );
+
+    }
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        displayUser();
+
+        loadProjects();
+
+    }
+);
+
 
 </script>
 <script src="theme.js"></script>

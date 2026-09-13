@@ -1,10 +1,12 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import case, func
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
 from app.models.issue import Issue, IssueStatus, Severity
+from app.models.user import User
 
 
 router = APIRouter(
@@ -284,4 +286,149 @@ def get_plotly_charts(db: Session = Depends(get_db)):
         "defect_trends": trends,
         "severity_distribution": severity_counts,
         "workflow_pipeline": workflow_counts
+    }
+    
+    # ============================================================
+# DEVELOPER WORKLOAD MATRIX
+# MODULE 4
+# ============================================================
+
+@router.get("/developer-workload")
+def get_developer_workload(
+    db: Session = Depends(get_db)
+):
+    """
+    Returns workload and productivity statistics
+    for every active developer.
+    """
+
+    # --------------------------------------------------------
+    # Get all active developers
+    # --------------------------------------------------------
+
+    developers = (
+        db.query(User)
+        .filter(
+            User.role == "DEVELOPER",
+            User.is_active == True
+        )
+        .order_by(User.full_name)
+        .all()
+    )
+
+    results = []
+
+    # --------------------------------------------------------
+    # Calculate workload for each developer
+    # --------------------------------------------------------
+
+    for developer in developers:
+
+        # ----------------------------------------------------
+        # Active Tasks
+        #
+        # Only IN_PROGRESS and CODE_REVIEW
+        # ----------------------------------------------------
+
+        active_tasks = (
+            db.query(Issue)
+            .filter(
+                Issue.assignee_id == developer.id,
+                Issue.status.in_([
+                    IssueStatus.IN_PROGRESS,
+                    IssueStatus.CODE_REVIEW
+                ])
+            )
+            .count()
+        )
+
+        # ----------------------------------------------------
+        # Completed Fixes
+        #
+        # RESOLVED + CLOSED
+        # ----------------------------------------------------
+
+        completed_fixes = (
+            db.query(Issue)
+            .filter(
+                Issue.assignee_id == developer.id,
+                Issue.status.in_([
+                    IssueStatus.RESOLVED,
+                    IssueStatus.CLOSED
+                ])
+            )
+            .count()
+        )
+
+        # ----------------------------------------------------
+        # Average MTTR
+        #
+        # MTTR = resolved_at - created_at
+        #
+        # Only completed issues with valid timestamps
+        # are included.
+        # ----------------------------------------------------
+
+        mttr_result = (
+            db.query(
+                func.avg(
+                    func.extract(
+                        "epoch",
+                        Issue.resolved_at - Issue.created_at
+                    )
+                ) / 3600
+            )
+            .filter(
+                Issue.assignee_id == developer.id,
+                Issue.status.in_([
+                    IssueStatus.RESOLVED,
+                    IssueStatus.CLOSED
+                ]),
+                Issue.created_at.isnot(None),
+                Issue.resolved_at.isnot(None)
+            )
+            .scalar()
+        )
+
+        if mttr_result is None:
+            average_mttr_hours = 0.0
+        else:
+            average_mttr_hours = round(
+                float(mttr_result),
+                2
+            )
+
+        # ----------------------------------------------------
+        # Resource Balance Indicator
+        # ----------------------------------------------------
+
+        if active_tasks >= 8:
+            workload_status = "HIGH"
+        elif active_tasks >= 5:
+            workload_status = "MEDIUM"
+        else:
+            workload_status = "BALANCED"
+
+        # ----------------------------------------------------
+        # Add developer information
+        # ----------------------------------------------------
+
+        results.append({
+            "developer_id": developer.id,
+            "developer": developer.full_name,
+            "username": developer.username,
+            "team": developer.team or "Unassigned",
+            "active_tasks": active_tasks,
+            "completed_fixes": completed_fixes,
+            "average_mttr_hours": average_mttr_hours,
+            "workload_status": workload_status
+        })
+
+    # --------------------------------------------------------
+    # Return response
+    # --------------------------------------------------------
+
+    return {
+        "total_developers": len(results),
+        "developers": results
     }

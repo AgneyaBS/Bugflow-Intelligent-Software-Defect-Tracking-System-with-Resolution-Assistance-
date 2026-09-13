@@ -1,35 +1,35 @@
 @echo off
+title BugFlow Application
 
 echo ==========================================
-echo        Starting BugFlow Application
+echo       Starting BugFlow Application
 echo ==========================================
+
+cd /d "%~dp0"
+
 echo.
+echo Starting FastAPI backend...
+start "" /b "%~dp0.venv\Scripts\python.exe" -m uvicorn app.main:app --reload --app-dir "%~dp0backend"
 
-cd /d "%~dp0backend"
-
-echo Starting FastAPI server...
 echo.
+echo Starting BugFlow frontend...
+start "" /b "%~dp0.venv\Scripts\python.exe" -m http.server 5500 --directory "%~dp0frontend"
 
-start /b "" ..\.venv\Scripts\python.exe -m uvicorn app.main:app
-
-echo Waiting for BugFlow server...
-
-:WAIT
-
-powershell -Command "try { if ((Test-NetConnection 127.0.0.1 -Port 8000 -InformationLevel Quiet) -eq $true) { exit 0 } else { exit 1 } } catch { exit 1 }"
-
-if errorlevel 1 (
-    timeout /t 1 /nobreak >nul
-    goto WAIT
-)
+echo.
+echo Waiting for BugFlow servers...
+timeout /t 3 /nobreak >nul
 
 echo.
 echo ==========================================
-echo       BugFlow server is READY!
+echo       BugFlow Application Started
 echo ==========================================
 echo.
+echo Backend  : http://127.0.0.1:8000
+echo Frontend : http://127.0.0.1:5500
+echo Swagger  : http://127.0.0.1:8000/docs
+echo.
 
-start "" "%~dp0frontend\index.html"
+start "" "http://127.0.0.1:5500/index.html"
 
 echo BugFlow login page opened.
 echo.

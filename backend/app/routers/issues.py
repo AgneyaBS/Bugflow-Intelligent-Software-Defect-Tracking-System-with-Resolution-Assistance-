@@ -22,6 +22,9 @@ from app.models.project import Project
 from app.models.bug_category import BugCategory
 from app.models.user import User
 from app.models.audit_log import AuditLog
+from app.models.notification import Notification
+from app.services.notification_manager import notification_manager
+
 
 from app.schemas.issue import (
     IssueCreate,
@@ -263,7 +266,7 @@ def calculate_priority(
     response_model=IssueResponse,
     status_code=status.HTTP_201_CREATED
 )
-def create_issue(
+async def create_issue(
     issue_data: IssueCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
@@ -439,17 +442,68 @@ def create_issue(
     )
 
     # --------------------------------------------------------
-    # Save
-    # --------------------------------------------------------
+    # Save issue
+    #    --------------------------------------------------------
 
     db.add(new_issue)
 
     db.commit()
 
     db.refresh(new_issue)
+    # --------------------------------------------------------
+    # Create ADMIN notifications
+    # --------------------------------------------------------
+
+    admins = (
+        db.query(User)
+        .filter(
+            User.role == "ADMIN",
+            User.is_active == True
+        )
+        .all()
+    )
+
+    for admin in admins:
+
+        notification = Notification(
+            user_id=admin.id,
+            notification_type="NEW_ISSUE",
+            title="New issue reported",
+            message=(
+                f"{current_user.full_name} reported "
+                f"issue #{new_issue.id}: "
+                f"{new_issue.title}"
+            ),
+            issue_id=new_issue.id,
+            is_read=False,
+            is_deleted=False
+        )
+
+        db.add(notification)
+
+    # Send real-time notification to connected Admin
+        await notification_manager.send_to_user(
+            admin.id,
+            {
+                "type": "NEW_ISSUE",
+                "notification_id": notification.id,
+                "issue_id": new_issue.id,
+                "title": "New issue reported",
+                "message": (
+                    f"{current_user.full_name} reported "
+                    f"issue #{new_issue.id}: "
+                    f"{new_issue.title}"
+                ),
+                "is_read": False
+            }
+        )
+
+
+    db.commit()
 
     return new_issue
 
+    
 
 # ============================================================
 # GET MY ISSUES
@@ -460,6 +514,17 @@ def create_issue(
     response_model=list[IssueResponse]
 )
 def get_my_issues(
+    skip: int = Query(
+        default=0,
+        ge=0,
+        description="Number of issues to skip"
+    ),
+    limit: int = Query(
+        default=50,
+        ge=1,
+        le=100,
+        description="Maximum number of issues to return"
+    ),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
@@ -481,6 +546,8 @@ def get_my_issues(
         .order_by(
             Issue.created_at.desc()
         )
+        .offset(skip)
+        .limit(limit)
         .all()
     )
 
@@ -496,6 +563,17 @@ def get_my_issues(
     response_model=list[IssueResponse]
 )
 def get_all_issues(
+    skip: int = Query(
+        default=0,
+        ge=0,
+        description="Number of issues to skip"
+    ),
+    limit: int = Query(
+        default=50,
+        ge=1,
+        le=100,
+        description="Maximum number of issues to return"
+    ),
     status_filter: Optional[IssueStatus] = Query(
         default=None,
         alias="status"
@@ -610,6 +688,8 @@ def get_all_issues(
         .order_by(
             Issue.created_at.desc()
         )
+        .offset(skip)
+        .limit(limit)
         .all()
     )
 
@@ -912,7 +992,6 @@ def update_issue_status(
         current_status == IssueStatus.RESOLVED
         and new_status == IssueStatus.CLOSED
     ):
-
         if current_user.role not in [
             "ADMIN",
             "TRIAGER"
@@ -924,7 +1003,14 @@ def update_issue_status(
                     "Only ADMIN or TRIAGER can "
                     "close an issue"
                 )
-            )    # --------------------------------------------------------
+            )
+
+    # --------------------------------------------------------
+    # Update status
+    # --------------------------------------------------------
+
+    issue.status = new_status
+            # --------------------------------------------------------
     # Update status
     # --------------------------------------------------------
 
@@ -953,30 +1039,28 @@ def update_issue_status(
 
     db.add(audit_log)
 
-    # --------------------------------------------------------
-    # Save
-    # --------------------------------------------------------
+# --------------------------------------------------------
+# Save assignment + notification
+# --------------------------------------------------------
 
     db.commit()
 
     db.refresh(issue)
-
+    
     return issue
+
+
 # ============================================================
 # ASSIGN ISSUE
 # ============================================================
-
 @router.patch(
     "/{issue_id}/assign",
     response_model=IssueResponse
 )
-def assign_issue(
+async def assign_issue(
     issue_id: int,
-
     assignment_data: IssueAssignment,
-
     db: Session = Depends(get_db),
-
     current_user: User = Depends(get_current_user)
 ):
     """
@@ -998,7 +1082,6 @@ def assign_issue(
     )
 
     if not issue:
-
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Issue not found"
@@ -1009,7 +1092,6 @@ def assign_issue(
     # --------------------------------------------------------
 
     if current_user.role != "ADMIN":
-
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only admins can assign issues"
@@ -1028,7 +1110,6 @@ def assign_issue(
     )
 
     if not assignee:
-
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Assignee not found"
@@ -1039,7 +1120,6 @@ def assign_issue(
     # --------------------------------------------------------
 
     if not assignee.is_active:
-
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -1053,7 +1133,6 @@ def assign_issue(
     # --------------------------------------------------------
 
     if assignee.role != "DEVELOPER":
-
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -1069,7 +1148,6 @@ def assign_issue(
     old_assignee_id = issue.assignee_id
 
     if old_assignee_id == assignee.id:
-
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -1079,7 +1157,7 @@ def assign_issue(
         )
 
     # --------------------------------------------------------
-    # Assign
+    # Assign issue
     # --------------------------------------------------------
 
     issue.assignee_id = assignee.id
@@ -1089,32 +1167,56 @@ def assign_issue(
     # --------------------------------------------------------
 
     audit_log = AuditLog(
-
         issue_id=issue.id,
-
         user_id=current_user.id,
-
         action="ASSIGNED",
-
         field_name="assignee_id",
-
         old_value=(
             str(old_assignee_id)
             if old_assignee_id is not None
             else None
         ),
-
         new_value=str(assignee.id)
     )
 
     db.add(audit_log)
 
-    db.commit()
+        # --------------------------------------------------------
+    # Create notification for assigned developer
+    # --------------------------------------------------------
 
-    db.refresh(issue)
+    notification = Notification(
+        user_id=assignee.id,
+        notification_type="ISSUE_ASSIGNED",
+        title="Issue assigned to you",
+        message=(
+            f"Admin {current_user.full_name} assigned "
+            f"issue #{issue.id}: {issue.title} "
+            f"to you."
+        ),
+        issue_id=issue.id,
+        is_read=False,
+        is_deleted=False
+    )
+
+    db.add(notification)
+    # --------------------------------------------------------
+    # Send real-time notification
+    # --------------------------------------------------------
+
+    await notification_manager.send_to_user(
+        assignee.id,
+        {
+            "type": "ISSUE_ASSIGNED",
+            "notification_id": notification.id,
+            "issue_id": issue.id,
+            "title": notification.title,
+            "message": notification.message,
+            "is_read": False
+        }
+    )
 
     return issue
-
 
 # ============================================================
 # UPDATE ISSUE

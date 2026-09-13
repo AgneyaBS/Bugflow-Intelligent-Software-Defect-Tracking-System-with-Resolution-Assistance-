@@ -1,0 +1,45 @@
+services:
+
+  db:
+    image: postgres:15
+    container_name: bugflow-postgres
+    environment:
+      POSTGRES_DB: bugflow_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: bugflow_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - bugflow_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bugflow_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bugflow-backend
+    environment:
+      DATABASE_URL: "postgresql+psycopg2://postgres:bugflow_password@db:5432/bugflow_db"
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: bugflow_db
+      DB_USER: postgres
+      DB_PASSWORD: bugflow_password
+      JWT_SECRET_KEY: "YOUR_EXISTING_JWT_SECRET"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  bugflow_postgres_data:

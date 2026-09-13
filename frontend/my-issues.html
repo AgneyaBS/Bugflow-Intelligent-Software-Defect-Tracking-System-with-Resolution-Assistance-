@@ -753,6 +753,178 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+/* =====================================================
+   PROJECT FILTER
+===================================================== */
+
+.project-filter-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    padding: 20px 24px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.05);
+
+}
+
+
+.project-filter-group {
+
+    width: 320px;
+
+}
+
+
+.project-filter-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #374151;
+
+}
+
+
+.project-filter-group select {
+
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+    color: #374151;
+
+    outline: none;
+
+}
+
+
+.project-filter-group select:focus {
+
+    border-color: #2563eb;
+
+}
+
+
+.project-filter-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+}
+
+
+.project-filter-actions button {
+
+    padding: 11px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.project-filter-actions .primary-btn {
+
+    border: none;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+}
+
+
+.project-filter-actions .primary-btn:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+.project-filter-actions .reset-btn {
+
+    border: 1px solid #d1d5db;
+
+    background: #ffffff;
+
+    color: #374151;
+
+}
+
+
+.project-filter-actions .reset-btn:hover {
+
+    background: #f3f4f6;
+
+}
+
+
+@media (max-width: 700px) {
+
+    .project-filter-card {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .project-filter-group {
+
+        width: 100%;
+
+    }
+
+
+    .project-filter-actions {
+
+        width: 100%;
+
+    }
+
+
+    .project-filter-actions button {
+
+        flex: 1;
+
+    }
+
+}
 
     </style>
 
@@ -800,76 +972,112 @@
 
 
         <!-- MAIN NAVIGATION -->
+<div class="sidebar-section">
 
-        <div class="sidebar-section">
+    <div class="sidebar-heading">
+        MAIN
+    </div>
 
-            <div class="sidebar-heading">
-                MAIN
-            </div>
+    <!-- Dashboard -->
+    <a href="user-dashboard.html"
+       class="nav-link">
 
+        <i class="fa-solid fa-chart-line"></i>
 
-            <!-- DASHBOARD -->
+        <span>
+            Dashboard
+        </span>
 
-            <a href="user-dashboard.html"
-               class="nav-link">
+    </a>
 
-                <i class="fa-solid fa-chart-line"></i>
+    <!-- Report Issue -->
+    <a href="report-defect.html"
+       class="nav-link">
 
-                <span>
-                    Dashboard
-                </span>
+        <i class="fa-solid fa-bug"></i>
 
-            </a>
+        <span>
+            Report Issue
+        </span>
 
+    </a>
 
-            <!-- REPORT ISSUE -->
+    <!-- My Issues -->
+    <a href="my-issues.html"
+       class="nav-link active">
 
-            <a href="report-defect.html"
-               class="nav-link">
+        <i class="fa-solid fa-list-check"></i>
 
-                <i class="fa-solid fa-bug"></i>
+        <span>
+            My Issues
+        </span>
 
-                <span>
-                    Report Issue
-                </span>
+    </a>
 
-            </a>
+    <!-- Resolution Assistance -->
+    <a href="resolution.html"
+       class="nav-link">
 
+        <i class="fa-solid fa-lightbulb"></i>
 
-            <!-- MY ISSUES -->
+        <span>
+            Resolution Assistance
+        </span>
 
-            <a href="my-issues.html"
-               class="nav-link active">
+    </a>
 
-                <i class="fa-solid fa-list-check"></i>
+    <!-- Analytics & Reports -->
+    <a href="user-analytics.html"
+       class="nav-link">
 
-                <span>
-                    My Issues
-                </span>
+        <i class="fa-solid fa-chart-pie"></i>
 
-            </a>
+        <span>
+            Analytics & Reports
+        </span>
 
+    </a>
 
-            <!-- RESOLUTION -->
+    
 
-            <a href="resolution.html"
-               class="nav-link">
+    <!-- Notifications -->
+    <a href="notifications.html"
+       class="nav-link">
 
-                <i class="fa-solid fa-lightbulb"></i>
+        <i class="fa-solid fa-bell"></i>
 
-                <span>
-                    Resolution Assistance
-                </span>
+        <span>
+            Notifications
+        </span>
 
-            </a>
-            <a href="analytics.html" class="nav-link">
-    <i class="fa-solid fa-chart-pie"></i>
-    <span>Analytics & APIs</span>
-</a>
+    </a>
 
+    <!-- Settings -->
+    <a href="settings.html"
+       class="nav-link">
 
-        </div>
+        <i class="fa-solid fa-gear"></i>
 
+        <span>
+            Settings
+        </span>
+
+    </a>
+
+    <!-- System Support -->
+    <a href="system-support.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-circle-question"></i>
+
+        <span>
+            System Support
+        </span>
+
+    </a>
+
+</div>
+       
 
         <!-- =====================================================
              SIDEBAR BOTTOM
@@ -928,11 +1136,12 @@
 
                 <!-- NOTIFICATION -->
 
-                <button class="notification-button">
+                <a href="notifications.html"
+   class="notification-button">
 
-                    <i class="fa-regular fa-bell"></i>
+    <i class="fa-regular fa-bell"></i>
 
-                </button>
+</a>
 
 
                 <!-- USER -->
@@ -1015,7 +1224,52 @@
 
                 </div>
 
+<!-- =====================================================
+     PROJECT FILTER
+===================================================== -->
 
+<div class="project-filter-card">
+
+    <div class="project-filter-group">
+
+        <label for="projectFilter">
+            Project
+        </label>
+
+        <select id="projectFilter">
+
+            <option value="">
+                All Projects
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="project-filter-actions">
+
+        <button
+            type="button"
+            class="primary-btn"
+            id="applyProjectFilter">
+
+            <i class="fa-solid fa-filter"></i>
+            Apply Filter
+
+        </button>
+
+        <button
+            type="button"
+            class="reset-btn"
+            id="resetProjectFilter">
+
+            Reset
+
+        </button>
+
+    </div>
+
+</div>
 
                 <!-- =================================================
                      ISSUES CARD
@@ -1163,7 +1417,8 @@
 const API_BASE_URL =
     "http://127.0.0.1:8000";
 
-
+let allMyIssues = [];
+let allProjects = [];
 /* =========================================================
    GET TOKEN
 ========================================================= */
@@ -1293,7 +1548,90 @@ function displayUser() {
     }
 
 }
+/* =====================================================
+   LOAD PROJECTS
+===================================================== */
 
+async function loadProjects() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+        return;
+    }
+
+    const projectFilter =
+        document.getElementById(
+            "projectFilter"
+        );
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/projects/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        if (!response.ok) {
+
+            console.error(
+                "Unable to load projects."
+            );
+
+            return;
+        }
+
+        allProjects =
+            await response.json();
+
+        projectFilter.innerHTML = `
+            <option value="">
+                All Projects
+            </option>
+        `;
+
+        allProjects.forEach(
+            function(project) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    project.project_id;
+
+                option.textContent =
+                    project.project_name;
+
+                projectFilter.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error loading projects:",
+            error
+        );
+
+    }
+}
 
 /* =========================================================
    LOAD MY ISSUES
@@ -1410,36 +1748,16 @@ async function loadMyIssues() {
 
         let issues = [];
 
+if (Array.isArray(data))
+    issues = data;
+else if (data && Array.isArray(data.items))
+    issues = data.items;
+else if (data && Array.isArray(data.issues))
+    issues = data.issues;
 
-        if (Array.isArray(data)) {
+allMyIssues = issues;
 
-            issues =
-                data;
-
-        }
-        else if (
-            data &&
-            Array.isArray(data.items)
-        ) {
-
-            issues =
-                data.items;
-
-        }
-        else if (
-            data &&
-            Array.isArray(data.issues)
-        ) {
-
-            issues =
-                data.issues;
-
-        }
-
-
-        renderIssues(
-            issues
-        );
+renderIssues(allMyIssues);
 
 
     }
@@ -1482,7 +1800,47 @@ async function loadMyIssues() {
     }
 
 }
+/* =====================================================
+   APPLY PROJECT FILTER
+===================================================== */
 
+function applyProjectFilter() {
+
+    const projectId =
+        document.getElementById(
+            "projectFilter"
+        ).value;
+
+
+    const filteredIssues =
+        allMyIssues.filter(function(issue) {
+
+            return (
+                !projectId ||
+                Number(issue.project_id) ===
+                Number(projectId)
+            );
+
+        });
+
+
+    renderIssues(filteredIssues);
+
+}
+/* =====================================================
+   RESET PROJECT FILTER
+===================================================== */
+
+function resetProjectFilter() {
+
+    document.getElementById(
+        "projectFilter"
+    ).value = "";
+
+
+    renderIssues(allMyIssues);
+
+}
 
 /* =========================================================
    RENDER ISSUES
@@ -1977,12 +2335,30 @@ document.addEventListener(
 
         }
 
+/* LOAD PROJECTS */
 
+await loadProjects();
         /* LOAD ISSUES */
 
         await loadMyIssues();
 
     }
+);
+/* PROJECT FILTER BUTTONS */
+
+document.getElementById(
+    "applyProjectFilter"
+).addEventListener(
+    "click",
+    applyProjectFilter
+);
+
+
+document.getElementById(
+    "resetProjectFilter"
+).addEventListener(
+    "click",
+    resetProjectFilter
 );
 
 </script>

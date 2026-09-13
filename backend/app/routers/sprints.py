@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
@@ -75,16 +75,29 @@ def create_sprint(
     response_model=list[SprintResponse]
 )
 def get_sprints(
+    skip: int = Query(
+        default=0,
+        ge=0,
+        description="Number of sprints to skip"
+    ),
+    limit: int = Query(
+        default=50,
+        ge=1,
+        le=100,
+        description="Maximum number of sprints to return"
+    ),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """
-    Get all sprints.
+    Get all sprints with pagination.
     """
 
     sprints = (
         db.query(Sprint)
         .order_by(Sprint.id.desc())
+        .offset(skip)
+        .limit(limit)
         .all()
     )
 

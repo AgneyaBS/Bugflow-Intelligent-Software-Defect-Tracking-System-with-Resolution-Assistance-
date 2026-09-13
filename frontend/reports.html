@@ -76,10 +76,14 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="admin-defects.html" class="nav-link">
+            <a href="admin-defects.html" class="nav-link active ">
                 <i class="fa-solid fa-bug"></i>
                 <span>All Issues</span>
             </a>
+            <a href="sprints.html" class="nav-link">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Sprints</span>
+</a>
 
             <a href="users.html" class="nav-link">
                 <i class="fa-solid fa-users"></i>
@@ -95,20 +99,17 @@
                 MANAGEMENT
             </p>
 
-            <a href="analytics.html" class="nav-link">
+            <a href="admin-analytics.html" class="nav-link">
                 <i class="fa-solid fa-chart-line"></i>
-                <span>Analytics & APIs</span>
+                <span>Analytics & Reports</span>
             </a>
 
-            <a href="reports.html" class="nav-link active">
-                <i class="fa-solid fa-file-lines"></i>
-                <span>Reports</span>
-            </a>
+           
 
             <a href="notifications.html" class="nav-link">
                 <i class="fa-solid fa-bell"></i>
                 <span>Notifications</span>
-                <b class="badge">5</b>
+                <b class="badge" id="sidebarNotificationBadge">0</b>
             </a>
 
             <a href="settings.html" class="nav-link">
@@ -148,21 +149,65 @@
     <!-- MAIN CONTENT -->
     <main class="main">
 
-        <header class="topbar">
+       <header class="topbar">
 
-            <div class="topbar-title">
+    <div class="topbar-title">
 
-                <span>
-                    SOFTWARE ISSUE MANAGEMENT
-                </span>
+        <span>
+            SOFTWARE ISSUE MANAGEMENT
+        </span>
 
-                <strong>
-                    Reports
-                </strong>
+        <strong>
+            Reports
+        </strong>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <!-- Notifications -->
+
+        <a href="notifications.html"
+           class="notification-button">
+
+            <i class="fa-solid fa-bell"></i>
+
+          <span id="topNotificationBadge">0</span>
+
+        </a>
+
+
+        <!-- Admin Profile -->
+
+        <a href="profile.html"
+           class="user-profile">
+
+            <div class="avatar admin-avatar"
+                 id="adminAvatar">
+
+                AD
 
             </div>
 
-        </header>
+
+            <div>
+
+                <strong id="adminName">
+                    Administrator
+                </strong>
+
+                <small id="adminRole">
+                    System Admin
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</header>
 
 
         <section class="content">
@@ -476,5 +521,6 @@ document
 
 </script>
 <script src="theme.js"></script>
+<script src="notification.js"></script>
 </body>
 </html>

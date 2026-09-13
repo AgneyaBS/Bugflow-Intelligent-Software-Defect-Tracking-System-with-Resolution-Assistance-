@@ -161,8 +161,7 @@ body.dark-mode span {
             </p>
 
 
-            <a href="admin-dashboard.html"
-               class="nav-link active">
+            <a href="/frontend/admin-dashboard.html" class="nav-link active">
 
                 <i class="fa-solid fa-chart-pie"></i>
 
@@ -173,17 +172,14 @@ body.dark-mode span {
             </a>
 
 
-            <a href="admin-defects.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-bug"></i>
-
-                <span>
-                    All Issues
-                </span>
-
-            </a>
-
+          <a href="admin-defects.html" class="nav-link">
+    <i class="fa-solid fa-bug"></i>
+    <span>All Issues</span>
+</a>
+<a href="sprints.html" class="nav-link">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Sprints</span>
+</a>
 
             <a href="users.html"
                class="nav-link">
@@ -213,7 +209,10 @@ body.dark-mode span {
                 MANAGEMENT
             </p>
 
-
+<a href="optimization.html" class="nav-link">
+    <i class="fa-solid fa-rocket"></i>
+    <span>Optimization & Finalization</span>
+</a>
             <a href="admin-analytics.html"
                class="nav-link">
 
@@ -226,20 +225,11 @@ body.dark-mode span {
             </a>
 
 
-            <a href="reports.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-file-lines"></i>
-
-                <span>
-                    Reports
-                </span>
-
-            </a>
+           
 
 
             <a href="notifications.html"
-               class="nav-link">
+            class="nav-link">
 
                 <i class="fa-solid fa-bell"></i>
 
@@ -247,9 +237,9 @@ body.dark-mode span {
                     Notifications
                 </span>
 
-                <b class="badge">
-                    5
-                </b>
+                <b class="badge" id="sidebarNotificationBadge">
+    0
+</b>
 
             </a>
 
@@ -326,8 +316,8 @@ body.dark-mode span {
 
                 <a href="notifications.html" class="notification-button">
     <i class="fa-solid fa-bell"></i>
-    <span>5</span>
-                </a>
+    <span id="topNotificationBadge">0</span>
+</a>
 
                 </button>
 
@@ -2600,8 +2590,126 @@ document.addEventListener(
     }
 );
 
+    // ============================================================
+    // REAL-TIME NOTIFICATION COUNT
+    // ============================================================
+
+    const notificationToken =
+        localStorage.getItem("access_token");
+
+    async function updateAdminNotificationCount() {
+
+        if (!notificationToken) {
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/api/v1/notifications/unread-count",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${notificationToken}`,
+
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                return;
+            }
+
+            const data =
+                await response.json();
+
+            const unreadCount =
+                Number(data.unread_count || 0);
+
+
+            // ----------------------------------------------------
+            // SIDEBAR BADGE
+            // ----------------------------------------------------
+
+            const sidebarBadge =
+                document.getElementById(
+                    "sidebarNotificationBadge"
+                );
+
+            if (sidebarBadge) {
+
+                sidebarBadge.textContent =
+                    unreadCount;
+
+                sidebarBadge.style.display =
+                    unreadCount > 0
+                        ? "flex"
+                        : "none";
+            }
+
+
+            // ----------------------------------------------------
+            // TOP-RIGHT BELL
+            // ----------------------------------------------------
+
+            const topBadge =
+                document.getElementById(
+                    "topNotificationBadge"
+                );
+
+            if (topBadge) {
+
+                topBadge.textContent =
+                    unreadCount;
+
+                topBadge.style.display =
+                    unreadCount > 0
+                        ? "inline-flex"
+                        : "none";
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Notification count error:",
+                error
+            );
+
+        }
+    }
+
+
+    // ------------------------------------------------------------
+    // LOAD COUNT WHEN DASHBOARD OPENS
+    // ------------------------------------------------------------
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            updateAdminNotificationCount();
+
+        }
+    );
+
+
+    // ------------------------------------------------------------
+    // CHECK FOR NEW NOTIFICATIONS
+    // EVERY 3 SECONDS
+    // ------------------------------------------------------------
+
+    setInterval(
+        updateAdminNotificationCount,
+        3000
+    );
+
 </script>
 
+<script src="notification.js"></script>
 
 </body>
 

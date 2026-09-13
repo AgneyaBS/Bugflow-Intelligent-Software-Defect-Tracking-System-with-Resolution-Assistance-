@@ -735,7 +735,7 @@
 
         <a href="analytics.html" class="nav-link">
             <i class="fa-solid fa-chart-pie"></i>
-            <span>Analytics & APIs</span>
+            <span>Analytics & Reports</span>
         </a>
 
         <div class="sidebar-bottom">
@@ -2187,10 +2187,10 @@ async function updateIssueStatus(
 
     if (!newStatus) {
 
-        showStatusMessage(
-            "Please select the next status.",
-            "error"
-        );
+        showMessage(
+    "Please select the next status.",
+    true
+);
 
         return;
     }
@@ -2282,7 +2282,7 @@ async function updateIssueStatus(
 
             showStatusMessage(
                 errorMessage,
-                "error"
+                true
             );
 
 
@@ -2305,7 +2305,7 @@ async function updateIssueStatus(
 
         showStatusMessage(
             "Issue status updated successfully!",
-            "success"
+            false
         );
 
 
@@ -2335,7 +2335,7 @@ async function updateIssueStatus(
 
         showStatusMessage(
             "Unable to connect to the BugFlow server.",
-            "error"
+            true
         );
 
 

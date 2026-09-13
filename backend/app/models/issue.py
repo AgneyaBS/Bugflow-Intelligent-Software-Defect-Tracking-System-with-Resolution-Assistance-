@@ -209,4 +209,9 @@ class Issue(Base):
         "project_id",
         "status"
     ),
+    Index(
+        "ix_issues_assignee_status",
+        "assignee_id",
+        "status"
+    ),
 )

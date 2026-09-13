@@ -14,15 +14,8 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- Main BugFlow CSS -->
-    <link rel="stylesheet"
-          href="css/style.css">
-
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-
-    <!-- Theme -->
-    <script src="theme.js"></script>
 
 
     <style>
@@ -64,250 +57,142 @@
         }
 
 
-       /* =========================================================
-   SIDEBAR
-========================================================= */
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: #ffffff;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+
+        /* BRAND */
+
+        .brand {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-text span {
+            color: #818cf8;
+        }
+
+
+        /* BACK BUTTON */
+
+        .sidebar-back-button {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin: 15px 15px 20px auto;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 7px;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-back-button:hover {
+            background: #e2e8f0;
+            transform: translateX(-2px);
+        }
+
+
+        /* NAVIGATION */
+
+        .sidebar-section {
+            padding: 0 15px 10px;
+        }
+
+        .sidebar-heading {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9ca3af;
+            padding: 0 12px 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 13px;
+            border-radius: 8px;
+            color: #d1d5db;
+            font-size: 15px;
+            margin-bottom: 5px;
+            transition: 0.2s ease;
+        }
 
-.sidebar {
-    width: 250px;
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
 
-    background: #ffffff;
+        .nav-link:hover {
+            background: #1f2937;
+            color: #ffffff;
+        }
 
-    color: #374151;
+        .nav-link.active {
+            background: #4f46e5;
+            color: #ffffff;
+        }
 
-    min-height: 100vh;
 
-    position: fixed;
+        /* SIDEBAR BOTTOM */
 
-    left: 0;
-    top: 0;
-    bottom: 0;
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
 
-    display: flex;
+        .logout-link {
+            color: #d1d5db;
+        }
 
-    flex-direction: column;
+        .logout-link:hover {
+            background: #7f1d1d;
+            color: #ffffff;
+        }
 
-    z-index: 100;
-
-    border-right: 1px solid #e5e7eb;
-
-    overflow-y: auto;
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.brand {
-    height: 75px;
-
-    display: flex;
-
-    align-items: center;
-
-    padding: 0 25px;
-
-    border-bottom: 1px solid #e5e7eb;
-}
-
-
-.brand-icon {
-    width: 38px;
-    height: 38px;
-
-    border-radius: 10px;
-
-    background: #4f46e5;
-
-    color: #ffffff;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    margin-right: 12px;
-
-    font-size: 18px;
-}
-
-
-.brand-text {
-    font-size: 20px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.2px;
-
-    color: #111827;
-}
-
-
-.brand-text span {
-    color: #4f46e5;
-}
-
-
-/* =========================================================
-   BACK BUTTON
-========================================================= */
-
-.sidebar-back-button {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    margin: 15px 15px 20px auto;
-
-    padding: 8px 14px;
-
-    border: none;
-
-    border-radius: 7px;
-
-    background: #f1f5f9;
-
-    color: #334155;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-
-.sidebar-back-button:hover {
-    background: #e2e8f0;
-
-    transform: translateX(-2px);
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-.sidebar-section {
-    padding: 0 15px 10px;
-
-    flex: 1;
-}
-
-
-.sidebar-heading {
-    font-size: 11px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-    color: #9ca3af;
-
-    padding: 0 12px 10px;
-}
-
-
-.nav-link {
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    padding: 12px 13px;
-
-    border-radius: 8px;
-
-    color: #4b5563;
-
-    font-size: 15px;
-
-    margin-bottom: 5px;
-
-    text-decoration: none;
-
-    transition: all 0.2s ease;
-}
-
-
-.nav-link i {
-    width: 20px;
-
-    text-align: center;
-
-    font-size: 15px;
-
-    color: #6b7280;
-}
-
-
-.nav-link:hover {
-    background: #f3f4f6;
-
-    color: #4f46e5;
-}
-
-
-.nav-link:hover i {
-    color: #4f46e5;
-}
-
-
-/* ACTIVE LINK */
-
-.nav-link.active {
-    background: #eef2ff;
-
-    color: #4f46e5;
-
-    font-weight: 600;
-}
-
-
-.nav-link.active i {
-    color: #4f46e5;
-}
-
-
-/* =========================================================
-   SIDEBAR BOTTOM
-========================================================= */
-
-.sidebar-bottom {
-    margin-top: auto;
-
-    padding: 15px;
-
-    border-top: 1px solid #e5e7eb;
-}
-
-
-.logout-link {
-    color: #4b5563;
-}
-
-
-.logout-link i {
-    color: #6b7280;
-}
-
-
-.logout-link:hover {
-    background: #fef2f2;
-
-    color: #dc2626;
-}
-
-
-.logout-link:hover i {
-    color: #dc2626;
-}
 
         /* =========================================================
            MAIN CONTENT
@@ -315,21 +200,46 @@
 
         .main-content {
             margin-left: 250px;
-
-            width:
-                calc(100% - 250px);
-
+            width: calc(100% - 250px);
             min-height: 100vh;
+            padding: 25px;
         }
 
 
         /* =========================================================
-           MILESTONE 3
+           ANALYTICS SECTION
         ========================================================= */
 
         .milestone3-section {
-            margin-top: 25px;
-            padding: 0 25px 30px;
+            margin-top: 0;
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .card-header h2 i {
+            color: #4f46e5;
+            margin-right: 8px;
+        }
+
+        .card-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        .card-body {
+            width: 100%;
         }
 
 
@@ -339,33 +249,20 @@
 
         .m3-service-banner {
             display: flex;
-
             align-items: center;
-
-            justify-content:
-                space-between;
-
+            justify-content: space-between;
             gap: 15px;
-
             padding: 15px;
-
             margin-bottom: 20px;
-
             background: #f9fafb;
-
-            border:
-                1px solid #e5e7eb;
-
+            border: 1px solid #e5e7eb;
             border-radius: 10px;
-
             flex-wrap: wrap;
         }
 
         .m3-service-item {
             display: flex;
-
             align-items: center;
-
             gap: 10px;
         }
 
@@ -376,49 +273,30 @@
 
         .m3-service-item strong {
             display: block;
-
             font-size: 13px;
-
             color: #111827;
         }
 
         .m3-service-item span {
             display: block;
-
             margin-top: 3px;
-
             font-size: 12px;
-
             color: #16a34a;
         }
 
-
-        /* =========================================================
-           EXPORT BUTTONS
-        ========================================================= */
-
         .m3-export-buttons {
             display: flex;
-
             gap: 8px;
         }
 
         .m3-btn {
             border: none;
-
             background: #4f46e5;
-
             color: #ffffff;
-
             border-radius: 7px;
-
-            padding:
-                9px 13px;
-
+            padding: 9px 13px;
             font-size: 12px;
-
             font-weight: 600;
-
             cursor: pointer;
         }
 
@@ -433,41 +311,28 @@
 
         .m3-metrics-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-
             margin-bottom: 20px;
         }
 
         .m3-metric-card {
             padding: 18px;
-
             background: #ffffff;
-
-            border:
-                1px solid #e5e7eb;
-
+            border: 1px solid #e5e7eb;
             border-radius: 10px;
         }
 
         .m3-metric-card span {
             display: block;
-
             font-size: 12px;
-
             color: #6b7280;
         }
 
         .m3-metric-card strong {
             display: block;
-
             margin-top: 8px;
-
             font-size: 24px;
-
             color: #111827;
         }
 
@@ -478,50 +343,37 @@
 
         .m3-chart-grid {
             display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
         .m3-chart-card {
             padding: 18px;
-
             background: #ffffff;
-
-            border:
-                1px solid #e5e7eb;
-
+            border: 1px solid #e5e7eb;
             border-radius: 10px;
-
             margin-bottom: 20px;
         }
 
         .m3-chart-card h3 {
             margin-bottom: 15px;
-
             font-size: 15px;
-
             color: #111827;
         }
 
         .m3-chart-card h3 i {
             margin-right: 7px;
-
             color: #4f46e5;
         }
 
         #defectTrendChart {
             width: 100%;
-
             min-height: 350px;
         }
 
         #severityDonutChart,
         #workflowPipelineChart {
             width: 100%;
-
             min-height: 320px;
         }
 
@@ -532,74 +384,49 @@
 
         .m3-api-card {
             background: #ffffff;
-
-            border:
-                1px solid #e5e7eb;
-
+            border: 1px solid #e5e7eb;
             border-radius: 10px;
-
             padding: 18px;
-
             margin-top: 20px;
         }
 
         .m3-api-card h3 {
             margin-bottom: 15px;
-
             font-size: 15px;
-
             color: #111827;
         }
 
         .m3-api-card h3 i {
             margin-right: 7px;
-
             color: #4f46e5;
         }
 
         .m3-api-controls {
             display: flex;
-
             gap: 10px;
-
             margin-bottom: 15px;
         }
 
         #m3ApiSelect {
             flex: 1;
-
             padding: 10px;
-
-            border:
-                1px solid #d1d5db;
-
+            border: 1px solid #d1d5db;
             border-radius: 7px;
-
             font-size: 13px;
-
             background: #ffffff;
         }
 
         #m3ApiResponse,
         #m3WebhookResponse {
             min-height: 180px;
-
             max-height: 400px;
-
             overflow: auto;
-
             padding: 15px;
-
             background: #111827;
-
             color: #e5e7eb;
-
             border-radius: 8px;
-
             font-size: 12px;
-
             line-height: 1.5;
-
             white-space: pre-wrap;
         }
 
@@ -610,21 +437,13 @@
 
         .m3-webhook-select {
             width: 100%;
-
             padding: 10px;
-
             margin-bottom: 12px;
-
-            border:
-                1px solid #d1d5db;
-
+            border: 1px solid #d1d5db;
             border-radius: 7px;
-
             font-size: 13px;
-
             background: #ffffff;
         }
-
 /* =========================================================
    REPORTS
 ========================================================= */
@@ -703,13 +522,6 @@
     background: #4338ca;
 }
 
-@media (max-width: 650px) {
-
-    .m3-reports-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
         /* =========================================================
            RESPONSIVE
         ========================================================= */
@@ -717,8 +529,7 @@
         @media (max-width: 1000px) {
 
             .m3-metrics-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
 
         }
@@ -732,9 +543,7 @@
 
             .main-content {
                 margin-left: 220px;
-
-                width:
-                    calc(100% - 220px);
+                width: calc(100% - 220px);
             }
 
             .m3-chart-grid {
@@ -748,9 +557,7 @@
 
             .sidebar {
                 position: relative;
-
                 width: 100%;
-
                 min-height: auto;
             }
 
@@ -760,13 +567,8 @@
 
             .main-content {
                 margin-left: 0;
-
                 width: 100%;
-            }
-
-            .milestone3-section {
-                padding:
-                    0 15px 25px;
+                padding: 15px;
             }
 
             .m3-metrics-grid {
@@ -775,7 +577,6 @@
 
             .m3-service-banner {
                 align-items: flex-start;
-
                 flex-direction: column;
             }
 
@@ -805,7 +606,7 @@
 
 
     <!-- =========================================================
-         ADMIN SIDEBAR
+         USER SIDEBAR
     ========================================================== -->
 
     <aside class="sidebar">
@@ -816,15 +617,11 @@
         <div class="brand">
 
             <div class="brand-icon">
-
                 <i class="fa-solid fa-bug"></i>
-
             </div>
 
             <div class="brand-text">
-
                 Bug<span>Flow</span>
-
             </div>
 
         </div>
@@ -857,10 +654,10 @@
 
             <!-- DASHBOARD -->
 
-            <a href="admin-dashboard.html"
+            <a href="user-dashboard.html"
                class="nav-link">
 
-                <i class="fa-solid fa-chart-pie"></i>
+                <i class="fa-solid fa-chart-line"></i>
 
                 <span>
                     Dashboard
@@ -869,35 +666,29 @@
             </a>
 
 
-            <!-- ALL ISSUES -->
+            <!-- REPORT ISSUE -->
 
-            <a href="admin-defects.html"
+            <a href="report-defect.html"
                class="nav-link">
 
                 <i class="fa-solid fa-bug"></i>
 
                 <span>
-                    All Issues
+                    Report Issue
                 </span>
 
             </a>
 
-<a href="sprints.html" class="nav-link">
-    <i class="fa-solid fa-list-check"></i>
-    <span>Sprints</span>
-</a>
-           
 
+            <!-- MY ISSUES -->
 
-            <!-- USERS -->
-
-            <a href="users.html"
+            <a href="my-issues.html"
                class="nav-link">
 
-                <i class="fa-solid fa-users"></i>
+                <i class="fa-solid fa-list-check"></i>
 
                 <span>
-                    Users
+                    My Issues
                 </span>
 
             </a>
@@ -908,7 +699,7 @@
             <a href="resolution.html"
                class="nav-link">
 
-                <i class="fa-solid fa-robot"></i>
+                <i class="fa-solid fa-lightbulb"></i>
 
                 <span>
                     Resolution Assistance
@@ -917,23 +708,12 @@
             </a>
 
 
-            <!-- MANAGEMENT -->
-
-            <div
-                class="sidebar-heading"
-                style="margin-top: 18px;">
-
-                Management
-
-            </div>
-
-
             <!-- ANALYTICS -->
 
-            <a href="admin-analytics.html"
+            <a href="user-analytics.html"
                class="nav-link active">
 
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fa-solid fa-chart-pie"></i>
 
                 <span>
                     Analytics & Reports
@@ -945,25 +725,10 @@
 
             <!-- NOTIFICATIONS -->
 
-            <a href="notifications.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-bell"></i>
-
-                <span>
-                    Notifications
-                </span>
-
-                <b
-                    class="badge"
-                    id="sidebarNotificationBadge"
-                    style="display:none;">
-
-                    0
-
-                </b>
-
-            </a>
+            <a href="notifications.html" class="nav-link">
+    <i class="fa-solid fa-bell"></i>
+    <span>Notifications</span>
+</a>
 
 
             <!-- SETTINGS -->
@@ -997,15 +762,13 @@
         </div>
 
 
-        <!-- =====================================================
-             LOGOUT
-        ====================================================== -->
+        <!-- SIDEBAR BOTTOM -->
 
         <div class="sidebar-bottom">
 
             <a href="#"
                class="nav-link logout-link"
-               id="logoutBtn">
+               id="logoutLink">
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -1029,87 +792,9 @@
     <main class="main-content">
 
 
-        <!-- =====================================================
-             TOPBAR
-        ====================================================== -->
-
-        <header class="topbar">
-
-
-            <div class="topbar-title">
-
-                <span>
-                    SOFTWARE ISSUE MANAGEMENT
-                </span>
-
-                <strong>
-                    Analytics & Reports
-                </strong>
-
-            </div>
-
-
-            <div class="topbar-right">
-
-
-                <!-- NOTIFICATIONS -->
-
-                <a
-                    href="notifications.html"
-                    class="notification-button">
-
-                    <i class="fa-solid fa-bell"></i>
-
-                    <span
-                        id="topNotificationBadge">
-
-                        0
-
-                    </span>
-
-                </a>
-
-
-                <!-- ADMIN PROFILE -->
-
-                <a
-                    href="profile.html"
-                    class="user-profile">
-
-                    <div
-                        class="avatar admin-avatar"
-                        id="adminAvatar">
-
-                        AD
-
-                    </div>
-
-
-                    <div>
-
-                        <strong id="adminName">
-                            Administrator
-                        </strong>
-
-                        <small id="adminRole">
-                            System Admin
-                        </small>
-
-                    </div>
-
-                </a>
-
-
-            </div>
-
-
-        </header>
-
-
-
-        <!-- =====================================================
-             ANALYTICS
-        ====================================================== -->
+        <!-- =========================================================
+             MILESTONE 3 - ANALYTICS
+        ========================================================== -->
 
         <section
             id="milestone3"
@@ -1133,7 +818,6 @@
 
                         </h2>
 
-
                         <p>
                             Software quality scorecard,
                             analytics and CI/CD integration
@@ -1148,16 +832,16 @@
                 <div class="card-body">
 
 
-                    <!-- SERVICE BANNER -->
+                    <!-- =================================================
+                         SERVICE BANNER
+                    ================================================== -->
 
                     <div class="m3-service-banner">
 
 
                         <div class="m3-service-item">
 
-                            <i
-                                class="fa-solid fa-circle-check">
-                            </i>
+                            <i class="fa-solid fa-circle-check"></i>
 
                             <div>
 
@@ -1174,12 +858,9 @@
                         </div>
 
 
-
                         <div class="m3-service-item">
 
-                            <i
-                                class="fa-solid fa-shield-halved">
-                            </i>
+                            <i class="fa-solid fa-shield-halved"></i>
 
                             <div>
 
@@ -1193,13 +874,16 @@
 
                             </div>
 
-                        </div>                     
+                        </div>
+
 
                     </div>
 
 
 
-                    <!-- QUALITY METRICS -->
+                    <!-- =================================================
+                         QUALITY METRICS
+                    ================================================== -->
 
                     <div class="m3-metrics-grid">
 
@@ -1286,16 +970,16 @@
 
 
 
-                    <!-- DEFECT TREND -->
+                    <!-- =================================================
+                         DEFECT TREND
+                    ================================================== -->
 
                     <div class="m3-chart-card">
 
 
                         <h3>
 
-                            <i
-                                class="fa-solid fa-chart-line">
-                            </i>
+                            <i class="fa-solid fa-chart-line"></i>
 
                             Defect Trends — Last 14 Days
 
@@ -1309,7 +993,9 @@
 
 
 
-                    <!-- DONUT + PIPELINE -->
+                    <!-- =================================================
+                         DONUT + PIPELINE
+                    ================================================== -->
 
                     <div class="m3-chart-grid">
 
@@ -1319,18 +1005,14 @@
 
                             <h3>
 
-                                <i
-                                    class="fa-solid fa-chart-pie">
-                                </i>
+                                <i class="fa-solid fa-chart-pie"></i>
 
                                 Severity Distribution
 
                             </h3>
 
 
-                            <div
-                                id="severityDonutChart">
-                            </div>
+                            <div id="severityDonutChart"></div>
 
 
                         </div>
@@ -1342,18 +1024,14 @@
 
                             <h3>
 
-                                <i
-                                    class="fa-solid fa-chart-column">
-                                </i>
+                                <i class="fa-solid fa-chart-column"></i>
 
                                 Workflow Pipeline
 
                             </h3>
 
 
-                            <div
-                                id="workflowPipelineChart">
-                            </div>
+                            <div id="workflowPipelineChart"></div>
 
 
                         </div>
@@ -1369,18 +1047,16 @@
 
 
 
-            <!-- =================================================
+            <!-- =========================================================
                  REST API EXPLORER
-            ================================================== -->
+            ========================================================== -->
 
             <div class="m3-api-card">
 
 
                 <h3>
 
-                    <i
-                        class="fa-solid fa-terminal">
-                    </i>
+                    <i class="fa-solid fa-terminal"></i>
 
                     Live REST API Explorer
 
@@ -1392,41 +1068,23 @@
 
                     <select id="m3ApiSelect">
 
-
                         <option value="quality-metrics">
-
-                            GET
-                            /api/v1/analytics/quality-metrics
-
+                            GET /api/v1/analytics/quality-metrics
                         </option>
-
 
                         <option value="defect-trends">
-
-                            GET
-                            /api/v1/analytics/defect-trends
-
+                            GET /api/v1/analytics/defect-trends
                         </option>
-
 
                         <option value="plotly-charts">
-
-                            GET
-                            /api/v1/analytics/plotly-charts
-
+                            GET /api/v1/analytics/plotly-charts
                         </option>
-
 
                         <option value="issues">
-
-                            GET
-                            /api/v1/issues/
-
+                            GET /api/v1/issues/
                         </option>
 
-
                     </select>
-
 
 
                     <button
@@ -1434,9 +1092,7 @@
                         class="m3-btn"
                         onclick="runM3ApiExplorer()">
 
-                        <i
-                            class="fa-solid fa-paper-plane">
-                        </i>
+                        <i class="fa-solid fa-paper-plane"></i>
 
                         Send
 
@@ -1447,9 +1103,7 @@
 
 
                 <pre id="m3ApiResponse">
-
 Click Send to call the API...
-
                 </pre>
 
 
@@ -1457,18 +1111,16 @@ Click Send to call the API...
 
 
 
-            <!-- =================================================
+            <!-- =========================================================
                  GIT WEBHOOK
-            ================================================== -->
+            ========================================================== -->
 
             <div class="m3-api-card">
 
 
                 <h3>
 
-                    <i
-                        class="fa-brands fa-github">
-                    </i>
+                    <i class="fa-brands fa-github"></i>
 
                     CI/CD Git Webhook
 
@@ -1504,9 +1156,7 @@ Click Send to call the API...
                     class="m3-btn"
                     onclick="simulateGitWebhook()">
 
-                    <i
-                        class="fa-solid fa-code-commit">
-                    </i>
+                    <i class="fa-solid fa-code-commit"></i>
 
                     Simulate Git Commit
 
@@ -1523,19 +1173,20 @@ Click the button to simulate a Git commit...
 
 
             </div>
-
-
-            <!-- =================================================
+<!-- =========================================================
                  REPORTS
-            ================================================== -->
+            ========================================================== -->
 
             <div class="m3-reports-section">
 
                 <div class="m3-reports-header">
 
                     <h3>
+
                         <i class="fa-solid fa-file-lines"></i>
+
                         Reports
+
                     </h3>
 
                     <p>
@@ -1554,8 +1205,11 @@ Click the button to simulate a Git commit...
                     <div class="m3-report-card">
 
                         <h4>
+
                             <i class="fa-solid fa-file-pdf"></i>
+
                             Quality Report
+
                         </h4>
 
                         <p>
@@ -1583,8 +1237,11 @@ Click the button to simulate a Git commit...
                     <div class="m3-report-card">
 
                         <h4>
+
                             <i class="fa-solid fa-file-csv"></i>
+
                             Issue Registry
+
                         </h4>
 
                         <p>
@@ -1615,7 +1272,6 @@ Click the button to simulate a Git commit...
         </section>
 
 
-
     </main>
 
 
@@ -1625,6 +1281,7 @@ Click the button to simulate a Git commit...
 
 <script>
 
+
 /* ============================================================
    API BASE URL
 ============================================================ */
@@ -1633,8 +1290,9 @@ const API_BASE_URL =
     "http://127.0.0.1:8000";
 
 
+
 /* ============================================================
-   LOAD QUALITY METRICS
+   QUALITY METRICS
 ============================================================ */
 
 async function loadQualityMetrics() {
@@ -1642,9 +1300,7 @@ async function loadQualityMetrics() {
     try {
 
         const token =
-            localStorage.getItem(
-                "access_token"
-            );
+            localStorage.getItem("access_token");
 
 
         const response =
@@ -1654,15 +1310,12 @@ async function loadQualityMetrics() {
                     method: "GET",
 
                     headers: {
-
                         "Accept":
                             "application/json",
 
                         "Authorization":
                             `Bearer ${token}`
-
                     }
-
                 }
             );
 
@@ -1728,6 +1381,7 @@ async function loadQualityMetrics() {
 }
 
 
+
 /* ============================================================
    DEFECT TREND CHART
 ============================================================ */
@@ -1777,13 +1431,9 @@ async function loadDefectTrendChart() {
 
             {
                 x: dates,
-
                 y: newBugs,
-
                 name: "New Bugs",
-
-                mode:
-                    "lines+markers",
+                mode: "lines+markers",
 
                 line: {
                     color: "red"
@@ -1792,13 +1442,9 @@ async function loadDefectTrendChart() {
 
             {
                 x: dates,
-
                 y: resolvedBugs,
-
                 name: "Resolved Bugs",
-
-                mode:
-                    "lines+markers",
+                mode: "lines+markers",
 
                 line: {
                     color: "green"
@@ -1819,21 +1465,17 @@ async function loadDefectTrendChart() {
 
             yaxis: {
                 title: "Number of Bugs",
-
-                rangemode:
-                    "tozero"
+                rangemode: "tozero"
             },
 
             hovermode:
                 "x unified",
 
             margin: {
-
                 t: 50,
                 r: 30,
                 b: 60,
                 l: 60
-
             }
 
         };
@@ -1841,11 +1483,8 @@ async function loadDefectTrendChart() {
 
         Plotly.newPlot(
             "defectTrendChart",
-
             traces,
-
             layout,
-
             {
                 responsive: true
             }
@@ -1862,6 +1501,7 @@ async function loadDefectTrendChart() {
     }
 
 }
+
 
 
 /* ============================================================
@@ -1939,16 +1579,13 @@ async function loadSeverityDonutChart() {
             title:
                 "Bugs by Severity",
 
-            showlegend:
-                true,
+            showlegend: true,
 
             margin: {
-
                 t: 50,
                 r: 20,
                 b: 20,
                 l: 20
-
             }
 
         };
@@ -1956,11 +1593,8 @@ async function loadSeverityDonutChart() {
 
         Plotly.newPlot(
             "severityDonutChart",
-
             [trace],
-
             layout,
-
             {
                 responsive: true
             }
@@ -1977,6 +1611,7 @@ async function loadSeverityDonutChart() {
     }
 
 }
+
 
 
 /* ============================================================
@@ -2054,22 +1689,15 @@ async function loadWorkflowPipelineChart() {
             },
 
             yaxis: {
-
-                title:
-                    "Number of Bugs",
-
-                rangemode:
-                    "tozero"
-
+                title: "Number of Bugs",
+                rangemode: "tozero"
             },
 
             margin: {
-
                 t: 50,
                 r: 20,
                 b: 70,
                 l: 50
-
             }
 
         };
@@ -2077,11 +1705,8 @@ async function loadWorkflowPipelineChart() {
 
         Plotly.newPlot(
             "workflowPipelineChart",
-
             [trace],
-
             layout,
-
             {
                 responsive: true
             }
@@ -2098,6 +1723,7 @@ async function loadWorkflowPipelineChart() {
     }
 
 }
+
 
 
 /* ============================================================
@@ -2222,8 +1848,9 @@ async function runM3ApiExplorer() {
 }
 
 
+
 /* ============================================================
-   GIT WEBHOOK SIMULATOR
+   GIT WEBHOOK
 ============================================================ */
 
 async function simulateGitWebhook() {
@@ -2267,13 +1894,11 @@ async function simulateGitWebhook() {
                     method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json",
 
                         "Accept":
                             "application/json"
-
                     },
 
                     body:
@@ -2319,6 +1944,7 @@ async function simulateGitWebhook() {
 }
 
 
+
 /* ============================================================
    PDF EXPORT
 ============================================================ */
@@ -2340,12 +1966,9 @@ async function exportQualityPDF() {
                     method: "GET",
 
                     headers: {
-
                         "Authorization":
                             `Bearer ${token}`
-
                     }
-
                 }
             );
 
@@ -2414,6 +2037,7 @@ async function exportQualityPDF() {
 }
 
 
+
 /* ============================================================
    CSV EXPORT
 ============================================================ */
@@ -2435,12 +2059,9 @@ async function exportQualityCSV() {
                     method: "GET",
 
                     headers: {
-
                         "Authorization":
                             `Bearer ${token}`
-
                     }
-
                 }
             );
 
@@ -2509,6 +2130,7 @@ async function exportQualityCSV() {
 }
 
 
+
 /* ============================================================
    LOAD WEBHOOK ISSUES
 ============================================================ */
@@ -2522,7 +2144,9 @@ async function loadWebhookIssues() {
 
 
     if (!issueSelect) {
+
         return;
+
     }
 
 
@@ -2642,19 +2266,20 @@ async function loadWebhookIssues() {
 }
 
 
+
 /* ============================================================
    LOGOUT
 ============================================================ */
 
-const logoutBtn =
+const logoutLink =
     document.getElementById(
-        "logoutBtn"
+        "logoutLink"
     );
 
 
-if (logoutBtn) {
+if (logoutLink) {
 
-    logoutBtn.addEventListener(
+    logoutLink.addEventListener(
         "click",
         function(event) {
 
@@ -2678,6 +2303,7 @@ if (logoutBtn) {
     );
 
 }
+
 
 
 /* ============================================================
@@ -2704,9 +2330,7 @@ document.addEventListener(
 </script>
 
 
-<!-- REAL-TIME NOTIFICATION SYSTEM -->
-
-<script src="notification.js"></script>
+<script src="theme.js"></script>
 
 
 </body>

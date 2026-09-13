@@ -59,119 +59,68 @@
     <span>Back</span>
 </button>
 
+<nav>
 
-        <nav>
+    <p class="nav-heading">
+        MAIN
+    </p>
 
-            <p class="nav-heading">
-                MAIN
-            </p>
+    <!-- Dashboard -->
+    <a href="admin-dashboard.html" class="nav-link">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Dashboard</span>
+    </a>
 
+    <!-- All Issues -->
+    <a href="admin-defects.html" class="nav-link active">
+        <i class="fa-solid fa-bug"></i>
+        <span>All Issues</span>
+    </a>
 
-            <a href="admin-dashboard.html"
-               class="nav-link active">
+    <!-- Sprints -->
+    <a href="sprints.html" class="nav-link">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Sprints</span>
+    </a>
 
-                <i class="fa-solid fa-chart-pie"></i>
+    <!-- Users -->
+    <a href="users.html" class="nav-link">
+        <i class="fa-solid fa-users"></i>
+        <span>Users</span>
+    </a>
 
-                <span>
-                    Dashboard
-                </span>
-
-            </a>
-
-
-            <a href="admin-defects.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-bug"></i>
-
-                <span>
-                    All Issues
-                </span>
-
-            </a>
-
-
-            <a href="users.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-users"></i>
-
-                <span>
-                    Users
-                </span>
-
-            </a>
+    <!-- Resolution Assistance -->
+    <a href="resolution.html" class="nav-link">
+        <i class="fa-solid fa-robot"></i>
+        <span>Resolution Assistance</span>
+    </a>
 
 
-            <a href="resolution.html"
-               class="nav-link">
+    <p class="nav-heading second">
+        MANAGEMENT
+    </p>
 
-                <i class="fa-solid fa-robot"></i>
+    <!-- Analytics & Reports -->
+    <a href="admin-analytics.html" class="nav-link">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Analytics & Reports</span>
+    </a>
 
-                <span>
-                    Resolution Assistance
-                </span>
+    <!-- Notifications -->
+    <a href="notifications.html" class="nav-link">
+        <i class="fa-solid fa-bell"></i>
+        <span>Notifications</span>
+        <b class="badge" id="sidebarNotificationBadge">0</b>
+    </a>
 
-            </a>
+    <!-- Settings -->
+    <a href="settings.html" class="nav-link">
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+    </a>
 
-
-            <p class="nav-heading second">
-                MANAGEMENT
-            </p>
-
-
-            <a href="admin-analytics.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-chart-line"></i>
-
-                <span>
-                    Analytics &API'S
-                </span>
-
-            </a>
-
-
-            <a href="reports.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-file-lines"></i>
-
-                <span>
-                    Reports
-                </span>
-
-            </a>
-
-
-            <a href="notifications.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-bell"></i>
-
-                <span>
-                    Notifications
-                </span>
-
-                <b class="badge">
-                    5
-                </b>
-
-            </a>
-
-
-            <a href="settings.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Settings
-                </span>
-
-            </a>
-
-        </nav>
+</nav>
+       
 
 
         <div class="sidebar-bottom">
@@ -211,61 +160,67 @@
     <main class="main">
 
 
-        <!-- TOPBAR -->
+       <!-- TOPBAR -->
 
-        <header class="topbar">
+<header class="topbar">
 
-            <div class="topbar-title">
+    <div class="topbar-title">
 
-                <span>
-                    SOFTWARE DEFECT MANAGEMENT
-                </span>
+        <span>
+            SOFTWARE DEFECT MANAGEMENT
+        </span>
 
-                <strong>
-                    All Defects
+        <strong>
+            All Defects
+        </strong>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <!-- Notifications -->
+
+        <a href="notifications.html"
+           class="notification-button">
+
+            <i class="fa-regular fa-bell"></i>
+
+            <span id="topNotificationBadge">0</span>
+
+        </a>
+
+
+        <!-- Admin Profile -->
+
+        <a href="profile.html"
+           class="user-profile">
+
+            <div class="avatar admin-avatar"
+                 id="adminAvatar">
+
+                AD
+
+            </div>
+
+
+            <div>
+
+                <strong id="adminName">
+                    Administrator
                 </strong>
 
-            </div>
-
-
-            <div class="topbar-right">
-
-                <button class="notification-button">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                    <span>
-                        5
-                    </span>
-
-                </button>
-
-
-                <div class="user-profile">
-
-                    <div class="avatar admin-avatar"
-                         id="adminAvatar">
-                        AD
-                    </div>
-
-                    <div>
-
-                        <strong id="adminName">
-                            Administrator
-                        </strong>
-
-                        <small>
-                            System Admin
-                        </small>
-
-                    </div>
-
-                </div>
+                <small id="adminRole">
+                    System Admin
+                </small>
 
             </div>
 
-        </header>
+        </a>
 
+    </div>
+
+</header>
 
 
         <!-- =====================================================
@@ -470,7 +425,23 @@
 
                         </div>
 
+<!-- PROJECT -->
 
+<div class="filter-group">
+
+    <label>
+        Project
+    </label>
+
+    <select id="projectFilter">
+
+        <option value="">
+            All Projects
+        </option>
+
+    </select>
+
+</div>
                     </div>
 
 
@@ -570,7 +541,82 @@
                     </div>
 
                 </div>
+<!-- =================================================
+     SMART DEVELOPER MATCHER
+================================================== -->
 
+<div class="card developer-matcher-card">
+
+    <div class="card-title">
+        <div>
+            <h3>
+                <i class="fa-solid fa-user-shield"></i>
+                Smart Developer Matcher
+            </h3>
+
+            <p>
+                Find the best developer for an issue based on skills and current workload.
+            </p>
+        </div>
+    </div>
+
+    <div class="developer-matcher-form">
+
+        <div class="filter-group">
+            <label>Select Issue</label>
+
+            <select id="matcherIssueSelect">
+                <option value="">
+                    Select an issue
+                </option>
+            </select>
+        </div>
+
+        <button
+            type="button"
+            class="primary-btn matcher-btn"
+            onclick="getDeveloperRecommendations()">
+
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+            Get Recommendations
+
+        </button>
+
+    </div>
+
+    <div
+        id="matcherMessage"
+        class="matcher-message"
+        style="display:none;">
+    </div>
+
+    <div
+        id="developerRecommendations"
+        class="developer-recommendations"
+        style="display:none;">
+
+        <div class="matcher-results-header">
+
+            <div>
+                <h4>
+                    Recommended Developers
+                </h4>
+
+                <p>
+                    Top developers selected based on skill match and workload.
+                </p>
+            </div>
+
+        </div>
+
+        <div id="recommendationCards"
+             class="recommendation-cards">
+        </div>
+
+    </div>
+
+</div>
 
             </div>
 
@@ -1168,7 +1214,235 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+/* =====================================================
+   SMART DEVELOPER MATCHER
+===================================================== */
 
+.developer-matcher-card {
+    margin-top: 24px;
+}
+
+.developer-matcher-card .card-title h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.developer-matcher-card .card-title h3 i {
+    color: #6366f1;
+}
+
+.developer-matcher-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: end;
+    margin-top: 20px;
+}
+
+.developer-matcher-form .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.developer-matcher-form label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.developer-matcher-form select {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #ffffff;
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1e293b;
+    outline: none;
+}
+
+.developer-matcher-form select:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.10);
+}
+
+.matcher-btn {
+    height: 44px;
+    white-space: nowrap;
+}
+
+.matcher-message {
+    margin-top: 16px;
+    padding: 12px 15px;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+}
+
+.developer-recommendations {
+    margin-top: 22px;
+}
+
+.matcher-results-header {
+    margin-bottom: 14px;
+}
+
+.matcher-results-header h4 {
+    margin: 0 0 5px;
+    font-size: 15px;
+    color: #334155;
+}
+
+.matcher-results-header p {
+    margin: 0;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.recommendation-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.recommendation-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 17px;
+    background: #ffffff;
+}
+
+.recommendation-card:hover {
+    border-color: #c7d2fe;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.recommendation-rank {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6366f1;
+    text-transform: uppercase;
+    margin-bottom: 9px;
+}
+
+.recommendation-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 3px;
+}
+
+.recommendation-username {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 13px;
+}
+
+.match-score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.match-score strong {
+    font-size: 20px;
+    color: #4f46e5;
+}
+
+.match-score span {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.match-bar {
+    width: 100%;
+    height: 7px;
+    background: #eef2ff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 13px;
+}
+
+.match-bar-fill {
+    height: 100%;
+    background: #6366f1;
+    border-radius: 10px;
+}
+
+.matcher-info {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 14px;
+}
+
+.matcher-info-row {
+    font-size: 12px;
+    color: #475569;
+}
+
+.matcher-info-row strong {
+    color: #334155;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+}
+
+.skill-tag {
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.matcher-assign-btn {
+    width: 100%;
+    border: none;
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.matcher-assign-btn:hover {
+    background: #e0e7ff;
+}
+
+@media (max-width: 900px) {
+
+    .recommendation-cards {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .developer-matcher-form {
+        grid-template-columns: 1fr;
+    }
+
+    .matcher-btn {
+        width: 100%;
+    }
+
+}
 </style>
 
 
@@ -1783,9 +2057,98 @@ const API_BASE_URL =
 
 let allIssues = [];
 let allUsers = [];
+let allProjects = [];
 
 let currentViewingIssueId = null;
+/* =====================================================
+   LOAD PROJECTS
+===================================================== */
 
+async function loadProjects() {
+
+    const token =
+        localStorage.getItem("access_token");
+
+    if (!token) {
+        return;
+    }
+
+    const projectFilter =
+        document.getElementById("projectFilter");
+
+    if (!projectFilter) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/projects/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        if (!response.ok) {
+
+            console.error(
+                "Unable to load projects:",
+                response.status
+            );
+
+            return;
+        }
+
+        allProjects =
+            await response.json();
+
+        projectFilter.innerHTML = `
+            <option value="">
+                All Projects
+            </option>
+        `;
+
+        allProjects.forEach(function(project) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                project.project_id;
+
+            option.textContent =
+                project.project_name;
+
+            projectFilter.appendChild(
+                option
+            );
+
+        });
+
+        console.log(
+            "Projects loaded:",
+            allProjects
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error loading projects:",
+            error
+        );
+
+    }
+
+}
 
 /* =====================================================
    GET CURRENT USER
@@ -2298,33 +2661,25 @@ function renderIssues(issues) {
 /* =====================================================
    APPLY FILTERS
 ===================================================== */
-
 function applyFilters() {
 
     const search =
-        document.getElementById(
-            "searchInput"
-        ).value
-        .trim()
-        .toLowerCase();
-
+        document.getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
 
     const status =
-        document.getElementById(
-            "statusFilter"
-        ).value;
-
+        document.getElementById("statusFilter").value;
 
     const severity =
-        document.getElementById(
-            "severityFilter"
-        ).value;
-
+        document.getElementById("severityFilter").value;
 
     const priority =
-        document.getElementById(
-            "priorityFilter"
-        ).value;
+        document.getElementById("priorityFilter").value;
+
+    const projectId =
+        document.getElementById("projectFilter").value;
 
 
     const filtered =
@@ -2354,20 +2709,24 @@ function applyFilters() {
                 issue.priority === priority;
 
 
+            const matchesProject =
+                !projectId ||
+                Number(issue.project_id) ===
+                Number(projectId);
+
+
             return (
                 matchesSearch &&
                 matchesStatus &&
                 matchesSeverity &&
-                matchesPriority
+                matchesPriority &&
+                matchesProject
             );
 
         });
 
 
-    renderIssues(
-        filtered
-    );
-
+    renderIssues(filtered);
 }
 
 
@@ -2395,6 +2754,10 @@ function resetFilters() {
     document.getElementById(
         "priorityFilter"
     ).value = "";
+
+    document.getElementById(
+    "projectFilter"
+).value = "";
 
 
     renderIssues(
@@ -2606,7 +2969,521 @@ function populateDeveloperSelect(issue) {
     }
 
 }
+/* =====================================================
+   SMART DEVELOPER MATCHER
+===================================================== */
 
+function populateMatcherIssues() {
+
+    const select =
+        document.getElementById("matcherIssueSelect");
+
+    if (!select) {
+        return;
+    }
+
+    select.innerHTML = `
+        <option value="">
+            Select an issue
+        </option>
+    `;
+
+    allIssues.forEach(function(issue) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = issue.id;
+
+        option.textContent =
+            `#${issue.id} - ${issue.title || "Untitled Issue"}`;
+
+        select.appendChild(option);
+
+    });
+}
+
+
+/* =====================================================
+   GET DEVELOPER RECOMMENDATIONS
+===================================================== */
+
+async function getDeveloperRecommendations() {
+
+    const select =
+        document.getElementById(
+            "matcherIssueSelect"
+        );
+
+    const message =
+        document.getElementById(
+            "matcherMessage"
+        );
+
+    const results =
+        document.getElementById(
+            "developerRecommendations"
+        );
+
+    const cards =
+        document.getElementById(
+            "recommendationCards"
+        );
+
+    if (!select || !message || !results || !cards) {
+        return;
+    }
+
+    const issueId =
+        select.value;
+
+    if (!issueId) {
+
+        message.style.display = "block";
+
+        message.textContent =
+            "Please select an issue first.";
+
+        results.style.display = "none";
+
+        return;
+    }
+
+    const issue =
+        allIssues.find(function(item) {
+
+            return Number(item.id) ===
+                Number(issueId);
+
+        });
+
+    if (!issue) {
+
+        message.style.display = "block";
+
+        message.textContent =
+            "Selected issue could not be found.";
+
+        results.style.display = "none";
+
+        return;
+    }
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+    if (!token) {
+
+        message.style.display = "block";
+
+        message.textContent =
+            "Please login again.";
+
+        results.style.display = "none";
+
+        return;
+    }
+
+
+    /* Loading state */
+
+    message.style.display = "block";
+
+    message.textContent =
+        "Analyzing issue and finding the best developers...";
+
+    results.style.display = "none";
+
+    cards.innerHTML = "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/triage-recommendation`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+
+                        title:
+                            issue.title || "",
+
+                        description:
+                            issue.description || ""
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to get developer recommendations."
+            );
+
+        }
+
+
+        const recommendations =
+            data.recommended_developers || [];
+
+
+        if (recommendations.length === 0) {
+
+            message.style.display = "block";
+
+            message.textContent =
+                "No suitable developers were found.";
+
+            results.style.display = "none";
+
+            return;
+        }
+
+
+        message.style.display = "none";
+
+        results.style.display = "block";
+
+
+        recommendations.forEach(
+            function(developer, index) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "recommendation-card";
+
+
+                const matchPercentage =
+                    Number(
+                        developer.match_percentage || 0
+                    );
+
+
+                const skills =
+                    developer.matched_skills || [];
+
+
+                const skillTags =
+                    skills.length > 0
+
+                        ? skills.map(
+                            function(skill) {
+
+                                return `
+                                    <span class="skill-tag">
+                                        ${escapeHtml(skill)}
+                                    </span>
+                                `;
+
+                            }
+                        ).join("")
+
+                        : `
+                            <span class="matcher-info-row">
+                                No direct skill match
+                            </span>
+                        `;
+
+
+                card.innerHTML = `
+
+                    <div class="recommendation-rank">
+                        #${index + 1} Recommendation
+                    </div>
+
+
+                    <div class="recommendation-name">
+                        ${escapeHtml(
+                            developer.developer_name ||
+                            developer.username ||
+                            "Developer"
+                        )}
+                    </div>
+
+
+                    <div class="recommendation-username">
+                        @${escapeHtml(
+                            developer.username || ""
+                        )}
+                    </div>
+
+
+                    <div class="match-score">
+
+                        <strong>
+                            ${matchPercentage.toFixed(2)}%
+                        </strong>
+
+                        <span>
+                            Match Score
+                        </span>
+
+                    </div>
+
+
+                    <div class="match-bar">
+
+                        <div
+                            class="match-bar-fill"
+                            style="width:${Math.min(
+                                matchPercentage,
+                                100
+                            )}%;">
+                        </div>
+
+                    </div>
+
+
+                    <div class="matcher-info">
+
+                        <div class="matcher-info-row">
+
+                            <strong>
+                                Open Issues:
+                            </strong>
+
+                            ${developer.open_bugs ?? 0}
+
+                        </div>
+
+
+                        <div class="matcher-info-row">
+
+                            <strong>
+                                Matched Skills:
+                            </strong>
+
+                            <div class="skill-tags">
+                                ${skillTags}
+                            </div>
+
+                        </div>
+
+
+                        <div class="matcher-info-row">
+
+                            <strong>
+                                Reason:
+                            </strong>
+
+                            ${escapeHtml(
+                                developer.reason ||
+                                "Recommended based on available information."
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="matcher-assign-btn"
+                        onclick="assignMatchedDeveloper(
+                            ${issue.id},
+                            ${developer.developer_id},
+                            '${escapeHtml(
+                                developer.developer_name ||
+                                developer.username ||
+                                "Developer"
+                            ).replace(/'/g, "\\'")}'
+                        )">
+
+                        <i class="fa-solid fa-user-check"></i>
+
+                        Assign Developer
+
+                    </button>
+
+                `;
+
+
+                cards.appendChild(card);
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Developer matcher error:",
+            error
+        );
+
+
+        message.style.display =
+            "block";
+
+        message.textContent =
+            error.message ||
+            "Unable to connect to the BugFlow server.";
+
+        results.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   ASSIGN MATCHED DEVELOPER
+===================================================== */
+
+async function assignMatchedDeveloper(
+    issueId,
+    developerId,
+    developerName
+) {
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        );
+
+    if (!token) {
+
+        alert(
+            "Please login again."
+        );
+
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            `Assign Issue #${issueId} to ${developerName}?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/${issueId}/assign`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+
+                        assignee_id:
+                            Number(developerId)
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to assign developer."
+            );
+
+        }
+
+
+        const issue =
+            allIssues.find(
+                function(item) {
+
+                    return Number(item.id) ===
+                        Number(issueId);
+
+                }
+            );
+
+
+        if (issue) {
+
+            issue.assignee_id =
+                data.assignee_id ??
+                Number(developerId);
+
+        }
+
+
+        renderIssues(
+            allIssues
+        );
+
+
+        alert(
+            `Issue #${issueId} assigned successfully to ${developerName}.`
+        );
+
+
+        /*
+         * Refresh recommendations so the
+         * workload is updated if needed.
+         */
+
+        getDeveloperRecommendations();
+
+
+    } catch (error) {
+
+        console.error(
+            "Matched developer assignment error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to assign developer."
+        );
+
+    }
+
+}
 
 /* =====================================================
    VIEW ISSUE
@@ -3419,8 +4296,20 @@ async function saveIssueChanges() {
                 );
 
 
-            const data =
-                await response.json();
+            let data = null;
+
+const responseText = await response.text();
+
+if (responseText) {
+    try {
+        data = JSON.parse(responseText);
+    } catch (e) {
+        console.warn(
+            "Status response was not valid JSON:",
+            responseText
+        );
+    }
+}
 
 
             if (!response.ok) {
@@ -4179,6 +5068,9 @@ document.addEventListener(
 
         await loadIssues();
 
+        await loadProjects();
+        populateMatcherIssues();
+
     }
 );
 
@@ -4206,6 +5098,13 @@ document.getElementById(
     applyFilters
 );
 
+document.getElementById(
+    "projectFilter"
+).addEventListener(
+    "change",
+    applyFilters
+);
+
 
 /* =====================================================
    ESC CLOSE
@@ -4228,7 +5127,7 @@ document.addEventListener(
 
 </script>
 <script src="theme.js"></script>
-
+<script src="notification.js"></script>
 </body>
 
 </html>
