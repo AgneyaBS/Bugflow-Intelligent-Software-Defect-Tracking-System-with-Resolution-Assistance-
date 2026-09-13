@@ -3,3 +3,16 @@ __pycache__/
 *.pyc
 .env
 *.log
+# Database backups
+bugflow_backup.dump
+bugflow_backup.sql
+
+# Docker duplicate
+Dockerfile.txt
+
+# Database backups
+bugflow_backup.dump
+bugflow_backup.sql
+
+# Docker duplicate
+Dockerfile.txt
