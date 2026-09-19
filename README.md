@@ -1,0 +1,2 @@
+# Bugflow-Intelligent-Software-Defect-Tracking-System-with-Resolution-Assistance-
+BugFlow is centralized bug tracking software that simplifies bug reporting, assignment, prioritization,progress tracking and resolution. It enables developers, testers and project managers to collaborate efficiently through automated workflows, real-time notifications and analytics, helping reduce resolution time and improve software quality.
