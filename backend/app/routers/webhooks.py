@@ -4,15 +4,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from app.auth.dependencies import get_current_user
 from app.database.database import get_db
-from app.models.issue import Issue, IssueStatus
 from app.models.audit_log import AuditLog
+from app.models.issue import Issue, IssueStatus
 from app.models.user import User
 
-
-# ============================================================
-# ROUTER
-# ============================================================
 
 router = APIRouter(
     prefix="/api/v1/webhooks",
@@ -20,37 +17,38 @@ router = APIRouter(
 )
 
 
-# ============================================================
-# GIT WEBHOOK REQUEST
-# ============================================================
-
-class GitWebhookRequest(BaseModel):
+class GitWebhookPayload(BaseModel):
     message: str
-    commit_hash: str | None = None
+    commit_hash: str
+
+
+def enum_value(value):
+    if value is None:
+        return ""
+    return str(getattr(value, "value", value))
+
+
+def extract_issue_id(message: str):
+    match = re.search(
+        r"(?:fixes|closes|resolves)\s+#(\d+)",
+        message or "",
+        re.IGNORECASE
+    )
+
+    return int(match.group(1)) if match else None
+
 
 # ============================================================
-# GET ALL ISSUES FOR WEBHOOK SIMULATOR
+# ADMIN / SYSTEM-WIDE WEBHOOK ISSUE LIST
 # ============================================================
 
 @router.get("/issues")
 def get_webhook_issues(
     db: Session = Depends(get_db)
 ):
-    """
-    Return all issues for the CI/CD webhook simulator.
-
-    Includes:
-    - REPORTED
-    - IN_PROGRESS
-    - QA_VERIFICATION
-    - RESOLVED
-    - CLOSED
-    - Newly created issues
-    """
-
     issues = (
         db.query(Issue)
-        .order_by(Issue.id.asc())
+        .order_by(Issue.id.desc())
         .all()
     )
 
@@ -58,187 +56,213 @@ def get_webhook_issues(
         {
             "id": issue.id,
             "title": issue.title,
-            "status": issue.status.value if issue.status else "UNKNOWN"
+            "status": enum_value(issue.status)
         }
         for issue in issues
     ]
+
+
 # ============================================================
-# GIT WEBHOOK
+# ADMIN / SYSTEM-WIDE GIT WEBHOOK
+# Existing endpoint intentionally remains system-wide.
 # ============================================================
 
 @router.post("/git")
 def git_webhook(
-    webhook_data: GitWebhookRequest,
+    payload: GitWebhookPayload,
     db: Session = Depends(get_db)
 ):
-    """
-    Process a Git commit message.
+    issue_id = extract_issue_id(payload.message)
 
-    Supported keywords:
-    - fixes #2
-    - closes #5
-    - resolves #8
+    if issue_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=(
+                "No issue reference found. Use fixes #123, "
+                "closes #123, or resolves #123."
+            )
+        )
 
-    Matching issues are automatically moved
-    to QA_VERIFICATION.
-    """
-
-    # --------------------------------------------------------
-    # Find bug references in commit message
-    # --------------------------------------------------------
-
-    pattern = r"\b(?:fixes|closes|resolves)\s+#(\d+)\b"
-
-    matches = re.findall(
-        pattern,
-        webhook_data.message,
-        flags=re.IGNORECASE
+    issue = (
+        db.query(Issue)
+        .filter(Issue.id == issue_id)
+        .first()
     )
 
-    # --------------------------------------------------------
-    # No bug reference found
-    # --------------------------------------------------------
+    if not issue:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Issue not found"
+        )
 
-    if not matches:
+    old_status = enum_value(issue.status)
+
+    if issue.status in (
+        IssueStatus.QA_VERIFICATION,
+        IssueStatus.RESOLVED,
+        IssueStatus.CLOSED
+    ):
         return {
             "success": True,
-            "message": "No bug references found in commit message.",
-            "updated_issues": []
+            "message": (
+                "Issue is already in QA verification "
+                "or completed."
+            ),
+            "issue_id": issue.id,
+            "status": old_status,
+            "commit_hash": payload.commit_hash
         }
 
-    # --------------------------------------------------------
-    # Remove duplicate issue IDs
-    # --------------------------------------------------------
+    issue.status = IssueStatus.QA_VERIFICATION
 
-    issue_ids = list(
-        dict.fromkeys(
-            int(issue_id)
-            for issue_id in matches
-        )
-    )
-
-    updated_issues = []
-
-    # --------------------------------------------------------
-    # Find system/admin user for audit log
-    # --------------------------------------------------------
-
-    system_user = (
+    admin = (
         db.query(User)
         .filter(
             User.role == "ADMIN",
-            User.is_active == True
+            User.is_active.is_(True)
         )
         .order_by(User.id.asc())
         .first()
     )
 
-    if not system_user:
-
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="No active ADMIN user available for system audit logging."
-        )
-
-    # --------------------------------------------------------
-    # Process each referenced issue
-    # --------------------------------------------------------
-
-    for issue_id in issue_ids:
-
-        issue = (
-            db.query(Issue)
-            .filter(
-                Issue.id == issue_id
-            )
-            .first()
-        )
-
-        # ----------------------------------------------------
-        # Issue does not exist
-        # ----------------------------------------------------
-
-        if not issue:
-            continue
-
-        # ----------------------------------------------------
-        # Already in QA or later
-        # ----------------------------------------------------
-
-        if issue.status in [
-            IssueStatus.QA_VERIFICATION,
-            IssueStatus.RESOLVED,
-            IssueStatus.CLOSED
-        ]:
-
-            updated_issues.append({
-                "issue_id": issue.id,
-                "old_status": issue.status.value,
-                "new_status": issue.status.value,
-                "message": "Issue already passed development stage."
-            })
-
-            continue
-
-        # ----------------------------------------------------
-        # Save old status
-        # ----------------------------------------------------
-
-        old_status = issue.status
-
-        # ----------------------------------------------------
-        # Automatically move to QA
-        # ----------------------------------------------------
-
-        issue.status = IssueStatus.QA_VERIFICATION
-
-        # ----------------------------------------------------
-        # Commit description
-        # ----------------------------------------------------
-
-        commit_reference = (
-            webhook_data.commit_hash
-            if webhook_data.commit_hash
-            else "unknown"
-        )
-
-        # ----------------------------------------------------
-        # Audit log
-        # ----------------------------------------------------
-
-        audit_log = AuditLog(
+    if admin:
+        audit = AuditLog(
             issue_id=issue.id,
-            user_id=system_user.id,
-            action=(
-                f"Auto-transitioned by Git commit "
-                f"#{commit_reference}"
-            ),
+            user_id=admin.id,
+            action="GIT_WEBHOOK",
             field_name="status",
-            old_value=old_status.value,
-            new_value=IssueStatus.QA_VERIFICATION.value
+            old_value=old_status,
+            new_value="QA_VERIFICATION"
         )
-
-        db.add(audit_log)
-
-        # ----------------------------------------------------
-        # Add response information
-        # ----------------------------------------------------
-
-        updated_issues.append({
-            "issue_id": issue.id,
-            "old_status": old_status.value,
-            "new_status": IssueStatus.QA_VERIFICATION.value,
-            "commit_hash": commit_reference
-        })
-
-    # --------------------------------------------------------
-    # Save all changes
-    # --------------------------------------------------------
+        db.add(audit)
 
     db.commit()
+    db.refresh(issue)
 
     return {
         "success": True,
-        "message": "Git webhook processed successfully.",
-        "updated_issues": updated_issues
+        "message": (
+            f"Issue #{issue.id} moved to QA verification."
+        ),
+        "issue_id": issue.id,
+        "status": enum_value(issue.status),
+        "commit_hash": payload.commit_hash
+    }
+
+
+# ============================================================
+# USER-SPECIFIC WEBHOOK ISSUE LIST
+# ============================================================
+
+@router.get("/my/issues")
+def get_my_webhook_issues(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    issues = (
+        db.query(Issue)
+        .filter(
+            (Issue.reporter_id == current_user.id)
+            | (Issue.assignee_id == current_user.id)
+        )
+        .order_by(Issue.id.desc())
+        .all()
+    )
+
+    return [
+        {
+            "id": issue.id,
+            "title": issue.title,
+            "status": enum_value(issue.status)
+        }
+        for issue in issues
+    ]
+
+
+# ============================================================
+# USER-SPECIFIC GIT WEBHOOK
+# ============================================================
+
+@router.post("/my/git")
+def my_git_webhook(
+    payload: GitWebhookPayload,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    issue_id = extract_issue_id(payload.message)
+
+    if issue_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=(
+                "No issue reference found. Use fixes #123, "
+                "closes #123, or resolves #123."
+            )
+        )
+
+    # Security boundary: issue ownership is checked in the query.
+    issue = (
+        db.query(Issue)
+        .filter(
+            Issue.id == issue_id,
+            (
+                (Issue.reporter_id == current_user.id)
+                | (Issue.assignee_id == current_user.id)
+            )
+        )
+        .first()
+    )
+
+    if not issue:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=(
+                "Issue not found or you do not have access "
+                "to this issue."
+            )
+        )
+
+    old_status = enum_value(issue.status)
+
+    if issue.status in (
+        IssueStatus.QA_VERIFICATION,
+        IssueStatus.RESOLVED,
+        IssueStatus.CLOSED
+    ):
+        return {
+            "success": True,
+            "message": (
+                "Issue is already in QA verification "
+                "or completed."
+            ),
+            "issue_id": issue.id,
+            "status": old_status,
+            "commit_hash": payload.commit_hash,
+            "user_id": current_user.id
+        }
+
+    issue.status = IssueStatus.QA_VERIFICATION
+
+    audit = AuditLog(
+        issue_id=issue.id,
+        user_id=current_user.id,
+        action="GIT_WEBHOOK",
+        field_name="status",
+        old_value=old_status,
+        new_value="QA_VERIFICATION"
+    )
+
+    db.add(audit)
+    db.commit()
+    db.refresh(issue)
+
+    return {
+        "success": True,
+        "message": (
+            f"Issue #{issue.id} moved to QA verification."
+        ),
+        "issue_id": issue.id,
+        "status": enum_value(issue.status),
+        "commit_hash": payload.commit_hash,
+        "user_id": current_user.id
     }

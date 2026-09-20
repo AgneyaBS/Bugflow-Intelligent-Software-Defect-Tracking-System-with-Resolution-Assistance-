@@ -17,12 +17,10 @@
     <!-- Main BugFlow CSS -->
     <link rel="stylesheet"
           href="css/style.css">
+          <link rel="stylesheet" href="admin-sidebar.css">
 
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-
-    <!-- Theme -->
-    <script src="theme.js"></script>
 
 
     <style>
@@ -905,7 +903,7 @@
 
             <!-- RESOLUTION -->
 
-            <a href="resolution.html"
+            <a href="admin-resolution.html"
                class="nav-link">
 
                 <i class="fa-solid fa-robot"></i>
@@ -926,7 +924,10 @@
                 Management
 
             </div>
-
+<a href="optimization.html" class="nav-link">
+    <i class="fa-solid fa-rocket"></i>
+    <span>Optimization & Finalization</span>
+</a>
 
             <!-- ANALYTICS -->
 
@@ -945,7 +946,7 @@
 
             <!-- NOTIFICATIONS -->
 
-            <a href="notifications.html"
+            <a href="admin-notifications.html"
                class="nav-link">
 
                 <i class="fa-solid fa-bell"></i>
@@ -966,19 +967,6 @@
             </a>
 
 
-            <!-- SETTINGS -->
-
-            <a href="settings.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Settings
-                </span>
-
-            </a>
-
 
             <!-- SYSTEM SUPPORT -->
 
@@ -992,8 +980,6 @@
                 </span>
 
             </a>
-
-
         </div>
 
 
@@ -1055,7 +1041,7 @@
                 <!-- NOTIFICATIONS -->
 
                 <a
-                    href="notifications.html"
+                    href="admin-notifications.html"
                     class="notification-button">
 
                     <i class="fa-solid fa-bell"></i>
@@ -1727,7 +1713,6 @@ async function loadQualityMetrics() {
 
 }
 
-
 /* ============================================================
    DEFECT TREND CHART
 ============================================================ */
@@ -1736,123 +1721,196 @@ async function loadDefectTrendChart() {
 
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/analytics/defect-trends`
-            );
-
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/analytics/defect-trends`
+        );
 
         if (!response.ok) {
-
-            throw new Error(
-                "Failed to load defect trends"
-            );
-
+            throw new Error("Failed to load defect trends");
         }
 
+        const data = await response.json();
 
-        const data =
-            await response.json();
+        const dates = data.trends.map(
+            item => item.date
+        );
 
+        const reportedBugs = data.trends.map(
+            item => item.new_bugs
+        );
 
-        const dates =
-            data.trends.map(
-                item => item.date
-            );
-
-
-        const newBugs =
-            data.trends.map(
-                item => item.new_bugs
-            );
+        const resolvedBugs = data.trends.map(
+            item => item.resolved_bugs
+        );
 
 
-        const resolvedBugs =
-            data.trends.map(
-                item => item.resolved_bugs
-            );
+        /* ========================================================
+           REPORTED BUGS
+        ======================================================== */
 
+        const reportedTrace = {
 
-        const traces = [
+            x: dates,
 
-            {
-                x: dates,
+            y: reportedBugs,
 
-                y: newBugs,
+            name: "Reported Bugs",
 
-                name: "New Bugs",
+            mode: "lines+markers",
 
-                mode:
-                    "lines+markers",
-
-                line: {
-                    color: "red"
-                }
+            line: {
+                color: "#ff604f",
+                width: 3,
+                shape: "spline"
             },
 
-            {
-                x: dates,
+            marker: {
+                size: 7,
+                color: "#ff604f"
+            },
 
-                y: resolvedBugs,
+            hovertemplate:
+                "<b>%{x}</b><br>" +
+                "Reported Bugs: %{y}" +
+                "<extra></extra>"
+        };
 
-                name: "Resolved Bugs",
 
-                mode:
-                    "lines+markers",
+        /* ========================================================
+           RESOLVED BUGS
+        ======================================================== */
 
-                line: {
-                    color: "green"
-                }
-            }
+        const resolvedTrace = {
 
-        ];
+            x: dates,
+
+            y: resolvedBugs,
+
+            name: "Resolved Bugs",
+
+            mode: "lines+markers",
+
+            line: {
+                color: "#18b7a0",
+                width: 3,
+                shape: "spline"
+            },
+
+            marker: {
+                size: 7,
+                color: "#18b7a0"
+            },
+
+            hovertemplate:
+                "<b>%{x}</b><br>" +
+                "Resolved Bugs: %{y}" +
+                "<extra></extra>"
+        };
 
 
         const layout = {
 
-            title:
-                "Defect Trend - Last 14 Days",
+            title: {
+                text: "Defect Trends — Last 14 Days",
+                font: {
+                    size: 16
+                },
+                x: 0.02,
+                xanchor: "left"
+            },
 
             xaxis: {
-                title: "Date"
+
+                title: {
+                    text: "Timeline"
+                },
+
+                type: "category",
+
+                showgrid: false,
+
+                tickangle: 0,
+
+                automargin: true
             },
 
             yaxis: {
-                title: "Number of Bugs",
 
-                rangemode:
-                    "tozero"
+                title: {
+                    text: "Defect Count"
+                },
+
+                rangemode: "tozero",
+
+                dtick: 1,
+
+                zeroline: true
             },
 
-            hovermode:
-                "x unified",
+            hovermode: "x unified",
+
+            legend: {
+
+                orientation: "h",
+
+                x: 0.5,
+
+                xanchor: "center",
+
+                y: 1.08,
+
+                yanchor: "bottom"
+            },
 
             margin: {
 
-                t: 50,
+                t: 75,
+
                 r: 30,
-                b: 60,
-                l: 60
 
+                b: 65,
+
+                l: 65
+            },
+
+            paper_bgcolor: "rgba(0,0,0,0)",
+
+            plot_bgcolor: "rgba(0,0,0,0)",
+
+            font: {
+                family: "Inter, Segoe UI, Arial, sans-serif",
+                size: 12
             }
-
         };
 
 
         Plotly.newPlot(
+
             "defectTrendChart",
 
-            traces,
+            [
+                reportedTrace,
+                resolvedTrace
+            ],
 
             layout,
 
             {
-                responsive: true
+                responsive: true,
+
+                displaylogo: false,
+
+                modeBarButtonsToRemove: [
+                    "lasso2d",
+                    "select2d"
+                ]
             }
+
         );
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
             "Defect trend chart error:",
@@ -2706,7 +2764,7 @@ document.addEventListener(
 
 <!-- REAL-TIME NOTIFICATION SYSTEM -->
 
-<script src="notification.js"></script>
+<script src="admin-notifications.js"></script>
 
 
 </body>

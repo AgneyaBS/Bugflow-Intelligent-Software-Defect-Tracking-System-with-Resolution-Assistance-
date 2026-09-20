@@ -24,18 +24,12 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<link rel="stylesheet" href="admin-sidebar.css">
 </head>
-
 
 <body>
 
 <div class="app">
-
-
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
 
     <aside class="sidebar">
 
@@ -64,68 +58,49 @@
     <p class="nav-heading">
         MAIN
     </p>
-
-    <!-- Dashboard -->
-    <a href="admin-dashboard.html" class="nav-link">
+<a href="admin-dashboard.html" class="nav-link">
         <i class="fa-solid fa-chart-pie"></i>
         <span>Dashboard</span>
     </a>
-
-    <!-- All Issues -->
-    <a href="admin-defects.html" class="nav-link active">
+<a href="admin-defects.html" class="nav-link active">
         <i class="fa-solid fa-bug"></i>
         <span>All Issues</span>
     </a>
-
-    <!-- Sprints -->
-    <a href="sprints.html" class="nav-link">
+<a href="sprints.html" class="nav-link">
         <i class="fa-solid fa-list-check"></i>
         <span>Sprints</span>
     </a>
-
-    <!-- Users -->
-    <a href="users.html" class="nav-link">
+<a href="users.html" class="nav-link">
         <i class="fa-solid fa-users"></i>
         <span>Users</span>
     </a>
-
-    <!-- Resolution Assistance -->
-    <a href="resolution.html" class="nav-link">
+<a href="admin-resolution.html" class="nav-link">
         <i class="fa-solid fa-robot"></i>
         <span>Resolution Assistance</span>
     </a>
-
 
     <p class="nav-heading second">
         MANAGEMENT
     </p>
 
-    <!-- Analytics & Reports -->
-    <a href="admin-analytics.html" class="nav-link">
+    <a href="optimization.html" class="nav-link">
+    <i class="fa-solid fa-rocket"></i>
+    <span>Optimization & Finalization</span>
+</a>
+<a href="admin-analytics.html" class="nav-link">
         <i class="fa-solid fa-chart-line"></i>
         <span>Analytics & Reports</span>
     </a>
-
-    <!-- Notifications -->
-    <a href="notifications.html" class="nav-link">
+<a href="admin-notifications.html" class="nav-link">
         <i class="fa-solid fa-bell"></i>
         <span>Notifications</span>
         <b class="badge" id="sidebarNotificationBadge">0</b>
     </a>
 
-    <!-- Settings -->
-    <a href="settings.html" class="nav-link">
-        <i class="fa-solid fa-gear"></i>
-        <span>Settings</span>
-    </a>
-
 </nav>
-       
-
 
         <div class="sidebar-bottom">
 
-            
 <a href="system-support.html"
    class="support-box"
    style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
@@ -151,17 +126,7 @@
 
     </aside>
 
-
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
     <main class="main">
-
-
-       <!-- TOPBAR -->
-
 <header class="topbar">
 
     <div class="topbar-title">
@@ -176,12 +141,8 @@
 
     </div>
 
-
     <div class="topbar-right">
-
-        <!-- Notifications -->
-
-        <a href="notifications.html"
+<a href="admin-notifications.html"
            class="notification-button">
 
             <i class="fa-regular fa-bell"></i>
@@ -189,11 +150,7 @@
             <span id="topNotificationBadge">0</span>
 
         </a>
-
-
-        <!-- Admin Profile -->
-
-        <a href="profile.html"
+<a href="profile.html"
            class="user-profile">
 
             <div class="avatar admin-avatar"
@@ -202,7 +159,6 @@
                 AD
 
             </div>
-
 
             <div>
 
@@ -222,19 +178,10 @@
 
 </header>
 
-
-        <!-- =====================================================
-             CONTENT
-        ====================================================== -->
-
         <section class="content">
 
             <div class="content-wrapper">
-
-
-                <!-- PAGE HEADER -->
-
-                <div class="welcome">
+<div class="welcome">
 
                     <div>
 
@@ -255,12 +202,6 @@
 
                 </div>
 
-
-
-                <!-- =================================================
-                     FILTER CARD
-                ================================================== -->
-
                 <div class="card filters-card">
 
                     <div class="card-title">
@@ -279,9 +220,7 @@
 
                     </div>
 
-
                     <div class="filters">
-
 
                         <!-- SEARCH -->
 
@@ -304,8 +243,6 @@
                             </div>
 
                         </div>
-
-
 
                         <!-- STATUS -->
 
@@ -353,8 +290,6 @@
 
                         </div>
 
-
-
                         <!-- SEVERITY -->
 
                         <div class="filter-group">
@@ -389,8 +324,6 @@
 
                         </div>
 
-
-
                         <!-- PRIORITY -->
 
                         <div class="filter-group">
@@ -424,9 +357,6 @@
                             </select>
 
                         </div>
-
-<!-- PROJECT -->
-
 <div class="filter-group">
 
     <label>
@@ -444,7 +374,6 @@
 </div>
                     </div>
 
-
                     <div class="filter-actions">
 
                         <button
@@ -457,7 +386,6 @@
 
                         </button>
 
-
                         <button
                             class="reset-btn"
                             id="resetFilters">
@@ -469,12 +397,6 @@
                     </div>
 
                 </div>
-
-
-
-                <!-- =================================================
-                     ISSUE TABLE
-                ================================================== -->
 
                 <div class="card table-card defects-table-card">
 
@@ -494,14 +416,12 @@
 
                     </div>
 
-
                     <div id="tableMessage"
                          class="table-message">
 
                         Loading issues...
 
                     </div>
-
 
                     <div class="table-container"
                          id="issuesTableContainer"
@@ -533,7 +453,6 @@
 
                             </thead>
 
-
                             <tbody id="issuesTableBody"></tbody>
 
                         </table>
@@ -541,10 +460,6 @@
                     </div>
 
                 </div>
-<!-- =================================================
-     SMART DEVELOPER MATCHER
-================================================== -->
-
 <div class="card developer-matcher-card">
 
     <div class="card-title">
@@ -625,12 +540,6 @@
     </main>
 
 </div>
-
-
-
-<!-- =====================================================
-     PAGE STYLES
-====================================================== -->
 
 <style>
 
@@ -810,11 +719,6 @@
     color: #64748b;
 }
 
-.severity.critical {
-    background: #fee2e2;
-    color: #dc2626;
-}
-
 .severity.minor {
     background: #fef3c7;
     color: #b45309;
@@ -908,11 +812,6 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
-
-
-/* =====================================================
-   MODAL
-===================================================== */
 
 .issue-modal {
     display: none;
@@ -1214,10 +1113,6 @@
     background: #e2e8f0;
     transform: translateX(-2px);
 }
-/* =====================================================
-   SMART DEVELOPER MATCHER
-===================================================== */
-
 .developer-matcher-card {
     margin-top: 24px;
 }
@@ -1445,21 +1340,13 @@
 }
 </style>
 
-
-
-<!-- =====================================================
-     ISSUE DETAILS MODAL
-====================================================== -->
-
 <div id="issueModal" class="issue-modal">
 
     <div class="issue-modal-overlay"
          onclick="closeIssueModal()">
     </div>
 
-
     <div class="issue-modal-content">
-
 
         <!-- HEADER -->
 
@@ -1477,7 +1364,6 @@
 
             </div>
 
-
             <button
                 class="modal-close"
                 onclick="closeIssueModal()"
@@ -1489,12 +1375,9 @@
 
         </div>
 
-
-
         <!-- BODY -->
 
         <div class="issue-modal-body">
-
 
             <!-- BASIC INFORMATION -->
 
@@ -1505,9 +1388,7 @@
                     Basic Information
                 </h3>
 
-
                 <div class="modal-grid">
-
 
                     <div class="modal-item">
 
@@ -1521,7 +1402,6 @@
 
                     </div>
 
-
                     <div class="modal-item">
 
                         <span>
@@ -1533,7 +1413,6 @@
                         </strong>
 
                     </div>
-
 
                     <div class="modal-item">
 
@@ -1573,7 +1452,6 @@
 
                     </div>
 
-
                     <div class="modal-item">
 
                         <span>
@@ -1587,7 +1465,6 @@
                         </select>
 
                     </div>
-
 
                     <div class="modal-item">
 
@@ -1619,7 +1496,6 @@
 
                     </div>
 
-
                     <div class="modal-item">
 
                         <span>
@@ -1632,7 +1508,6 @@
 
                     </div>
 
-
                     <div class="modal-item">
 
                         <span>
@@ -1644,7 +1519,6 @@
                         </strong>
 
                     </div>
-
 
                     <div class="modal-item">
 
@@ -1661,12 +1535,6 @@
                 </div>
 
             </div>
-
-
-
-            <!-- =================================================
-                 TRIAGE SECTION
-            ================================================== -->
 
             <div
                 class="modal-section"
@@ -1685,9 +1553,7 @@
                         assign a developer, then complete triage.
                     </p>
 
-
                     <div class="triage-grid">
-
 
                         <div class="triage-field">
 
@@ -1727,7 +1593,6 @@
 
                         </div>
 
-
                         <div class="triage-field">
 
                             <label>
@@ -1758,7 +1623,6 @@
 
                         </div>
 
-
                         <div class="triage-field">
 
                             <label>
@@ -1779,7 +1643,6 @@
 
                     </div>
 
-
                     <button
                         type="button"
                         id="completeTriageBtn"
@@ -1796,8 +1659,6 @@
 
             </div>
 
-
-
             <!-- PEOPLE -->
 
             <div class="modal-section">
@@ -1810,9 +1671,7 @@
 
                 </h3>
 
-
                 <div class="modal-grid">
-
 
                     <div class="modal-item">
 
@@ -1830,7 +1689,6 @@
 
                         </select>
 
-
                         <button
                             type="button"
                             class="assign-btn"
@@ -1845,12 +1703,9 @@
 
                     </div>
 
-
                 </div>
 
             </div>
-
-
 
             <!-- DESCRIPTION -->
 
@@ -1864,7 +1719,6 @@
 
                 </h3>
 
-
                 <div
                     id="modalDescription"
                     class="modal-text">
@@ -1874,8 +1728,6 @@
                 </div>
 
             </div>
-
-
 
             <!-- REPRODUCTION -->
 
@@ -1889,7 +1741,6 @@
 
                 </h3>
 
-
                 <div
                     id="modalReproduction"
                     class="modal-text">
@@ -1899,8 +1750,6 @@
                 </div>
 
             </div>
-
-
 
             <!-- ENVIRONMENT -->
 
@@ -1914,7 +1763,6 @@
 
                 </h3>
 
-
                 <div
                     id="modalEnvironment"
                     class="modal-text">
@@ -1924,8 +1772,6 @@
                 </div>
 
             </div>
-
-
 
             <!-- ADDITIONAL INFORMATION -->
 
@@ -1939,9 +1785,7 @@
 
                 </h3>
 
-
                 <div class="modal-grid">
-
 
                     <div class="modal-item">
 
@@ -1955,7 +1799,6 @@
 
                     </div>
 
-
                     <div class="modal-item">
 
                         <span>
@@ -1967,7 +1810,6 @@
                         </strong>
 
                     </div>
-
 
                     <div class="modal-item">
 
@@ -1981,7 +1823,6 @@
 
                     </div>
 
-
                     <div class="modal-item">
 
                         <span>
@@ -1993,7 +1834,6 @@
                         </strong>
 
                     </div>
-
 
                     <div class="modal-item">
 
@@ -2013,8 +1853,6 @@
 
         </div>
 
-
-
         <!-- FOOTER -->
 
         <div class="issue-modal-footer">
@@ -2028,7 +1866,6 @@
                 Save Changes
 
             </button>
-
 
             <button
                 class="modal-close-btn"
@@ -2044,12 +1881,6 @@
 
 </div>
 
-
-
-<!-- =====================================================
-     JAVASCRIPT
-====================================================== -->
-
 <script>
 
 const API_BASE_URL =
@@ -2060,10 +1891,6 @@ let allUsers = [];
 let allProjects = [];
 
 let currentViewingIssueId = null;
-/* =====================================================
-   LOAD PROJECTS
-===================================================== */
-
 async function loadProjects() {
 
     const token =
@@ -2150,10 +1977,6 @@ async function loadProjects() {
 
 }
 
-/* =====================================================
-   GET CURRENT USER
-===================================================== */
-
 function loadCurrentUser() {
 
     try {
@@ -2173,7 +1996,6 @@ function loadCurrentUser() {
         const avatar =
             document.getElementById("adminAvatar");
 
-
         if (name) {
 
             name.textContent =
@@ -2182,7 +2004,6 @@ function loadCurrentUser() {
                 "Administrator";
 
         }
-
 
         if (avatar) {
 
@@ -2193,7 +2014,6 @@ function loadCurrentUser() {
 
             const parts =
                 displayName.trim().split(" ");
-
 
             if (parts.length >= 2) {
 
@@ -2225,18 +2045,12 @@ function loadCurrentUser() {
 
 }
 
-
-/* =====================================================
-   LOAD USERS
-===================================================== */
-
 async function loadUsers() {
 
     const token =
         localStorage.getItem(
             "access_token"
         );
-
 
     if (!token) {
 
@@ -2247,7 +2061,6 @@ async function loadUsers() {
         return;
 
     }
-
 
     try {
 
@@ -2267,7 +2080,6 @@ async function loadUsers() {
                 }
             );
 
-
         if (!response.ok) {
 
             console.error(
@@ -2279,16 +2091,13 @@ async function loadUsers() {
 
         }
 
-
         allUsers =
             await response.json();
-
 
         console.log(
             "Users loaded:",
             allUsers
         );
-
 
     } catch (error) {
 
@@ -2301,18 +2110,12 @@ async function loadUsers() {
 
 }
 
-
-/* =====================================================
-   LOAD ISSUES
-===================================================== */
-
 async function loadIssues() {
 
     const token =
         localStorage.getItem(
             "access_token"
         );
-
 
     if (!token) {
 
@@ -2324,13 +2127,11 @@ async function loadIssues() {
 
     }
 
-
     try {
 
         showMessage(
             "Loading issues..."
         );
-
 
         const response =
             await fetch(
@@ -2348,7 +2149,6 @@ async function loadIssues() {
                 }
             );
 
-
         if (response.status === 401) {
 
             showMessage(
@@ -2359,7 +2159,6 @@ async function loadIssues() {
 
         }
 
-
         if (response.status === 403) {
 
             showMessage(
@@ -2369,7 +2168,6 @@ async function loadIssues() {
             return;
 
         }
-
 
         if (!response.ok) {
 
@@ -2382,21 +2180,17 @@ async function loadIssues() {
 
         }
 
-
         allIssues =
             await response.json();
-
 
         console.log(
             "Issues loaded:",
             allIssues
         );
 
-
         renderIssues(
             allIssues
         );
-
 
     } catch (error) {
 
@@ -2404,7 +2198,6 @@ async function loadIssues() {
             "Error loading issues:",
             error
         );
-
 
         showMessage(
             "Unable to connect to BugFlow server."
@@ -2414,253 +2207,99 @@ async function loadIssues() {
 
 }
 
+function getIssueAssigneeId(issue) {
+    if (!issue) return null;
 
-/* =====================================================
-   RENDER ISSUES
-===================================================== */
+    return (
+        issue.assignee_id ??
+        issue.assigneeId ??
+        issue.assignee?.id ??
+        null
+    );
+}
 
 function renderIssues(issues) {
+    const tbody = document.getElementById("issuesTableBody");
+    const tableContainer = document.getElementById("issuesTableContainer");
+    const message = document.getElementById("tableMessage");
+    const issueCount = document.getElementById("issueCount");
 
-    const tbody =
-        document.getElementById(
-            "issuesTableBody"
-        );
-
-    const tableContainer =
-        document.getElementById(
-            "issuesTableContainer"
-        );
-
-    const message =
-        document.getElementById(
-            "tableMessage"
-        );
-
-    const issueCount =
-        document.getElementById(
-            "issueCount"
-        );
-
-
-    if (!tbody) {
-        return;
-    }
-
+    if (!tbody) return;
 
     tbody.innerHTML = "";
 
-
     if (issueCount) {
-
         issueCount.textContent =
             `${issues.length} issue${issues.length === 1 ? "" : "s"} found`;
-
     }
 
-
-    if (issues.length === 0) {
-
-        if (tableContainer) {
-            tableContainer.style.display = "none";
-        }
-
+    if (!issues.length) {
+        if (tableContainer) tableContainer.style.display = "none";
         if (message) {
-
             message.style.display = "block";
-
-            message.textContent =
-                "No defects found.";
-
+            message.textContent = "No defects found.";
         }
-
         return;
-
     }
 
-
-    if (message) {
-        message.style.display = "none";
-    }
-
-
-    if (tableContainer) {
-        tableContainer.style.display = "block";
-    }
-
+    if (message) message.style.display = "none";
+    if (tableContainer) tableContainer.style.display = "block";
 
     issues.forEach(function(issue) {
-
-        const row =
-            document.createElement("tr");
-
-
-        const severity =
-            String(
-                issue.severity || ""
-            ).toLowerCase();
-
-
-        const priority =
-            String(
-                issue.priority || ""
-            ).toLowerCase();
-
-
-        const status =
-            String(
-                issue.status || ""
-            ).toLowerCase();
-
+        const row = document.createElement("tr");
+        const severity = String(issue.severity || "").toLowerCase();
+        const priority = String(issue.priority || "").toLowerCase();
+        const status = String(issue.status || "").toLowerCase();
+        const assigneeId = getIssueAssigneeId(issue);
+        const hasAssignee = assigneeId !== null && assigneeId !== undefined && Number(assigneeId) > 0;
 
         row.innerHTML = `
-
+            <td><span class="issue-id">#${issue.id}</span></td>
             <td>
-
-                <span class="issue-id">
-                    #${issue.id}
-                </span>
-
-            </td>
-
-
-            <td>
-
                 <div class="issue-title">
-
-                    ${escapeHtml(
-                        issue.title ||
-                        "Untitled Issue"
-                    )}
-
-                    <small>
-                        Project #${issue.project_id || "-"}
-                    </small>
-
+                    ${escapeHtml(issue.title || "Untitled Issue")}
+                    <small>Project #${issue.project_id || "-"}</small>
                 </div>
-
             </td>
-
-
+            <td><span class="severity ${severity}">${formatEnum(issue.severity)}</span></td>
+            <td><span class="priority ${priority}">${formatEnum(issue.priority)}</span></td>
+            <td><span class="status ${status}">${formatEnum(issue.status)}</span></td>
             <td>
-
-                <span class="severity ${severity}">
-                    ${formatEnum(issue.severity)}
-                </span>
-
-            </td>
-
-
-            <td>
-
-                <span class="priority ${priority}">
-                    ${formatEnum(issue.priority)}
-                </span>
-
-            </td>
-
-
-            <td>
-
-                <span class="status ${status}">
-                    ${formatEnum(issue.status)}
-                </span>
-
-            </td>
-
-
-            <td>
-
                 <div class="assignee-control">
-
-                    <select
-                        class="assignee-select"
-                        id="assignee-${issue.id}"
-                    >
-
-                        <option value="">
-                            Unassigned
-                        </option>
-
-                        ${
-                            allUsers
-                                .map(function(user) {
-
-                                    return `
-
-                                        <option
-                                            value="${user.id}"
-                                            ${
-                                                Number(issue.assignee_id) ===
-                                                Number(user.id)
-                                                    ? "selected"
-                                                    : ""
-                                            }
-                                        >
-
-                                            ${escapeHtml(
-                                                user.full_name ||
-                                                user.username ||
-                                                "User #" + user.id
-                                            )}
-
-                                        </option>
-
-                                    `;
-
-                                })
-                                .join("")
-                        }
-
+                    <select class="assignee-select" id="assignee-${issue.id}">
+                        <option value="" ${hasAssignee ? "" : "selected"}>Unassigned</option>
+                        ${allUsers
+                            .filter(function(user) {
+                                return user.role === "DEVELOPER" && user.is_active !== false;
+                            })
+                            .map(function(user) {
+                                const selected = Number(assigneeId) === Number(user.id) ? "selected" : "";
+                                return `
+                                    <option value="${user.id}" ${selected}>
+                                        ${escapeHtml(user.full_name || user.username || "Developer #" + user.id)}
+                                    </option>`;
+                            })
+                            .join("")}
                     </select>
-
-
-                    <button
-                        class="assign-btn"
-                        onclick="assignIssue(${issue.id})">
-
-                        <i class="fa-solid fa-user-check"></i>
-
-                        Assign
-
+                    <button type="button" class="assign-btn" onclick="assignIssue(${issue.id})">
+                        ${hasAssignee
+                            ? '<i class="fa-solid fa-user-pen"></i> Reassign'
+                            : '<i class="fa-solid fa-user-check"></i> Assign'}
                     </button>
-
                 </div>
-
             </td>
-
-
+            <td>${formatDate(issue.created_at)}</td>
             <td>
-                ${formatDate(issue.created_at)}
-            </td>
-
-
-            <td>
-
-                <button
-                    class="action-btn"
-                    onclick="viewIssue(${issue.id})">
-
-                    <i class="fa-solid fa-eye"></i>
-
-                    View
-
+                <button class="action-btn" onclick="viewIssue(${issue.id})">
+                    <i class="fa-solid fa-eye"></i> View
                 </button>
-
             </td>
-
         `;
 
-
         tbody.appendChild(row);
-
     });
-
 }
 
-
-/* =====================================================
-   APPLY FILTERS
-===================================================== */
 function applyFilters() {
 
     const search =
@@ -2681,7 +2320,6 @@ function applyFilters() {
     const projectId =
         document.getElementById("projectFilter").value;
 
-
     const filtered =
         allIssues.filter(function(issue) {
 
@@ -2693,27 +2331,22 @@ function applyFilters() {
                     .toLowerCase()
                     .includes(search);
 
-
             const matchesStatus =
                 !status ||
                 issue.status === status;
-
 
             const matchesSeverity =
                 !severity ||
                 issue.severity === severity;
 
-
             const matchesPriority =
                 !priority ||
                 issue.priority === priority;
-
 
             const matchesProject =
                 !projectId ||
                 Number(issue.project_id) ===
                 Number(projectId);
-
 
             return (
                 matchesSearch &&
@@ -2725,14 +2358,8 @@ function applyFilters() {
 
         });
 
-
     renderIssues(filtered);
 }
-
-
-/* =====================================================
-   RESET FILTERS
-===================================================== */
 
 function resetFilters() {
 
@@ -2740,16 +2367,13 @@ function resetFilters() {
         "searchInput"
     ).value = "";
 
-
     document.getElementById(
         "statusFilter"
     ).value = "";
 
-
     document.getElementById(
         "severityFilter"
     ).value = "";
-
 
     document.getElementById(
         "priorityFilter"
@@ -2759,17 +2383,11 @@ function resetFilters() {
     "projectFilter"
 ).value = "";
 
-
     renderIssues(
         allIssues
     );
 
 }
-
-
-/* =====================================================
-   GET NEXT VALID STATUS
-===================================================== */
 
 function getNextStatuses(status) {
 
@@ -2803,15 +2421,9 @@ function getNextStatuses(status) {
 
     };
 
-
     return workflow[status] || [];
 
 }
-
-
-/* =====================================================
-   POPULATE STATUS SELECT
-===================================================== */
 
 function populateStatusSelect(currentStatus) {
 
@@ -2820,51 +2432,40 @@ function populateStatusSelect(currentStatus) {
             "modalStatusSelect"
         );
 
-
     if (!select) {
         return;
     }
 
-
     select.innerHTML = "";
-
 
     const optionCurrent =
         document.createElement("option");
 
-
     optionCurrent.value =
         currentStatus;
-
 
     optionCurrent.textContent =
         formatEnum(currentStatus);
 
-
     select.appendChild(
         optionCurrent
     );
-
 
     const nextStatuses =
         getNextStatuses(
             currentStatus
         );
 
-
     nextStatuses.forEach(function(status) {
 
         const option =
             document.createElement("option");
 
-
         option.value =
             status;
 
-
         option.textContent =
             formatEnum(status);
-
 
         select.appendChild(
             option
@@ -2874,11 +2475,6 @@ function populateStatusSelect(currentStatus) {
 
 }
 
-
-/* =====================================================
-   POPULATE DEVELOPER SELECT
-===================================================== */
-
 function populateDeveloperSelect(issue) {
 
     const select =
@@ -2886,11 +2482,9 @@ function populateDeveloperSelect(issue) {
             "triageDeveloper"
         );
 
-
     if (!select) {
         return;
     }
-
 
     select.innerHTML = `
 
@@ -2899,7 +2493,6 @@ function populateDeveloperSelect(issue) {
         </option>
 
     `;
-
 
     const developers =
         allUsers.filter(function(user) {
@@ -2910,22 +2503,18 @@ function populateDeveloperSelect(issue) {
 
         });
 
-
     developers.forEach(function(user) {
 
         const option =
             document.createElement("option");
 
-
         option.value =
             user.id;
-
 
         option.textContent =
             user.full_name ||
             user.username ||
             "Developer #" + user.id;
-
 
         if (
             Number(issue.assignee_id) ===
@@ -2937,30 +2526,24 @@ function populateDeveloperSelect(issue) {
 
         }
 
-
         select.appendChild(
             option
         );
 
     });
 
-
     if (developers.length === 0) {
 
         const option =
             document.createElement("option");
 
-
         option.value = "";
-
 
         option.textContent =
             "No developers available";
 
-
         option.disabled =
             true;
-
 
         select.appendChild(
             option
@@ -2969,10 +2552,6 @@ function populateDeveloperSelect(issue) {
     }
 
 }
-/* =====================================================
-   SMART DEVELOPER MATCHER
-===================================================== */
-
 function populateMatcherIssues() {
 
     const select =
@@ -3002,11 +2581,6 @@ function populateMatcherIssues() {
 
     });
 }
-
-
-/* =====================================================
-   GET DEVELOPER RECOMMENDATIONS
-===================================================== */
 
 async function getDeveloperRecommendations() {
 
@@ -3086,7 +2660,6 @@ async function getDeveloperRecommendations() {
         return;
     }
 
-
     /* Loading state */
 
     message.style.display = "block";
@@ -3097,7 +2670,6 @@ async function getDeveloperRecommendations() {
     results.style.display = "none";
 
     cards.innerHTML = "";
-
 
     try {
 
@@ -3130,10 +2702,8 @@ async function getDeveloperRecommendations() {
                 }
             );
 
-
         const data =
             await response.json();
-
 
         if (!response.ok) {
 
@@ -3144,10 +2714,8 @@ async function getDeveloperRecommendations() {
 
         }
 
-
         const recommendations =
             data.recommended_developers || [];
-
 
         if (recommendations.length === 0) {
 
@@ -3161,11 +2729,9 @@ async function getDeveloperRecommendations() {
             return;
         }
 
-
         message.style.display = "none";
 
         results.style.display = "block";
-
 
         recommendations.forEach(
             function(developer, index) {
@@ -3176,16 +2742,13 @@ async function getDeveloperRecommendations() {
                 card.className =
                     "recommendation-card";
 
-
                 const matchPercentage =
                     Number(
                         developer.match_percentage || 0
                     );
 
-
                 const skills =
                     developer.matched_skills || [];
-
 
                 const skillTags =
                     skills.length > 0
@@ -3208,13 +2771,11 @@ async function getDeveloperRecommendations() {
                             </span>
                         `;
 
-
                 card.innerHTML = `
 
                     <div class="recommendation-rank">
                         #${index + 1} Recommendation
                     </div>
-
 
                     <div class="recommendation-name">
                         ${escapeHtml(
@@ -3224,13 +2785,11 @@ async function getDeveloperRecommendations() {
                         )}
                     </div>
 
-
                     <div class="recommendation-username">
                         @${escapeHtml(
                             developer.username || ""
                         )}
                     </div>
-
 
                     <div class="match-score">
 
@@ -3244,7 +2803,6 @@ async function getDeveloperRecommendations() {
 
                     </div>
 
-
                     <div class="match-bar">
 
                         <div
@@ -3256,7 +2814,6 @@ async function getDeveloperRecommendations() {
                         </div>
 
                     </div>
-
 
                     <div class="matcher-info">
 
@@ -3270,7 +2827,6 @@ async function getDeveloperRecommendations() {
 
                         </div>
 
-
                         <div class="matcher-info-row">
 
                             <strong>
@@ -3282,7 +2838,6 @@ async function getDeveloperRecommendations() {
                             </div>
 
                         </div>
-
 
                         <div class="matcher-info-row">
 
@@ -3298,7 +2853,6 @@ async function getDeveloperRecommendations() {
                         </div>
 
                     </div>
-
 
                     <button
                         type="button"
@@ -3321,12 +2875,10 @@ async function getDeveloperRecommendations() {
 
                 `;
 
-
                 cards.appendChild(card);
 
             }
         );
-
 
     } catch (error) {
 
@@ -3334,7 +2886,6 @@ async function getDeveloperRecommendations() {
             "Developer matcher error:",
             error
         );
-
 
         message.style.display =
             "block";
@@ -3349,11 +2900,6 @@ async function getDeveloperRecommendations() {
     }
 
 }
-
-
-/* =====================================================
-   ASSIGN MATCHED DEVELOPER
-===================================================== */
 
 async function assignMatchedDeveloper(
     issueId,
@@ -3375,17 +2921,14 @@ async function assignMatchedDeveloper(
         return;
     }
 
-
     const confirmed =
         confirm(
             `Assign Issue #${issueId} to ${developerName}?`
         );
 
-
     if (!confirmed) {
         return;
     }
-
 
     try {
 
@@ -3415,10 +2958,8 @@ async function assignMatchedDeveloper(
                 }
             );
 
-
         const data =
             await response.json();
-
 
         if (!response.ok) {
 
@@ -3428,7 +2969,6 @@ async function assignMatchedDeveloper(
             );
 
         }
-
 
         const issue =
             allIssues.find(
@@ -3440,7 +2980,6 @@ async function assignMatchedDeveloper(
                 }
             );
 
-
         if (issue) {
 
             issue.assignee_id =
@@ -3449,16 +2988,13 @@ async function assignMatchedDeveloper(
 
         }
 
-
         renderIssues(
             allIssues
         );
 
-
         alert(
             `Issue #${issueId} assigned successfully to ${developerName}.`
         );
-
 
         /*
          * Refresh recommendations so the
@@ -3467,14 +3003,12 @@ async function assignMatchedDeveloper(
 
         getDeveloperRecommendations();
 
-
     } catch (error) {
 
         console.error(
             "Matched developer assignment error:",
             error
         );
-
 
         alert(
             error.message ||
@@ -3485,15 +3019,10 @@ async function assignMatchedDeveloper(
 
 }
 
-/* =====================================================
-   VIEW ISSUE
-===================================================== */
-
 function viewIssue(issueId) {
 
     const numericIssueId =
         Number(issueId);
-
 
     const issue =
         allIssues.find(function(item) {
@@ -3502,7 +3031,6 @@ function viewIssue(issueId) {
                 numericIssueId;
 
         });
-
 
     if (!issue) {
 
@@ -3514,23 +3042,19 @@ function viewIssue(issueId) {
 
     }
 
-
     currentViewingIssueId =
         numericIssueId;
-
 
     document.getElementById(
         "modalIssueId"
     ).textContent =
         "#" + issue.id;
 
-
     document.getElementById(
         "modalIssueTitle"
     ).textContent =
         issue.title ||
         "Untitled Issue";
-
 
     document.getElementById(
         "modalProject"
@@ -3539,7 +3063,6 @@ function viewIssue(issueId) {
             ? "Project #" + issue.project_id
             : "-";
 
-
     document.getElementById(
         "modalCategorySelect"
     ).value =
@@ -3547,12 +3070,10 @@ function viewIssue(issueId) {
             issue.category_id || ""
         );
 
-
     document.getElementById(
         "modalSeveritySelect"
     ).value =
         issue.severity || "MINOR";
-
 
     document.getElementById(
         "modalPriority"
@@ -3561,13 +3082,11 @@ function viewIssue(issueId) {
             issue.priority
         );
 
-
     document.getElementById(
         "modalPriorityScore"
     ).textContent =
         issue.priority_score ??
         "-";
-
 
     document.getElementById(
         "modalReporter"
@@ -3576,17 +3095,14 @@ function viewIssue(issueId) {
             ? "User #" + issue.reporter_id
             : "-";
 
-
     populateStatusSelect(
         issue.status
     );
-
 
     const assigneeSelect =
         document.getElementById(
             "modalAssigneeSelect"
         );
-
 
     assigneeSelect.innerHTML = `
 
@@ -3626,13 +3142,11 @@ function viewIssue(issueId) {
 
     `;
 
-
     document.getElementById(
         "modalDescription"
     ).textContent =
         issue.description ||
         "No description provided.";
-
 
     document.getElementById(
         "modalReproduction"
@@ -3640,13 +3154,11 @@ function viewIssue(issueId) {
         issue.reproduction_steps ||
         "No reproduction steps provided.";
 
-
     document.getElementById(
         "modalEnvironment"
     ).textContent =
         issue.environment_details ||
         "No environment details provided.";
-
 
     document.getElementById(
         "modalDevStage"
@@ -3654,20 +3166,17 @@ function viewIssue(issueId) {
         issue.dev_stage ||
         "-";
 
-
     document.getElementById(
         "modalModules"
     ).textContent =
         issue.affected_modules ||
         "-";
 
-
     document.getElementById(
         "modalEffort"
     ).textContent =
         issue.estimated_effort ??
         "-";
-
 
     document.getElementById(
         "modalCreated"
@@ -3676,18 +3185,12 @@ function viewIssue(issueId) {
             issue.created_at
         );
 
-
     document.getElementById(
         "modalUpdated"
     ).textContent =
         formatDateTime(
             issue.updated_at
         );
-
-
-    /* =================================================
-       TRIAGE DATA
-    ================================================= */
 
     document.getElementById(
         "triageCategory"
@@ -3696,24 +3199,20 @@ function viewIssue(issueId) {
             issue.category_id || ""
         );
 
-
     document.getElementById(
         "triageSeverity"
     ).value =
         issue.severity ||
         "MINOR";
 
-
     populateDeveloperSelect(
         issue
     );
-
 
     const triageSection =
         document.getElementById(
             "triageSection"
         );
-
 
     if (triageSection) {
 
@@ -3724,27 +3223,19 @@ function viewIssue(issueId) {
 
     }
 
-
     const modal =
         document.getElementById(
             "issueModal"
         );
 
-
     modal.classList.add(
         "show"
     );
-
 
     document.body.style.overflow =
         "hidden";
 
 }
-
-
-/* =====================================================
-   COMPLETE TRIAGE
-===================================================== */
 
 async function completeTriage() {
 
@@ -3758,7 +3249,6 @@ async function completeTriage() {
 
     }
 
-
     const issue =
         allIssues.find(function(item) {
 
@@ -3766,7 +3256,6 @@ async function completeTriage() {
                 Number(currentViewingIssueId);
 
         });
-
 
     if (!issue) {
 
@@ -3778,7 +3267,6 @@ async function completeTriage() {
 
     }
 
-
     if (issue.status !== "REPORTED") {
 
         alert(
@@ -3789,7 +3277,6 @@ async function completeTriage() {
 
     }
 
-
     const categoryId =
         Number(
             document.getElementById(
@@ -3797,18 +3284,15 @@ async function completeTriage() {
             ).value
         );
 
-
     const severity =
         document.getElementById(
             "triageSeverity"
         ).value;
 
-
     const developerId =
         document.getElementById(
             "triageDeveloper"
         ).value;
-
 
     if (!categoryId) {
 
@@ -3820,7 +3304,6 @@ async function completeTriage() {
 
     }
 
-
     if (!severity) {
 
         alert(
@@ -3830,7 +3313,6 @@ async function completeTriage() {
         return;
 
     }
-
 
     if (!developerId) {
 
@@ -3842,7 +3324,6 @@ async function completeTriage() {
 
     }
 
-
     const confirmed =
         confirm(
             `Complete triage for Issue #${issue.id}?\n\n` +
@@ -3851,17 +3332,14 @@ async function completeTriage() {
             `Developer: ${getUserName(developerId)}`
         );
 
-
     if (!confirmed) {
         return;
     }
-
 
     const button =
         document.getElementById(
             "completeTriageBtn"
         );
-
 
     if (button) {
 
@@ -3873,12 +3351,10 @@ async function completeTriage() {
 
     }
 
-
     const token =
         localStorage.getItem(
             "access_token"
         );
-
 
     try {
 
@@ -3922,13 +3398,10 @@ async function completeTriage() {
                 }
             );
 
-
         const updateText =
             await updateResponse.text();
 
-
         let updateData = {};
-
 
         try {
 
@@ -3943,7 +3416,6 @@ async function completeTriage() {
 
         }
 
-
         if (!updateResponse.ok) {
 
             throw new Error(
@@ -3952,7 +3424,6 @@ async function completeTriage() {
             );
 
         }
-
 
         /*
          * STEP 2
@@ -3988,13 +3459,10 @@ async function completeTriage() {
                 }
             );
 
-
         const assignText =
             await assignResponse.text();
 
-
         let assignData = {};
-
 
         try {
 
@@ -4009,7 +3477,6 @@ async function completeTriage() {
 
         }
 
-
         if (!assignResponse.ok) {
 
             throw new Error(
@@ -4018,7 +3485,6 @@ async function completeTriage() {
             );
 
         }
-
 
         /*
          * STEP 3
@@ -4054,13 +3520,10 @@ async function completeTriage() {
                 }
             );
 
-
         const statusText =
             await statusResponse.text();
 
-
         let statusData = {};
-
 
         try {
 
@@ -4075,7 +3538,6 @@ async function completeTriage() {
 
         }
 
-
         if (!statusResponse.ok) {
 
             throw new Error(
@@ -4084,7 +3546,6 @@ async function completeTriage() {
             );
 
         }
-
 
         /*
          * Update local issue.
@@ -4099,7 +3560,6 @@ async function completeTriage() {
 
                 }
             );
-
 
         if (index !== -1) {
 
@@ -4134,19 +3594,15 @@ async function completeTriage() {
 
         }
 
-
         renderIssues(
             allIssues
         );
 
-
         closeIssueModal();
-
 
         alert(
             `Issue #${issue.id} triaged successfully!`
         );
-
 
     } catch (error) {
 
@@ -4155,12 +3611,10 @@ async function completeTriage() {
             error
         );
 
-
         alert(
             "Triage failed.\n\n" +
             error.message
         );
-
 
     } finally {
 
@@ -4178,11 +3632,6 @@ async function completeTriage() {
 
 }
 
-
-/* =====================================================
-   SAVE NORMAL ISSUE CHANGES
-===================================================== */
-
 async function saveIssueChanges() {
 
     if (!currentViewingIssueId) {
@@ -4190,7 +3639,6 @@ async function saveIssueChanges() {
         return;
 
     }
-
 
     const issue =
         allIssues.find(function(item) {
@@ -4200,17 +3648,14 @@ async function saveIssueChanges() {
 
         });
 
-
     if (!issue) {
         return;
     }
-
 
     const token =
         localStorage.getItem(
             "access_token"
         );
-
 
     if (!token) {
 
@@ -4222,7 +3667,6 @@ async function saveIssueChanges() {
 
     }
 
-
     const categoryId =
         Number(
             document.getElementById(
@@ -4230,22 +3674,18 @@ async function saveIssueChanges() {
             ).value
         );
 
-
     const severity =
         document.getElementById(
             "modalSeveritySelect"
         ).value;
-
 
     const status =
         document.getElementById(
             "modalStatusSelect"
         ).value;
 
-
     const oldStatus =
         issue.status;
-
 
     try {
 
@@ -4295,7 +3735,6 @@ async function saveIssueChanges() {
                     }
                 );
 
-
             let data = null;
 
 const responseText = await response.text();
@@ -4311,7 +3750,6 @@ if (responseText) {
     }
 }
 
-
             if (!response.ok) {
 
                 throw new Error(
@@ -4321,14 +3759,12 @@ if (responseText) {
 
             }
 
-
             const index =
                 allIssues.findIndex(
                     item =>
                         Number(item.id) ===
                         Number(issue.id)
                 );
-
 
             if (index !== -1) {
 
@@ -4338,7 +3774,6 @@ if (responseText) {
             }
 
         }
-
 
         /*
          * Update status only when it changed.
@@ -4377,10 +3812,8 @@ if (responseText) {
                     }
                 );
 
-
             const data =
                 await response.json();
-
 
             if (!response.ok) {
 
@@ -4391,14 +3824,12 @@ if (responseText) {
 
             }
 
-
             const index =
                 allIssues.findIndex(
                     item =>
                         Number(item.id) ===
                         Number(issue.id)
                 );
-
 
             if (index !== -1) {
 
@@ -4409,11 +3840,9 @@ if (responseText) {
 
         }
 
-
         renderIssues(
             allIssues
         );
-
 
         /*
          * Refresh modal with latest data.
@@ -4426,7 +3855,6 @@ if (responseText) {
                     Number(currentViewingIssueId)
             );
 
-
         if (updatedIssue) {
 
             document.getElementById(
@@ -4436,7 +3864,6 @@ if (responseText) {
                     updatedIssue.priority
                 );
 
-
             document.getElementById(
                 "modalPriorityScore"
             ).textContent =
@@ -4445,11 +3872,9 @@ if (responseText) {
 
         }
 
-
         alert(
             "Issue changes saved successfully."
         );
-
 
     } catch (error) {
 
@@ -4457,7 +3882,6 @@ if (responseText) {
             "Save changes error:",
             error
         );
-
 
         alert(
             "Unable to save changes.\n\n" +
@@ -4468,168 +3892,85 @@ if (responseText) {
 
 }
 
-
-/* =====================================================
-   ASSIGN ISSUE FROM TABLE
-===================================================== */
-
 async function assignIssue(issueId) {
+    const token = localStorage.getItem("access_token");
+    const select = document.getElementById(`assignee-${issueId}`);
 
-    const token =
-        localStorage.getItem(
-            "access_token"
-        );
-
-
-    const select =
-        document.getElementById(
-            `assignee-${issueId}`
-        );
-
-
-    if (!select) {
+    if (!token) {
+        alert("Please login again.");
         return;
     }
 
+    if (!select) return;
 
-    const assigneeId =
-        select.value;
-
-
+    const assigneeId = Number(select.value);
     if (!assigneeId) {
-
-        alert(
-            "Please select a user before assigning."
-        );
-
+        alert("Please select a developer before assigning.");
         return;
-
     }
 
-
-    const button =
-        select.parentElement.querySelector(
-            ".assign-btn"
-        );
-
+    const button = select.parentElement.querySelector(".assign-btn");
+    const originalButtonHTML = button ? button.innerHTML : "";
 
     if (button) {
-
-        button.disabled =
-            true;
-
-        button.innerHTML =
-            '<i class="fa-solid fa-spinner fa-spin"></i> Assigning...';
-
+        button.disabled = true;
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
     }
-
 
     try {
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/issues/${issueId}/assign`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({ assignee_id: assigneeId })
+            }
+        );
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/issues/${issueId}/assign`,
-                {
-                    method: "PATCH",
+        const responseText = await response.text();
+        let data = {};
 
-                    headers: {
-
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json",
-
-                        "Authorization":
-                            "Bearer " + token
-
-                    },
-
-                    body: JSON.stringify({
-
-                        assignee_id:
-                            Number(assigneeId)
-
-                    })
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
+        if (responseText) {
+            try {
+                data = JSON.parse(responseText);
+            } catch (error) {
+                console.error("Invalid assignment response:", responseText);
+            }
+        }
 
         if (!response.ok) {
-
             throw new Error(
                 data.detail ||
-                "Unable to assign issue."
+                `Unable to assign issue. Server returned ${response.status}`
             );
-
         }
 
-
-        const issue =
-            allIssues.find(
-                item =>
-                    Number(item.id) ===
-                    Number(issueId)
-            );
-
+        const issue = allIssues.find(function(item) {
+            return Number(item.id) === Number(issueId);
+        });
 
         if (issue) {
-
-            issue.assignee_id =
-                data.assignee_id ??
-                Number(assigneeId);
-
+            Object.assign(issue, data || {}, { assignee_id: assigneeId });
         }
 
+        renderIssues(allIssues);
+        await loadIssues();
 
-        renderIssues(
-            allIssues
-        );
-
-
-        alert(
-            `Issue #${issueId} assigned successfully.`
-        );
-
-
+        alert(`Issue #${issueId} assigned successfully.`);
     } catch (error) {
-
-        console.error(
-            "Assignment error:",
-            error
-        );
-
-
-        alert(
-            error.message
-        );
-
-
+        console.error("Assignment error:", error);
+        alert(error.message);
     } finally {
-
         if (button) {
-
-            button.disabled =
-                false;
-
-            button.innerHTML =
-                '<i class="fa-solid fa-user-check"></i> Assign';
-
+            button.disabled = false;
+            button.innerHTML = originalButtonHTML;
         }
-
     }
-
 }
-
-
-/* =====================================================
-   ASSIGN ISSUE FROM MODAL
-===================================================== */
 
 async function assignIssueFromModal() {
 
@@ -4643,16 +3984,13 @@ async function assignIssueFromModal() {
 
     }
 
-
     const select =
         document.getElementById(
             "modalAssigneeSelect"
         );
 
-
     const assigneeId =
         select.value;
-
 
     if (!assigneeId) {
 
@@ -4664,12 +4002,10 @@ async function assignIssueFromModal() {
 
     }
 
-
     const token =
         localStorage.getItem(
             "access_token"
         );
-
 
     try {
 
@@ -4702,10 +4038,8 @@ async function assignIssueFromModal() {
                 }
             );
 
-
         const data =
             await response.json();
-
 
         if (!response.ok) {
 
@@ -4716,14 +4050,12 @@ async function assignIssueFromModal() {
 
         }
 
-
         const issue =
             allIssues.find(
                 item =>
                     Number(item.id) ===
                     Number(currentViewingIssueId)
             );
-
 
         if (issue) {
 
@@ -4733,16 +4065,13 @@ async function assignIssueFromModal() {
 
         }
 
-
         renderIssues(
             allIssues
         );
 
-
         alert(
             "Issue assigned successfully."
         );
-
 
     } catch (error) {
 
@@ -4750,7 +4079,6 @@ async function assignIssueFromModal() {
             "Assignment error:",
             error
         );
-
 
         alert(
             error.message
@@ -4760,18 +4088,12 @@ async function assignIssueFromModal() {
 
 }
 
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
-
 function closeIssueModal() {
 
     const modal =
         document.getElementById(
             "issueModal"
         );
-
 
     if (modal) {
 
@@ -4781,20 +4103,13 @@ function closeIssueModal() {
 
     }
 
-
     document.body.style.overflow =
         "";
-
 
     currentViewingIssueId =
         null;
 
 }
-
-
-/* =====================================================
-   CATEGORY NAME
-===================================================== */
 
 function formatCategory(categoryId) {
 
@@ -4820,18 +4135,12 @@ function formatCategory(categoryId) {
 
     };
 
-
     return categories[
         Number(categoryId)
     ] ||
         "Category #" + categoryId;
 
 }
-
-
-/* =====================================================
-   GET USER NAME
-===================================================== */
 
 function getUserName(userId) {
 
@@ -4842,13 +4151,11 @@ function getUserName(userId) {
                 Number(userId)
         );
 
-
     if (!user) {
 
         return "User #" + userId;
 
     }
-
 
     return (
         user.full_name ||
@@ -4858,17 +4165,11 @@ function getUserName(userId) {
 
 }
 
-
-/* =====================================================
-   FORMAT ENUM
-===================================================== */
-
 function formatEnum(value) {
 
     if (!value) {
         return "-";
     }
-
 
     return String(value)
 
@@ -4890,26 +4191,18 @@ function formatEnum(value) {
 
 }
 
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
-
 function formatDate(value) {
 
     if (!value) {
         return "-";
     }
 
-
     const date =
         new Date(value);
-
 
     if (isNaN(date.getTime())) {
         return "-";
     }
-
 
     return date.toLocaleDateString(
         "en-IN",
@@ -4922,26 +4215,18 @@ function formatDate(value) {
 
 }
 
-
-/* =====================================================
-   FORMAT DATE TIME
-===================================================== */
-
 function formatDateTime(value) {
 
     if (!value) {
         return "-";
     }
 
-
     const date =
         new Date(value);
-
 
     if (isNaN(date.getTime())) {
         return "-";
     }
-
 
     return date.toLocaleString(
         "en-IN",
@@ -4955,11 +4240,6 @@ function formatDateTime(value) {
     );
 
 }
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
 
 function escapeHtml(value) {
 
@@ -4992,11 +4272,6 @@ function escapeHtml(value) {
 
 }
 
-
-/* =====================================================
-   SHOW MESSAGE
-===================================================== */
-
 function showMessage(text) {
 
     const message =
@@ -5004,12 +4279,10 @@ function showMessage(text) {
             "tableMessage"
         );
 
-
     const table =
         document.getElementById(
             "issuesTableContainer"
         );
-
 
     if (table) {
 
@@ -5017,7 +4290,6 @@ function showMessage(text) {
             "none";
 
     }
-
 
     if (message) {
 
@@ -5031,32 +4303,20 @@ function showMessage(text) {
 
 }
 
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 function logoutUser() {
 
     localStorage.removeItem(
         "access_token"
     );
 
-
     localStorage.removeItem(
         "user"
     );
-
 
     window.location.href =
         "index.html";
 
 }
-
-
-/* =====================================================
-   EVENTS
-===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -5074,7 +4334,6 @@ document.addEventListener(
     }
 );
 
-
 document.getElementById(
     "applyFilters"
 ).addEventListener(
@@ -5082,14 +4341,12 @@ document.getElementById(
     applyFilters
 );
 
-
 document.getElementById(
     "resetFilters"
 ).addEventListener(
     "click",
     resetFilters
 );
-
 
 document.getElementById(
     "searchInput"
@@ -5105,11 +4362,6 @@ document.getElementById(
     applyFilters
 );
 
-
-/* =====================================================
-   ESC CLOSE
-===================================================== */
-
 document.addEventListener(
     "keydown",
     function(event) {
@@ -5124,10 +4376,7 @@ document.addEventListener(
 
     }
 );
-
 </script>
-<script src="theme.js"></script>
-<script src="notification.js"></script>
+<script src="admin-notifications.js"></script>
 </body>
-
 </html>

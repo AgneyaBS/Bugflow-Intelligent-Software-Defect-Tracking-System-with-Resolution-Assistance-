@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>BugFlow | My Analytics & Reports</title>
 
-    <title>BugFlow | Analytics & Reports</title>
-
-    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- Plotly -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-theme.css">
+
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 
-
     <style>
-
         /* =========================================================
-           GLOBAL
+           USER ANALYTICS
+           Same structure as Admin Analytics, with the shared
+           BugFlow User dark theme.
         ========================================================= */
 
         * {
@@ -32,8 +29,8 @@
 
         body {
             font-family: "Inter", "Segoe UI", Arial, sans-serif;
-            background: #f6f7fb;
-            color: #111827;
+            background: #0f172a;
+            color: #f8fafc;
             font-size: 15px;
         }
 
@@ -42,23 +39,18 @@
             color: inherit;
         }
 
-        button {
+        button,
+        select {
             font-family: inherit;
         }
-
-
-        /* =========================================================
-           LAYOUT
-        ========================================================= */
 
         .app-layout {
             display: flex;
             min-height: 100vh;
         }
 
-
         /* =========================================================
-           SIDEBAR
+           USER SIDEBAR
         ========================================================= */
 
         .sidebar {
@@ -73,17 +65,16 @@
             display: flex;
             flex-direction: column;
             z-index: 100;
+            border-right: 1px solid #1f2937;
+            overflow-y: auto;
         }
-
-
-        /* BRAND */
 
         .brand {
             height: 75px;
             display: flex;
             align-items: center;
             padding: 0 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid #1f2937;
         }
 
         .brand-icon {
@@ -91,6 +82,7 @@
             height: 38px;
             border-radius: 10px;
             background: #4f46e5;
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -102,14 +94,12 @@
             font-size: 20px;
             font-weight: 700;
             letter-spacing: 0.2px;
+            color: #f8fafc;
         }
 
         .brand-text span {
             color: #818cf8;
         }
-
-
-        /* BACK BUTTON */
 
         .sidebar-back-button {
             display: flex;
@@ -119,8 +109,8 @@
             padding: 8px 14px;
             border: none;
             border-radius: 7px;
-            background: #f1f5f9;
-            color: #334155;
+            background: #1f2937;
+            color: #e2e8f0;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
@@ -128,15 +118,13 @@
         }
 
         .sidebar-back-button:hover {
-            background: #e2e8f0;
+            background: #374151;
             transform: translateX(-2px);
         }
 
-
-        /* NAVIGATION */
-
         .sidebar-section {
             padding: 0 15px 10px;
+            flex: 1;
         }
 
         .sidebar-heading {
@@ -156,13 +144,15 @@
             color: #d1d5db;
             font-size: 15px;
             margin-bottom: 5px;
-            transition: 0.2s ease;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
         .nav-link i {
             width: 20px;
             text-align: center;
             font-size: 15px;
+            color: #94a3b8;
         }
 
         .nav-link:hover {
@@ -170,78 +160,235 @@
             color: #ffffff;
         }
 
-        .nav-link.active {
-            background: #4f46e5;
+        .nav-link:hover i {
             color: #ffffff;
         }
 
+        .nav-link.active {
+            background: #4f46e5;
+            color: #ffffff;
+            font-weight: 600;
+        }
 
-        /* SIDEBAR BOTTOM */
+        .nav-link.active i {
+            color: #ffffff;
+        }
 
         .sidebar-bottom {
             margin-top: auto;
             padding: 15px;
             border-top: 1px solid rgba(255,255,255,0.08);
         }
+        /* =========================================================
+   USER ANALYTICS - FORCE COMPLETE DARK SIDEBAR
+========================================================= */
 
-        .logout-link {
-            color: #d1d5db;
-        }
+.sidebar {
+    background: #111827 !important;
+    color: #ffffff !important;
+}
+
+/* BugFlow logo / brand area */
+.sidebar .brand {
+    background: #111827 !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.sidebar .brand-text {
+    color: #ffffff !important;
+}
+
+.sidebar .brand-text span {
+    color: #818cf8 !important;
+}
+
+.sidebar .brand-icon {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+/* Back button */
+.sidebar .sidebar-back-button {
+    background: #1f2937 !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #334155 !important;
+}
+
+.sidebar .sidebar-back-button i {
+    color: #cbd5e1 !important;
+}
+
+.sidebar .sidebar-back-button:hover {
+    background: #374151 !important;
+    color: #ffffff !important;
+}
+
+/* Navigation area */
+.sidebar .sidebar-section {
+    background: #111827 !important;
+}
+
+.sidebar .sidebar-heading {
+    color: #9ca3af !important;
+}
+
+.sidebar .nav-link {
+    background: transparent !important;
+    color: #d1d5db !important;
+}
+
+.sidebar .nav-link i {
+    color: #94a3b8 !important;
+}
+
+.sidebar .nav-link:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+}
+
+.sidebar .nav-link:hover i {
+    color: #ffffff !important;
+}
+
+.sidebar .nav-link.active {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+.sidebar .nav-link.active i {
+    color: #ffffff !important;
+}
+
+/* Bottom logout area */
+.sidebar .sidebar-bottom {
+    background: #111827 !important;
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.sidebar .logout-link {
+    background: transparent !important;
+    color: #d1d5db !important;
+}
+
+.sidebar .logout-link i {
+    color: #94a3b8 !important;
+}
+
+.sidebar .logout-link:hover {
+    background: #7f1d1d !important;
+    color: #ffffff !important;
+}
+
+.sidebar .logout-link:hover i {
+    color: #ffffff !important;
+}
 
         .logout-link:hover {
             background: #7f1d1d;
             color: #ffffff;
         }
 
+        .logout-link:hover i {
+            color: #ffffff;
+        }
 
         /* =========================================================
-           MAIN CONTENT
+           MAIN
         ========================================================= */
 
         .main-content {
             margin-left: 250px;
             width: calc(100% - 250px);
             min-height: 100vh;
-            padding: 25px;
+            background: #0f172a;
         }
-
 
         /* =========================================================
            ANALYTICS SECTION
         ========================================================= */
 
         .milestone3-section {
-            margin-top: 0;
+            margin-top: 25px;
+            padding: 0 25px 30px;
         }
 
+        /* =========================================================
+           USER TOPBAR
+        ========================================================= */
+
+        .topbar {
+            background: #111827 !important;
+            border-bottom: 1px solid #1f2937 !important;
+            color: #f8fafc;
+        }
+
+        .topbar-title span {
+            color: #64748b !important;
+        }
+
+        .topbar-title strong {
+            color: #f8fafc !important;
+        }
+
+        .topbar-right {
+            color: #f8fafc;
+        }
+
+        .notification-button {
+            color: #94a3b8;
+        }
+
+        .notification-button:hover {
+            color: #ffffff;
+        }
+
+        .user-profile {
+            color: #f8fafc;
+        }
+
+        .user-profile strong {
+            color: #f8fafc;
+        }
+
+        .user-profile small {
+            color: #94a3b8;
+        }
+
+        .avatar {
+            background: #4f46e5 !important;
+            color: #ffffff !important;
+        }
+
+        /* =========================================================
+           MAIN CARD
+        ========================================================= */
+
         .card {
-            width: 100%;
+            background: #1e293b !important;
+            border: 1px solid #334155 !important;
+            color: #f8fafc;
         }
 
         .card-header {
-            margin-bottom: 20px;
+            border-bottom-color: #334155 !important;
         }
 
         .card-header h2 {
-            font-size: 25px;
-            margin-bottom: 7px;
+            color: #f8fafc !important;
         }
 
         .card-header h2 i {
-            color: #4f46e5;
-            margin-right: 8px;
+            color: #818cf8;
         }
 
         .card-header p {
-            color: #6b7280;
-            font-size: 14px;
+            color: #94a3b8 !important;
         }
-
 
         .card-body {
-            width: 100%;
+            color: #cbd5e1;
         }
-
 
         /* =========================================================
            SERVICE BANNER
@@ -254,8 +401,8 @@
             gap: 15px;
             padding: 15px;
             margin-bottom: 20px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background: #172033;
+            border: 1px solid #334155;
             border-radius: 10px;
             flex-wrap: wrap;
         }
@@ -268,25 +415,165 @@
 
         .m3-service-item i {
             font-size: 18px;
-            color: #16a34a;
+            color: #22c55e;
         }
 
         .m3-service-item strong {
             display: block;
             font-size: 13px;
-            color: #111827;
+            color: #f8fafc;
         }
 
         .m3-service-item span {
             display: block;
             margin-top: 3px;
             font-size: 12px;
-            color: #16a34a;
+            color: #22c55e;
         }
 
-        .m3-export-buttons {
+        /* =========================================================
+           ERROR / STATUS
+        ========================================================= */
+
+        #m3StatusMessage {
+            display: none;
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #7f1d1d;
+            border: 1px solid #991b1b;
+            color: #fecaca;
+        }
+
+        /* =========================================================
+           METRICS
+        ========================================================= */
+
+        .m3-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .m3-metric-card {
+            padding: 18px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+        }
+
+        .m3-metric-card span {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .m3-metric-card strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 24px;
+            color: #f8fafc;
+        }
+
+        /* =========================================================
+           CHARTS
+        ========================================================= */
+
+        .m3-chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .m3-chart-card {
+            padding: 18px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .m3-chart-card h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #f8fafc;
+        }
+
+        .m3-chart-card h3 i {
+            margin-right: 7px;
+            color: #818cf8;
+        }
+
+        #defectTrendChart {
+            width: 100%;
+            min-height: 350px;
+        }
+
+        #severityDonutChart,
+        #workflowPipelineChart {
+            width: 100%;
+            min-height: 320px;
+        }
+
+        /* =========================================================
+           API EXPLORER
+        ========================================================= */
+
+        .m3-api-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+        .m3-api-card h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #f8fafc;
+        }
+
+        .m3-api-card h3 i {
+            margin-right: 7px;
+            color: #818cf8;
+        }
+
+        .m3-api-card > p {
+            color: #94a3b8 !important;
+        }
+
+        .m3-api-controls {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #m3ApiSelect,
+        .m3-webhook-select {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #475569;
+            border-radius: 7px;
+            font-size: 13px;
+            background: #111827;
+            color: #e2e8f0;
+        }
+
+        #m3ApiResponse,
+        #m3WebhookResponse {
+            min-height: 180px;
+            max-height: 400px;
+            overflow: auto;
+            padding: 15px;
+            background: #020617;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            white-space: pre-wrap;
         }
 
         .m3-btn {
@@ -304,239 +591,96 @@
             background: #4338ca;
         }
 
-
-        /* =========================================================
-           METRICS
-        ========================================================= */
-
-        .m3-metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .m3-metric-card {
-            padding: 18px;
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-        }
-
-        .m3-metric-card span {
-            display: block;
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .m3-metric-card strong {
-            display: block;
-            margin-top: 8px;
-            font-size: 24px;
-            color: #111827;
-        }
-
-
-        /* =========================================================
-           CHARTS
-        ========================================================= */
-
-        .m3-chart-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .m3-chart-card {
-            padding: 18px;
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .m3-chart-card h3 {
-            margin-bottom: 15px;
-            font-size: 15px;
-            color: #111827;
-        }
-
-        .m3-chart-card h3 i {
-            margin-right: 7px;
-            color: #4f46e5;
-        }
-
-        #defectTrendChart {
+        .m3-webhook-select {
             width: 100%;
-            min-height: 350px;
+            margin-bottom: 12px;
         }
-
-        #severityDonutChart,
-        #workflowPipelineChart {
-            width: 100%;
-            min-height: 320px;
-        }
-
 
         /* =========================================================
-           REST API EXPLORER
+           REPORTS
         ========================================================= */
 
-        .m3-api-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
+        .m3-reports-section {
+            background: #1e293b;
+            border: 1px solid #334155;
             border-radius: 10px;
-            padding: 18px;
+            padding: 20px;
             margin-top: 20px;
         }
 
-        .m3-api-card h3 {
-            margin-bottom: 15px;
+        .m3-reports-header {
+            margin-bottom: 18px;
+        }
+
+        .m3-reports-header h3 {
+            font-size: 17px;
+            color: #f8fafc;
+            margin-bottom: 5px;
+        }
+
+        .m3-reports-header h3 i {
+            color: #818cf8;
+            margin-right: 8px;
+        }
+
+        .m3-reports-header p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .m3-reports-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .m3-report-card {
+            border: 1px solid #334155;
+            border-radius: 9px;
+            padding: 18px;
+            background: #172033;
+        }
+
+        .m3-report-card h4 {
             font-size: 15px;
-            color: #111827;
+            color: #f8fafc;
+            margin-bottom: 8px;
         }
 
-        .m3-api-card h3 i {
+        .m3-report-card h4 i {
+            color: #818cf8;
             margin-right: 7px;
-            color: #4f46e5;
         }
 
-        .m3-api-controls {
-            display: flex;
-            gap: 10px;
+        .m3-report-card p {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
 
-        #m3ApiSelect {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #d1d5db;
+        .m3-report-btn {
+            border: none;
+            background: #4f46e5;
+            color: #ffffff;
             border-radius: 7px;
-            font-size: 13px;
-            background: #ffffff;
-        }
-
-        #m3ApiResponse,
-        #m3WebhookResponse {
-            min-height: 180px;
-            max-height: 400px;
-            overflow: auto;
-            padding: 15px;
-            background: #111827;
-            color: #e5e7eb;
-            border-radius: 8px;
+            padding: 9px 14px;
             font-size: 12px;
-            line-height: 1.5;
-            white-space: pre-wrap;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-
-        /* =========================================================
-           WEBHOOK
-        ========================================================= */
-
-        .m3-webhook-select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-            font-size: 13px;
-            background: #ffffff;
+        .m3-report-btn:hover {
+            background: #4338ca;
         }
-/* =========================================================
-   REPORTS
-========================================================= */
-
-.m3-reports-section {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.m3-reports-header {
-    margin-bottom: 18px;
-}
-
-.m3-reports-header h3 {
-    font-size: 17px;
-    color: #111827;
-    margin-bottom: 5px;
-}
-
-.m3-reports-header h3 i {
-    color: #4f46e5;
-    margin-right: 8px;
-}
-
-.m3-reports-header p {
-    font-size: 13px;
-    color: #6b7280;
-}
-
-.m3-reports-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.m3-report-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 9px;
-    padding: 18px;
-    background: #f9fafb;
-}
-
-.m3-report-card h4 {
-    font-size: 15px;
-    color: #111827;
-    margin-bottom: 8px;
-}
-
-.m3-report-card h4 i {
-    color: #4f46e5;
-    margin-right: 7px;
-}
-
-.m3-report-card p {
-    font-size: 12px;
-    color: #6b7280;
-    line-height: 1.5;
-    margin-bottom: 15px;
-}
-
-.m3-report-btn {
-    border: none;
-    background: #4f46e5;
-    color: #ffffff;
-    border-radius: 7px;
-    padding: 9px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.m3-report-btn:hover {
-    background: #4338ca;
-}
-
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
 
         @media (max-width: 1000px) {
-
             .m3-metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
-
         @media (max-width: 800px) {
-
             .sidebar {
                 width: 220px;
             }
@@ -549,12 +693,9 @@
             .m3-chart-grid {
                 grid-template-columns: 1fr;
             }
-
         }
 
-
         @media (max-width: 650px) {
-
             .sidebar {
                 position: relative;
                 width: 100%;
@@ -568,10 +709,14 @@
             .main-content {
                 margin-left: 0;
                 width: 100%;
-                padding: 15px;
             }
 
-            .m3-metrics-grid {
+            .milestone3-section {
+                padding: 0 15px 25px;
+            }
+
+            .m3-metrics-grid,
+            .m3-reports-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -580,30 +725,102 @@
                 flex-direction: column;
             }
 
-            .m3-export-buttons {
-                width: 100%;
-            }
-
-            .m3-btn {
-                flex: 1;
-            }
-
             .m3-api-controls {
                 flex-direction: column;
             }
-
         }
+        /* =========================================================
+   BUGFLOW USER THEME - DARK SIDEBAR
+   Applies only to User pages using user-theme.css
+   ========================================================= */
 
+.sidebar {
+    background: #111827 !important;
+    border-right: 1px solid #263449 !important;
+    color: #dbe4f0 !important;
+}
+
+.sidebar * {
+    color: inherit;
+}
+
+.sidebar .logo,
+.sidebar .brand,
+.sidebar .brand-name,
+.sidebar .logo-text {
+    color: #f8fafc !important;
+}
+
+.sidebar .nav-section,
+.sidebar .section-title,
+.sidebar small {
+    color: #94a3b8 !important;
+}
+
+.sidebar a,
+.sidebar .nav-link {
+    color: #cbd5e1 !important;
+    background: transparent !important;
+}
+
+.sidebar a:hover,
+.sidebar .nav-link:hover {
+    color: #ffffff !important;
+    background: #1e293b !important;
+}
+
+.sidebar a.active,
+.sidebar .nav-link.active {
+    color: #ffffff !important;
+    background: #312e81 !important;
+}
+
+.sidebar a.active i,
+.sidebar .nav-link.active i {
+    color: #818cf8 !important;
+}
+
+.sidebar i,
+.sidebar .nav-icon {
+    color: #94a3b8 !important;
+}
+
+.sidebar a:hover i,
+.sidebar .nav-link:hover i {
+    color: #a5b4fc !important;
+}
+
+.sidebar .back-button,
+.sidebar button {
+    background: #1e293b !important;
+    color: #cbd5e1 !important;
+    border-color: #334155 !important;
+}
+
+.sidebar .back-button:hover,
+.sidebar button:hover {
+    background: #334155 !important;
+    color: #ffffff !important;
+}
+
+.sidebar .logout,
+.sidebar .logout-link {
+    color: #cbd5e1 !important;
+    background: transparent !important;
+    border-top: 1px solid #263449 !important;
+}
+
+.sidebar .logout:hover,
+.sidebar .logout-link:hover {
+    background: #1e293b !important;
+    color: #ffffff !important;
+}
     </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app-layout">
-
 
     <!-- =========================================================
          USER SIDEBAR
@@ -611,11 +828,7 @@
 
     <aside class="sidebar">
 
-
-        <!-- BRAND -->
-
         <div class="brand">
-
             <div class="brand-icon">
                 <i class="fa-solid fa-bug"></i>
             </div>
@@ -623,167 +836,67 @@
             <div class="brand-text">
                 Bug<span>Flow</span>
             </div>
-
         </div>
 
-
-        <!-- BACK BUTTON -->
-
-        <button
-            class="sidebar-back-button"
-            onclick="history.back()">
-
+        <button class="sidebar-back-button" onclick="history.back()">
             <i class="fa-solid fa-arrow-left"></i>
-
-            <span>
-                Back
-            </span>
-
+            <span>Back</span>
         </button>
 
-
-        <!-- MAIN NAVIGATION -->
-
         <div class="sidebar-section">
-
 
             <div class="sidebar-heading">
                 Main
             </div>
 
-
-            <!-- DASHBOARD -->
-
-            <a href="user-dashboard.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-chart-line"></i>
-
-                <span>
-                    Dashboard
-                </span>
-
-            </a>
-
-
-            <!-- REPORT ISSUE -->
-
-            <a href="report-defect.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-bug"></i>
-
-                <span>
-                    Report Issue
-                </span>
-
-            </a>
-
-
-            <!-- MY ISSUES -->
-
-            <a href="my-issues.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-list-check"></i>
-
-                <span>
-                    My Issues
-                </span>
-
-            </a>
-
-
-            <!-- RESOLUTION -->
-
-            <a href="resolution.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-lightbulb"></i>
-
-                <span>
-                    Resolution Assistance
-                </span>
-
-            </a>
-
-
-            <!-- ANALYTICS -->
-
-            <a href="user-analytics.html"
-               class="nav-link active">
-
+            <a href="user-dashboard.html" class="nav-link">
                 <i class="fa-solid fa-chart-pie"></i>
-
-                <span>
-                    Analytics & Reports
-                </span>
-
+                <span>Dashboard</span>
             </a>
 
-
-
-            <!-- NOTIFICATIONS -->
-
-            <a href="notifications.html" class="nav-link">
-    <i class="fa-solid fa-bell"></i>
-    <span>Notifications</span>
-</a>
-
-
-            <!-- SETTINGS -->
-
-            <a href="settings.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Settings
-                </span>
-
+            <a href="user-report-defect.html" class="nav-link">
+                <i class="fa-solid fa-bug"></i>
+                <span>Report Issue</span>
             </a>
 
+            <a href="user-my-issues.html" class="nav-link">
+                <i class="fa-solid fa-list-check"></i>
+                <span>My Issues</span>
+            </a>
 
-            <!-- SYSTEM SUPPORT -->
+            <a href="user-resolution.html" class="nav-link">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Resolution Assistance</span>
+            </a>
+            <a href="user-analytics.html" class="nav-link active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analytics & Reports</span>
+            </a>
 
-            <a href="system-support.html"
-               class="nav-link">
+            <a href="user-notifications.html" class="nav-link">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+                <b id="sidebarNotificationBadge"
+                   style="display:none;">
+                    0
+                </b>
+            </a>
 
+            <a href="system-support.html" class="nav-link">
                 <i class="fa-solid fa-circle-question"></i>
-
-                <span>
-                    System Support
-                </span>
-
+                <span>System Support</span>
             </a>
-
 
         </div>
-
-
-        <!-- SIDEBAR BOTTOM -->
 
         <div class="sidebar-bottom">
-
-            <a href="#"
-               class="nav-link logout-link"
-               id="logoutLink">
-
+            <a href="#" class="nav-link logout-link" id="logoutBtn">
                 <i class="fa-solid fa-right-from-bracket"></i>
-
-                <span>
-                    Logout
-                </span>
-
+                <span>Logout</span>
             </a>
-
         </div>
 
-
     </aside>
-
-
 
     <!-- =========================================================
          MAIN CONTENT
@@ -791,596 +904,538 @@
 
     <main class="main-content">
 
+        <!-- TOPBAR -->
 
-        <!-- =========================================================
-             MILESTONE 3 - ANALYTICS
-        ========================================================== -->
+        <header class="topbar">
 
-        <section
-            id="milestone3"
-            class="milestone3-section">
+            <div class="topbar-title">
+                <span>SOFTWARE ISSUE MANAGEMENT</span>
+                <strong id="topPageTitle">
+                    My Analytics & Reports
+                </strong>
+            </div>
 
+            <div class="topbar-right">
+
+                <a href="user-notifications.html"
+                   class="notification-button">
+                    <i class="fa-solid fa-bell"></i>
+                    <span id="topNotificationBadge">0</span>
+                </a>
+
+                <a href="user-profile.html"
+                   class="user-profile">
+
+                    <div class="avatar"
+                         id="userAvatar">
+                        U
+                    </div>
+
+                    <div>
+                        <strong id="userName">
+                            User
+                        </strong>
+
+                        <small id="userRole">
+                            USER
+                        </small>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- ANALYTICS -->
+
+        <section id="milestone3"
+                 class="milestone3-section">
 
             <div class="card">
-
-
-                <!-- HEADER -->
 
                 <div class="card-header">
 
                     <div>
 
                         <h2>
-
                             <i class="fa-solid fa-chart-line"></i>
-
-                            Analytics & Reports
-
+                            <span id="analyticsTitle">
+                                My Analytics & Reports
+                            </span>
                         </h2>
 
                         <p>
-                            Software quality scorecard,
-                            analytics and CI/CD integration
+                            Personal software quality scorecard,
+                            analytics and CI/CD integration for your issues
                         </p>
 
                     </div>
 
                 </div>
 
-
-
                 <div class="card-body">
 
+                    <div id="m3StatusMessage"></div>
 
-                    <!-- =================================================
-                         SERVICE BANNER
-                    ================================================== -->
+                    <!-- SERVICE BANNER -->
 
                     <div class="m3-service-banner">
-
 
                         <div class="m3-service-item">
 
                             <i class="fa-solid fa-circle-check"></i>
 
                             <div>
-
-                                <strong>
-                                    Notification Service
-                                </strong>
-
-                                <span>
-                                    Running
-                                </span>
-
+                                <strong>Notification Service</strong>
+                                <span>Running</span>
                             </div>
 
                         </div>
-
 
                         <div class="m3-service-item">
 
                             <i class="fa-solid fa-shield-halved"></i>
 
                             <div>
-
-                                <strong>
-                                    Security Status
-                                </strong>
-
-                                <span>
-                                    CI/CD Sync Active
-                                </span>
-
+                                <strong>Security Status</strong>
+                                <span>Personal JWT Scope Active</span>
                             </div>
 
                         </div>
 
-
                     </div>
 
-
-
-                    <!-- =================================================
-                         QUALITY METRICS
-                    ================================================== -->
+                    <!-- QUALITY METRICS -->
 
                     <div class="m3-metrics-grid">
 
-
                         <div class="m3-metric-card">
-
-                            <span>
-                                Total Bugs
-                            </span>
-
-                            <strong id="m3TotalBugs">
-                                --
-                            </strong>
-
+                            <span>Total Bugs</span>
+                            <strong id="m3TotalBugs">--</strong>
                         </div>
 
-
                         <div class="m3-metric-card">
-
-                            <span>
-                                Fix Rate
-                            </span>
-
-                            <strong id="m3FixRate">
-                                --%
-                            </strong>
-
+                            <span>Fix Rate</span>
+                            <strong id="m3FixRate">--%</strong>
                         </div>
 
-
                         <div class="m3-metric-card">
-
-                            <span>
-                                MTTR
-                            </span>
-
-                            <strong id="m3MTTR">
-                                -- hrs
-                            </strong>
-
+                            <span>MTTR</span>
+                            <strong id="m3MTTR">-- hrs</strong>
                         </div>
 
-
                         <div class="m3-metric-card">
-
-                            <span>
-                                Defect Leakage
-                            </span>
-
-                            <strong id="m3Leakage">
-                                --%
-                            </strong>
-
+                            <span>Defect Leakage</span>
+                            <strong id="m3Leakage">--%</strong>
                         </div>
 
-
                         <div class="m3-metric-card">
-
-                            <span>
-                                Critical Backlog
-                            </span>
-
-                            <strong id="m3Critical">
-                                --
-                            </strong>
-
+                            <span>Critical Backlog</span>
+                            <strong id="m3Critical">--</strong>
                         </div>
 
-
                         <div class="m3-metric-card">
-
-                            <span>
-                                Backlog Health
-                            </span>
-
-                            <strong id="m3Health">
-                                --/100
-                            </strong>
-
+                            <span>Backlog Health</span>
+                            <strong id="m3Health">--/100</strong>
                         </div>
-
 
                     </div>
 
-
-
-                    <!-- =================================================
-                         DEFECT TREND
-                    ================================================== -->
+                    <!-- DEFECT TREND -->
 
                     <div class="m3-chart-card">
 
-
                         <h3>
-
                             <i class="fa-solid fa-chart-line"></i>
-
                             Defect Trends — Last 14 Days
-
                         </h3>
-
 
                         <div id="defectTrendChart"></div>
 
-
                     </div>
 
-
-
-                    <!-- =================================================
-                         DONUT + PIPELINE
-                    ================================================== -->
+                    <!-- DONUT + PIPELINE -->
 
                     <div class="m3-chart-grid">
 
-
                         <div class="m3-chart-card">
 
-
                             <h3>
-
                                 <i class="fa-solid fa-chart-pie"></i>
-
                                 Severity Distribution
-
                             </h3>
-
 
                             <div id="severityDonutChart"></div>
 
-
                         </div>
-
-
 
                         <div class="m3-chart-card">
 
-
                             <h3>
-
                                 <i class="fa-solid fa-chart-column"></i>
-
                                 Workflow Pipeline
-
                             </h3>
-
 
                             <div id="workflowPipelineChart"></div>
 
-
                         </div>
-
 
                     </div>
 
-
                 </div>
-
-
             </div>
 
-
-
-            <!-- =========================================================
-                 REST API EXPLORER
-            ========================================================== -->
+            <!-- REST API EXPLORER -->
 
             <div class="m3-api-card">
 
-
                 <h3>
-
                     <i class="fa-solid fa-terminal"></i>
-
                     Live REST API Explorer
-
                 </h3>
 
-
                 <div class="m3-api-controls">
-
 
                     <select id="m3ApiSelect">
 
                         <option value="quality-metrics">
-                            GET /api/v1/analytics/quality-metrics
+                            GET /api/v1/analytics/my/quality-metrics
                         </option>
 
                         <option value="defect-trends">
-                            GET /api/v1/analytics/defect-trends
+                            GET /api/v1/analytics/my/defect-trends
                         </option>
 
                         <option value="plotly-charts">
-                            GET /api/v1/analytics/plotly-charts
+                            GET /api/v1/analytics/my/plotly-charts
                         </option>
 
                         <option value="issues">
-                            GET /api/v1/issues/
+                            GET /api/v1/issues/my
                         </option>
 
                     </select>
 
-
-                    <button
-                        type="button"
-                        class="m3-btn"
-                        onclick="runM3ApiExplorer()">
+                    <button type="button"
+                            class="m3-btn"
+                            onclick="runM3ApiExplorer()">
 
                         <i class="fa-solid fa-paper-plane"></i>
-
                         Send
 
                     </button>
 
-
                 </div>
 
-
-                <pre id="m3ApiResponse">
-Click Send to call the API...
-                </pre>
-
+                <pre id="m3ApiResponse">Click Send to call the API...</pre>
 
             </div>
 
-
-
-            <!-- =========================================================
-                 GIT WEBHOOK
-            ========================================================== -->
+            <!-- GIT WEBHOOK -->
 
             <div class="m3-api-card">
 
-
                 <h3>
-
                     <i class="fa-brands fa-github"></i>
-
                     CI/CD Git Webhook
-
                 </h3>
 
+                <p style="margin-bottom:15px;
+                          color:#94a3b8;
+                          font-size:13px;">
 
-                <p
-                    style="
-                    margin-bottom:15px;
-                    color:#6b7280;
-                    font-size:13px;
-                    ">
-
-                    Simulate a Git commit that automatically
-                    moves a referenced bug to QA verification.
+                    Simulate a Git commit that automatically moves
+                    one of your referenced issues to QA verification.
 
                 </p>
 
-
-                <select
-                    id="webhookIssueSelect"
-                    class="m3-webhook-select">
+                <select id="webhookIssueSelect"
+                        class="m3-webhook-select">
 
                     <option value="">
-                        Loading bugs...
+                        Loading your issues...
                     </option>
 
                 </select>
 
-
-                <button
-                    type="button"
-                    class="m3-btn"
-                    onclick="simulateGitWebhook()">
+                <button type="button"
+                        class="m3-btn"
+                        onclick="simulateGitWebhook()">
 
                     <i class="fa-solid fa-code-commit"></i>
-
                     Simulate Git Commit
 
                 </button>
 
-
-                <pre
-                    id="m3WebhookResponse"
-                    style="margin-top:15px;">
-
+                <pre id="m3WebhookResponse"
+                     style="margin-top:15px;">
 Click the button to simulate a Git commit...
-
                 </pre>
 
-
             </div>
-<!-- =========================================================
-                 REPORTS
-            ========================================================== -->
+
+            <!-- REPORTS -->
 
             <div class="m3-reports-section">
 
                 <div class="m3-reports-header">
 
                     <h3>
-
                         <i class="fa-solid fa-file-lines"></i>
-
                         Reports
-
                     </h3>
 
                     <p>
-                        Generate and download BugFlow quality
-                        and issue reports.
+                        Generate and download your personal BugFlow
+                        quality and issue reports.
                     </p>
 
                 </div>
 
-
                 <div class="m3-reports-grid">
-
-
-                    <!-- QUALITY REPORT -->
 
                     <div class="m3-report-card">
 
                         <h4>
-
                             <i class="fa-solid fa-file-pdf"></i>
-
                             Quality Report
-
                         </h4>
 
                         <p>
-                            Download an executive quality report
-                            containing BugFlow software quality
-                            metrics.
+                            Download your personal executive quality
+                            report containing your BugFlow software
+                            quality metrics.
                         </p>
 
-                        <button
-                            type="button"
-                            class="m3-report-btn"
-                            onclick="exportQualityPDF()">
+                        <button type="button"
+                                class="m3-report-btn"
+                                onclick="exportQualityPDF()">
 
                             <i class="fa-solid fa-download"></i>
-
                             Download PDF Report
 
                         </button>
 
                     </div>
 
-
-                    <!-- ISSUE REGISTRY -->
-
                     <div class="m3-report-card">
 
                         <h4>
-
                             <i class="fa-solid fa-file-csv"></i>
-
                             Issue Registry
-
                         </h4>
 
                         <p>
-                            Download the BugFlow issue registry
-                            for analysis, tracking and record
-                            keeping.
+                            Download the issue registry containing
+                            only issues reported by or assigned to you.
                         </p>
 
-                        <button
-                            type="button"
-                            class="m3-report-btn"
-                            onclick="exportQualityCSV()">
+                        <button type="button"
+                                class="m3-report-btn"
+                                onclick="exportQualityCSV()">
 
                             <i class="fa-solid fa-download"></i>
-
                             Download CSV Report
 
                         </button>
 
                     </div>
 
-
                 </div>
 
             </div>
 
-
         </section>
 
-
     </main>
-
-
 </div>
 
-
-
 <script>
-
-
 /* ============================================================
-   API BASE URL
+   API BASE
 ============================================================ */
 
-const API_BASE_URL =
-    "http://127.0.0.1:8000";
-
-
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 /* ============================================================
-   QUALITY METRICS
+   AUTH
+============================================================ */
+
+function getToken() {
+    return localStorage.getItem("access_token");
+}
+
+function authHeaders(includeJson = false) {
+
+    const headers = {
+        "Accept": "application/json"
+    };
+
+    const token = getToken();
+
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    if (includeJson) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    return headers;
+}
+
+function requireToken() {
+
+    const token = getToken();
+
+    if (!token) {
+        window.location.href = "index.html";
+        return false;
+    }
+
+    return true;
+}
+
+/* ============================================================
+   USER INFORMATION
+============================================================ */
+
+function getStoredUser() {
+
+    try {
+
+        const raw = localStorage.getItem("user");
+
+        if (!raw) {
+            return {};
+        }
+
+        return typeof raw === "string"
+            ? JSON.parse(raw)
+            : raw;
+
+    } catch (error) {
+
+        console.error("User information error:", error);
+        return {};
+
+    }
+}
+
+function loadUserInformation() {
+
+    const user = getStoredUser();
+
+    const name =
+        user.full_name ||
+        user.name ||
+        user.username ||
+        "User";
+
+    const role =
+        user.role ||
+        "USER";
+
+    const avatar =
+        name
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(part => part.charAt(0).toUpperCase())
+            .join("") || "U";
+
+    document.getElementById("userName").textContent = name;
+    document.getElementById("userRole").textContent = role;
+    document.getElementById("userAvatar").textContent = avatar;
+
+    document.getElementById("analyticsTitle").textContent =
+        `${name}'s Analytics & Reports`;
+
+    document.getElementById("topPageTitle").textContent =
+        "My Analytics & Reports";
+
+    document.title =
+        `BugFlow | ${name}'s Analytics & Reports`;
+}
+
+/* ============================================================
+   STATUS MESSAGE
+============================================================ */
+
+function showStatus(message) {
+
+    const box = document.getElementById("m3StatusMessage");
+
+    if (!box) {
+        return;
+    }
+
+    box.textContent = message;
+    box.style.display = "block";
+}
+
+function hideStatus() {
+
+    const box = document.getElementById("m3StatusMessage");
+
+    if (box) {
+        box.style.display = "none";
+    }
+}
+
+/* ============================================================
+   LOAD QUALITY METRICS
 ============================================================ */
 
 async function loadQualityMetrics() {
 
     try {
 
-        const token =
-            localStorage.getItem("access_token");
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/analytics/my/quality-metrics`,
+            {
+                method: "GET",
+                headers: authHeaders()
+            }
+        );
 
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/analytics/quality-metrics`,
-                {
-                    method: "GET",
-
-                    headers: {
-                        "Accept":
-                            "application/json",
-
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
+        const data = await response.json();
 
         if (!response.ok) {
-
             throw new Error(
-                "Failed to load quality metrics"
+                data.detail || "Failed to load personal quality metrics."
             );
-
         }
 
+        document.getElementById("m3TotalBugs").textContent =
+            data.total_bugs ?? 0;
 
-        const data =
-            await response.json();
+        document.getElementById("m3FixRate").textContent =
+            `${data.fix_rate_percentage ?? 0}%`;
 
+        document.getElementById("m3MTTR").textContent =
+            `${data.mean_time_to_resolution_hours ?? 0} hrs`;
 
-        document.getElementById(
-            "m3TotalBugs"
-        ).textContent =
-            data.total_bugs;
+        document.getElementById("m3Leakage").textContent =
+            `${data.defect_leakage_rate_percentage ?? 0}%`;
 
+        document.getElementById("m3Critical").textContent =
+            data.open_critical_bugs ?? 0;
 
-        document.getElementById(
-            "m3FixRate"
-        ).textContent =
-            `${data.fix_rate_percentage}%`;
+        document.getElementById("m3Health").textContent =
+            `${data.backlog_health_score ?? 0}/100`;
 
-
-        document.getElementById(
-            "m3MTTR"
-        ).textContent =
-            `${data.mean_time_to_resolution_hours} hrs`;
-
-
-        document.getElementById(
-            "m3Leakage"
-        ).textContent =
-            `${data.defect_leakage_rate_percentage}%`;
-
-
-        document.getElementById(
-            "m3Critical"
-        ).textContent =
-            data.open_critical_bugs;
-
-
-        document.getElementById(
-            "m3Health"
-        ).textContent =
-            `${data.backlog_health_score}/100`;
-
+        hideStatus();
 
     } catch (error) {
 
-        console.error(
-            "Milestone 3 metrics error:",
-            error
-        );
+        console.error("Personal quality metrics error:", error);
+        showStatus(error.message || "Unable to load personal analytics.");
 
     }
-
 }
-
-
 
 /* ============================================================
    DEFECT TREND CHART
@@ -1390,341 +1445,349 @@ async function loadDefectTrendChart() {
 
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/analytics/defect-trends`
-            );
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/analytics/my/defect-trends`,
+            {
+                method: "GET",
+                headers: authHeaders()
+            }
+        );
 
+        const data = await response.json();
 
         if (!response.ok) {
-
             throw new Error(
-                "Failed to load defect trends"
+                data.detail || "Failed to load personal defect trends."
             );
-
         }
 
+        const trends = Array.isArray(data.trends)
+            ? data.trends
+            : [];
 
-        const data =
-            await response.json();
+        const dates = trends.map(item => item.date);
 
+        const reportedBugs = trends.map(
+            item => item.new_bugs ?? 0
+        );
 
-        const dates =
-            data.trends.map(
-                item => item.date
-            );
+        const resolvedBugs = trends.map(
+            item => item.resolved_bugs ?? 0
+        );
 
-
-        const newBugs =
-            data.trends.map(
-                item => item.new_bugs
-            );
-
-
-        const resolvedBugs =
-            data.trends.map(
-                item => item.resolved_bugs
-            );
-
-
-        const traces = [
-
-            {
-                x: dates,
-                y: newBugs,
-                name: "New Bugs",
-                mode: "lines+markers",
-
-                line: {
-                    color: "red"
-                }
+        const reportedTrace = {
+            x: dates,
+            y: reportedBugs,
+            name: "Reported Bugs",
+            mode: "lines+markers",
+            line: {
+                color: "#ff604f",
+                width: 3,
+                shape: "spline"
             },
+            marker: {
+                size: 7,
+                color: "#ff604f"
+            },
+            hovertemplate:
+                "<b>%{x}</b><br>" +
+                "Reported Bugs: %{y}" +
+                "<extra></extra>"
+        };
 
-            {
-                x: dates,
-                y: resolvedBugs,
-                name: "Resolved Bugs",
-                mode: "lines+markers",
-
-                line: {
-                    color: "green"
-                }
-            }
-
-        ];
-
+        const resolvedTrace = {
+            x: dates,
+            y: resolvedBugs,
+            name: "Resolved Bugs",
+            mode: "lines+markers",
+            line: {
+                color: "#18b7a0",
+                width: 3,
+                shape: "spline"
+            },
+            marker: {
+                size: 7,
+                color: "#18b7a0"
+            },
+            hovertemplate:
+                "<b>%{x}</b><br>" +
+                "Resolved Bugs: %{y}" +
+                "<extra></extra>"
+        };
 
         const layout = {
-
-            title:
-                "Defect Trend - Last 14 Days",
+            title: {
+                text: "Defect Trends — Last 14 Days",
+                font: {
+                    size: 16,
+                    color: "#f8fafc"
+                },
+                x: 0.02,
+                xanchor: "left"
+            },
 
             xaxis: {
-                title: "Date"
+                title: {
+                    text: "Timeline",
+                    font: { color: "#94a3b8" }
+                },
+                type: "category",
+                showgrid: false,
+                tickfont: { color: "#94a3b8" },
+                automargin: true
             },
 
             yaxis: {
-                title: "Number of Bugs",
-                rangemode: "tozero"
+                title: {
+                    text: "Defect Count",
+                    font: { color: "#94a3b8" }
+                },
+                rangemode: "tozero",
+                dtick: 1,
+                zeroline: true,
+                gridcolor: "#334155",
+                tickfont: { color: "#94a3b8" }
             },
 
-            hovermode:
-                "x unified",
+            hovermode: "x unified",
+
+            legend: {
+                orientation: "h",
+                x: 0.5,
+                xanchor: "center",
+                y: 1.08,
+                yanchor: "bottom",
+                font: { color: "#cbd5e1" }
+            },
 
             margin: {
-                t: 50,
+                t: 75,
                 r: 30,
-                b: 60,
-                l: 60
+                b: 65,
+                l: 65
+            },
+
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+
+            font: {
+                family: "Inter, Segoe UI, Arial, sans-serif",
+                size: 12,
+                color: "#cbd5e1"
             }
-
         };
-
 
         Plotly.newPlot(
             "defectTrendChart",
-            traces,
+            [reportedTrace, resolvedTrace],
             layout,
             {
-                responsive: true
+                responsive: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: [
+                    "lasso2d",
+                    "select2d"
+                ]
             }
         );
 
-
     } catch (error) {
 
-        console.error(
-            "Defect trend chart error:",
-            error
-        );
+        console.error("Personal defect trend chart error:", error);
 
     }
-
 }
 
-
-
 /* ============================================================
-   SEVERITY DONUT CHART
+   PERSONAL PLOTLY DATA
 ============================================================ */
 
-async function loadSeverityDonutChart() {
+async function loadPersonalChartData() {
 
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/analytics/plotly-charts`
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Failed to load chart data"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        const severity =
-            data.severity_distribution;
-
-
-        const values = [
-
-            severity.CRITICAL,
-            severity.MAJOR,
-            severity.MINOR,
-            severity.TRIVIAL
-
-        ];
-
-
-        const labels = [
-
-            "CRITICAL",
-            "MAJOR",
-            "MINOR",
-            "TRIVIAL"
-
-        ];
-
-
-        const trace = {
-
-            labels: labels,
-
-            values: values,
-
-            type: "pie",
-
-            hole: 0.55,
-
-            textinfo:
-                "label+percent",
-
-            hoverinfo:
-                "label+value+percent"
-
-        };
-
-
-        const layout = {
-
-            title:
-                "Bugs by Severity",
-
-            showlegend: true,
-
-            margin: {
-                t: 50,
-                r: 20,
-                b: 20,
-                l: 20
-            }
-
-        };
-
-
-        Plotly.newPlot(
-            "severityDonutChart",
-            [trace],
-            layout,
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/analytics/my/plotly-charts`,
             {
-                responsive: true
+                method: "GET",
+                headers: authHeaders()
             }
         );
 
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Failed to load personal chart data."
+            );
+        }
+
+        renderSeverityDonut(data.severity_distribution || {});
+        renderWorkflowPipeline(data.workflow_pipeline || {});
 
     } catch (error) {
 
-        console.error(
-            "Severity donut chart error:",
-            error
-        );
+        console.error("Personal chart data error:", error);
 
     }
-
 }
 
+/* ============================================================
+   SEVERITY DONUT
+============================================================ */
 
+function renderSeverityDonut(severity) {
+
+    const labels = [
+        "CRITICAL",
+        "MAJOR",
+        "MINOR",
+        "TRIVIAL"
+    ];
+
+    const values = labels.map(
+        label => Number(severity[label] || 0)
+    );
+
+    const trace = {
+        labels,
+        values,
+        type: "pie",
+        hole: 0.55,
+        textinfo: "label+percent",
+        hoverinfo: "label+value+percent",
+        textfont: {
+            color: "#f8fafc"
+        }
+    };
+
+    const layout = {
+        title: {
+            text: "Bugs by Severity",
+            font: {
+                size: 16,
+                color: "#f8fafc"
+            }
+        },
+
+        showlegend: true,
+
+        legend: {
+            font: {
+                color: "#cbd5e1"
+            }
+        },
+
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
+
+        margin: {
+            t: 50,
+            r: 20,
+            b: 20,
+            l: 20
+        },
+
+        font: {
+            color: "#cbd5e1"
+        }
+    };
+
+    Plotly.newPlot(
+        "severityDonutChart",
+        [trace],
+        layout,
+        {
+            responsive: true,
+            displaylogo: false
+        }
+    );
+}
 
 /* ============================================================
    WORKFLOW PIPELINE
 ============================================================ */
 
-async function loadWorkflowPipelineChart() {
+function renderWorkflowPipeline(workflow) {
 
-    try {
+    const statuses = [
+        "REPORTED",
+        "IN_PROGRESS",
+        "QA_VERIFICATION",
+        "RESOLVED"
+    ];
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/analytics/plotly-charts`
-            );
+    const counts = statuses.map(
+        status => Number(workflow[status] || 0)
+    );
 
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Failed to load workflow data"
-            );
-
+    const trace = {
+        x: statuses,
+        y: counts,
+        type: "bar",
+        text: counts.map(String),
+        textposition: "auto",
+        textfont: {
+            color: "#f8fafc"
         }
+    };
 
-
-        const data =
-            await response.json();
-
-
-        const workflow =
-            data.workflow_pipeline;
-
-
-        const statuses = [
-
-            "REPORTED",
-            "IN_PROGRESS",
-            "QA_VERIFICATION",
-            "RESOLVED"
-
-        ];
-
-
-        const counts =
-            statuses.map(
-                status =>
-                    workflow[status] || 0
-            );
-
-
-        const trace = {
-
-            x: statuses,
-
-            y: counts,
-
-            type: "bar",
-
-            text:
-                counts.map(String),
-
-            textposition:
-                "auto"
-
-        };
-
-
-        const layout = {
-
-            title:
-                "Workflow Pipeline",
-
-            xaxis: {
-                title: "Status"
-            },
-
-            yaxis: {
-                title: "Number of Bugs",
-                rangemode: "tozero"
-            },
-
-            margin: {
-                t: 50,
-                r: 20,
-                b: 70,
-                l: 50
+    const layout = {
+        title: {
+            text: "Workflow Pipeline",
+            font: {
+                size: 16,
+                color: "#f8fafc"
             }
+        },
 
-        };
-
-
-        Plotly.newPlot(
-            "workflowPipelineChart",
-            [trace],
-            layout,
-            {
-                responsive: true
+        xaxis: {
+            title: {
+                text: "Status",
+                font: { color: "#94a3b8" }
+            },
+            tickfont: {
+                color: "#94a3b8"
             }
-        );
+        },
 
+        yaxis: {
+            title: {
+                text: "Number of Bugs",
+                font: { color: "#94a3b8" }
+            },
+            rangemode: "tozero",
+            gridcolor: "#334155",
+            tickfont: {
+                color: "#94a3b8"
+            }
+        },
 
-    } catch (error) {
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
 
-        console.error(
-            "Workflow pipeline chart error:",
-            error
-        );
+        margin: {
+            t: 50,
+            r: 20,
+            b: 70,
+            l: 50
+        },
 
-    }
+        font: {
+            color: "#cbd5e1"
+        }
+    };
 
+    Plotly.newPlot(
+        "workflowPipelineChart",
+        [trace],
+        layout,
+        {
+            responsive: true,
+            displaylogo: false
+        }
+    );
 }
-
-
 
 /* ============================================================
    REST API EXPLORER
@@ -1733,121 +1796,59 @@ async function loadWorkflowPipelineChart() {
 async function runM3ApiExplorer() {
 
     const selectedApi =
-        document.getElementById(
-            "m3ApiSelect"
-        ).value;
-
+        document.getElementById("m3ApiSelect").value;
 
     const responseBox =
-        document.getElementById(
-            "m3ApiResponse"
-        );
-
+        document.getElementById("m3ApiResponse");
 
     let endpoint = "";
 
-
-    if (
-        selectedApi ===
-        "quality-metrics"
-    ) {
-
+    if (selectedApi === "quality-metrics") {
         endpoint =
-            "/api/v1/analytics/quality-metrics";
-
+            "/api/v1/analytics/my/quality-metrics";
     }
 
-    else if (
-        selectedApi ===
-        "defect-trends"
-    ) {
-
+    else if (selectedApi === "defect-trends") {
         endpoint =
-            "/api/v1/analytics/defect-trends";
-
+            "/api/v1/analytics/my/defect-trends";
     }
 
-    else if (
-        selectedApi ===
-        "plotly-charts"
-    ) {
-
+    else if (selectedApi === "plotly-charts") {
         endpoint =
-            "/api/v1/analytics/plotly-charts";
-
+            "/api/v1/analytics/my/plotly-charts";
     }
 
-    else if (
-        selectedApi ===
-        "issues"
-    ) {
-
+    else if (selectedApi === "issues") {
         endpoint =
-            "/api/v1/issues/";
-
+            "/api/v1/issues/my";
     }
 
-
-    responseBox.textContent =
-        "Loading...";
-
+    responseBox.textContent = "Loading...";
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "access_token"
-            );
+        const response = await fetch(
+            `${API_BASE_URL}${endpoint}`,
+            {
+                method: "GET",
+                headers: authHeaders()
+            }
+        );
 
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}${endpoint}`,
-                {
-                    method: "GET",
-
-                    headers: {
-
-                        "Accept":
-                            "application/json",
-
-                        "Authorization":
-                            `Bearer ${token}`
-
-                    }
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         responseBox.textContent =
-            JSON.stringify(
-                data,
-                null,
-                2
-            );
-
+            JSON.stringify(data, null, 2);
 
     } catch (error) {
 
-        console.error(
-            "API Explorer error:",
-            error
-        );
-
+        console.error("API Explorer error:", error);
 
         responseBox.textContent =
             "Unable to connect to the BugFlow API.";
 
     }
-
 }
-
-
 
 /* ============================================================
    GIT WEBHOOK
@@ -1856,94 +1857,55 @@ async function runM3ApiExplorer() {
 async function simulateGitWebhook() {
 
     const responseBox =
-        document.getElementById(
-            "m3WebhookResponse"
-        );
-
+        document.getElementById("m3WebhookResponse");
 
     const issueSelect =
-        document.getElementById(
-            "webhookIssueSelect"
-        );
-
+        document.getElementById("webhookIssueSelect");
 
     const selectedIssueId =
         issueSelect.value;
 
-
     if (!selectedIssueId) {
 
         responseBox.textContent =
-            "Please select a bug first.";
+            "Please select one of your issues first.";
 
         return;
-
     }
-
 
     responseBox.textContent =
         `Sending simulated Git commit: fixes #${selectedIssueId}...`;
 
-
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/webhooks/git`,
-                {
-                    method: "POST",
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/webhooks/my/git`,
+            {
+                method: "POST",
+                headers: authHeaders(true),
+                body: JSON.stringify({
+                    message:
+                        `Merge PR #45: fixes #${selectedIssueId}`,
+                    commit_hash:
+                        "b8c3d91"
+                })
+            }
+        );
 
-                    headers: {
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            message:
-                                `Merge PR #45: fixes #${selectedIssueId}`,
-
-                            commit_hash:
-                                "b8c3d91"
-
-                        })
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         responseBox.textContent =
-            JSON.stringify(
-                data,
-                null,
-                2
-            );
-
+            JSON.stringify(data, null, 2);
 
     } catch (error) {
 
-        console.error(
-            "Git webhook error:",
-            error
-        );
-
+        console.error("Git webhook error:", error);
 
         responseBox.textContent =
             "Unable to connect to the BugFlow webhook API.";
 
     }
-
 }
-
-
 
 /* ============================================================
    PDF EXPORT
@@ -1953,90 +1915,51 @@ async function exportQualityPDF() {
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "access_token"
-            );
-
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/export/pdf`,
-                {
-                    method: "GET",
-
-                    headers: {
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/export/my/pdf`,
+            {
+                method: "GET",
+                headers: authHeaders()
+            }
+        );
 
         if (!response.ok) {
 
-            throw new Error(
-                "PDF export failed"
-            );
+            let message = "PDF export failed.";
 
+            try {
+                const data = await response.json();
+                message = data.detail || message;
+            } catch (_) {}
+
+            throw new Error(message);
         }
 
-
-        const blob =
-            await response.blob();
-
+        const blob = await response.blob();
 
         const url =
-            window.URL.createObjectURL(
-                blob
-            );
-
+            window.URL.createObjectURL(blob);
 
         const link =
             document.createElement("a");
 
+        link.href = url;
+        link.download = "bugflow_my_quality_report.pdf";
 
-        link.href =
-            url;
-
-
-        link.download =
-            "bugflow_quality_report.pdf";
-
-
-        document.body.appendChild(
-            link
-        );
-
-
+        document.body.appendChild(link);
         link.click();
-
-
         link.remove();
 
-
-        window.URL.revokeObjectURL(
-            url
-        );
-
+        window.URL.revokeObjectURL(url);
 
     } catch (error) {
 
-        console.error(
-            "PDF export error:",
-            error
-        );
+        console.error("PDF export error:", error);
 
-
-        alert(
-            "Unable to export PDF."
-        );
+        alert(error.message || "Unable to export PDF.");
 
     }
-
 }
-
-
 
 /* ============================================================
    CSV EXPORT
@@ -2046,155 +1969,85 @@ async function exportQualityCSV() {
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "access_token"
-            );
-
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/export/csv`,
-                {
-                    method: "GET",
-
-                    headers: {
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/export/my/csv`,
+            {
+                method: "GET",
+                headers: authHeaders()
+            }
+        );
 
         if (!response.ok) {
 
-            throw new Error(
-                "CSV export failed"
-            );
+            let message = "CSV export failed.";
 
+            try {
+                const data = await response.json();
+                message = data.detail || message;
+            } catch (_) {}
+
+            throw new Error(message);
         }
 
-
-        const blob =
-            await response.blob();
-
+        const blob = await response.blob();
 
         const url =
-            window.URL.createObjectURL(
-                blob
-            );
-
+            window.URL.createObjectURL(blob);
 
         const link =
             document.createElement("a");
 
+        link.href = url;
+        link.download = "bugflow_my_issues.csv";
 
-        link.href =
-            url;
-
-
-        link.download =
-            "bugflow_issues.csv";
-
-
-        document.body.appendChild(
-            link
-        );
-
-
+        document.body.appendChild(link);
         link.click();
-
-
         link.remove();
 
-
-        window.URL.revokeObjectURL(
-            url
-        );
-
+        window.URL.revokeObjectURL(url);
 
     } catch (error) {
 
-        console.error(
-            "CSV export error:",
-            error
-        );
+        console.error("CSV export error:", error);
 
-
-        alert(
-            "Unable to export CSV."
-        );
+        alert(error.message || "Unable to export CSV.");
 
     }
-
 }
 
-
-
 /* ============================================================
-   LOAD WEBHOOK ISSUES
+   LOAD PERSONAL WEBHOOK ISSUES
 ============================================================ */
 
 async function loadWebhookIssues() {
 
     const issueSelect =
-        document.getElementById(
-            "webhookIssueSelect"
-        );
-
+        document.getElementById("webhookIssueSelect");
 
     if (!issueSelect) {
-
         return;
-
     }
-
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "access_token"
-            );
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/webhooks/my/issues`,
+            {
+                method: "GET",
+                headers: authHeaders()
+            }
+        );
 
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/webhooks/issues`,
-                {
-                    method: "GET",
-
-                    headers: {
-
-                        "Accept":
-                            "application/json",
-
-                        "Authorization":
-                            `Bearer ${token}`
-
-                    }
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         if (!response.ok) {
 
             throw new Error(
-                data.detail ||
-                "Unable to load issues."
+                data.detail || "Unable to load your issues."
             );
-
         }
 
-
-        issueSelect.innerHTML =
-            "";
-
+        issueSelect.innerHTML = "";
 
         const issues =
             Array.isArray(data)
@@ -2203,52 +2056,33 @@ async function loadWebhookIssues() {
                   data.issues ||
                   [];
 
-
         if (issues.length === 0) {
 
             issueSelect.innerHTML =
-                '<option value="">No bugs found</option>';
+                '<option value="">No issues found</option>';
 
             return;
-
         }
 
+        issues.forEach(function(issue) {
 
-        issues.forEach(
-            function(issue) {
+            const option =
+                document.createElement("option");
 
-                const option =
-                    document.createElement(
-                        "option"
-                    );
+            option.value = issue.id;
 
+            option.textContent =
+                `Bug #${issue.id} - ${
+                    issue.title || "Untitled Issue"
+                } [${
+                    String(
+                        issue.status || "UNKNOWN"
+                    ).replace(/_/g, " ")
+                }]`;
 
-                option.value =
-                    issue.id;
+            issueSelect.appendChild(option);
 
-
-                option.textContent =
-                    `Bug #${issue.id} - ${
-                        issue.title ||
-                        "Untitled Issue"
-                    } [${
-                        String(
-                            issue.status ||
-                            "UNKNOWN"
-                        ).replace(
-                            /_/g,
-                            " "
-                        )
-                    }]`;
-
-
-                issueSelect.appendChild(
-                    option
-                );
-
-            }
-        );
-
+        });
 
     } catch (error) {
 
@@ -2257,54 +2091,33 @@ async function loadWebhookIssues() {
             error
         );
 
-
         issueSelect.innerHTML =
-            '<option value="">Unable to load bugs</option>';
-
+            '<option value="">Unable to load your issues</option>';
     }
-
 }
-
-
 
 /* ============================================================
    LOGOUT
 ============================================================ */
 
-const logoutLink =
-    document.getElementById(
-        "logoutLink"
-    );
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
+if (logoutBtn) {
 
-if (logoutLink) {
-
-    logoutLink.addEventListener(
+    logoutBtn.addEventListener(
         "click",
         function(event) {
 
             event.preventDefault();
 
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("user");
 
-            localStorage.removeItem(
-                "access_token"
-            );
-
-
-            localStorage.removeItem(
-                "user"
-            );
-
-
-            window.location.href =
-                "index.html";
-
+            window.location.href = "index.html";
         }
     );
-
 }
-
-
 
 /* ============================================================
    PAGE LOAD
@@ -2314,25 +2127,25 @@ document.addEventListener(
     "DOMContentLoaded",
     function() {
 
+        if (!requireToken()) {
+            return;
+        }
+
+        loadUserInformation();
+
         loadQualityMetrics();
 
         loadDefectTrendChart();
 
-        loadSeverityDonutChart();
-
-        loadWorkflowPipelineChart();
+        loadPersonalChartData();
 
         loadWebhookIssues();
 
     }
 );
-
 </script>
 
-
-<script src="theme.js"></script>
-
+<script src="admin-notifications.js"></script>
 
 </body>
-
 </html>

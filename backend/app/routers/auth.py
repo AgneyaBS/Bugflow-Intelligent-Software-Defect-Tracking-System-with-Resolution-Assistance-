@@ -188,3 +188,20 @@ def login_user(
         "token_type": "bearer",
         "user": user
     }
+    # ============================================================
+# GET CURRENT LOGGED-IN USER
+# ============================================================
+
+@router.get(
+    "/me",
+    response_model=UserResponse
+)
+def get_my_profile(
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Return the profile details of the currently
+    authenticated BugFlow user.
+    """
+
+    return current_user

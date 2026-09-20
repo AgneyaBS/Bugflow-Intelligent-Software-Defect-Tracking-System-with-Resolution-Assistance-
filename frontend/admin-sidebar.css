@@ -1,0 +1,481 @@
+/* ============================================================
+   BUGFLOW ADMIN SIDEBAR
+   COMMON STYLE FOR ALL ADMIN PAGES
+============================================================ */
+
+.sidebar {
+    width: 280px !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+
+    background: #ffffff !important;
+    color: #64748b !important;
+
+    border-right: 1px solid #e5e7eb !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    box-sizing: border-box !important;
+
+    font-family: Inter, Arial, sans-serif !important;
+
+    z-index: 1000 !important;
+}
+
+
+/* ============================================================
+   SCROLLBAR
+============================================================ */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+
+/* ============================================================
+   BRAND / LOGO
+============================================================ */
+
+.sidebar .brand,
+.sidebar .logo-section {
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 12px !important;
+
+    padding: 24px 24px 18px 24px !important;
+
+    background: #ffffff !important;
+
+    box-sizing: border-box !important;
+
+    flex-shrink: 0 !important;
+}
+
+
+/* Logo purple box */
+
+.sidebar .brand-logo,
+.sidebar .logo-icon {
+    width: 48px !important;
+    height: 48px !important;
+
+    min-width: 48px !important;
+    min-height: 48px !important;
+
+    border-radius: 12px !important;
+
+    background: #4f46e5 !important;
+
+    color: #ffffff !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    position: static !important;
+
+    flex-shrink: 0 !important;
+}
+
+
+/* Logo icon */
+
+.sidebar .brand-logo i,
+.sidebar .logo-icon i {
+    position: static !important;
+
+    color: #ffffff !important;
+
+    font-size: 22px !important;
+
+    margin: 0 !important;
+}
+
+
+/* BugFlow title */
+
+.sidebar .brand h2,
+.sidebar .logo-section h2 {
+    margin: 0 !important;
+
+    color: #111827 !important;
+
+    font-size: 22px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.2 !important;
+}
+
+
+/* Subtitle */
+
+.sidebar .brand span,
+.sidebar .logo-section span {
+    display: block !important;
+
+    margin-top: 3px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 13px !important;
+
+    font-weight: 400 !important;
+}
+
+
+/* ============================================================
+   BACK BUTTON
+============================================================ */
+
+.sidebar .sidebar-back-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: auto !important;
+
+    min-width: 88px !important;
+
+    height: 38px !important;
+
+    margin: 20px 16px 28px auto !important;
+
+    padding: 0 14px !important;
+
+    border: none !important;
+
+    border-radius: 9px !important;
+
+    background: #f1f5f9 !important;
+
+    color: #334155 !important;
+
+    font-family: Inter, Arial, sans-serif !important;
+
+    font-size: 15px !important;
+
+    font-weight: 500 !important;
+
+    cursor: pointer !important;
+
+    box-shadow: none !important;
+}
+
+.sidebar .sidebar-back-button i {
+    color: #334155 !important;
+
+    font-size: 14px !important;
+
+    margin-right: 7px !important;
+}
+
+.sidebar .sidebar-back-button:hover {
+    background: #e2e8f0 !important;
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+.sidebar nav {
+    width: 100% !important;
+
+    padding: 0 16px !important;
+
+    box-sizing: border-box !important;
+
+    flex-shrink: 0 !important;
+}
+
+
+/* Section heading */
+
+.sidebar .nav-heading {
+    margin: 0 !important;
+
+    padding: 0 13px !important;
+
+    margin-bottom: 12px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 11px !important;
+
+    font-weight: 600 !important;
+
+    letter-spacing: 1.2px !important;
+
+    text-transform: uppercase !important;
+}
+
+
+/* Second heading */
+
+.sidebar .nav-heading.second {
+    margin-top: 28px !important;
+}
+
+
+/* ============================================================
+   NAV LINKS
+============================================================ */
+
+.sidebar .nav-link {
+    width: 100% !important;
+
+    min-height: 48px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 14px !important;
+
+    padding: 0 16px !important;
+
+    margin: 3px 0 !important;
+
+    box-sizing: border-box !important;
+
+    border-radius: 10px !important;
+
+    background: transparent !important;
+
+    color: #64748b !important;
+
+    text-decoration: none !important;
+
+    font-family: Inter, Arial, sans-serif !important;
+
+    font-size: 15px !important;
+
+    font-weight: 400 !important;
+
+    line-height: 1.25 !important;
+
+    transition: all 0.2s ease !important;
+}
+
+
+/* Icons */
+
+.sidebar .nav-link i {
+    width: 20px !important;
+
+    min-width: 20px !important;
+
+    text-align: center !important;
+
+    color: #64748b !important;
+
+    font-size: 16px !important;
+
+    margin: 0 !important;
+}
+
+
+/* Hover */
+
+.sidebar .nav-link:hover {
+    background: #f1f5f9 !important;
+
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link:hover i {
+    color: #4f46e5 !important;
+}
+
+
+/* ============================================================
+   ACTIVE PAGE
+============================================================ */
+
+.sidebar .nav-link.active {
+    background: #eeeeff !important;
+
+    color: #4f46e5 !important;
+
+    font-weight: 500 !important;
+}
+
+.sidebar .nav-link.active i {
+    color: #4f46e5 !important;
+}
+
+
+/* ============================================================
+   NOTIFICATION BADGE
+============================================================ */
+
+.sidebar .badge {
+    margin-left: auto !important;
+
+    width: 24px !important;
+    height: 24px !important;
+
+    min-width: 24px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    background: #4f46e5 !important;
+
+    color: #ffffff !important;
+
+    font-size: 12px !important;
+
+    font-weight: 600 !important;
+}
+
+
+/* ============================================================
+   SIDEBAR BOTTOM
+============================================================ */
+
+.sidebar .sidebar-bottom {
+    width: 100% !important;
+
+    margin-top: auto !important;
+
+    padding: 16px !important;
+
+    box-sizing: border-box !important;
+
+    border-top: 1px solid #e5e7eb !important;
+
+    background: #ffffff !important;
+
+    flex-shrink: 0 !important;
+}
+
+
+/* ============================================================
+   SYSTEM SUPPORT
+============================================================ */
+
+.sidebar .support-box {
+    width: 100% !important;
+
+    display: block !important;
+
+    box-sizing: border-box !important;
+
+    margin: 0 0 16px 0 !important;
+
+    padding: 16px !important;
+
+    border-radius: 12px !important;
+
+    background: #f8fafc !important;
+
+    color: #111827 !important;
+
+    text-decoration: none !important;
+}
+
+.sidebar .support-box strong {
+    display: block !important;
+
+    color: #111827 !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+}
+
+.sidebar .support-box strong i {
+    margin-right: 6px !important;
+
+    color: #64748b !important;
+}
+
+.sidebar .support-box small {
+    display: block !important;
+
+    margin-top: 6px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 11px !important;
+}
+
+
+/* Active System Support */
+
+.sidebar .support-box.active {
+    background: #eeeeff !important;
+}
+
+.sidebar .support-box.active strong,
+.sidebar .support-box.active strong i {
+    color: #4f46e5 !important;
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+.sidebar .logout {
+    background: transparent !important;
+
+    color: #64748b !important;
+}
+
+.sidebar .logout i {
+    color: #64748b !important;
+}
+
+.sidebar .logout:hover {
+    background: #f1f5f9 !important;
+
+    color: #4f46e5 !important;
+}
+
+.sidebar .logout:hover i {
+    color: #4f46e5 !important;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 260px !important;
+    }
+
+}

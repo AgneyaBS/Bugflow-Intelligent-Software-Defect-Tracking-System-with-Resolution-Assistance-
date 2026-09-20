@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Optional
 from difflib import SequenceMatcher
 import re
+
 from app.services.developer_matcher import recommend_developers
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -25,7 +26,6 @@ from app.models.audit_log import AuditLog
 from app.models.notification import Notification
 from app.services.notification_manager import notification_manager
 
-
 from app.schemas.issue import (
     IssueCreate,
     IssueResponse,
@@ -33,7 +33,10 @@ from app.schemas.issue import (
     IssueAssignment,
     IssueUpdate,
 )
+
 from pydantic import BaseModel
+
+
 # ============================================================
 # TRIAGE RECOMMENDATION REQUEST
 # ============================================================
@@ -41,6 +44,7 @@ from pydantic import BaseModel
 class TriageRecommendationRequest(BaseModel):
     title: str
     description: str
+
 
 # ============================================================
 # ROUTER
@@ -232,9 +236,7 @@ def calculate_priority_score(
 
 def calculate_priority(
     priority_score: int
-    
 ):
-    
     """
     Convert priority score into priority level.
 
@@ -443,13 +445,14 @@ async def create_issue(
 
     # --------------------------------------------------------
     # Save issue
-    #    --------------------------------------------------------
+    # --------------------------------------------------------
 
     db.add(new_issue)
 
     db.commit()
 
     db.refresh(new_issue)
+
     # --------------------------------------------------------
     # Create ADMIN notifications
     # --------------------------------------------------------
@@ -481,7 +484,7 @@ async def create_issue(
 
         db.add(notification)
 
-    # Send real-time notification to connected Admin
+        # Send real-time notification to connected Admin
         await notification_manager.send_to_user(
             admin.id,
             {
@@ -498,12 +501,10 @@ async def create_issue(
             }
         )
 
-
     db.commit()
 
     return new_issue
 
-    
 
 # ============================================================
 # GET MY ISSUES
@@ -992,6 +993,7 @@ def update_issue_status(
         current_status == IssueStatus.RESOLVED
         and new_status == IssueStatus.CLOSED
     ):
+
         if current_user.role not in [
             "ADMIN",
             "TRIAGER"
@@ -1006,11 +1008,6 @@ def update_issue_status(
             )
 
     # --------------------------------------------------------
-    # Update status
-    # --------------------------------------------------------
-
-    issue.status = new_status
-            # --------------------------------------------------------
     # Update status
     # --------------------------------------------------------
 
@@ -1039,20 +1036,21 @@ def update_issue_status(
 
     db.add(audit_log)
 
-# --------------------------------------------------------
-# Save assignment + notification
-# --------------------------------------------------------
+    # --------------------------------------------------------
+    # Save status change
+    # --------------------------------------------------------
 
     db.commit()
 
     db.refresh(issue)
-    
+
     return issue
 
 
 # ============================================================
 # ASSIGN ISSUE
 # ============================================================
+
 @router.patch(
     "/{issue_id}/assign",
     response_model=IssueResponse
@@ -1082,6 +1080,7 @@ async def assign_issue(
     )
 
     if not issue:
+
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Issue not found"
@@ -1092,6 +1091,7 @@ async def assign_issue(
     # --------------------------------------------------------
 
     if current_user.role != "ADMIN":
+
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only admins can assign issues"
@@ -1110,6 +1110,7 @@ async def assign_issue(
     )
 
     if not assignee:
+
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Assignee not found"
@@ -1120,6 +1121,7 @@ async def assign_issue(
     # --------------------------------------------------------
 
     if not assignee.is_active:
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -1133,6 +1135,7 @@ async def assign_issue(
     # --------------------------------------------------------
 
     if assignee.role != "DEVELOPER":
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -1148,6 +1151,7 @@ async def assign_issue(
     old_assignee_id = issue.assignee_id
 
     if old_assignee_id == assignee.id:
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -1181,7 +1185,7 @@ async def assign_issue(
 
     db.add(audit_log)
 
-        # --------------------------------------------------------
+    # --------------------------------------------------------
     # Create notification for assigned developer
     # --------------------------------------------------------
 
@@ -1200,23 +1204,49 @@ async def assign_issue(
     )
 
     db.add(notification)
+
     # --------------------------------------------------------
-    # Send real-time notification
+    # Flush assignment and notification
+    # --------------------------------------------------------
+
+    db.flush()
+
+    # --------------------------------------------------------
+    # Prepare real-time notification payload
+    # --------------------------------------------------------
+
+    notification_payload = {
+        "type": "ISSUE_ASSIGNED",
+        "notification_id": notification.id,
+        "issue_id": issue.id,
+        "title": notification.title,
+        "message": notification.message,
+        "is_read": False
+    }
+
+    # --------------------------------------------------------
+    # Commit assignment, audit log and notification
+    # --------------------------------------------------------
+
+    db.commit()
+
+    # --------------------------------------------------------
+    # Refresh issue from PostgreSQL
+    # --------------------------------------------------------
+
+    db.refresh(issue)
+
+    # --------------------------------------------------------
+    # Send real-time notification after successful commit
     # --------------------------------------------------------
 
     await notification_manager.send_to_user(
         assignee.id,
-        {
-            "type": "ISSUE_ASSIGNED",
-            "notification_id": notification.id,
-            "issue_id": issue.id,
-            "title": notification.title,
-            "message": notification.message,
-            "is_read": False
-        }
+        notification_payload
     )
 
     return issue
+
 
 # ============================================================
 # UPDATE ISSUE
@@ -1489,6 +1519,8 @@ def update_issue(
     db.refresh(issue)
 
     return issue
+
+
 # ============================================================
 # SMART DEVELOPER MATCHER / TRIAGE RECOMMENDATION
 # ============================================================

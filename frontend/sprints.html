@@ -10,10 +10,19 @@
 
     <title>Sprints | BugFlow</title>
 
+    <!-- ============================================================
+         ADMIN SIDEBAR
+    ============================================================ -->
+    <link rel="stylesheet" href="admin-sidebar.css">
+
+    <!-- ============================================================
+         MAIN STYLE
+    ============================================================ -->
     <link rel="stylesheet" href="css/style.css">
 
-    <script src="theme.js"></script>
-
+    <!-- ============================================================
+         GOOGLE FONT
+    ============================================================ -->
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
@@ -24,6 +33,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
 
+    <!-- ============================================================
+         FONT AWESOME
+    ============================================================ -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -31,61 +43,359 @@
     <style>
 
         /* ============================================================
+           GLOBAL
+        ============================================================ */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+
+            font-family: "Inter", sans-serif;
+
+            background: #f5f7fb;
+
+            color: #0f172a;
+        }
+
+
+        /* ============================================================
+           MAIN CONTENT
+        ============================================================ */
+
+        .main-content {
+
+            margin-left: 275px;
+
+            width: calc(100% - 275px);
+
+            min-height: 100vh;
+
+            box-sizing: border-box;
+        }
+
+
+        /* ============================================================
+           ADMIN TOPBAR
+        ============================================================ */
+
+        .admin-topbar {
+
+            height: 72px;
+
+            width: 100%;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+
+        .admin-topbar-left {
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            gap: 2px;
+        }
+
+
+        .admin-topbar-label {
+
+            font-size: 11px;
+
+            font-weight: 500;
+
+            letter-spacing: 0.8px;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+        }
+
+
+        .admin-topbar-title {
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+        }
+
+
+        .admin-topbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        /* ============================================================
+           TOP NOTIFICATION
+        ============================================================ */
+
+        .notification-button {
+
+            position: relative;
+
+            width: 40px;
+
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            color: #334155;
+
+            text-decoration: none;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .notification-button:hover {
+
+            background: #f8fafc;
+
+            border-color: #cbd5e1;
+        }
+
+
+        .notification-button i {
+
+            font-size: 16px;
+        }
+
+
+        #topNotificationBadge {
+
+            position: absolute;
+
+            top: -6px;
+
+            right: -6px;
+
+            min-width: 18px;
+
+            height: 18px;
+
+            padding: 0 5px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 999px;
+
+            background: #ef4444;
+
+            color: #ffffff;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            line-height: 1;
+
+            border: 2px solid #ffffff;
+        }
+
+
+        /* ============================================================
+           ADMIN PROFILE
+        ============================================================ */
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .admin-avatar {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .admin-profile-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+        }
+
+
+        .admin-profile-info strong {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+        }
+
+
+        .admin-profile-info small {
+
+            font-size: 11px;
+
+            color: #64748b;
+        }
+
+
+        /* ============================================================
            SPRINT PAGE
         ============================================================ */
 
         .sprint-page {
-    padding: 30px;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    box-sizing: border-box;
-}
+
+            padding: 26px 30px 40px;
+
+            width: 100%;
+
+            max-width: 1500px;
+
+            margin: 0 auto;
+        }
+
 
         /* ============================================================
            PAGE HEADER
         ============================================================ */
 
         .page-header {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             gap: 20px;
-            margin-bottom: 28px;
+
+            margin-bottom: 24px;
         }
+
 
         .page-header-left h1 {
+
             margin: 0;
+
             font-size: 28px;
+
             font-weight: 800;
+
+            color: #111827;
         }
 
+
         .page-header-left p {
+
             margin: 7px 0 0;
+
             color: #64748b;
+
             font-size: 14px;
         }
 
 
         .create-sprint-btn {
+
             display: flex;
+
             align-items: center;
+
             gap: 8px;
+
             border: none;
+
             border-radius: 9px;
+
             padding: 11px 18px;
+
             background: #4f46e5;
-            color: white;
+
+            color: #ffffff;
+
             font-family: inherit;
+
             font-size: 14px;
+
             font-weight: 600;
+
             cursor: pointer;
+
             transition: all 0.2s ease;
         }
 
+
         .create-sprint-btn:hover {
+
             transform: translateY(-1px);
-            opacity: 0.92;
+
+            background: #4338ca;
         }
 
 
@@ -94,45 +404,66 @@
         ============================================================ */
 
         .sprint-form {
+
             display: none;
-            margin-bottom: 28px;
+
+            margin-bottom: 24px;
+
             padding: 24px;
-            background: white;
+
+            background: #ffffff;
+
             border: 1px solid #e2e8f0;
+
             border-radius: 16px;
+
             box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
         }
 
 
         .form-title {
+
             margin: 0 0 20px;
+
             font-size: 18px;
+
             font-weight: 700;
         }
 
 
         .form-grid {
+
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 18px;
         }
 
 
         .form-group {
+
             display: flex;
+
             flex-direction: column;
+
             gap: 7px;
         }
 
 
         .form-group.full {
+
             grid-column: 1 / -1;
         }
 
 
         .form-group label {
+
             font-size: 13px;
+
             font-weight: 600;
+
             color: #334155;
         }
 
@@ -142,23 +473,26 @@
         .form-group select {
 
             width: 100%;
-            box-sizing: border-box;
 
             padding: 11px 12px;
 
             border: 1px solid #cbd5e1;
+
             border-radius: 8px;
 
-            background: white;
+            background: #ffffff;
+
             color: #0f172a;
 
             font-family: inherit;
+
             font-size: 14px;
 
             outline: none;
 
-            transition: border-color 0.2s ease,
-                        box-shadow 0.2s ease;
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
 
@@ -174,15 +508,21 @@
 
 
         .form-group textarea {
+
             min-height: 90px;
+
             resize: vertical;
         }
 
 
         .form-actions {
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
             margin-top: 20px;
         }
 
@@ -191,12 +531,15 @@
         .form-cancel-btn {
 
             border: none;
+
             border-radius: 8px;
 
             padding: 10px 17px;
 
             font-family: inherit;
+
             font-size: 13px;
+
             font-weight: 600;
 
             cursor: pointer;
@@ -204,128 +547,243 @@
 
 
         .form-submit-btn {
+
             background: #4f46e5;
-            color: white;
+
+            color: #ffffff;
         }
 
 
         .form-cancel-btn {
+
             background: #e2e8f0;
+
             color: #334155;
         }
 
 
-        .form-submit-btn:hover,
-        .form-cancel-btn:hover {
-            opacity: 0.9;
+        /* ============================================================
+           SPRINT BOARD
+        ============================================================ */
+
+        .sprint-board {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.05fr)
+                minmax(0, 0.95fr);
+
+            gap: 20px;
+
+            align-items: start;
+
+            margin-bottom: 22px;
         }
 
 
         /* ============================================================
-           SPRINT LIST HEADER
+           BOARD COLUMN
         ============================================================ */
 
-        .sprint-list-header {
+        .board-column {
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            min-width: 0;
 
-            margin-bottom: 16px;
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 18px rgba(15, 23, 42, 0.04);
         }
 
 
-        .sprint-list-header h2 {
+        .board-column-header {
+
+            min-height: 56px;
+
+            padding: 15px 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #eef2ff,
+                    #f8faff
+                );
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        .board-column-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .board-column-title i {
+
+            color: #4f46e5;
+
+            font-size: 16px;
+        }
+
+
+        .board-column-title h2 {
+
             margin: 0;
-            font-size: 20px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            color: #1e3a8a;
+        }
+
+
+        .board-count {
+
+            min-width: 24px;
+
+            height: 24px;
+
+            padding: 0 7px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 999px;
+
+            background: #ddd6fe;
+
+            color: #4338ca;
+
+            font-size: 11px;
+
             font-weight: 700;
         }
 
 
-        .sprint-count {
-            font-size: 13px;
-            color: #64748b;
+        .board-content {
+
+            padding: 12px;
+
+            max-height: 620px;
+
+            overflow-y: auto;
         }
 
 
         /* ============================================================
-           SPRINT CARD
+           ACTIVE SPRINT CARD
         ============================================================ */
 
-        .sprint-card {
+        .active-sprint-card {
 
-            background: white;
+            padding: 16px;
+
+            margin-bottom: 12px;
+
+            background: #ffffff;
 
             border: 1px solid #e2e8f0;
 
-            border-radius: 16px;
-
-            padding: 22px;
-
-            margin-bottom: 16px;
-
-            box-shadow:
-                0 6px 20px rgba(15, 23, 42, 0.05);
+            border-radius: 12px;
 
             transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
         }
 
 
-        .sprint-card:hover {
+        .active-sprint-card:last-child {
+
+            margin-bottom: 0;
+        }
+
+
+        .active-sprint-card:hover {
 
             transform: translateY(-1px);
 
             box-shadow:
-                0 10px 25px rgba(15, 23, 42, 0.08);
+                0 8px 20px rgba(15, 23, 42, 0.07);
         }
 
 
-        .sprint-card-header {
+        .active-sprint-top {
 
             display: flex;
-            justify-content: space-between;
+
             align-items: flex-start;
 
-            gap: 15px;
+            justify-content: space-between;
+
+            gap: 12px;
         }
 
 
-        .sprint-title-section h3 {
+        .active-sprint-title {
+
+            min-width: 0;
+        }
+
+
+        .active-sprint-title h3 {
 
             margin: 0;
 
-            font-size: 18px;
+            font-size: 16px;
+
             font-weight: 700;
+
+            color: #111827;
         }
 
 
-        .sprint-goal {
+        .active-sprint-title p {
 
-            margin: 7px 0 0;
+            margin: 5px 0 0;
 
             color: #64748b;
 
-            font-size: 13px;
+            font-size: 12px;
 
-            line-height: 1.5;
+            line-height: 1.45;
         }
 
 
         /* ============================================================
-           STATUS
+           STATUS BADGES
         ============================================================ */
 
         .sprint-status {
 
             flex-shrink: 0;
 
-            padding: 6px 11px;
+            padding: 5px 9px;
 
-            border-radius: 20px;
+            border-radius: 999px;
 
-            font-size: 11px;
+            font-size: 10px;
 
             font-weight: 700;
 
@@ -336,6 +794,7 @@
         .status-planning {
 
             background: #fef3c7;
+
             color: #92400e;
         }
 
@@ -343,6 +802,7 @@
         .status-active {
 
             background: #dcfce7;
+
             color: #166534;
         }
 
@@ -350,88 +810,1009 @@
         .status-completed {
 
             background: #e2e8f0;
+
             color: #475569;
         }
 
 
         /* ============================================================
-           SPRINT DETAILS
+           SPRINT DATE ROW
         ============================================================ */
 
-        .sprint-details {
+        .sprint-date-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 12px;
+
+            color: #64748b;
+
+            font-size: 11px;
+        }
+
+
+        .sprint-date-row i {
+
+            color: #64748b;
+        }
+
+
+        /* ============================================================
+           SPRINT METRICS
+        ============================================================ */
+
+        .sprint-metrics {
 
             display: grid;
 
             grid-template-columns:
                 repeat(3, minmax(0, 1fr));
 
-            gap: 14px;
+            gap: 8px;
 
-            margin-top: 20px;
+            margin-top: 14px;
         }
 
 
-        .sprint-detail {
+        .sprint-metric {
 
-            padding: 14px;
+            padding: 10px;
 
             background: #f8fafc;
 
-            border-radius: 10px;
-
             border: 1px solid #f1f5f9;
+
+            border-radius: 9px;
         }
 
 
-        .sprint-detail small {
+        .sprint-metric small {
 
             display: block;
 
-            margin-bottom: 5px;
+            margin-bottom: 4px;
 
             color: #64748b;
 
-            font-size: 11px;
+            font-size: 9px;
 
             font-weight: 600;
 
             text-transform: uppercase;
 
-            letter-spacing: 0.4px;
+            letter-spacing: 0.35px;
         }
 
 
-        .sprint-detail strong {
+        .sprint-metric strong {
 
-            font-size: 14px;
+            font-size: 15px;
 
             color: #0f172a;
         }
 
 
         /* ============================================================
+           PROGRESS
+        ============================================================ */
+
+        .progress-section {
+
+            margin-top: 14px;
+        }
+
+
+        .progress-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 6px;
+        }
+
+
+        .progress-header span {
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            color: #64748b;
+        }
+
+
+        .progress-header strong {
+
+            font-size: 11px;
+
+            color: #334155;
+        }
+
+
+        .progress-track {
+
+            width: 100%;
+
+            height: 7px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background: #e2e8f0;
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+
+            border-radius: 999px;
+
+            background: #4f46e5;
+
+            transition: width 0.3s ease;
+        }
+
+
+        /* ============================================================
+           SPRINT ISSUE TAGS
+        ============================================================ */
+
+        .sprint-issues-section {
+
+            margin-top: 14px;
+        }
+
+
+        .sprint-issues-label {
+
+            margin-bottom: 7px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            color: #64748b;
+        }
+
+
+        .issue-tags {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 6px;
+        }
+
+
+        .issue-tag {
+
+            padding: 5px 8px;
+
+            border-radius: 999px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .issue-tag-more {
+
+            background: #f1f5f9;
+
+            color: #64748b;
+        }
+/* ============================================================
+   SPRINT ISSUE LIST
+============================================================ */
+
+.sprint-issue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+
+.sprint-issue-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    padding: 8px 10px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+}
+
+
+.sprint-issue-info {
+    min-width: 0;
+    flex: 1;
+}
+
+
+.sprint-issue-id {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: #4f46e5;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.sprint-issue-title {
+    display: block;
+
+    overflow: hidden;
+
+    color: #334155;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    line-height: 1.35;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.remove-sprint-btn {
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 7px;
+
+    padding: 6px 8px;
+
+    background: #fff1f2;
+
+    color: #b91c1c;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.remove-sprint-btn:hover {
+    background: #fee2e2;
+
+    border-color: #fca5a5;
+
+    transform: translateY(-1px);
+}
+
+
+.sprint-no-issues {
+    padding: 8px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-style: italic;
+}
+
+        /* ============================================================
            SPRINT ACTIONS
         ============================================================ */
 
-        .sprint-actions {
+        .sprint-card-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            margin-top: 14px;
+        }
+
+
+        .complete-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            background: #16a34a;
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+
+        .complete-btn:hover {
+
+            background: #15803d;
+        }
+
+
+        /* ============================================================
+           BACKLOG ISSUE CARD
+        ============================================================ */
+
+        .backlog-card {
+
+            padding: 12px;
+
+            margin-bottom: 8px;
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 10px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .backlog-card:last-child {
+
+            margin-bottom: 0;
+        }
+
+
+        .backlog-card:hover {
+
+            border-color: #c7d2fe;
+
+            box-shadow:
+                0 5px 15px rgba(15, 23, 42, 0.05);
+        }
+
+
+        .backlog-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 10px;
+        }
+
+
+        .backlog-title-wrap {
+
+            min-width: 0;
+
+            flex: 1;
+        }
+
+
+        .backlog-id {
+
+            display: inline-block;
+
+            margin-bottom: 4px;
+
+            color: #4f46e5;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .backlog-title {
+
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            line-height: 1.4;
+
+            word-break: break-word;
+        }
+
+
+        .add-sprint-btn {
+
+            flex-shrink: 0;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 5px;
+
+            min-width: 108px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 7px 9px;
+
+            background: #4f46e5;
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .add-sprint-btn:hover {
+
+            background: #4338ca;
+
+            transform: translateY(-1px);
+        }
+
+
+        .backlog-meta {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            margin-top: 8px;
+        }
+
+
+        .issue-status-badge,
+        .issue-priority-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 4px 7px;
+
+            border-radius: 999px;
+
+            font-size: 8px;
+
+            font-weight: 700;
+        }
+
+
+        .issue-status-badge {
+
+            background: #f1f5f9;
+
+            color: #475569;
+        }
+
+
+        .priority-low {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .priority-medium {
+
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+
+        .priority-high {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        .priority-urgent {
+
+            background: #fecaca;
+
+            color: #7f1d1d;
+        }
+
+
+        /* ============================================================
+           EMPTY STATE
+        ============================================================ */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 42px 20px;
+
+            color: #64748b;
+        }
+
+
+        .empty-state i {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 28px;
+        }
+
+
+        .empty-state p {
+
+            margin: 0;
+
+            font-size: 12px;
+        }
+
+
+        /* ============================================================
+           LOADING
+        ============================================================ */
+
+        .loading-state {
+
+            text-align: center;
+
+            padding: 40px 20px;
+
+            color: #64748b;
+        }
+
+
+        .loading-state i {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 22px;
+        }
+
+
+        .loading-state p {
+
+            margin: 0;
+
+            font-size: 12px;
+        }
+
+
+        /* ============================================================
+           ERROR
+        ============================================================ */
+
+        .error-state {
+
+            padding: 14px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            border-radius: 9px;
+
+            color: #991b1b;
+
+            font-size: 12px;
+        }
+
+
+        /* ============================================================
+           SPRINT HISTORY
+        ============================================================ */
+
+        .history-section {
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 18px rgba(15, 23, 42, 0.04);
+        }
+
+
+        .history-header {
+
+            min-height: 56px;
+
+            padding: 15px 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #eef2ff,
+                    #f8faff
+                );
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        .history-title {
 
             display: flex;
 
             align-items: center;
 
             gap: 10px;
-
-            margin-top: 18px;
         }
 
 
-        .sprint-action-btn {
+        .history-title i {
+
+            color: #4f46e5;
+
+            font-size: 17px;
+        }
+
+
+        .history-title h2 {
+
+            margin: 0;
+
+            color: #1e3a8a;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .history-count {
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .history-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 10px;
+
+            padding: 12px;
+        }
+
+
+        .history-card {
+
+            min-width: 0;
+
+            padding: 14px;
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 10px;
+
+            transition:
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .history-card:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 6px 16px rgba(15, 23, 42, 0.06);
+        }
+
+
+        .history-card-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 8px;
+        }
+
+
+        .history-card h3 {
+
+            margin: 0;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #111827;
+        }
+
+
+        .history-date {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 10px;
+
+            color: #64748b;
+
+            font-size: 9px;
+        }
+
+
+        .history-stats {
 
             display: flex;
 
             align-items: center;
 
             gap: 7px;
+
+            margin-top: 10px;
+
+            color: #475569;
+
+            font-size: 9px;
+        }
+
+
+        .history-arrow {
+
+            margin-left: auto;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+        }
+
+
+        /* ============================================================
+           ADD TO SPRINT MODAL
+        ============================================================ */
+
+        .modal-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(15, 23, 42, 0.45);
+
+            z-index: 1000;
+        }
+
+
+        .modal-overlay.show {
+
+            display: flex;
+        }
+
+
+        .modal {
+
+            width: 100%;
+
+            max-width: 440px;
+
+            background: #ffffff;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, 0.20);
+
+            overflow: hidden;
+        }
+
+
+        .modal-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 18px 20px;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        .modal-header h3 {
+
+            margin: 0;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .modal-close {
+
+            width: 32px;
+
+            height: 32px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            cursor: pointer;
+        }
+
+
+        .modal-body {
+
+            padding: 20px;
+        }
+
+
+        .modal-body p {
+
+            margin: 0 0 15px;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .modal-body label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #334155;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .modal-body select {
+
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            color: #0f172a;
+        }
+
+
+        .modal-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            margin-top: 18px;
+        }
+
+
+        .modal-cancel,
+        .modal-confirm {
 
             border: none;
 
@@ -449,180 +1830,19 @@
         }
 
 
-        .complete-btn {
+        .modal-cancel {
 
-            background: #16a34a;
+            background: #e2e8f0;
 
-            color: white;
+            color: #334155;
         }
 
 
-        .complete-btn:hover {
-            background: #15803d;
-        }
+        .modal-confirm {
 
+            background: #4f46e5;
 
-        /* ============================================================
-           EMPTY STATE
-        ============================================================ */
-
-        .empty-state {
-
-            text-align: center;
-
-            padding: 65px 20px;
-
-            background: white;
-
-            border: 1px dashed #cbd5e1;
-
-            border-radius: 16px;
-
-            color: #64748b;
-        }
-
-
-        .empty-state i {
-
-            font-size: 35px;
-
-            margin-bottom: 12px;
-        }
-
-
-        .empty-state p {
-
-            margin: 0;
-
-            font-size: 14px;
-        }
-
-
-        /* ============================================================
-           LOADING
-        ============================================================ */
-
-        .loading-state {
-
-            text-align: center;
-
-            padding: 50px;
-
-            color: #64748b;
-        }
-
-
-        .loading-state i {
-
-            font-size: 24px;
-
-            margin-bottom: 10px;
-        }
-
-
-        /* ============================================================
-           ERROR
-        ============================================================ */
-
-        .error-state {
-
-            padding: 18px;
-
-            background: #fef2f2;
-
-            border: 1px solid #fecaca;
-
-            border-radius: 10px;
-
-            color: #991b1b;
-
-            font-size: 13px;
-        }
-
-
-        /* ============================================================
-           DARK MODE
-        ============================================================ */
-
-        body.dark-mode {
-
-            background: #111827 !important;
-
-            color: #f3f4f6;
-        }
-
-
-        body.dark-mode .main-content,
-        body.dark-mode .content {
-
-            background: #111827 !important;
-        }
-
-
-        body.dark-mode .sprint-form,
-        body.dark-mode .sprint-card,
-        body.dark-mode .empty-state {
-
-            background: #1f2937 !important;
-
-            border-color: #374151;
-
-            color: #f3f4f6;
-        }
-
-
-        body.dark-mode .page-header-left p,
-        body.dark-mode .sprint-goal,
-        body.dark-mode .sprint-count,
-        body.dark-mode .loading-state {
-
-            color: #9ca3af;
-        }
-
-
-        body.dark-mode .form-group label {
-
-            color: #d1d5db;
-        }
-
-
-        body.dark-mode .form-group input,
-        body.dark-mode .form-group textarea,
-        body.dark-mode .form-group select {
-
-            background: #111827;
-
-            color: #f3f4f6;
-
-            border-color: #374151;
-        }
-
-
-        body.dark-mode .sprint-detail {
-
-            background: #111827;
-
-            border-color: #374151;
-        }
-
-
-        body.dark-mode .sprint-detail strong {
-
-            color: #f3f4f6;
-        }
-
-
-        body.dark-mode .sprint-detail small {
-
-            color: #9ca3af;
-        }
-
-
-        body.dark-mode .form-cancel-btn {
-
-            background: #374151;
-
-            color: #f3f4f6;
+            color: #ffffff;
         }
 
 
@@ -630,9 +1850,15 @@
            RESPONSIVE
         ============================================================ */
 
-        @media (max-width: 900px) {
+        @media (max-width: 1150px) {
 
-            .sprint-details {
+            .sprint-board {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .history-grid {
 
                 grid-template-columns:
                     repeat(2, minmax(0, 1fr));
@@ -640,11 +1866,48 @@
         }
 
 
+        @media (max-width: 900px) {
+
+            .sprint-details,
+            .sprint-metrics {
+
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+
+            .admin-profile-info {
+
+                display: none;
+            }
+        }
+
+
         @media (max-width: 700px) {
+
+            .main-content {
+
+                margin-left: 0;
+
+                width: 100%;
+            }
+
+
+            .admin-topbar {
+
+                padding: 0 16px;
+            }
+
+
+            .admin-topbar-left {
+
+                display: none;
+            }
+
 
             .sprint-page {
 
-                padding: 20px;
+                padding: 20px 16px 30px;
             }
 
 
@@ -668,47 +1931,84 @@
             }
 
 
-            .sprint-details {
+            .history-grid {
 
                 grid-template-columns: 1fr;
             }
+
+
+            .backlog-top {
+
+                flex-direction: column;
+            }
+
+
+            .add-sprint-btn {
+
+                width: 100%;
+            }
         }
-        .main-content {
-    margin-left: 275px;
-    width: calc(100% - 275px);
-    min-height: 100vh;
-    box-sizing: border-box;
-}
-.sidebar-back-button {
+/* ============================================================
+   SPRINT CARD ACTION BUTTONS
+============================================================ */
+
+.sprint-card-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
 
-    width: fit-content;
-    height: 38px;
-
-    margin: 15px 15px 20px auto;
+/* View Sprint */
+.sprint-card-actions .btn-primary {
+    background: #4f46e5;
+    color: #ffffff;
+    border: 1px solid #4f46e5;
     padding: 8px 14px;
-
-    border: 1px solid #e2e8f0;
     border-radius: 8px;
-
-    background: #f1f5f9;
-    color: #334155;
-
-    font-family: "Inter", sans-serif;
-    font-size: 13px;
     font-weight: 600;
-
     cursor: pointer;
-    box-sizing: border-box;
+    transition: all 0.2s ease;
 }
 
-.sidebar-back-button:hover {
-    background: #e2e8f0;
+.sprint-card-actions .btn-primary:hover {
+    background: #4338ca;
+    border-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
 }
 
+
+/* Manage */
+.sprint-card-actions .btn-secondary {
+    background: #0f766e;
+    color: #ffffff;
+    border: 1px solid #0f766e;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sprint-card-actions .btn-secondary:hover {
+    background: #115e59;
+    border-color: #115e59;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25);
+}
+
+
+/* Button icons */
+.sprint-card-actions .btn i {
+    margin-right: 5px;
+}
+
+
+/* Click effect */
+.sprint-card-actions .btn:active {
+    transform: translateY(0);
+}
     </style>
 
 </head>
@@ -718,15 +2018,20 @@
 
 
 <!-- ============================================================
-     SIDEBAR
+     ADMIN SIDEBAR
 ============================================================ -->
 
 <aside class="sidebar">
 
+
+    <!-- BRAND -->
+
     <div class="brand">
 
         <div class="brand-logo">
+
             <i class="fa-solid fa-bug"></i>
+
         </div>
 
         <div>
@@ -742,6 +2047,8 @@
     </div>
 
 
+    <!-- BACK BUTTON -->
+
     <button
         class="sidebar-back-button"
         onclick="history.back()">
@@ -755,7 +2062,10 @@
     </button>
 
 
+    <!-- NAVIGATION -->
+
     <nav>
+
 
         <p class="nav-heading">
             MAIN
@@ -815,7 +2125,7 @@
 
 
         <a
-            href="resolution.html"
+            href="admin-resolution.html"
             class="nav-link">
 
             <i class="fa-solid fa-robot"></i>
@@ -833,20 +2143,33 @@
 
 
         <a
-            href="admin-analytics.html"
+            href="optimization.html"
             class="nav-link">
 
-            <i class="fa-solid fa-chart-line"></i>
+            <i class="fa-solid fa-rocket"></i>
 
             <span>
-                Analytics &Reports
+                Optimization & Finalization
             </span>
 
         </a>
 
 
         <a
-            href="notifications.html"
+            href="admin-analytics.html"
+            class="nav-link">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Analytics & Reports
+            </span>
+
+        </a>
+
+
+        <a
+            href="admin-notifications.html"
             class="nav-link">
 
             <i class="fa-solid fa-bell"></i>
@@ -858,26 +2181,18 @@
             <b
                 class="badge"
                 id="sidebarNotificationBadge">
+
                 0
+
             </b>
 
         </a>
 
 
-        <a
-            href="settings.html"
-            class="nav-link">
-
-            <i class="fa-solid fa-gear"></i>
-
-            <span>
-                Settings
-            </span>
-
-        </a>
-
     </nav>
 
+
+    <!-- SIDEBAR BOTTOM -->
 
     <div class="sidebar-bottom">
 
@@ -916,7 +2231,9 @@
 
         </a>
 
+
     </div>
+
 
 </aside>
 
@@ -928,14 +2245,89 @@
 <main class="main-content">
 
 
+    <!-- ========================================================
+         TOPBAR
+    ========================================================= -->
+
+    <header class="admin-topbar">
+
+
+        <div class="admin-topbar-left">
+
+            <span class="admin-topbar-label">
+                Software Issue Management
+            </span>
+
+            <span class="admin-topbar-title">
+                Administration
+            </span>
+
+        </div>
+
+
+        <div class="admin-topbar-right">
+
+
+            <a
+                href="admin-notifications.html"
+                class="notification-button"
+                aria-label="Notifications">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span id="topNotificationBadge">
+                    0
+                </span>
+
+            </a>
+
+
+            <div class="admin-profile">
+
+
+                <div
+                    class="admin-avatar"
+                    id="adminAvatar">
+
+                    BA
+
+                </div>
+
+
+                <div class="admin-profile-info">
+
+                    <strong>
+                        BugFlow Administrator
+                    </strong>
+
+                    <small>
+                        ADMIN
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+    <!-- ========================================================
+         SPRINT PAGE
+    ========================================================= -->
+
     <div class="sprint-page">
 
 
         <!-- ====================================================
-             HEADER
+             PAGE HEADER
         ==================================================== -->
 
         <div class="page-header">
+
 
             <div class="page-header-left">
 
@@ -959,6 +2351,7 @@
                 Create Sprint
 
             </button>
+
 
         </div>
 
@@ -995,7 +2388,7 @@
                             type="text"
                             id="sprintName"
                             maxlength="100"
-                            placeholder="Enter sprint name"
+                            placeholder="Sprint 2 - Authentication"
                             required>
 
                     </div>
@@ -1068,6 +2461,7 @@
 
                 <div class="form-actions">
 
+
                     <button
                         type="submit"
                         class="form-submit-btn">
@@ -1088,48 +2482,189 @@
 
                     </button>
 
+
                 </div>
 
 
             </form>
 
+
         </div>
 
 
         <!-- ====================================================
-             SPRINT LIST
+             SPRINT BOARD
         ==================================================== -->
 
-        <div class="sprint-list-header">
+        <div class="sprint-board">
 
-            <h2>
-                All Sprints
-            </h2>
 
-            <span
-                class="sprint-count"
-                id="sprintCount">
+            <!-- =================================================
+                 LEFT COLUMN - ACTIVE SPRINTS
+            ================================================= -->
 
-                0 sprints
+            <section class="board-column">
 
-            </span>
+
+                <div class="board-column-header">
+
+
+                    <div class="board-column-title">
+
+                        <i class="fa-solid fa-person-running"></i>
+
+                        <h2>
+                            Active Sprints
+                        </h2>
+
+                    </div>
+
+
+                    <span
+                        class="board-count"
+                        id="activeSprintCount">
+
+                        0
+
+                    </span>
+
+
+                </div>
+
+
+                <div
+                    class="board-content"
+                    id="activeSprintsList">
+
+
+                    <div class="loading-state">
+
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+
+                        <p>
+                            Loading active sprints...
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 RIGHT COLUMN - PRODUCT BACKLOG
+            ================================================= -->
+
+            <section class="board-column">
+
+
+                <div class="board-column-header">
+
+
+                    <div class="board-column-title">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                        <h2>
+                            Product Backlog
+                        </h2>
+
+                    </div>
+
+
+                    <span
+                        class="board-count"
+                        id="backlogCount">
+
+                        0
+
+                    </span>
+
+
+                </div>
+
+
+                <div
+                    class="board-content"
+                    id="backlogList">
+
+
+                    <div class="loading-state">
+
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+
+                        <p>
+                            Loading backlog...
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
 
         </div>
 
 
-        <div id="sprintList">
+        <!-- ====================================================
+             SPRINT HISTORY
+        ==================================================== -->
 
-            <div class="loading-state">
+        <section class="history-section">
 
-                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                <p>
-                    Loading sprints...
-                </p>
+            <div class="history-header">
+
+
+                <div class="history-title">
+
+                    <i class="fa-regular fa-clock"></i>
+
+                    <h2>
+                        Sprint History
+                    </h2>
+
+                </div>
+
+
+                <span
+                    class="history-count"
+                    id="historyCount">
+
+                    0 sprints
+
+                </span>
+
 
             </div>
 
-        </div>
+
+            <div
+                class="history-grid"
+                id="sprintHistoryList">
+
+
+                <div class="loading-state">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    <p>
+                        Loading sprint history...
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
 
 
     </div>
@@ -1139,11 +2674,96 @@
 
 
 <!-- ============================================================
-     JAVASCRIPT
+     ADD TO SPRINT MODAL
 ============================================================ -->
 
-<script>
+<div
+    class="modal-overlay"
+    id="addSprintModal">
 
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+
+            <h3>
+                Add Issue to Sprint
+            </h3>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closeSprintModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <p id="selectedIssueText">
+                Select a sprint for this issue.
+            </p>
+
+
+            <label for="targetSprintSelect">
+                Select Sprint
+            </label>
+
+
+            <select id="targetSprintSelect">
+
+                <option value="">
+                    Select a sprint
+                </option>
+
+            </select>
+
+
+            <div class="modal-actions">
+
+
+                <button
+                    type="button"
+                    class="modal-cancel"
+                    onclick="closeSprintModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="modal-confirm"
+                    onclick="addIssueToSprint()">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add to Sprint
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+<script>
 
 /* ============================================================
    CONFIGURATION
@@ -1152,8 +2772,16 @@
 const API_BASE =
     "http://127.0.0.1:8000";
 
+
 const token =
     localStorage.getItem("access_token");
+
+
+let allSprints = [];
+
+let allIssues = [];
+
+let selectedIssueId = null;
 
 
 /* ============================================================
@@ -1168,112 +2796,883 @@ if (!token) {
 
 
 /* ============================================================
-   LOAD SPRINTS
+   API HELPER
 ============================================================ */
 
-async function loadSprints() {
+async function apiRequest(
+    url,
+    options = {}
+) {
 
-    const container =
-        document.getElementById("sprintList");
+    const response =
+        await fetch(
+            url,
+            {
+                ...options,
 
+                headers: {
+
+                    "Authorization":
+                        `Bearer ${token}`,
+
+                    "Accept":
+                        "application/json",
+
+                    ...(options.headers || {})
+
+                }
+            }
+        );
+
+
+    if (!response.ok) {
+
+        const errorData =
+            await response
+                .json()
+                .catch(() => ({}));
+
+
+        throw new Error(
+            errorData.detail ||
+            `HTTP ${response.status}`
+        );
+    }
+
+
+    return response;
+}
+
+
+/* ============================================================
+   NORMALIZE LIST RESPONSE
+============================================================ */
+
+function normalizeListResponse(data) {
+
+    if (Array.isArray(data)) {
+
+        return data;
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.items)
+    ) {
+
+        return data.items;
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.results)
+    ) {
+
+        return data.results;
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.sprints)
+    ) {
+
+        return data.sprints;
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.data)
+    ) {
+
+        return data.data;
+    }
+
+
+    return [];
+}
+
+
+/* ============================================================
+   HTML ESCAPE
+============================================================ */
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        String(value ?? "");
+
+    return div.innerHTML;
+}
+
+
+/* ============================================================
+   LOAD ALL SPRINT DATA
+============================================================ */
+
+async function loadSprintPage() {
 
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE}/api/v1/sprints/`,
-                {
-                    method: "GET",
+        const [
+            sprintResponse,
+            issueResponse
+        ] = await Promise.all([
 
-                    headers: {
-                        "Authorization":
-                            `Bearer ${token}`,
+            apiRequest(
+                `${API_BASE}/api/v1/sprints/`
+            ),
 
-                        "Accept":
-                            "application/json"
-                    }
-                }
+            apiRequest(
+                `${API_BASE}/api/v1/issues/?skip=0&limit=100`
+            )
+
+        ]);
+
+
+        const sprintData =
+            await sprintResponse.json();
+
+
+        const issueData =
+            await issueResponse.json();
+
+
+        allSprints =
+            normalizeListResponse(
+                sprintData
             );
 
 
-        if (!response.ok) {
-
-            const errorData =
-                await response
-                    .json()
-                    .catch(() => ({}));
-
-
-            throw new Error(
-                errorData.detail ||
-                `HTTP ${response.status}`
+        allIssues =
+            normalizeListResponse(
+                issueData
             );
-        }
 
 
-        const sprints =
-            await response.json();
+        console.log(
+            "BugFlow sprints loaded:",
+            allSprints
+        );
 
 
-        displaySprints(sprints);
+        console.log(
+            "BugFlow issues loaded:",
+            allIssues
+        );
+
+
+        renderActiveSprints();
+
+        renderBacklog();
+
+        renderSprintHistory();
+
+        populateSprintSelector();
 
 
     } catch (error) {
 
         console.error(
-            "Unable to load sprints:",
+            "Unable to load sprint page:",
             error
         );
 
 
-        container.innerHTML = `
+        const activeContainer =
+            document.getElementById(
+                "activeSprintsList"
+            );
 
-            <div class="error-state">
 
-                <i class="fa-solid fa-triangle-exclamation"></i>
+        const backlogContainer =
+            document.getElementById(
+                "backlogList"
+            );
 
-                Unable to load sprints.
-                Please make sure the BugFlow server is running.
 
-            </div>
+        const historyContainer =
+            document.getElementById(
+                "sprintHistoryList"
+            );
 
-        `;
+
+        if (activeContainer) {
+
+            activeContainer.innerHTML = `
+
+                <div class="error-state">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    Unable to load sprints.
+
+                    Please make sure the BugFlow server is running.
+
+                </div>
+
+            `;
+        }
+
+
+        if (backlogContainer) {
+
+            backlogContainer.innerHTML = `
+
+                <div class="error-state">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    Unable to load backlog issues.
+
+                </div>
+
+            `;
+        }
+
+
+        if (historyContainer) {
+
+            historyContainer.innerHTML = `
+
+                <div class="error-state">
+
+                    Unable to load sprint history.
+
+                </div>
+
+            `;
+        }
     }
 }
 
 
 /* ============================================================
-   DISPLAY SPRINTS
+   GET ISSUE SPRINT ID
 ============================================================ */
 
-function displaySprints(sprints) {
+function getIssueSprintId(issue) {
+
+    if (
+        issue.sprint_id !== undefined &&
+        issue.sprint_id !== null
+    ) {
+
+        return Number(
+            issue.sprint_id
+        );
+    }
+
+
+    if (
+        issue.sprintId !== undefined &&
+        issue.sprintId !== null
+    ) {
+
+        return Number(
+            issue.sprintId
+        );
+    }
+
+
+    if (
+        issue.sprint &&
+        issue.sprint.id !== undefined &&
+        issue.sprint.id !== null
+    ) {
+
+        return Number(
+            issue.sprint.id
+        );
+    }
+
+
+    return null;
+}
+
+
+/* ============================================================
+   GET ISSUE ID
+============================================================ */
+
+function getIssueId(issue) {
+
+    return (
+        issue.id ??
+        issue.issue_id ??
+        issue.issueId
+    );
+}
+
+
+/* ============================================================
+   GET SPRINT ID
+============================================================ */
+
+function getSprintId(sprint) {
+
+    return (
+        sprint.id ??
+        sprint.sprint_id ??
+        sprint.sprintId
+    );
+}
+
+
+/* ============================================================
+   GET SPRINT STATUS
+============================================================ */
+
+function getSprintStatus(sprint) {
+
+    if (!sprint) {
+
+        return "PLANNING";
+    }
+
+
+    const rawStatus =
+        sprint.status ??
+        sprint.sprint_status ??
+        sprint.state ??
+        "PLANNING";
+
+
+    return String(
+        rawStatus
+    )
+        .trim()
+        .toUpperCase();
+}
+
+
+/* ============================================================
+   GET AVAILABLE SPRINTS
+   PLANNING + ACTIVE
+============================================================ */
+
+function getAvailableSprints() {
+
+    return allSprints.filter(
+        sprint => {
+
+            const status =
+                getSprintStatus(
+                    sprint
+                );
+
+
+            return (
+                status === "PLANNING" ||
+                status === "ACTIVE"
+            );
+        }
+    );
+}
+
+
+/* ============================================================
+   ACTIVE / PLANNING SPRINTS
+============================================================ */
+
+function getActiveSprints() {
+
+    return getAvailableSprints();
+}
+
+
+/* ============================================================
+   COMPLETED SPRINTS
+============================================================ */
+
+function getCompletedSprints() {
+
+    return allSprints.filter(
+        sprint =>
+            getSprintStatus(
+                sprint
+            ) === "COMPLETED"
+    );
+}
+
+
+/* ============================================================
+   GET ISSUES FOR SPRINT
+============================================================ */
+
+function getSprintIssues(
+    sprintId
+) {
+
+    return allIssues.filter(
+        issue =>
+            getIssueSprintId(
+                issue
+            ) === Number(
+                sprintId
+            )
+    );
+}
+
+
+/* ============================================================
+   COMPLETED ISSUE CHECK
+============================================================ */
+
+function isIssueCompleted(
+    issue
+) {
+
+    const status =
+        String(
+            issue.status ||
+            ""
+        )
+        .trim()
+        .toUpperCase();
+
+
+    return (
+        status === "RESOLVED" ||
+        status === "CLOSED"
+    );
+}
+
+
+/* ============================================================
+   CALCULATE SPRINT PROGRESS
+============================================================ */
+
+function calculateSprintProgress(
+    sprint,
+    sprintIssues
+) {
+
+    if (!sprintIssues.length) {
+
+        return 0;
+    }
+
+
+    const completed =
+        sprintIssues.filter(
+            isIssueCompleted
+        ).length;
+
+
+    return Math.round(
+        (
+            completed /
+            sprintIssues.length
+        ) * 100
+    );
+}
+
+
+/* ============================================================
+   FORMAT DATE
+============================================================ */
+
+function formatDate(
+    value
+) {
+
+    if (!value) {
+
+        return "-";
+    }
+
+
+    const date =
+        new Date(
+            value
+        );
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return escapeHtml(
+            String(value)
+        );
+    }
+
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+}
+
+
+/* ============================================================
+   CREATE ACTIVE SPRINT CARD
+============================================================ */
+
+function createActiveSprintCard(
+    sprint
+) {
+
+    const sprintId =
+        getSprintId(
+            sprint
+        );
+
+
+    const sprintName =
+        sprint.name ||
+        sprint.sprint_name ||
+        `Sprint ${sprintId}`;
+
+
+    const status =
+        getSprintStatus(
+            sprint
+        );
+
+
+    const startDate =
+        sprint.start_date ||
+        sprint.startDate ||
+        null;
+
+
+    const endDate =
+        sprint.end_date ||
+        sprint.endDate ||
+        null;
+
+
+    /*
+       IMPORTANT:
+       Calculate issue count from allIssues.
+       This keeps the card updated after
+       adding/removing issues.
+    */
+
+    const sprintIssues =
+        getSprintIssues(
+            sprintId
+        );
+
+
+    const issueCount =
+        sprintIssues.length;
+
+
+    const statusText =
+        String(
+            status || "PLANNING"
+        )
+        .replace(
+            /_/g,
+            " "
+        );
+
+
+    const progress =
+        calculateSprintProgress(
+            sprint,
+            sprintIssues
+        );
+
+
+    /*
+       START BUTTON
+
+       Only Planning sprints can be started.
+
+       Lifecycle:
+       PLANNING → ACTIVE
+    */
+
+    const startButton =
+        status === "PLANNING"
+
+        ? `
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="
+                    startSprint(
+                        ${Number(sprintId)}
+                    )
+                "
+                style="
+                    background:#4f46e5;
+                    color:white;
+                "
+            >
+
+                <i class="fa-solid fa-play"></i>
+
+                Start Sprint
+
+            </button>
+
+        `
+
+        : "";
+
+
+    return `
+
+        <div
+            class="sprint-card"
+            data-sprint-id="${escapeHtml(
+                String(sprintId)
+            )}"
+        >
+
+            <div class="sprint-card-header">
+
+                <div>
+
+                    <h3 class="sprint-title">
+
+                        ${escapeHtml(
+                            sprintName
+                        )}
+
+                    </h3>
+
+
+                    <span class="sprint-status">
+
+                        ${escapeHtml(
+                            statusText
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                <div class="sprint-card-icon">
+
+                    <i class="fa-solid fa-person-running"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="sprint-card-body">
+
+                <div class="sprint-info">
+
+                    <span>
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        ${formatDate(
+                            startDate
+                        )}
+
+                    </span>
+
+
+                    <span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                        ${formatDate(
+                            endDate
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                <div class="sprint-issue-count">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    <strong>
+
+                        ${issueCount}
+
+                    </strong>
+
+                    <span>
+
+                        ${
+                            issueCount === 1
+                                ? "Issue"
+                                : "Issues"
+                        }
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div style="
+                padding: 0 16px 12px 16px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    font-size:12px;
+                    margin-bottom:5px;
+                    color:#64748b;
+                ">
+
+                    <span>
+                        Progress
+                    </span>
+
+                    <strong>
+                        ${progress}%
+                    </strong>
+
+                </div>
+
+
+                <div style="
+                    height:7px;
+                    background:#e2e8f0;
+                    border-radius:10px;
+                    overflow:hidden;
+                ">
+
+                    <div style="
+                        width:${progress}%;
+                        height:100%;
+                        background:#4f46e5;
+                        border-radius:10px;
+                        transition:width .3s ease;
+                    "></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div
+                class="sprint-card-actions"
+                style="
+                    display:flex;
+                    gap:8px;
+                    flex-wrap:wrap;
+                "
+            >
+
+                ${startButton}
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="
+                        openSprintDetails(
+                            ${Number(sprintId)},
+                            'view'
+                        )
+                    "
+                >
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    View Sprint
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="
+                        openSprintDetails(
+                            ${Number(sprintId)},
+                            'manage'
+                        )
+                    "
+                >
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    Manage
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* ============================================================
+   RENDER ACTIVE SPRINTS
+============================================================ */
+
+function renderActiveSprints() {
 
     const container =
-        document.getElementById("sprintList");
+        document.getElementById(
+            "activeSprintsList"
+        );
+
 
     const countElement =
-        document.getElementById("sprintCount");
+        document.getElementById(
+            "activeSprintCount"
+        );
 
 
-    countElement.textContent =
-        `${sprints.length} ${
-            sprints.length === 1
-                ? "sprint"
-                : "sprints"
-        }`;
+    if (!container) {
+
+        return;
+    }
 
 
-    if (!sprints ||
-        sprints.length === 0) {
+    const activeSprints =
+        getAvailableSprints();
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            activeSprints.length;
+    }
+
+
+    if (!activeSprints.length) {
 
         container.innerHTML = `
 
             <div class="empty-state">
 
-                <i class="fa-solid fa-list-check"></i>
+                <i class="fa-solid fa-person-running"></i>
 
                 <p>
-                    No sprints created yet.
+                    No active or planning sprints.
                 </p>
 
             </div>
@@ -1285,148 +3684,1605 @@ function displaySprints(sprints) {
 
 
     container.innerHTML =
-        sprints.map(
-            sprint => {
-
-
-                let statusClass =
-                    "status-planning";
-
-
-                if (sprint.status === "ACTIVE") {
-
-                    statusClass =
-                        "status-active";
-
-                } else if (
-                    sprint.status === "COMPLETED"
-                ) {
-
-                    statusClass =
-                        "status-completed";
-                }
-
-
-                return `
-
-                    <div class="sprint-card">
-
-
-                        <div class="sprint-card-header">
-
-
-                            <div class="sprint-title-section">
-
-                                <h3>
-                                    ${escapeHtml(
-                                        sprint.name
-                                    )}
-                                </h3>
-
-                                <p class="sprint-goal">
-
-                                    ${escapeHtml(
-                                        sprint.goal ||
-                                        "No sprint goal specified."
-                                    )}
-
-                                </p>
-
-                            </div>
-
-
-                            <span
-                                class="sprint-status ${statusClass}">
-
-                                ${sprint.status}
-
-                            </span>
-
-
-                        </div>
-
-
-                        <div class="sprint-details">
-
-
-                            <div class="sprint-detail">
-
-                                <small>
-                                    Start Date
-                                </small>
-
-                                <strong>
-                                    ${sprint.start_date}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="sprint-detail">
-
-                                <small>
-                                    End Date
-                                </small>
-
-                                <strong>
-                                    ${sprint.end_date}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="sprint-detail">
-
-                                <small>
-                                    Velocity
-                                </small>
-
-                                <strong>
-                                    ${sprint.velocity}
-                                </strong>
-
-                            </div>
-
-
-                        </div>
-
-
-                        ${
-                            sprint.status !== "COMPLETED"
-
-                            ? `
-
-                                <div class="sprint-actions">
-
-                                    <button
-                                        class="sprint-action-btn complete-btn"
-                                        onclick="completeSprint(${sprint.id})">
-
-                                        <i class="fa-solid fa-check"></i>
-
-                                        Complete Sprint
-
-                                    </button>
-
-                                </div>
-
-                            `
-
-                            : ""
-                        }
-
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
+        activeSprints
+            .map(
+                sprint =>
+                    createActiveSprintCard(
+                        sprint
+                    )
+            )
+            .join("");
 }
 
 
 /* ============================================================
-   TOGGLE CREATE FORM
+   OPEN SPRINT DETAILS / MANAGEMENT
+============================================================ */
+
+function openSprintDetails(
+    sprintId,
+    mode = "view"
+) {
+
+    const sprint =
+        allSprints.find(
+            item =>
+                Number(
+                    getSprintId(
+                        item
+                    )
+                ) ===
+                Number(
+                    sprintId
+                )
+        );
+
+
+    if (!sprint) {
+
+        alert(
+            "Sprint not found."
+        );
+
+        return;
+    }
+
+
+    const sprintName =
+        sprint.name ||
+        sprint.sprint_name ||
+        `Sprint ${sprintId}`;
+
+
+    const status =
+        getSprintStatus(
+            sprint
+        );
+
+
+    const startDate =
+        sprint.start_date ||
+        sprint.startDate ||
+        null;
+
+
+    const endDate =
+        sprint.end_date ||
+        sprint.endDate ||
+        null;
+
+
+    /*
+       IMPORTANT:
+       Get sprint issues from allIssues.
+    */
+
+    const sprintIssues =
+        getSprintIssues(
+            sprintId
+        );
+
+
+    const progress =
+        calculateSprintProgress(
+            sprint,
+            sprintIssues
+        );
+
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.id =
+        "sprintDetailsModal";
+
+
+    modal.style.cssText = `
+
+        position:fixed;
+        inset:0;
+        background:rgba(15,23,42,.60);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:20px;
+
+    `;
+
+
+    let issueHtml = "";
+
+
+    if (!sprintIssues.length) {
+
+        issueHtml = `
+
+            <div style="
+                text-align:center;
+                padding:30px 15px;
+                color:#64748b;
+                border:1px dashed #cbd5e1;
+                border-radius:10px;
+            ">
+
+                <i
+                    class="fa-solid fa-list-check"
+                    style="
+                        font-size:28px;
+                        margin-bottom:10px;
+                    "
+                ></i>
+
+                <p>
+                    No issues are currently assigned
+                    to this sprint.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        issueHtml =
+            sprintIssues
+                .map(
+                    issue => {
+
+                        const issueId =
+                            getIssueId(
+                                issue
+                            );
+
+
+                        const issueTitle =
+                            issue.title ||
+                            issue.name ||
+                            issue.summary ||
+                            `Issue #${issueId}`;
+
+
+                        const issueStatus =
+                            String(
+                                issue.status ||
+                                "REPORTED"
+                            )
+                            .replace(
+                                /_/g,
+                                " "
+                            );
+
+
+                        return `
+
+                            <div style="
+                                padding:12px;
+                                border:1px solid #e2e8f0;
+                                border-radius:10px;
+                                margin-bottom:8px;
+                                background:#f8fafc;
+                            ">
+
+                                <div style="
+                                    display:flex;
+                                    justify-content:space-between;
+                                    align-items:flex-start;
+                                    gap:10px;
+                                ">
+
+                                    <div>
+
+                                        <div style="
+                                            font-size:12px;
+                                            color:#4f46e5;
+                                            font-weight:700;
+                                            margin-bottom:3px;
+                                        ">
+
+                                            #${escapeHtml(
+                                                String(issueId)
+                                            )}
+
+                                        </div>
+
+
+                                        <div style="
+                                            font-weight:600;
+                                            color:#172033;
+                                        ">
+
+                                            ${escapeHtml(
+                                                issueTitle
+                                            )}
+
+                                        </div>
+
+
+                                        <div style="
+                                            font-size:11px;
+                                            color:#64748b;
+                                            margin-top:4px;
+                                        ">
+
+                                            ${escapeHtml(
+                                                issueStatus
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    ${
+                                        mode === "manage" &&
+                                        status !== "COMPLETED"
+
+                                        ? `
+
+                                            <button
+                                                type="button"
+                                                onclick="
+                                                    removeIssueFromSprint(
+                                                        ${Number(sprintId)},
+                                                        ${Number(issueId)}
+                                                    )
+                                                "
+                                                style="
+                                                    border:none;
+                                                    background:#fee2e2;
+                                                    color:#b91c1c;
+                                                    padding:7px 10px;
+                                                    border-radius:7px;
+                                                    cursor:pointer;
+                                                    white-space:nowrap;
+                                                "
+                                            >
+
+                                                <i
+                                                    class="fa-solid fa-minus"
+                                                ></i>
+
+                                                Remove
+
+                                            </button>
+
+                                        `
+
+                                        : ""
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        `;
+                    }
+                )
+                .join("");
+    }
+
+
+    const statusText =
+        String(
+            status
+        )
+        .replace(
+            /_/g,
+            " "
+        );
+
+
+    modal.innerHTML = `
+
+        <div style="
+            width:min(680px,100%);
+            max-height:90vh;
+            overflow-y:auto;
+            background:white;
+            border-radius:16px;
+            box-shadow:0 25px 60px rgba(0,0,0,.25);
+        ">
+
+
+            <!-- HEADER -->
+
+            <div style="
+                padding:20px 24px;
+                border-bottom:1px solid #e2e8f0;
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+            ">
+
+                <div>
+
+                    <h2 style="
+                        margin:0;
+                        font-size:22px;
+                        color:#172033;
+                    ">
+
+                        ${escapeHtml(
+                            sprintName
+                        )}
+
+                    </h2>
+
+
+                    <span style="
+                        display:inline-block;
+                        margin-top:7px;
+                        padding:4px 10px;
+                        border-radius:20px;
+                        background:#ede9fe;
+                        color:#4338ca;
+                        font-size:12px;
+                        font-weight:600;
+                    ">
+
+                        ${escapeHtml(
+                            statusText
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    onclick="closeSprintDetails()"
+                    style="
+                        border:none;
+                        background:#f1f5f9;
+                        width:36px;
+                        height:36px;
+                        border-radius:50%;
+                        cursor:pointer;
+                        font-size:18px;
+                    "
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- BODY -->
+
+            <div style="
+                padding:24px;
+            ">
+
+
+                <!-- DATE DETAILS -->
+
+                <div style="
+                    display:grid;
+                    grid-template-columns:1fr 1fr;
+                    gap:12px;
+                    margin-bottom:18px;
+                ">
+
+                    <div style="
+                        padding:14px;
+                        background:#f8fafc;
+                        border-radius:10px;
+                    ">
+
+                        <small style="
+                            color:#64748b;
+                        ">
+                            Start Date
+                        </small>
+
+                        <div style="
+                            margin-top:5px;
+                            font-weight:600;
+                        ">
+
+                            ${formatDate(
+                                startDate
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div style="
+                        padding:14px;
+                        background:#f8fafc;
+                        border-radius:10px;
+                    ">
+
+                        <small style="
+                            color:#64748b;
+                        ">
+                            End Date
+                        </small>
+
+                        <div style="
+                            margin-top:5px;
+                            font-weight:600;
+                        ">
+
+                            ${formatDate(
+                                endDate
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROGRESS -->
+
+                <div style="
+                    padding:14px;
+                    background:#f8fafc;
+                    border-radius:10px;
+                    margin-bottom:20px;
+                ">
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin-bottom:7px;
+                    ">
+
+                        <strong>
+                            Sprint Progress
+                        </strong>
+
+                        <strong>
+                            ${progress}%
+                        </strong>
+
+                    </div>
+
+
+                    <div style="
+                        height:8px;
+                        background:#e2e8f0;
+                        border-radius:10px;
+                        overflow:hidden;
+                    ">
+
+                        <div style="
+                            width:${progress}%;
+                            height:100%;
+                            background:#4f46e5;
+                            border-radius:10px;
+                        "></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ISSUES -->
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:12px;
+                ">
+
+                    <h3 style="
+                        margin:0;
+                        color:#172033;
+                    ">
+
+                        ${
+                            mode === "manage"
+                                ? "Manage Sprint Issues"
+                                : "Sprint Issues"
+                        }
+
+                    </h3>
+
+
+                    <span style="
+                        font-size:12px;
+                        color:#64748b;
+                    ">
+
+                        ${sprintIssues.length}
+                        ${
+                            sprintIssues.length === 1
+                                ? "issue"
+                                : "issues"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                ${issueHtml}
+
+
+                <!-- MANAGEMENT ACTIONS -->
+
+                ${
+                    mode === "manage"
+
+                    ? `
+
+                        <div style="
+                            margin-top:20px;
+                            padding-top:18px;
+                            border-top:1px solid #e2e8f0;
+                            display:flex;
+                            gap:10px;
+                            flex-wrap:wrap;
+                        ">
+
+
+                            <button
+                                type="button"
+                                onclick="
+                                    closeSprintDetails();
+                                    openSprintBacklog();
+                                "
+                                style="
+                                    border:none;
+                                    background:#4f46e5;
+                                    color:white;
+                                    padding:10px 15px;
+                                    border-radius:8px;
+                                    cursor:pointer;
+                                    font-weight:600;
+                                "
+                            >
+
+                                <i
+                                    class="fa-solid fa-plus"
+                                ></i>
+
+                                Add Issues from Backlog
+
+                            </button>
+
+
+                            ${
+    status === "PLANNING"
+
+    ? `
+
+        <button
+            type="button"
+            onclick="
+                closeSprintDetails();
+                startSprint(
+                    ${Number(sprintId)}
+                );
+            "
+            style="
+                border:none;
+                background:#4f46e5;
+                color:white;
+                padding:10px 15px;
+                border-radius:8px;
+                cursor:pointer;
+                font-weight:600;
+            "
+        >
+
+            <i
+                class="fa-solid fa-play"
+            ></i>
+
+            Start Sprint
+
+        </button>
+
+    `
+
+    : status === "ACTIVE"
+
+    ? `
+
+        <button
+            type="button"
+            onclick="
+                closeSprintDetails();
+                completeSprint(
+                    ${Number(sprintId)}
+                );
+            "
+            style="
+                border:none;
+                background:#16a34a;
+                color:white;
+                padding:10px 15px;
+                border-radius:8px;
+                cursor:pointer;
+                font-weight:600;
+            "
+        >
+
+            <i
+                class="fa-solid fa-check"
+            ></i>
+
+            Complete Sprint
+
+        </button>
+
+    `
+
+    : ""
+}
+
+                        </div>
+
+                    `
+
+                    : ""
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                modal
+            ) {
+
+                closeSprintDetails();
+
+            }
+
+        }
+    );
+}
+
+
+/* ============================================================
+   CLOSE SPRINT DETAILS
+============================================================ */
+
+function closeSprintDetails() {
+
+    const modal =
+        document.getElementById(
+            "sprintDetailsModal"
+        );
+
+
+    if (modal) {
+
+        modal.remove();
+    }
+}
+
+
+/* ============================================================
+   OPEN BACKLOG
+============================================================ */
+
+function openSprintBacklog() {
+
+    const backlog =
+        document.getElementById(
+            "backlogList"
+        );
+
+
+    if (backlog) {
+
+        backlog.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+}
+
+
+/* ============================================================
+   REMOVE ISSUE FROM SPRINT
+============================================================ */
+
+async function removeIssueFromSprint(
+    sprintId,
+    issueId
+) {
+
+    const sprint =
+        allSprints.find(
+            item =>
+                Number(
+                    getSprintId(
+                        item
+                    )
+                ) ===
+                Number(
+                    sprintId
+                )
+        );
+
+
+    if (!sprint) {
+
+        alert(
+            "Sprint not found."
+        );
+
+        return;
+    }
+
+
+    const sprintStatus =
+        getSprintStatus(
+            sprint
+        );
+
+
+    /*
+       COMPLETED SPRINTS ARE LOCKED
+    */
+
+    if (
+        sprintStatus ===
+        "COMPLETED"
+    ) {
+
+        alert(
+            "Issues cannot be removed from a completed sprint."
+        );
+
+        return;
+    }
+
+
+    const issue =
+        allIssues.find(
+            item =>
+                Number(
+                    getIssueId(
+                        item
+                    )
+                ) ===
+                Number(
+                    issueId
+                )
+        );
+
+
+    const issueTitle =
+        issue
+            ? (
+                issue.title ||
+                issue.name ||
+                issue.summary ||
+                `Issue #${issueId}`
+            )
+            : `Issue #${issueId}`;
+
+
+    const confirmed =
+        confirm(
+            `Remove "${issueTitle}" from this sprint?\n\nThe issue will return to the Product Backlog.`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    try {
+
+        await apiRequest(
+            `${API_BASE}/api/v1/sprints/${sprintId}/issues/${issueId}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+        alert(
+            "Issue removed from sprint successfully."
+        );
+
+
+        closeSprintDetails();
+
+
+        await loadSprintPage();
+
+
+    } catch (error) {
+
+        console.error(
+            "Remove issue from sprint error:",
+            error
+        );
+
+
+        alert(
+            "Unable to remove issue from sprint: " +
+            error.message
+        );
+    }
+}
+
+
+/* ============================================================
+   RENDER BACKLOG
+============================================================ */
+
+function renderBacklog() {
+
+    const container =
+        document.getElementById(
+            "backlogList"
+        );
+
+
+    const countElement =
+        document.getElementById(
+            "backlogCount"
+        );
+
+
+    if (!container) {
+
+        return;
+    }
+
+
+    const backlogIssues =
+        allIssues.filter(
+            issue =>
+                getIssueSprintId(
+                    issue
+                ) === null
+        );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            backlogIssues.length;
+    }
+
+
+    if (!backlogIssues.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <p>
+                    Product backlog is empty.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        backlogIssues
+            .map(
+                issue =>
+                    createBacklogCard(
+                        issue
+                    )
+            )
+            .join("");
+}
+
+
+/* ============================================================
+   CREATE BACKLOG CARD
+============================================================ */
+
+function createBacklogCard(
+    issue
+) {
+
+    const issueId =
+        getIssueId(
+            issue
+        );
+
+
+    const status =
+        String(
+            issue.status ||
+            "REPORTED"
+        )
+        .toUpperCase();
+
+
+    const priority =
+        String(
+            issue.priority ||
+            "MEDIUM"
+        )
+        .toUpperCase();
+
+
+    let priorityClass =
+        "priority-medium";
+
+
+    if (
+        priority === "LOW"
+    ) {
+
+        priorityClass =
+            "priority-low";
+
+    } else if (
+        priority === "HIGH"
+    ) {
+
+        priorityClass =
+            "priority-high";
+
+    } else if (
+        priority === "URGENT"
+    ) {
+
+        priorityClass =
+            "priority-urgent";
+    }
+
+
+    const title =
+        issue.title ||
+        issue.name ||
+        issue.summary ||
+        `Issue #${issueId}`;
+
+
+    return `
+
+        <article
+            class="backlog-card"
+        >
+
+            <div class="backlog-top">
+
+                <div class="backlog-title-wrap">
+
+                    <span class="backlog-id">
+
+                        #${escapeHtml(
+                            String(issueId)
+                        )}
+
+                    </span>
+
+
+                    <h3 class="backlog-title">
+
+                        ${escapeHtml(
+                            title
+                        )}
+
+                    </h3>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="add-sprint-btn"
+                    onclick="
+                        openSprintModal(
+                            ${Number(issueId)}
+                        )
+                    "
+                >
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add to Sprint
+
+                </button>
+
+            </div>
+
+
+            <div class="backlog-meta">
+
+                <span
+                    class="issue-status-badge"
+                >
+
+                    ${escapeHtml(
+                        status
+                    )}
+
+                </span>
+
+
+                <span
+                    class="issue-priority-badge ${priorityClass}"
+                >
+
+                    ${escapeHtml(
+                        priority
+                    )}
+
+                </span>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* ============================================================
+   RENDER SPRINT HISTORY
+============================================================ */
+
+function renderSprintHistory() {
+
+    const container =
+        document.getElementById(
+            "sprintHistoryList"
+        );
+
+
+    const countElement =
+        document.getElementById(
+            "historyCount"
+        );
+
+
+    if (!container) {
+
+        return;
+    }
+
+
+    const historySprints =
+        [...allSprints]
+            .sort(
+                (a, b) => {
+
+                    const dateA =
+                        new Date(
+                            a.start_date ||
+                            0
+                        ).getTime();
+
+
+                    const dateB =
+                        new Date(
+                            b.start_date ||
+                            0
+                        ).getTime();
+
+
+                    return dateA - dateB;
+                }
+            );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            `${historySprints.length} ${
+                historySprints.length === 1
+                    ? "sprint"
+                    : "sprints"
+            }`;
+    }
+
+
+    if (!historySprints.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-clock"></i>
+
+                <p>
+                    No sprint history available.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        historySprints
+            .map(
+                sprint =>
+                    createHistoryCard(
+                        sprint
+                    )
+            )
+            .join("");
+}
+
+
+/* ============================================================
+   CREATE HISTORY CARD
+============================================================ */
+
+function createHistoryCard(
+    sprint
+) {
+
+    const sprintId =
+        getSprintId(
+            sprint
+        );
+
+
+    const status =
+        getSprintStatus(
+            sprint
+        );
+
+
+    const sprintIssues =
+        getSprintIssues(
+            sprintId
+        );
+
+
+    const totalIssues =
+        sprintIssues.length;
+
+
+    const completedIssues =
+        sprintIssues.filter(
+            isIssueCompleted
+        ).length;
+
+
+    const velocity =
+        sprint.velocity !== undefined &&
+        sprint.velocity !== null
+
+            ? sprint.velocity
+
+            : (
+                status === "COMPLETED"
+                    ? completedIssues
+                    : "-"
+            );
+
+
+    let statusClass =
+        "status-planning";
+
+
+    if (
+        status === "ACTIVE"
+    ) {
+
+        statusClass =
+            "status-active";
+
+    } else if (
+        status === "COMPLETED"
+    ) {
+
+        statusClass =
+            "status-completed";
+    }
+
+
+    return `
+
+        <article
+            class="history-card"
+        >
+
+            <div class="history-card-top">
+
+                <h3>
+
+                    ${escapeHtml(
+                        sprint.name ||
+                        "Unnamed Sprint"
+                    )}
+
+                </h3>
+
+
+                <span
+                    class="sprint-status ${statusClass}"
+                >
+
+                    ${escapeHtml(
+                        status
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="history-date">
+
+                <i
+                    class="fa-regular fa-calendar"
+                ></i>
+
+
+                <span>
+
+                    ${formatDate(
+                        sprint.start_date
+                    )}
+
+                </span>
+
+
+                <span>
+                    →
+                </span>
+
+
+                <span>
+
+                    ${formatDate(
+                        sprint.end_date
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="history-stats">
+
+                <span>
+                    Issues ${totalIssues}
+                </span>
+
+
+                <span>
+                    |
+                </span>
+
+
+                <span>
+                    Velocity ${velocity}
+                </span>
+
+
+                <span class="history-arrow">
+
+                    <i
+                        class="fa-solid fa-chevron-right"
+                    ></i>
+
+                </span>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* ============================================================
+   POPULATE SPRINT SELECTOR
+============================================================ */
+
+function populateSprintSelector() {
+
+    const select =
+        document.getElementById(
+            "targetSprintSelect"
+        );
+
+
+    if (!select) {
+
+        return;
+    }
+
+
+    const availableSprints =
+        getAvailableSprints();
+
+
+    select.innerHTML = `
+
+        <option value="">
+            Select a sprint
+        </option>
+
+    `;
+
+
+    if (!availableSprints.length) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            "";
+
+
+        option.textContent =
+            "No Planning or Active sprints available";
+
+
+        option.disabled =
+            true;
+
+
+        select.appendChild(
+            option
+        );
+
+
+        return;
+    }
+
+
+    availableSprints.forEach(
+        sprint => {
+
+            const sprintId =
+                getSprintId(
+                    sprint
+                );
+
+
+            if (
+                sprintId === undefined ||
+                sprintId === null
+            ) {
+
+                return;
+            }
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                sprintId;
+
+
+            option.textContent =
+                sprint.name ||
+                `Sprint ${sprintId}`;
+
+
+            select.appendChild(
+                option
+            );
+        }
+    );
+}
+
+
+/* ============================================================
+   OPEN ADD TO SPRINT MODAL
+============================================================ */
+
+function openSprintModal(
+    issueId
+) {
+
+    selectedIssueId =
+        issueId;
+
+
+    const modal =
+        document.getElementById(
+            "addSprintModal"
+        );
+
+
+    const issue =
+        allIssues.find(
+            item =>
+                Number(
+                    getIssueId(
+                        item
+                    )
+                ) ===
+                Number(
+                    issueId
+                )
+        );
+
+
+    const title =
+        issue
+            ? (
+                issue.title ||
+                issue.name ||
+                issue.summary ||
+                `Issue #${issueId}`
+            )
+            : `Issue #${issueId}`;
+
+
+    const selectedIssueText =
+        document.getElementById(
+            "selectedIssueText"
+        );
+
+
+    if (selectedIssueText) {
+
+        selectedIssueText.textContent =
+            `Select the sprint where you want to place "${title}".`;
+    }
+
+
+    populateSprintSelector();
+
+
+    if (modal) {
+
+        modal.classList.add(
+            "show"
+        );
+    }
+}
+
+
+/* ============================================================
+   CLOSE ADD TO SPRINT MODAL
+============================================================ */
+
+function closeSprintModal() {
+
+    selectedIssueId =
+        null;
+
+
+    const modal =
+        document.getElementById(
+            "addSprintModal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove(
+            "show"
+        );
+    }
+}
+
+
+/* ============================================================
+   ADD ISSUE TO SPRINT
+============================================================ */
+
+async function addIssueToSprint() {
+
+    const select =
+        document.getElementById(
+            "targetSprintSelect"
+        );
+
+
+    const sprintId =
+        select
+            ? select.value
+            : "";
+
+
+    if (!selectedIssueId) {
+
+        alert(
+            "No issue selected."
+        );
+
+        return;
+    }
+
+
+    if (!sprintId) {
+
+        alert(
+            "Please select a sprint."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await apiRequest(
+                `${API_BASE}/api/v1/sprints/${sprintId}/add-issue/${selectedIssueId}`,
+                {
+                    method: "POST"
+                }
+            );
+
+
+        await response
+            .json()
+            .catch(() => ({}));
+
+
+        alert(
+            "Issue added to sprint successfully."
+        );
+
+
+        closeSprintModal();
+
+
+        await loadSprintPage();
+
+
+    } catch (error) {
+
+        console.error(
+            "Add issue to sprint error:",
+            error
+        );
+
+
+        alert(
+            "Unable to add issue to sprint: " +
+            error.message
+        );
+    }
+}
+
+
+/* ============================================================
+   TOGGLE CREATE SPRINT FORM
 ============================================================ */
 
 function toggleSprintForm() {
@@ -1437,7 +5293,16 @@ function toggleSprintForm() {
         );
 
 
-    if (form.style.display === "block") {
+    if (!form) {
+
+        return;
+    }
+
+
+    if (
+        form.style.display ===
+        "block"
+    ) {
 
         form.style.display =
             "none";
@@ -1461,16 +5326,24 @@ function cancelSprintForm() {
             "sprintForm"
         );
 
+
     const createForm =
         document.getElementById(
             "sprintCreateForm"
         );
 
 
-    createForm.reset();
+    if (createForm) {
 
-    form.style.display =
-        "none";
+        createForm.reset();
+    }
+
+
+    if (form) {
+
+        form.style.display =
+            "none";
+    }
 }
 
 
@@ -1478,46 +5351,60 @@ function cancelSprintForm() {
    CREATE SPRINT
 ============================================================ */
 
-async function createSprint(event) {
+async function createSprint(
+    event
+) {
 
     event.preventDefault();
 
 
     const name =
         document
-            .getElementById("sprintName")
+            .getElementById(
+                "sprintName"
+            )
             .value
             .trim();
 
 
     const goal =
         document
-            .getElementById("sprintGoal")
+            .getElementById(
+                "sprintGoal"
+            )
             .value
             .trim();
 
 
     const startDate =
         document
-            .getElementById("startDate")
+            .getElementById(
+                "startDate"
+            )
             .value;
 
 
     const endDate =
         document
-            .getElementById("endDate")
+            .getElementById(
+                "endDate"
+            )
             .value;
 
 
     const sprintStatus =
         document
-            .getElementById("sprintStatus")
+            .getElementById(
+                "sprintStatus"
+            )
             .value;
 
 
-    if (!name ||
+    if (
+        !name ||
         !startDate ||
-        !endDate) {
+        !endDate
+    ) {
 
         alert(
             "Please fill in all required fields."
@@ -1527,7 +5414,10 @@ async function createSprint(event) {
     }
 
 
-    if (endDate < startDate) {
+    if (
+        endDate <
+        startDate
+    ) {
 
         alert(
             "End date cannot be before start date."
@@ -1540,57 +5430,45 @@ async function createSprint(event) {
     try {
 
         const response =
-            await fetch(
+            await apiRequest(
                 `${API_BASE}/api/v1/sprints/`,
                 {
                     method: "POST",
 
                     headers: {
 
-                        "Authorization":
-                            `Bearer ${token}`,
-
                         "Content-Type":
-                            "application/json",
-
-                        "Accept":
                             "application/json"
+
                     },
 
-                    body: JSON.stringify({
+                    body:
+                        JSON.stringify({
 
-                        name:
-                            name,
+                            name:
+                                name,
 
-                        goal:
-                            goal || null,
+                            goal:
+                                goal ||
+                                null,
 
-                        start_date:
-                            startDate,
+                            start_date:
+                                startDate,
 
-                        end_date:
-                            endDate,
+                            end_date:
+                                endDate,
 
-                        status:
-                            sprintStatus
-                    })
+                            status:
+                                sprintStatus
+
+                        })
                 }
             );
 
 
-        if (!response.ok) {
-
-            const errorData =
-                await response
-                    .json()
-                    .catch(() => ({}));
-
-
-            throw new Error(
-                errorData.detail ||
-                `HTTP ${response.status}`
-            );
-        }
+        await response
+            .json()
+            .catch(() => ({}));
 
 
         alert(
@@ -1601,7 +5479,7 @@ async function createSprint(event) {
         cancelSprintForm();
 
 
-        await loadSprints();
+        await loadSprintPage();
 
 
     } catch (error) {
@@ -1619,16 +5497,84 @@ async function createSprint(event) {
     }
 }
 
-
 /* ============================================================
    COMPLETE SPRINT
+   PLANNING → COMPLETED IS NOT ALLOWED
+   Only ACTIVE → COMPLETED
 ============================================================ */
 
 async function completeSprint(sprintId) {
 
+    const sprint =
+        allSprints.find(
+            item =>
+                Number(
+                    getSprintId(item)
+                ) === Number(sprintId)
+        );
+
+
+    if (!sprint) {
+
+        alert(
+            "Sprint not found."
+        );
+
+        return;
+    }
+
+
+    const sprintStatus =
+        getSprintStatus(sprint);
+
+
+    /* --------------------------------------------------------
+       PLANNING SPRINT CANNOT BE COMPLETED DIRECTLY
+    -------------------------------------------------------- */
+
+    if (sprintStatus === "PLANNING") {
+
+        alert(
+            "This sprint is still in Planning.\n\n" +
+            "Please start the sprint first. " +
+            "A Planning sprint cannot be completed directly."
+        );
+
+        return;
+    }
+
+
+    /* --------------------------------------------------------
+       ALREADY COMPLETED
+    -------------------------------------------------------- */
+
+    if (sprintStatus === "COMPLETED") {
+
+        alert(
+            "This sprint is already completed."
+        );
+
+        return;
+    }
+
+
+    /* --------------------------------------------------------
+       ONLY ACTIVE SPRINT CAN BE COMPLETED
+    -------------------------------------------------------- */
+
+    if (sprintStatus !== "ACTIVE") {
+
+        alert(
+            "Only an Active sprint can be completed."
+        );
+
+        return;
+    }
+
+
     const confirmed =
         confirm(
-            "Are you sure you want to complete this sprint?"
+            "Are you sure you want to complete this active sprint?"
         );
 
 
@@ -1641,36 +5587,17 @@ async function completeSprint(sprintId) {
     try {
 
         const response =
-            await fetch(
+            await apiRequest(
                 `${API_BASE}/api/v1/sprints/${sprintId}/complete`,
                 {
-                    method: "POST",
-
-                    headers: {
-
-                        "Authorization":
-                            `Bearer ${token}`,
-
-                        "Accept":
-                            "application/json"
-                    }
+                    method: "POST"
                 }
             );
 
 
-        if (!response.ok) {
-
-            const errorData =
-                await response
-                    .json()
-                    .catch(() => ({}));
-
-
-            throw new Error(
-                errorData.detail ||
-                `HTTP ${response.status}`
-            );
-        }
+        await response
+            .json()
+            .catch(() => ({}));
 
 
         alert(
@@ -1678,7 +5605,7 @@ async function completeSprint(sprintId) {
         );
 
 
-        await loadSprints();
+        await loadSprintPage();
 
 
     } catch (error) {
@@ -1695,24 +5622,63 @@ async function completeSprint(sprintId) {
         );
     }
 }
+async function startSprint(sprintId) {
+    try {
+        const sprint = allSprints.find(
+            s => getSprintId(s) === Number(sprintId)
+        );
 
+        if (!sprint) {
+            alert("Sprint not found.");
+            return;
+        }
 
-/* ============================================================
-   HTML ESCAPE
-============================================================ */
+        const status = getSprintStatus(sprint);
 
-function escapeHtml(value) {
+        if (status === "ACTIVE") {
+            alert("Sprint is already active.");
+            return;
+        }
 
-    const div =
-        document.createElement("div");
+        if (status === "COMPLETED") {
+            alert("A completed sprint cannot be started.");
+            return;
+        }
 
-    div.textContent =
-        value;
+        if (status !== "PLANNING") {
+            alert("Only a planning sprint can be started.");
+            return;
+        }
 
-    return div.innerHTML;
+        const confirmed = confirm(
+            "Are you sure you want to start this sprint?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        const response = await apiRequest(
+            `${API_BASE}/api/v1/sprints/${sprintId}/start`,
+            {
+                method: "POST"
+            }
+        );
+
+        const result = await response.json();
+
+        console.log("Sprint started:", result);
+
+        alert("Sprint started successfully.");
+
+        // Reload latest sprint/issue data
+        await loadSprintPage();
+
+    } catch (error) {
+        console.error("Unable to start sprint:", error);
+        alert(`Unable to start sprint: ${error.message}`);
+    }
 }
-
-
 /* ============================================================
    LOGOUT
 ============================================================ */
@@ -1727,14 +5693,45 @@ if (logoutBtn) {
 
     logoutBtn.addEventListener(
         "click",
-        function () {
+        function() {
 
             localStorage.removeItem(
                 "access_token"
             );
 
+
             window.location.href =
                 "index.html";
+
+        }
+    );
+}
+
+
+/* ============================================================
+   CLOSE ADD-SPRINT MODAL WHEN CLICKING OUTSIDE
+============================================================ */
+
+const addSprintModal =
+    document.getElementById(
+        "addSprintModal"
+    );
+
+
+if (addSprintModal) {
+
+    addSprintModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                closeSprintModal();
+            }
+
         }
     );
 }
@@ -1746,14 +5743,20 @@ if (logoutBtn) {
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    function() {
 
-        loadSprints();
+        loadSprintPage();
 
     }
 );
 
 </script>
+
+<!-- ============================================================
+     ADMIN NOTIFICATION SYSTEM
+============================================================ -->
+
+<script src="admin-notifications.js"></script>
 
 
 </body>

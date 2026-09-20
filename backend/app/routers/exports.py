@@ -6,8 +6,10 @@ from fastapi.responses import StreamingResponse
 from fpdf import FPDF
 from sqlalchemy.orm import Session
 
+from app.auth.dependencies import get_current_user
 from app.database.database import get_db
 from app.models.issue import Issue
+from app.models.user import User
 
 
 router = APIRouter(
@@ -16,24 +18,36 @@ router = APIRouter(
 )
 
 
-# ============================================================
-# CSV EXPORT
-# ============================================================
+def enum_value(value):
+    if value is None:
+        return ""
+    return str(getattr(value, "value", value))
 
-@router.get("/csv")
-def export_csv(db: Session = Depends(get_db)):
 
-    issues = (
-        db.query(Issue)
-        .order_by(Issue.id.asc())
-        .all()
-    )
+def issue_row(issue: Issue):
+    return [
+        issue.id,
+        issue.project_id,
+        issue.reporter_id,
+        issue.assignee_id,
+        issue.category_id,
+        issue.title,
+        issue.description,
+        enum_value(issue.issue_type),
+        enum_value(issue.severity),
+        enum_value(issue.priority),
+        enum_value(issue.status),
+        getattr(issue, "environment_details", ""),
+        issue.created_at,
+        issue.updated_at,
+        issue.resolved_at
+    ]
 
+
+def export_issues_csv(issues, filename):
     output = io.StringIO()
-
     writer = csv.writer(output)
 
-    # Header row
     writer.writerow([
         "Issue ID",
         "Project ID",
@@ -52,26 +66,8 @@ def export_csv(db: Session = Depends(get_db)):
         "Resolved At"
     ])
 
-    # Data rows
     for issue in issues:
-
-        writer.writerow([
-            issue.id,
-            issue.project_id,
-            issue.reporter_id,
-            issue.assignee_id,
-            issue.category_id,
-            issue.title,
-            issue.description,
-            issue.issue_type.value if issue.issue_type else "",
-            issue.severity.value if issue.severity else "",
-            issue.priority.value if issue.priority else "",
-            issue.status.value if issue.status else "",
-            issue.environment_details or "",
-            issue.created_at,
-            issue.updated_at,
-            issue.resolved_at
-        ])
+        writer.writerow(issue_row(issue))
 
     output.seek(0)
 
@@ -80,223 +76,288 @@ def export_csv(db: Session = Depends(get_db)):
         media_type="text/csv",
         headers={
             "Content-Disposition":
-                "attachment; filename=bugflow_issue_registry.csv"
+                f'attachment; filename="{filename}"'
         }
     )
 
+
 # ============================================================
-# PDF EXPORT
+# ADMIN / SYSTEM-WIDE CSV
 # ============================================================
 
-@router.get("/pdf")
-def export_pdf(db: Session = Depends(get_db)):
-
+@router.get("/csv")
+def export_csv(
+    db: Session = Depends(get_db)
+):
     issues = (
         db.query(Issue)
         .order_by(Issue.id.asc())
         .all()
     )
 
-    total_bugs = len(issues)
-
-    resolved_bugs = sum(
-        1
-        for issue in issues
-        if issue.status
-        and issue.status.value in ["RESOLVED", "CLOSED"]
+    return export_issues_csv(
+        issues,
+        "bugflow_issues.csv"
     )
 
-    critical_bugs = sum(
+
+# ============================================================
+# ADMIN / SYSTEM-WIDE PDF
+# ============================================================
+
+def build_pdf_report(
+    issues,
+    title,
+    report_user=None
+):
+    total = len(issues)
+    resolved = sum(
         1
         for issue in issues
-        if issue.severity
-        and issue.severity.value == "CRITICAL"
-        and issue.status
-        and issue.status.value not in ["RESOLVED", "CLOSED"]
+        if enum_value(issue.status).upper()
+        in {"RESOLVED", "CLOSED"}
     )
-
-    # --------------------------------------------------------
-    # CREATE PDF
-    # --------------------------------------------------------
+    critical = sum(
+        1
+        for issue in issues
+        if enum_value(issue.severity).upper() == "CRITICAL"
+    )
 
     pdf = FPDF()
-
-    pdf.set_margins(
-        left=10,
-        top=10,
-        right=10
-    )
-
     pdf.set_auto_page_break(
         auto=True,
         margin=15
     )
-
     pdf.add_page()
 
-    # --------------------------------------------------------
-    # TITLE
-    # --------------------------------------------------------
-
-    pdf.set_font("Arial", "B", 20)
-
+    pdf.set_font("Arial", "B", 18)
     pdf.cell(
-        190,
-        12,
-        "BugFlow - Software Quality Report",
-        border=0,
-        ln=1,
+        0,
+        10,
+        title,
+        ln=True,
         align="C"
     )
 
     pdf.ln(5)
 
-    # --------------------------------------------------------
-    # EXECUTIVE SUMMARY
-    # --------------------------------------------------------
+    if report_user:
+        pdf.set_font("Arial", "", 10)
+        pdf.cell(
+            0,
+            7,
+            f"User: {report_user}",
+            ln=True
+        )
+        pdf.ln(3)
 
     pdf.set_font("Arial", "B", 14)
-
     pdf.cell(
-        190,
+        0,
         10,
         "Executive Summary",
-        border=0,
-        ln=1
+        ln=True
     )
 
-    pdf.set_font("Arial", "", 11)
-
+    pdf.set_font("Arial", "", 10)
     pdf.cell(
-        190,
-        8,
-        f"Total Bugs: {total_bugs}",
-        border=0,
-        ln=1
+        0,
+        7,
+        f"Total Issues: {total}",
+        ln=True
+    )
+    pdf.cell(
+        0,
+        7,
+        f"Resolved / Closed: {resolved}",
+        ln=True
+    )
+    pdf.cell(
+        0,
+        7,
+        f"Critical Issues: {critical}",
+        ln=True
     )
 
-    pdf.cell(
-        190,
-        8,
-        f"Resolved / Closed Bugs: {resolved_bugs}",
-        border=0,
-        ln=1
-    )
+    fix_rate = round(
+        (resolved / total) * 100,
+        2
+    ) if total else 0
 
     pdf.cell(
-        190,
-        8,
-        f"Open Critical Bugs: {critical_bugs}",
-        border=0,
-        ln=1
+        0,
+        7,
+        f"Fix Rate: {fix_rate}%",
+        ln=True
     )
 
     pdf.ln(5)
 
-    # --------------------------------------------------------
-    # DEFECT REGISTRY
-    # --------------------------------------------------------
-
-    pdf.set_font("Arial", "B", 14)
-
+    pdf.set_font("Arial", "B", 13)
     pdf.cell(
-        190,
-        10,
+        0,
+        9,
         "Defect Registry",
-        border=0,
-        ln=1
+        ln=True
     )
 
+    pdf.set_font("Arial", "B", 7)
+    pdf.cell(14, 7, "ID", 1)
+    pdf.cell(52, 7, "Title", 1)
+    pdf.cell(23, 7, "Severity", 1)
+    pdf.cell(23, 7, "Priority", 1)
+    pdf.cell(35, 7, "Status", 1)
+    pdf.cell(30, 7, "Created", 1)
+    pdf.ln()
+
+    pdf.set_font("Arial", "", 7)
+
     for issue in issues:
+        title_text = str(
+            issue.title or "Untitled"
+        ).encode(
+            "latin-1",
+            "replace"
+        ).decode("latin-1")
 
-        title = str(issue.title or "Untitled Issue")
-        severity = (
-            issue.severity.value
-            if issue.severity
-            else "N/A"
-        )
-        priority = (
-            issue.priority.value
-            if issue.priority
-            else "N/A"
-        )
-        status = (
-            issue.status.value
-            if issue.status
-            else "N/A"
+        created = (
+            issue.created_at.strftime("%Y-%m-%d")
+            if issue.created_at else ""
         )
 
-        # Remove line breaks and unusual spacing
-        title = title.replace("\n", " ")
-        title = title.replace("\r", " ")
-        title = " ".join(title.split())
+        pdf.cell(14, 7, str(issue.id), 1)
+        pdf.cell(52, 7, title_text[:34], 1)
+        pdf.cell(23, 7, enum_value(issue.severity)[:14], 1)
+        pdf.cell(23, 7, enum_value(issue.priority)[:14], 1)
+        pdf.cell(35, 7, enum_value(issue.status)[:20], 1)
+        pdf.cell(30, 7, created, 1)
+        pdf.ln()
 
-        # ----------------------------------------------------
-        # VERY IMPORTANT:
-        # Limit title length so FPDF never receives a huge
-        # unbreakable string.
-        # ----------------------------------------------------
+    data = pdf.output(dest="S")
 
-        if len(title) > 100:
-            title = title[:97] + "..."
+    if isinstance(data, str):
+        data = data.encode("latin-1")
+    elif isinstance(data, bytearray):
+        data = bytes(data)
 
-        issue_text = (
-            f"#{issue.id} - {title}"
-        )
+    return data
 
-        details_text = (
-            f"Severity: {severity} | "
-            f"Priority: {priority} | "
-            f"Status: {status}"
-        )
 
-        # ----------------------------------------------------
-        # ISSUE TITLE
-        # ----------------------------------------------------
+@router.get("/pdf")
+def export_pdf(
+    db: Session = Depends(get_db)
+):
+    issues = (
+        db.query(Issue)
+        .order_by(Issue.id.asc())
+        .all()
+    )
 
-        pdf.set_font("Arial", "B", 10)
-
-        pdf.set_x(10)
-
-        pdf.cell(
-            190,
-            7,
-            issue_text,
-            border=0,
-            ln=1
-        )
-
-        # ----------------------------------------------------
-        # ISSUE DETAILS
-        # ----------------------------------------------------
-
-        pdf.set_font("Arial", "", 9)
-
-        pdf.set_x(10)
-
-        pdf.cell(
-            190,
-            6,
-            details_text,
-            border=0,
-            ln=1
-        )
-
-        pdf.ln(3)
-
-    # --------------------------------------------------------
-    # GENERATE PDF
-    # --------------------------------------------------------
-
-    pdf_bytes = bytes(pdf.output())
-
-    pdf_stream = io.BytesIO(pdf_bytes)
+    pdf_data = build_pdf_report(
+        issues,
+        "BugFlow - Software Quality Report"
+    )
 
     return StreamingResponse(
-        pdf_stream,
+        io.BytesIO(pdf_data),
         media_type="application/pdf",
         headers={
             "Content-Disposition":
-                "attachment; filename=bugflow_quality_report.pdf"
+                'attachment; filename="bugflow_quality_report.pdf"'
+        }
+    )
+
+
+# ============================================================
+# USER-SPECIFIC EXPORTS
+# ============================================================
+
+def get_my_issues(
+    db: Session,
+    current_user: User
+):
+    return (
+        db.query(Issue)
+        .filter(
+            (Issue.reporter_id == current_user.id)
+            | (Issue.assignee_id == current_user.id)
+        )
+        .order_by(Issue.id.asc())
+        .all()
+    )
+
+
+def safe_user_name(user: User):
+    raw_name = (
+        user.full_name
+        or user.username
+        or "User"
+    )
+
+    safe = "".join(
+        character
+        for character in str(raw_name)
+        if character.isalnum()
+        or character in {" ", "-", "_"}
+    ).strip()
+
+    safe = "_".join(safe.split())
+    return safe or "User"
+
+
+@router.get("/my/csv")
+def export_my_csv(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    issues = get_my_issues(
+        db,
+        current_user
+    )
+
+    filename = (
+        f"bugflow_{safe_user_name(current_user).lower()}"
+        "_quality_report.csv"
+    )
+
+    return export_issues_csv(
+        issues,
+        filename
+    )
+
+
+@router.get("/my/pdf")
+def export_my_pdf(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    issues = get_my_issues(
+        db,
+        current_user
+    )
+
+    display_name = (
+        current_user.full_name
+        or current_user.username
+        or "User"
+    )
+
+    pdf_data = build_pdf_report(
+        issues,
+        "BugFlow - Personal Quality Report",
+        report_user=display_name
+    )
+
+    filename = (
+        f"bugflow_{safe_user_name(current_user).lower()}"
+        "_quality_report.pdf"
+    )
+
+    return StreamingResponse(
+        io.BytesIO(pdf_data),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition":
+                f'attachment; filename="{filename}"'
         }
     )

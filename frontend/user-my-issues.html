@@ -927,7 +927,760 @@
 }
 
     </style>
+<link rel="stylesheet" href="css/user-theme.css">
+<style>
+/* =========================================================
+   MY ISSUES - FULL DARK THEME
+   ========================================================= */
 
+html,
+body {
+    background: #080c18 !important;
+    color: #f8fafc !important;
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* Main application */
+.app-layout {
+    background: #080c18 !important;
+}
+
+/* Main content */
+.main {
+    background: #080c18 !important;
+    color: #f8fafc !important;
+}
+
+/* Top bar */
+.topbar {
+    background: #080c18 !important;
+    color: #f8fafc !important;
+    border-bottom: 1px solid #1f2937 !important;
+}
+
+.topbar-title span {
+    color: #64748b !important;
+}
+
+.topbar-title strong {
+    color: #f8fafc !important;
+}
+
+.user-profile strong {
+    color: #f8fafc !important;
+}
+
+.user-profile small {
+    color: #94a3b8 !important;
+}
+
+.notification-button {
+    background: #111827 !important;
+    color: #cbd5e1 !important;
+    border: 1px solid #1f2937 !important;
+}
+
+/* Page heading */
+.issues-header-left span {
+    color: #818cf8 !important;
+}
+
+.issues-header-left h1 {
+    color: #f8fafc !important;
+}
+
+.issues-header-left p {
+    color: #94a3b8 !important;
+}
+
+/* New issue button */
+.new-issue-btn {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+.new-issue-btn:hover {
+    background: #6366f1 !important;
+}
+
+/* Project filter */
+.project-filter-card {
+    background: #0d1322 !important;
+    border: 1px solid #1f2937 !important;
+    box-shadow: none !important;
+}
+
+.project-filter-group label {
+    color: #f8fafc !important;
+}
+
+.project-filter-group select {
+    background: #111827 !important;
+    color: #f8fafc !important;
+    border: 1px solid #374151 !important;
+}
+
+.project-filter-group select option {
+    background: #111827 !important;
+    color: #f8fafc !important;
+}
+
+.project-filter-group select:focus {
+    border-color: #6366f1 !important;
+}
+
+.project-filter-actions .primary-btn {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+.project-filter-actions .primary-btn:hover {
+    background: #6366f1 !important;
+}
+
+.project-filter-actions .reset-btn {
+    background: #111827 !important;
+    color: #cbd5e1 !important;
+    border: 1px solid #374151 !important;
+}
+
+.project-filter-actions .reset-btn:hover {
+    background: #1f2937 !important;
+}
+
+/* Issues card */
+.issues-card {
+    background: #0d1322 !important;
+    border: 1px solid #1f2937 !important;
+    box-shadow: none !important;
+}
+
+/* Card header */
+.issues-card-header {
+    background: #0d1322 !important;
+    border-bottom: 1px solid #1f2937 !important;
+}
+
+.issues-card-title h3 {
+    color: #f8fafc !important;
+}
+
+.issues-card-title p {
+    color: #94a3b8 !important;
+}
+
+.issue-count {
+    background: #1e1b4b !important;
+    color: #a5b4fc !important;
+}
+
+/* Table */
+.issues-table {
+    background: #0d1322 !important;
+}
+
+.issues-table thead {
+    background: #111827 !important;
+}
+
+.issues-table th {
+    color: #94a3b8 !important;
+    border-bottom: 1px solid #1f2937 !important;
+}
+
+.issues-table td {
+    color: #cbd5e1 !important;
+    border-top: 1px solid #1f2937 !important;
+}
+
+.issues-table tbody tr {
+    background: #0d1322 !important;
+}
+
+.issues-table tbody tr:hover {
+    background: #111827 !important;
+}
+
+/* Issue title */
+.issue-id {
+    color: #818cf8 !important;
+}
+
+.issue-title {
+    color: #f8fafc !important;
+}
+
+.issue-details-link:hover .issue-title {
+    color: #a5b4fc !important;
+}
+
+/* Resolution button */
+.resolution-btn {
+    background: #1e1b4b !important;
+    color: #a5b4fc !important;
+    border: 1px solid #3730a3 !important;
+}
+
+.resolution-btn:hover {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+    border-color: #4f46e5 !important;
+}
+
+/* Loading / empty message */
+.issues-message {
+    background: #0d1322 !important;
+    color: #94a3b8 !important;
+}
+
+.issues-message i {
+    color: #818cf8 !important;
+}
+
+/* Sidebar remains dark */
+.sidebar {
+    background: #080c18 !important;
+}
+
+.sidebar .brand {
+    background: #080c18 !important;
+    border-bottom: 1px solid #1f2937 !important;
+}
+
+.sidebar-bottom {
+    border-top: 1px solid #1f2937 !important;
+}
+
+/* Back button */
+.sidebar-back-button {
+    background: #111827 !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #374151 !important;
+}
+
+.sidebar-back-button:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #080c18;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+}
+/* =========================================================
+   BUGFLOW MY ISSUES - FORCE DARK SIDEBAR
+   Overrides user-theme.css
+========================================================= */
+
+/* SIDEBAR */
+.app-layout .sidebar {
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 100vh !important;
+
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    background: #111827 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    z-index: 1000 !important;
+
+    color: #ffffff !important;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.app-layout .sidebar .brand {
+    height: 105px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 0 28px !important;
+
+    background: #111827 !important;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.app-layout .sidebar .brand-icon {
+    width: 48px !important;
+    height: 48px !important;
+
+    border-radius: 12px !important;
+
+    background: #4f46e5 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #ffffff !important;
+
+    font-size: 21px !important;
+
+    margin-right: 15px !important;
+}
+
+.app-layout .sidebar .brand-text {
+    font-size: 23px !important;
+    font-weight: 700 !important;
+
+    color: #ffffff !important;
+}
+
+.app-layout .sidebar .brand-text span {
+    color: #818cf8 !important;
+}
+
+
+/* =========================================================
+   SIDEBAR SECTION
+========================================================= */
+
+.app-layout .sidebar .sidebar-section {
+    padding: 30px 18px 20px !important;
+
+    background: #111827 !important;
+}
+
+.app-layout .sidebar .sidebar-heading {
+    padding: 0 15px !important;
+
+    margin-bottom: 15px !important;
+
+    color: #9ca3af !important;
+
+    font-size: 12px !important;
+    font-weight: 500 !important;
+
+    text-transform: uppercase !important;
+
+    letter-spacing: 1.5px !important;
+}
+
+
+/* =========================================================
+   NAV LINKS
+========================================================= */
+
+.app-layout .sidebar .nav-link {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 15px !important;
+
+    padding: 14px 18px !important;
+
+    margin-bottom: 6px !important;
+
+    border-radius: 10px !important;
+
+    text-decoration: none !important;
+
+    color: #d1d5db !important;
+
+    background: transparent !important;
+
+    font-size: 15px !important;
+    font-weight: 500 !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.app-layout .sidebar .nav-link i {
+    width: 20px !important;
+
+    text-align: center !important;
+
+    font-size: 17px !important;
+
+    color: #9ca3af !important;
+}
+
+
+/* =========================================================
+   NAV HOVER
+========================================================= */
+
+.app-layout .sidebar .nav-link:hover {
+    background: rgba(79,70,229,0.15) !important;
+
+    color: #ffffff !important;
+}
+
+.app-layout .sidebar .nav-link:hover i {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   ACTIVE LINK
+========================================================= */
+
+.app-layout .sidebar .nav-link.active {
+    background: #4f46e5 !important;
+
+    color: #ffffff !important;
+
+    font-weight: 600 !important;
+}
+
+.app-layout .sidebar .nav-link.active i {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.app-layout .sidebar .sidebar-back-button {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 7px !important;
+
+    margin: 15px 15px 20px auto !important;
+
+    padding: 8px 14px !important;
+
+    border: 1px solid #374151 !important;
+
+    border-radius: 7px !important;
+
+    background: #1f2937 !important;
+
+    color: #d1d5db !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.app-layout .sidebar .sidebar-back-button i {
+    color: #818cf8 !important;
+}
+
+.app-layout .sidebar .sidebar-back-button:hover {
+    background: #374151 !important;
+
+    color: #ffffff !important;
+
+    border-color: #4f46e5 !important;
+
+    transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.app-layout .sidebar .sidebar-bottom {
+    margin-top: auto !important;
+
+    padding: 20px 18px 25px !important;
+
+    background: #111827 !important;
+
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.app-layout .sidebar .sidebar-bottom .logout-link {
+    color: #d1d5db !important;
+
+    background: transparent !important;
+
+    margin-bottom: 0 !important;
+}
+
+.app-layout .sidebar .sidebar-bottom .logout-link i {
+    color: #d1d5db !important;
+}
+
+.app-layout .sidebar .sidebar-bottom .logout-link:hover {
+    background: rgba(239,68,68,0.12) !important;
+
+    color: #ffffff !important;
+}
+
+.app-layout .sidebar .sidebar-bottom .logout-link:hover i {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   MAIN AREA
+========================================================= */
+
+.app-layout .main {
+    margin-left: 312px !important;
+
+    width: calc(100% - 312px) !important;
+
+    min-height: 100vh !important;
+
+    background: #f5f7fb !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .app-layout .sidebar {
+        width: 250px !important;
+        min-width: 250px !important;
+    }
+
+    .app-layout .main {
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .app-layout .sidebar {
+        width: 220px !important;
+        min-width: 220px !important;
+    }
+
+    .app-layout .main {
+        margin-left: 220px !important;
+        width: calc(100% - 220px) !important;
+    }
+}
+</style>
+<style>
+
+/* =========================================================
+   MY ISSUES - DARK THEME OVERRIDES
+   ========================================================= */
+
+/* Main page background */
+.main {
+    background: #080b16 !important;
+}
+
+/* My Issues page background */
+.issues-page {
+    background: #080b16 !important;
+}
+
+/* Wrapper should stay dark */
+.issues-wrapper {
+    background: transparent !important;
+}
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.sidebar-back-button {
+    background: #111827 !important;
+    color: #d1d5db !important;
+    border: 1px solid #374151 !important;
+}
+
+.sidebar-back-button:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+    border-color: #4f46e5 !important;
+}
+
+/* Back arrow */
+.sidebar-back-button i {
+    color: #818cf8 !important;
+}
+
+
+/* =========================================================
+   PAGE HEADER TEXT
+   ========================================================= */
+
+.issues-header-left span {
+    color: #818cf8 !important;
+}
+
+.issues-header-left h1 {
+    color: #ffffff !important;
+}
+
+.issues-header-left p {
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   PROJECT FILTER
+   ========================================================= */
+
+.project-filter-card {
+    background: #0f1524 !important;
+    border-color: #273247 !important;
+}
+
+.project-filter-group label {
+    color: #f1f5f9 !important;
+}
+
+.project-filter-group select {
+    background: #111827 !important;
+    color: #e5e7eb !important;
+    border-color: #374151 !important;
+}
+
+.project-filter-group select:focus {
+    border-color: #4f46e5 !important;
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
+   ========================================================= */
+
+.project-filter-actions .reset-btn {
+    background: #111827 !important;
+    color: #d1d5db !important;
+    border-color: #374151 !important;
+}
+
+.project-filter-actions .reset-btn:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   ISSUES CARD
+   ========================================================= */
+
+.issues-card {
+    background: #0f1524 !important;
+    border-color: #273247 !important;
+}
+
+.issues-card-header {
+    border-bottom-color: #273247 !important;
+}
+
+.issues-card-title h3 {
+    color: #ffffff !important;
+}
+
+.issues-card-title p {
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.issues-table thead {
+    background: #111827 !important;
+}
+
+.issues-table th {
+    color: #94a3b8 !important;
+}
+
+.issues-table td {
+    color: #cbd5e1 !important;
+    border-top-color: #273247 !important;
+}
+
+.issues-table tbody tr:hover {
+    background: #151c2c !important;
+}
+
+
+/* =========================================================
+   ISSUE TITLE
+   ========================================================= */
+
+.issue-title {
+    color: #f8fafc !important;
+}
+
+.issue-details-link:hover .issue-title {
+    color: #818cf8 !important;
+}
+
+
+/* =========================================================
+   ISSUE COUNT
+   ========================================================= */
+
+.issue-count {
+    background: #211d5c !important;
+    color: #a5b4fc !important;
+}
+
+
+/* =========================================================
+   EMPTY / ERROR MESSAGE
+   ========================================================= */
+
+.issues-message {
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   NEW ISSUE BUTTON
+   ========================================================= */
+
+.new-issue-btn {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+.new-issue-btn:hover {
+    background: #4338ca !important;
+}
+
+</style>
+<link rel="stylesheet" href="css/user-theme.css">
 </head>
 
 
@@ -991,7 +1744,7 @@
     </a>
 
     <!-- Report Issue -->
-    <a href="report-defect.html"
+    <a href="user-report-defect.html"
        class="nav-link">
 
         <i class="fa-solid fa-bug"></i>
@@ -1003,7 +1756,7 @@
     </a>
 
     <!-- My Issues -->
-    <a href="my-issues.html"
+    <a href="user-my-issues.html"
        class="nav-link active">
 
         <i class="fa-solid fa-list-check"></i>
@@ -1015,7 +1768,7 @@
     </a>
 
     <!-- Resolution Assistance -->
-    <a href="resolution.html"
+    <a href="user-resolution.html"
        class="nav-link">
 
         <i class="fa-solid fa-lightbulb"></i>
@@ -1041,25 +1794,13 @@
     
 
     <!-- Notifications -->
-    <a href="notifications.html"
+    <a href="user-notifications.html"
        class="nav-link">
 
         <i class="fa-solid fa-bell"></i>
 
         <span>
             Notifications
-        </span>
-
-    </a>
-
-    <!-- Settings -->
-    <a href="settings.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-gear"></i>
-
-        <span>
-            Settings
         </span>
 
     </a>
@@ -1136,7 +1877,7 @@
 
                 <!-- NOTIFICATION -->
 
-                <a href="notifications.html"
+                <a href="user-notifications.html"
    class="notification-button">
 
     <i class="fa-regular fa-bell"></i>
@@ -1145,32 +1886,32 @@
 
 
                 <!-- USER -->
+                 <div class="user-profile"
+     id="userProfileButton"
+     title="Open Profile">
 
-                <div class="user-profile">
+    <div class="avatar"
+         id="userAvatar">
 
+        US
 
-                    <div class="avatar"
-                         id="userAvatar">
+    </div>
 
-                        US
+    <div>
 
-                    </div>
+        <strong id="userName">
+            User
+        </strong>
 
+        <small id="userRole">
+            TESTER
+        </small>
 
-                    <div>
+    </div>
 
-                        <strong id="userName">
-                            User
-                        </strong>
+</div>
 
-                        <small id="userRole">
-                            TESTER
-                        </small>
-
-                    </div>
-
-
-                </div>
+             
 
 
             </div>
@@ -1211,7 +1952,7 @@
                     </div>
 
 
-                    <a href="report-defect.html"
+                    <a href="user-report-defect.html"
                        class="new-issue-btn">
 
                         <i class="fa-solid fa-plus"></i>
@@ -1548,6 +2289,28 @@ function displayUser() {
     }
 
 }
+/* =========================================================
+   OPEN PROFILE
+========================================================= */
+
+const userProfileButton =
+    document.getElementById("userProfileButton");
+
+if (userProfileButton) {
+
+    userProfileButton.style.cursor = "pointer";
+
+    userProfileButton.addEventListener(
+        "click",
+        function() {
+
+            window.location.href =
+                "user-profile.html";
+
+        }
+    );
+
+}
 /* =====================================================
    LOAD PROJECTS
 ===================================================== */
@@ -1575,6 +2338,7 @@ async function loadProjects() {
                     method: "GET",
 
                     headers: {
+
                         "Accept":
                             "application/json",
 
@@ -1584,6 +2348,7 @@ async function loadProjects() {
                 }
             );
 
+
         if (!response.ok) {
 
             console.error(
@@ -1591,16 +2356,53 @@ async function loadProjects() {
             );
 
             return;
+
         }
 
-        allProjects =
+
+        /* GET PROJECT DATA */
+
+        const data =
             await response.json();
+
+
+        /* SUPPORT DIFFERENT API RESPONSE FORMATS */
+
+        if (Array.isArray(data)) {
+
+            allProjects = data;
+
+        } else if (
+            data &&
+            Array.isArray(data.projects)
+        ) {
+
+            allProjects = data.projects;
+
+        } else if (
+            data &&
+            Array.isArray(data.items)
+        ) {
+
+            allProjects = data.items;
+
+        } else {
+
+            allProjects = [];
+
+        }
+
+
+        /* RESET PROJECT DROPDOWN */
 
         projectFilter.innerHTML = `
             <option value="">
                 All Projects
             </option>
         `;
+
+
+        /* ADD PROJECTS */
 
         allProjects.forEach(
             function(project) {
@@ -1610,11 +2412,14 @@ async function loadProjects() {
                         "option"
                     );
 
+
                 option.value =
                     project.project_id;
 
+
                 option.textContent =
                     project.project_name;
+
 
                 projectFilter.appendChild(
                     option
@@ -1622,6 +2427,7 @@ async function loadProjects() {
 
             }
         );
+
 
     } catch (error) {
 
@@ -1631,6 +2437,7 @@ async function loadProjects() {
         );
 
     }
+
 }
 
 /* =========================================================
@@ -1896,7 +2703,7 @@ function renderIssues(issues) {
                         <br><br>
 
                         <a
-                            href="report-defect.html"
+                            href="user-report-defect.html"
                             class="new-issue-btn"
                         >
 
@@ -2068,10 +2875,10 @@ function renderIssues(issues) {
                     <td>
 
                         <a
-                            href="resolution.html?issue_id=${encodeURIComponent(issue.id)}"
-                            class="resolution-btn"
-                            title="Get resolution assistance for this issue"
-                        >
+    href="user-resolution.html?issue_id=${encodeURIComponent(issue.id)}"
+    class="resolution-btn"
+    title="Get resolution assistance for this issue"
+>
 
                             <i class="fa-solid fa-lightbulb"></i>
 
@@ -2362,7 +3169,6 @@ document.getElementById(
 );
 
 </script>
-<script src="theme.js"></script>
 </body>
 
 </html>

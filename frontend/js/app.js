@@ -180,7 +180,7 @@ if (loginForm) {
                 );
 
                 window.location.href =
-                    "./admin-dashboard.html";
+                    "admin-dashboard.html";
 
             } else {
 
@@ -188,8 +188,7 @@ if (loginForm) {
                     "Non-admin user detected. Redirecting..."
                 );
 
-                window.location.href =
-                    "./user-dashboard.html";
+                window.location.href = "user-dashboard.html";
             }
 
         } catch (error) {

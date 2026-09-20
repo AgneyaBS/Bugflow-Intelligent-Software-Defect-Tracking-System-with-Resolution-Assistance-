@@ -7,19 +7,24 @@
 
     <title>BugFlow | User Dashboard</title>
 
-    <!-- Font Awesome -->
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
-        <!-- Plotly.js -->
-        <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    <!-- =========================================================
+         PLOTLY
+    ========================================================== -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 
     <style>
 
         /* =========================================================
            GLOBAL
-        ========================================================= */
+        ========================================================== */
 
         * {
             margin: 0;
@@ -39,14 +44,16 @@
             color: inherit;
         }
 
-        button {
+        button,
+        select,
+        input {
             font-family: inherit;
         }
 
 
         /* =========================================================
            LAYOUT
-        ========================================================= */
+        ========================================================== */
 
         .app-layout {
             display: flex;
@@ -56,7 +63,7 @@
 
         /* =========================================================
            SIDEBAR
-        ========================================================= */
+        ========================================================== */
 
         .sidebar {
             width: 250px;
@@ -70,6 +77,7 @@
             display: flex;
             flex-direction: column;
             z-index: 100;
+            overflow-y: auto;
         }
 
         .brand {
@@ -78,6 +86,7 @@
             align-items: center;
             padding: 0 25px;
             border-bottom: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
         }
 
         .brand-icon {
@@ -104,11 +113,38 @@
 
 
         /* =========================================================
+           BACK BUTTON
+        ========================================================== */
+
+        .sidebar-back-button {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin: 15px 15px 5px auto;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 7px;
+            background: #1f2937;
+            color: #d1d5db;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-back-button:hover {
+            background: #374151;
+            color: #ffffff;
+            transform: translateX(-2px);
+        }
+
+
+        /* =========================================================
            NAVIGATION
-        ========================================================= */
+        ========================================================== */
 
         .sidebar-section {
-            padding: 25px 15px 10px;
+            padding: 20px 15px 10px;
         }
 
         .sidebar-heading {
@@ -120,6 +156,7 @@
         }
 
         .nav-link {
+            position: relative;
             display: flex;
             align-items: center;
             gap: 13px;
@@ -164,8 +201,39 @@
 
 
         /* =========================================================
+           NOTIFICATION BADGES
+        ========================================================== */
+
+        .notification {
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 5px;
+            border-radius: 10px;
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #sidebarNotificationBadge {
+            margin-left: auto;
+        }
+
+
+        /* =========================================================
            MAIN CONTENT
-        ========================================================= */
+        ========================================================== */
 
         .main-content {
             margin-left: 250px;
@@ -176,7 +244,7 @@
 
         /* =========================================================
            TOP BAR
-        ========================================================= */
+        ========================================================== */
 
         .topbar {
             height: 75px;
@@ -211,10 +279,34 @@
             background: #f9fafb;
         }
 
+        .notification:hover {
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+
+        /* =========================================================
+           USER PROFILE HEADER
+        ========================================================== */
+
+        .user-profile-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 7px;
+            border-radius: 10px;
+            transition: 0.2s ease;
+        }
+
+        .user-profile-link:hover {
+            background: #f3f4f6;
+        }
+
         .user-profile {
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
 
         .user-avatar {
@@ -227,6 +319,15 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid #eef2ff;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .user-info {
@@ -248,7 +349,7 @@
 
         /* =========================================================
            CONTENT
-        ========================================================= */
+        ========================================================== */
 
         .content {
             padding: 32px;
@@ -273,7 +374,7 @@
 
         /* =========================================================
            QUICK ACTION
-        ========================================================= */
+        ========================================================== */
 
         .quick-action {
             display: flex;
@@ -303,7 +404,7 @@
 
         /* =========================================================
            STATISTICS
-        ========================================================= */
+        ========================================================== */
 
         .stats-grid {
             display: grid;
@@ -354,7 +455,7 @@
 
         /* =========================================================
            DASHBOARD GRID
-        ========================================================= */
+        ========================================================== */
 
         .dashboard-grid {
             display: grid;
@@ -375,6 +476,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 15px;
         }
 
         .card-header h2 {
@@ -393,6 +495,7 @@
             color: #4f46e5;
             font-size: 12px;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .card-body {
@@ -401,8 +504,8 @@
 
 
         /* =========================================================
-           RECENT ISSUES TABLE
-        ========================================================= */
+           TABLE
+        ========================================================== */
 
         .table-container {
             overflow-x: auto;
@@ -447,7 +550,7 @@
 
         /* =========================================================
            STATUS BADGES
-        ========================================================= */
+        ========================================================== */
 
         .status-badge {
             display: inline-flex;
@@ -487,11 +590,12 @@
 
 
         /* =========================================================
-           RIGHT SIDE CARDS
-        ========================================================= */
+           ACTIVITY / QUICK ACTION ITEMS
+        ========================================================== */
 
         .activity-item {
             display: flex;
+            align-items: flex-start;
             gap: 12px;
             padding: 13px 0;
             border-bottom: 1px solid #f0f1f3;
@@ -504,13 +608,17 @@
         .activity-icon {
             width: 34px;
             height: 34px;
+            min-width: 34px;
             border-radius: 8px;
             background: #eef2ff;
             color: #4f46e5;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+        }
+
+        .activity-info {
+            flex: 1;
         }
 
         .activity-text {
@@ -533,7 +641,7 @@
 
         /* =========================================================
            EMPTY STATE
-        ========================================================= */
+        ========================================================== */
 
         .empty-state {
             text-align: center;
@@ -560,7 +668,7 @@
 
         /* =========================================================
            LOADING
-        ========================================================= */
+        ========================================================== */
 
         .loading {
             text-align: center;
@@ -572,533 +680,493 @@
         .loading i {
             margin-right: 7px;
         }
+
+
         /* =========================================================
-   WORKFLOW CARD
-========================================================= */
-
-.workflow-card {
-    margin-top: 20px;
-}
-
-.workflow-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.workflow-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 14px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    background: #fafafa;
-}
-
-.workflow-info {
-    min-width: 0;
-    flex: 1;
-}
-
-.workflow-issue-key {
-    color: #4f46e5;
-    font-size: 11px;
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-
-.workflow-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111827;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.workflow-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.status-select {
-    border: 1px solid #d1d5db;
-    background: #ffffff;
-    border-radius: 7px;
-    padding: 8px 10px;
-    font-size: 11px;
-    color: #374151;
-    cursor: pointer;
-}
-
-.status-update-btn {
-    border: none;
-    background: #4f46e5;
-    color: #ffffff;
-    border-radius: 7px;
-    padding: 8px 12px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.status-update-btn:hover {
-    background: #4338ca;
-}
-
-.status-update-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.workflow-message {
-    margin-top: 12px;
-    padding: 10px;
-    border-radius: 7px;
-    font-size: 12px;
-    display: none;
-}
-
-.workflow-success {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.workflow-error {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-
-/* =========================================================
-   SPRINT BOARD
-========================================================= */
-
-.sprint-card {
-    margin-top: 20px;
-}
-
-.sprint-section {
-    margin-bottom: 25px;
-}
-
-.sprint-section:last-child {
-    margin-bottom: 0;
-}
-
-.sprint-section-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #374151;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.sprint-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.sprint-item {
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 15px;
-    background: #fafafa;
-}
-
-.sprint-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.sprint-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: #111827;
-    display: block;
-}
-
-.sprint-goal {
-    font-size: 11px;
-    color: #6b7280;
-    margin-top: 4px;
-    display: block;
-}
-
-.sprint-status {
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: 700;
-    background: #dcfce7;
-    color: #166534;
-    white-space: nowrap;
-}
-
-.sprint-dates {
-    font-size: 11px;
-    color: #6b7280;
-    margin-bottom: 12px;
-    display: block;
-}
-
-.sprint-issues {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.sprint-issue {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 7px;
-}
-
-.sprint-issue-info {
-    min-width: 0;
-    flex: 1;
-}
-
-.sprint-issue-key {
-    font-size: 10px;
-    font-weight: 700;
-    color: #4f46e5;
-    display: block;
-}
-
-.sprint-issue-title {
-    font-size: 11px;
-    color: #374151;
-    margin-top: 2px;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.sprint-issue-status {
-    font-size: 10px;
-    font-weight: 600;
-    color: #6b7280;
-    white-space: nowrap;
-}
-
-.backlog-section {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 20px;
-}
-
-.backlog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.backlog-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    padding: 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 9px;
-    background: #ffffff;
-}
-
-.backlog-info {
-    min-width: 0;
-    flex: 1;
-}
-
-.backlog-issue-key {
-    font-size: 10px;
-    font-weight: 700;
-    color: #4f46e5;
-    display: block;
-}
-
-.backlog-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: #111827;
-    margin-top: 3px;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.backlog-status {
-    font-size: 10px;
-    color: #6b7280;
-    margin-top: 3px;
-    display: block;
-}
-
-.add-sprint-btn {
-    border: none;
-    background: #4f46e5;
-    color: #ffffff;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-size: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.add-sprint-btn:hover {
-    background: #4338ca;
-}
-
-.add-sprint-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.empty-sprint {
-    padding: 15px;
-    text-align: center;
-    color: #6b7280;
-    font-size: 12px;
-    border: 1px dashed #d1d5db;
-    border-radius: 8px;
-}
-/* =========================================================
-   MILESTONE 2 - LIVE ACTIVITY STREAM
-========================================================= */
-
-.activity-card {
-    margin-top: 20px;
-}
-
-.activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.activity-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    background: #fafafa;
-}
-
-.activity-icon {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eef2ff;
-    color: #4f46e5;
-}
-
-.activity-info {
-    flex: 1;
-}
-
-.activity-text {
-    font-size: 14px;
-    color: #374151;
-    line-height: 1.5;
-}
-
-.activity-text strong {
-    color: #111827;
-}
-
-.activity-time {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #6b7280;
-}
-
-.empty-activity {
-    padding: 20px;
-    text-align: center;
-    color: #6b7280;
-    font-size: 14px;
-}
-
-.activity-action {
-    font-weight: 600;
-    color: #4f46e5;
-}
-
-@media (max-width: 700px) {
-
-    .activity-item {
-        padding: 12px;
-    }
-
-    .activity-text {
-        font-size: 13px;
-    }
-
-}
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1100px) {
-
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-@media (max-width: 800px) {
-
-    .sidebar {
-        width: 210px;
-    }
-
-    .main-content {
-        margin-left: 210px;
-        width: calc(100% - 210px);
-    }
-
-    .content {
-        padding: 20px;
-    }
-}
-
-
-@media (max-width: 700px) {
-
-    .workflow-item {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .workflow-controls {
-        width: 100%;
-    }
-
-    .status-select {
-        flex: 1;
-    }
-
-    .sprint-header {
-        flex-direction: column;
-    }
-
-    .backlog-item {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .add-sprint-btn {
-        width: 100%;
-    }
-}
-
-
-@media (max-width: 650px) {
-
-    .sidebar {
-        position: relative;
-        width: 100%;
-        min-height: auto;
-    }
-
-    .app-layout {
-        display: block;
-    }
-
-    .main-content {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .topbar {
-        padding: 0 18px;
-    }
-
-    .content {
-        padding: 18px;
-    }
-}
-.sidebar-back-button {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin: 15px 15px 20px auto;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 7px;
-    background: #f1f5f9;
-    color: #334155;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.sidebar-back-button:hover {
-    background: #e2e8f0;
-    transform: translateX(-2px);
-}
-.notification {
-    position: relative;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.notification-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    min-width: 20px;
-    height: 20px;
-    padding: 0 5px;
-    border-radius: 10px;
-    background: #ef4444;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-link {
-    position: relative;
-}
-
-#sidebarNotificationBadge {
-    margin-left: auto;
-}
-</style>
+           WORKFLOW
+        ========================================================== */
+
+        .workflow-card {
+            margin-top: 20px;
+        }
+
+        .workflow-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .workflow-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .workflow-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .workflow-issue-key {
+            color: #4f46e5;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .workflow-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .workflow-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-select {
+            border: 1px solid #d1d5db;
+            background: #ffffff;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-size: 11px;
+            color: #374151;
+            cursor: pointer;
+        }
+
+        .status-update-btn {
+            border: none;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 7px;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .status-update-btn:hover {
+            background: #4338ca;
+        }
+
+        .status-update-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .workflow-message {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .workflow-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .workflow-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+
+        /* =========================================================
+           SPRINT BOARD
+        ========================================================== */
+
+        .sprint-card {
+            margin-top: 20px;
+        }
+
+        .sprint-section {
+            margin-bottom: 25px;
+        }
+
+        .sprint-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .sprint-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sprint-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sprint-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fafafa;
+        }
+
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .sprint-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            display: block;
+        }
+
+        .sprint-goal {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .sprint-status {
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            background: #dcfce7;
+            color: #166534;
+            white-space: nowrap;
+        }
+
+        .sprint-dates {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .sprint-issues {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sprint-issue {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 10px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+        }
+
+        .sprint-issue-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .sprint-issue-key {
+            font-size: 10px;
+            font-weight: 700;
+            color: #4f46e5;
+            display: block;
+        }
+
+        .sprint-issue-title {
+            font-size: 11px;
+            color: #374151;
+            margin-top: 2px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sprint-issue-status {
+            font-size: 10px;
+            font-weight: 600;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .backlog-section {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+
+        .backlog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .backlog-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+            background: #ffffff;
+        }
+
+        .backlog-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .backlog-issue-key {
+            font-size: 10px;
+            font-weight: 700;
+            color: #4f46e5;
+            display: block;
+        }
+
+        .backlog-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #111827;
+            margin-top: 3px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .backlog-status {
+            font-size: 10px;
+            color: #6b7280;
+            margin-top: 3px;
+            display: block;
+        }
+
+        .add-sprint-btn {
+            border: none;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 7px;
+            padding: 7px 11px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .add-sprint-btn:hover {
+            background: #4338ca;
+        }
+
+        .add-sprint-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .empty-sprint {
+            padding: 15px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+            border: 1px dashed #d1d5db;
+            border-radius: 8px;
+        }
+
+
+        /* =========================================================
+           LIVE ACTIVITY
+        ========================================================== */
+
+        .activity-card {
+            margin-top: 20px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .activity-card .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .activity-card .activity-icon {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .activity-card .activity-info {
+            flex: 1;
+        }
+
+        .activity-card .activity-text {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .activity-card .activity-time {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .empty-activity {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================== */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .user-info {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .workflow-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .workflow-controls {
+                width: 100%;
+            }
+
+            .status-select {
+                flex: 1;
+            }
+
+            .sprint-header {
+                flex-direction: column;
+            }
+
+            .backlog-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .add-sprint-btn {
+                width: 100%;
+            }
+
+            .activity-card .card-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .app-layout {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+
+            .topbar-right {
+                gap: 8px;
+            }
+
+            .page-title {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+
+    <!-- =========================================================
+         COMMON USER THEME
+    ========================================================== -->
+    <link rel="stylesheet" href="css/user-theme.css">
+
 </head>
 
 
@@ -1109,9 +1177,12 @@
 
     <!-- =========================================================
          SIDEBAR
+         7 USER PAGES ONLY
     ========================================================== -->
 
     <aside class="sidebar">
+
+        <!-- BRAND -->
 
         <div class="brand">
 
@@ -1124,131 +1195,161 @@
             </div>
 
         </div>
-        <button class="sidebar-back-button" onclick="history.back()">
-    <i class="fa-solid fa-arrow-left"></i>
-    <span>Back</span>
-</button>
 
+
+        <!-- BACK -->
+
+        <button
+            type="button"
+            class="sidebar-back-button"
+            onclick="history.back()"
+            title="Go back"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            <span>Back</span>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
 
         <div class="sidebar-section">
 
-    <div class="sidebar-heading">
-        Main
-    </div>
-
-    <!-- Dashboard -->
-    <a href="user-dashboard.html"
-       class="nav-link active">
-
-        <i class="fa-solid fa-chart-line"></i>
-
-        <span>Dashboard</span>
-
-    </a>
+            <div class="sidebar-heading">
+                Main
+            </div>
 
 
-    <!-- Report Issue -->
-    <a href="report-defect.html"
-       class="nav-link">
+            <!-- =================================================
+                 1. DASHBOARD
+            ================================================== -->
 
-        <i class="fa-solid fa-bug"></i>
+            <a
+                href="user-dashboard.html"
+                class="nav-link active"
+            >
 
-        <span>Report Issue</span>
+                <i class="fa-solid fa-chart-line"></i>
 
-    </a>
+                <span>Dashboard</span>
 
-
-    <!-- My Issues -->
-    <a href="my-issues.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-list-check"></i>
-
-        <span>My Issues</span>
-
-    </a>
+            </a>
 
 
-    <!-- Projects -->
-    <a href="projects.html"
-       class="nav-link">
+            <!-- =================================================
+                 2. REPORT ISSUE
+            ================================================== -->
 
-        <i class="fa-solid fa-folder-open"></i>
+            <a
+                href="user-report-defect.html"
+                class="nav-link"
+            >
 
-        <span>Projects</span>
+                <i class="fa-solid fa-bug"></i>
 
-    </a>
+                <span>Report Issue</span>
 
-
-    <!-- Resolution Assistance -->
-    <a href="resolution.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-lightbulb"></i>
-
-        <span>Resolution Assistance</span>
-
-    </a>
+            </a>
 
 
-    <!-- Analytics & Reports -->
-    <a href="user-analytics.html"
-       class="nav-link">
+            <!-- =================================================
+                 3. MY ISSUES
+            ================================================== -->
 
-        <i class="fa-solid fa-chart-pie"></i>
+            <a
+                href="user-my-issues.html"
+                class="nav-link"
+            >
 
-        <span>Analytics & Reports</span>
+                <i class="fa-solid fa-list-check"></i>
 
-    </a>
+                <span>My Issues</span>
 
-
-
-
-
-    <!-- Notifications -->
-    <a href="notifications.html"
-   class="nav-link">
-
-    <i class="fa-solid fa-bell"></i>
-
-    <span>Notifications</span>
-
-    <span id="sidebarNotificationBadge"
-          class="notification-badge"></span>
-
-</a>
+            </a>
 
 
+            <!-- =================================================
+                 4. RESOLUTION ASSISTANCE
+            ================================================== -->
 
-    <!-- Settings -->
-    <a href="settings.html"
-       class="nav-link">
+            <a
+                href="user-resolution.html"
+                class="nav-link"
+            >
 
-        <i class="fa-solid fa-gear"></i>
+                <i class="fa-solid fa-lightbulb"></i>
 
-        <span>Settings</span>
+                <span>Resolution Assistance</span>
 
-    </a>
+            </a>
 
 
-    <!-- System Support -->
-    <a href="system-support.html"
-       class="nav-link">
+            <!-- =================================================
+                 5. ANALYTICS & REPORTS
+            ================================================== -->
 
-        <i class="fa-solid fa-circle-question"></i>
+            <a
+                href="user-analytics.html"
+                class="nav-link"
+            >
 
-        <span>System Support</span>
+                <i class="fa-solid fa-chart-pie"></i>
 
-    </a>
+                <span>Analytics & Reports</span>
 
-</div>
+            </a>
 
+
+            <!-- =================================================
+                 6. NOTIFICATIONS
+            ================================================== -->
+
+            <a
+                href="user-notifications.html"
+                class="nav-link"
+            >
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>Notifications</span>
+
+                <span
+                    id="sidebarNotificationBadge"
+                    class="notification-badge"
+                ></span>
+
+            </a>
+
+
+            <!-- =================================================
+                 7. SYSTEM SUPPORT
+            ================================================== -->
+
+            <a
+                href="system-support.html"
+                class="nav-link"
+            >
+
+                <i class="fa-solid fa-circle-question"></i>
+
+                <span>System Support</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- LOGOUT -->
 
         <div class="sidebar-bottom">
 
-            <a href="#"
-               class="nav-link logout-link"
-               id="logoutLink">
+            <a
+                href="#"
+                class="nav-link logout-link"
+                id="logoutLink"
+            >
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -1282,35 +1383,72 @@
 
             <div class="topbar-right">
 
-               <a href="notifications.html" class="notification" id="topNotificationBell">
-    <i class="fa-regular fa-bell"></i>
-    <span id="topNotificationBadge" class="notification-badge"></span>
-</a>
+
+                <!-- =================================================
+                     NOTIFICATIONS
+                ================================================== -->
+
+                <a
+                    href="user-notifications.html"
+                    class="notification"
+                    id="topNotificationBell"
+                    title="Notifications"
+                    aria-label="Notifications"
+                >
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span
+                        id="topNotificationBadge"
+                        class="notification-badge"
+                    ></span>
+
+                </a>
 
 
-                <div class="user-profile">
+                <!-- =================================================
+                     USER PROFILE
+                     CLICK → OWN PROFILE ONLY
+                ================================================== -->
 
-                    <div class="user-avatar"
-                         id="userAvatar">
-                        U
-                    </div>
+                <a
+                    href="user-profile.html"
+                    class="user-profile-link"
+                    id="userProfileLink"
+                    title="Open my profile"
+                >
 
+                    <div class="user-profile">
 
-                    <div class="user-info">
-
-                        <div class="user-name"
-                             id="topUserName">
-                            User
+                        <div
+                            class="user-avatar"
+                            id="userAvatar"
+                        >
+                            U
                         </div>
 
-                        <div class="user-role"
-                             id="topUserRole">
-                            TESTER
+
+                        <div class="user-info">
+
+                            <div
+                                class="user-name"
+                                id="topUserName"
+                            >
+                                User
+                            </div>
+
+                            <div
+                                class="user-role"
+                                id="topUserRole"
+                            >
+                                TESTER
+                            </div>
+
                         </div>
 
                     </div>
 
-                </div>
+                </a>
 
             </div>
 
@@ -1332,10 +1470,13 @@
             <div class="welcome-section">
 
                 <h1>
+
                     Welcome back,
+
                     <span id="welcomeName">
                         User
                     </span>!
+
                 </h1>
 
                 <p>
@@ -1353,8 +1494,10 @@
 
             <div class="quick-action">
 
-                <a href="report-defect.html"
-                   class="primary-btn">
+                <a
+                    href="user-report-defect.html"
+                    class="primary-btn"
+                >
 
                     <i class="fa-solid fa-plus"></i>
 
@@ -1373,6 +1516,8 @@
             <div class="stats-grid">
 
 
+                <!-- TOTAL -->
+
                 <div class="stat-card">
 
                     <div class="stat-icon">
@@ -1387,8 +1532,10 @@
                             Total Issues
                         </div>
 
-                        <div class="stat-value"
-                             id="totalIssues">
+                        <div
+                            class="stat-value"
+                            id="totalIssues"
+                        >
                             0
                         </div>
 
@@ -1397,6 +1544,7 @@
                 </div>
 
 
+                <!-- OPEN -->
 
                 <div class="stat-card">
 
@@ -1412,8 +1560,10 @@
                             Open Issues
                         </div>
 
-                        <div class="stat-value"
-                             id="openIssues">
+                        <div
+                            class="stat-value"
+                            id="openIssues"
+                        >
                             0
                         </div>
 
@@ -1422,6 +1572,7 @@
                 </div>
 
 
+                <!-- IN PROGRESS -->
 
                 <div class="stat-card">
 
@@ -1437,8 +1588,10 @@
                             In Progress
                         </div>
 
-                        <div class="stat-value"
-                             id="inProgressIssues">
+                        <div
+                            class="stat-value"
+                            id="inProgressIssues"
+                        >
                             0
                         </div>
 
@@ -1447,6 +1600,7 @@
                 </div>
 
 
+                <!-- RESOLVED -->
 
                 <div class="stat-card">
 
@@ -1462,8 +1616,10 @@
                             Resolved
                         </div>
 
-                        <div class="stat-value"
-                             id="resolvedIssues">
+                        <div
+                            class="stat-value"
+                            id="resolvedIssues"
+                        >
                             0
                         </div>
 
@@ -1476,13 +1632,15 @@
 
 
             <!-- =================================================
-                 DASHBOARD CONTENT
+                 DASHBOARD GRID
             ================================================== -->
 
             <div class="dashboard-grid">
 
 
-                <!-- RECENT ISSUES -->
+                <!-- =================================================
+                     RECENT ISSUES
+                ================================================== -->
 
                 <div class="card">
 
@@ -1501,11 +1659,11 @@
                         </div>
 
 
-                        <a href="my-issues.html"
-                           class="view-link">
-
+                        <a
+                            href="user-my-issues.html"
+                            class="view-link"
+                        >
                             View All
-
                         </a>
 
                     </div>
@@ -1572,7 +1730,9 @@
 
 
 
-                <!-- QUICK ACTIONS -->
+                <!-- =================================================
+                     QUICK ACTIONS
+                ================================================== -->
 
                 <div class="card">
 
@@ -1596,6 +1756,8 @@
                     <div class="card-body">
 
 
+                        <!-- REPORT -->
+
                         <div class="activity-item">
 
                             <div class="activity-icon">
@@ -1618,8 +1780,10 @@
 
                                 <span class="activity-time">
 
-                                    <a href="report-defect.html"
-                                       style="color:#4f46e5;">
+                                    <a
+                                        href="user-report-defect.html"
+                                        style="color:#4f46e5;"
+                                    >
 
                                         Open Report Form →
 
@@ -1632,6 +1796,7 @@
                         </div>
 
 
+                        <!-- MY ISSUES -->
 
                         <div class="activity-item">
 
@@ -1655,8 +1820,10 @@
 
                                 <span class="activity-time">
 
-                                    <a href="my-issues.html"
-                                       style="color:#4f46e5;">
+                                    <a
+                                        href="user-my-issues.html"
+                                        style="color:#4f46e5;"
+                                    >
 
                                         View Issues →
 
@@ -1669,6 +1836,7 @@
                         </div>
 
 
+                        <!-- RESOLUTION -->
 
                         <div class="activity-item">
 
@@ -1692,10 +1860,52 @@
 
                                 <span class="activity-time">
 
-                                    <a href="resolution.html"
-                                       style="color:#4f46e5;">
+                                    <a
+                                        href="user-resolution.html"
+                                        style="color:#4f46e5;"
+                                    >
 
                                         Open Assistance →
+
+                                    </a>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PROFILE -->
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+
+                                <i class="fa-solid fa-user"></i>
+
+                            </div>
+
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    My Profile
+                                </strong>
+
+                                <br>
+
+                                View and update your own
+                                BugFlow profile.
+
+                                <span class="activity-time">
+
+                                    <a
+                                        href="user-profile.html"
+                                        style="color:#4f46e5;"
+                                    >
+
+                                        Open My Profile →
 
                                     </a>
 
@@ -1715,7 +1925,6 @@
 
 
             <!-- =================================================
-                 MILESTONE 2
                  WORKFLOW & COLLABORATION
             ================================================== -->
 
@@ -1740,9 +1949,10 @@
 
                 <div class="card-body">
 
-
-                    <div id="workflowList"
-                         class="workflow-list">
+                    <div
+                        id="workflowList"
+                        class="workflow-list"
+                    >
 
                         <div class="loading">
 
@@ -1755,10 +1965,10 @@
                     </div>
 
 
-                    <div id="workflowMessage"
-                         class="workflow-message">
-                    </div>
-
+                    <div
+                        id="workflowMessage"
+                        class="workflow-message"
+                    ></div>
 
                 </div>
 
@@ -1767,7 +1977,6 @@
 
 
             <!-- =================================================
-                 MILESTONE 2
                  SPRINT BOARD
             ================================================== -->
 
@@ -1811,8 +2020,10 @@
                         </h3>
 
 
-                        <div id="activeSprints"
-                             class="sprint-list">
+                        <div
+                            id="activeSprints"
+                            class="sprint-list"
+                        >
 
                             <div class="loading">
 
@@ -1841,8 +2052,10 @@
                         </h3>
 
 
-                        <div id="backlogIssues"
-                             class="backlog-list">
+                        <div
+                            id="backlogIssues"
+                            class="backlog-list"
+                        >
 
                             <div class="loading">
 
@@ -1858,79 +2071,98 @@
 
 
 
-                    <!-- SPRINT MESSAGE -->
-
-                    <div id="sprintMessage"
-                         class="workflow-message">
-                    </div>
-
+                    <div
+                        id="sprintMessage"
+                        class="workflow-message"
+                    ></div>
 
                 </div>
 
             </div>
-<!-- =========================================================
-     MILESTONE 2 - LIVE ACTIVITY STREAM
-========================================================= -->
-
-<div class="card activity-card">
-
-<div class="card-header">
-
-    <div>
-        <h2>Live Activity Stream</h2>
-
-        <p>
-            Recent activity on your reported issues
-        </p>
-    </div>
-
-    <div style="display: flex; align-items: center; gap: 12px;">
-
-        <button
-            type="button"
-            class="add-sprint-btn"
-            onclick="generatePdfReport()"
-        >
-            <i class="fa-solid fa-file-pdf"></i>
-            Generate PDF Report
-        </button>
-
-        <span class="view-link">
-            Live Updates
-        </span>
-
-    </div>
-
-</div>
 
 
-    <div class="card-body">
 
-        <div id="activityList"
-             class="activity-list">
+            <!-- =================================================
+                 LIVE ACTIVITY STREAM
+            ================================================== -->
 
-            <div class="loading">
+            <div class="card activity-card">
 
-                <i class="fa-solid fa-spinner fa-spin"></i>
+                <div class="card-header">
 
-                Loading activity...
+                    <div>
+
+                        <h2>
+                            Live Activity Stream
+                        </h2>
+
+                        <p>
+                            Recent activity on your reported issues
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                        "
+                    >
+
+                        <button
+                            type="button"
+                            class="add-sprint-btn"
+                            onclick="generatePdfReport()"
+                        >
+
+                            <i class="fa-solid fa-file-pdf"></i>
+
+                            Generate PDF Report
+
+                        </button>
+
+
+                        <span class="view-link">
+                            Live Updates
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div
+                        id="activityList"
+                        class="activity-list"
+                    >
+
+                        <div class="loading">
+
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                            Loading activity...
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="activityMessage"
+                        class="workflow-message"
+                    ></div>
+
+                </div>
 
             </div>
-
-        </div>
-
-        <div id="activityMessage"
-             class="workflow-message">
-        </div>
-
-    </div>
-
-</div>
 
         </section>
 
     </main>
-
 
 </div>
 
@@ -1942,8 +2174,7 @@
 
 <script>
 
-const API_BASE_URL =
-    "http://127.0.0.1:8000";
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 
 /* =========================================================
@@ -1996,6 +2227,18 @@ function getLoggedInUser() {
     return null;
 }
 
+
+/* =========================================================
+   GET TOKEN
+========================================================= */
+
+function getAccessToken() {
+
+    return localStorage.getItem(
+        "access_token"
+    );
+
+}
 
 
 /* =========================================================
@@ -2058,10 +2301,36 @@ function displayUserInformation() {
 
     if (avatar) {
 
-        avatar.textContent =
-            fullName
-                .charAt(0)
-                .toUpperCase();
+        /*
+         * Profile picture can come from
+         * the saved user object.
+         */
+
+        const profilePicture =
+            user.profile_picture ||
+            user.profilePicture;
+
+
+        if (
+            profilePicture &&
+            String(profilePicture).trim() !== ""
+        ) {
+
+            avatar.innerHTML = `
+                <img
+                    src="${escapeAttribute(profilePicture)}"
+                    alt="Profile"
+                >
+            `;
+
+        } else {
+
+            avatar.textContent =
+                fullName
+                    .charAt(0)
+                    .toUpperCase();
+
+        }
 
     }
 
@@ -2070,6 +2339,21 @@ function displayUserInformation() {
 }
 
 
+/* =========================================================
+   HTML ATTRIBUTE ESCAPE
+========================================================= */
+
+function escapeAttribute(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+}
+
 
 /* =========================================================
    LOAD USER ISSUES
@@ -2077,19 +2361,8 @@ function displayUserInformation() {
 
 async function loadUserIssues() {
 
-    const user =
-        getLoggedInUser();
-
-    if (!user || !user.id) {
-        return;
-    }
-
-
     const token =
-        localStorage.getItem(
-            "access_token"
-        );
-
+        getAccessToken();
 
     if (!token) {
 
@@ -2125,6 +2398,21 @@ async function loadUserIssues() {
 
         if (!response.ok) {
 
+            if (
+                response.status === 401
+            ) {
+
+                localStorage.removeItem(
+                    "access_token"
+                );
+
+                window.location.href =
+                    "index.html";
+
+                return;
+            }
+
+
             console.error(
                 "Unable to load user issues. Status:",
                 response.status
@@ -2153,19 +2441,25 @@ async function loadUserIssues() {
 
         }
 
-        else if (Array.isArray(data.issues)) {
+        else if (
+            Array.isArray(data.issues)
+        ) {
 
             issues = data.issues;
 
         }
 
-        else if (Array.isArray(data.items)) {
+        else if (
+            Array.isArray(data.items)
+        ) {
 
             issues = data.items;
 
         }
 
-        else if (Array.isArray(data.data)) {
+        else if (
+            Array.isArray(data.data)
+        ) {
 
             issues = data.data;
 
@@ -2176,9 +2470,11 @@ async function loadUserIssues() {
             issues
         );
 
+
         displayRecentIssues(
             issues
         );
+
 
         loadWorkflowIssues(
             issues
@@ -2198,23 +2494,18 @@ async function loadUserIssues() {
 }
 
 
-
 /* =========================================================
    UPDATE STATISTICS
 ========================================================= */
 
-function updateStatistics(
-    issues
-) {
+function updateStatistics(issues) {
 
     const total =
         issues.length;
 
 
     let open = 0;
-
     let inProgress = 0;
-
     let resolved = 0;
 
 
@@ -2292,14 +2583,11 @@ function updateStatistics(
 }
 
 
-
 /* =========================================================
    DISPLAY RECENT ISSUES
 ========================================================= */
 
-function displayRecentIssues(
-    issues
-) {
+function displayRecentIssues(issues) {
 
     const body =
         document.getElementById(
@@ -2348,13 +2636,11 @@ function displayRecentIssues(
 
 
     const recentIssues =
-        [...issues].slice(
-            0,
-            5
-        );
+        [...issues].slice(0, 5);
 
 
-    body.innerHTML = "";
+    body.innerHTML =
+        "";
 
 
     recentIssues.forEach(
@@ -2401,50 +2687,29 @@ function displayRecentIssues(
             row.innerHTML = `
 
                 <td>
-
                     <span class="issue-key">
-
-                        ${escapeHtml(
-                            issueKey
-                        )}
-
+                        ${escapeHtml(issueKey)}
                     </span>
-
                 </td>
 
-
                 <td>
-
                     <span class="issue-title">
-
-                        ${escapeHtml(
-                            title
-                        )}
-
+                        ${escapeHtml(title)}
                     </span>
-
                 </td>
 
+                <td>
+                    ${escapeHtml(priority)}
+                </td>
 
                 <td>
 
-                    ${escapeHtml(
-                        priority
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    <span class="status-badge ${statusClass}">
-
+                    <span
+                        class="status-badge ${statusClass}"
+                    >
                         ${escapeHtml(
-                            formatStatus(
-                                status
-                            )
+                            formatStatus(status)
                         )}
-
                     </span>
 
                 </td>
@@ -2462,14 +2727,11 @@ function displayRecentIssues(
 }
 
 
-
 /* =========================================================
    STATUS CLASS
 ========================================================= */
 
-function getStatusClass(
-    status
-) {
+function getStatusClass(status) {
 
     const value =
         String(status)
@@ -2530,17 +2792,15 @@ function getStatusClass(
 
 
     return "status-open";
-}
 
+}
 
 
 /* =========================================================
    FORMAT STATUS
 ========================================================= */
 
-function formatStatus(
-    status
-) {
+function formatStatus(status) {
 
     return String(status)
         .replace(
@@ -2560,39 +2820,20 @@ function formatStatus(
 }
 
 
-
 /* =========================================================
    HTML ESCAPE
 ========================================================= */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
-
 
 
 /* =========================================================
@@ -2600,9 +2841,7 @@ function escapeHtml(
 ========================================================= */
 
 document
-    .getElementById(
-        "logoutLink"
-    )
+    .getElementById("logoutLink")
     .addEventListener(
         "click",
         function(event) {
@@ -2630,14 +2869,11 @@ document
     );
 
 
-
 /* =========================================================
    LOAD WORKFLOW ISSUES
 ========================================================= */
 
-function loadWorkflowIssues(
-    issues
-) {
+function loadWorkflowIssues(issues) {
 
     const workflowList =
         document.getElementById(
@@ -2700,7 +2936,8 @@ function loadWorkflowIssues(
     }
 
 
-    workflowList.innerHTML = "";
+    workflowList.innerHTML =
+        "";
 
 
     activeIssues
@@ -2747,20 +2984,11 @@ function loadWorkflowIssues(
                     <div class="workflow-info">
 
                         <div class="workflow-issue-key">
-
-                            ${escapeHtml(
-                                issueKey
-                            )}
-
+                            ${escapeHtml(issueKey)}
                         </div>
 
-
                         <div class="workflow-title">
-
-                            ${escapeHtml(
-                                title
-                            )}
-
+                            ${escapeHtml(title)}
                         </div>
 
                     </div>
@@ -2780,14 +3008,12 @@ function loadWorkflowIssues(
                                 Reported
                             </option>
 
-
                             <option
                                 value="TRIAGED"
                                 ${currentStatus === "TRIAGED" ? "selected" : ""}
                             >
                                 Triaged
                             </option>
-
 
                             <option
                                 value="IN_PROGRESS"
@@ -2796,7 +3022,6 @@ function loadWorkflowIssues(
                                 In Progress
                             </option>
 
-
                             <option
                                 value="CODE_REVIEW"
                                 ${currentStatus === "CODE_REVIEW" ? "selected" : ""}
@@ -2804,14 +3029,12 @@ function loadWorkflowIssues(
                                 Code Review
                             </option>
 
-
                             <option
                                 value="QA_VERIFICATION"
                                 ${currentStatus === "QA_VERIFICATION" ? "selected" : ""}
                             >
                                 QA Verification
                             </option>
-
 
                             <option
                                 value="RESOLVED"
@@ -2824,6 +3047,7 @@ function loadWorkflowIssues(
 
 
                         <button
+                            type="button"
                             class="status-update-btn"
                             onclick="updateIssueStatus(${issue.id})"
                         >
@@ -2845,14 +3069,11 @@ function loadWorkflowIssues(
 }
 
 
-
 /* =========================================================
    UPDATE ISSUE STATUS
 ========================================================= */
 
-async function updateIssueStatus(
-    issueId
-) {
+async function updateIssueStatus(issueId) {
 
     const select =
         document.getElementById(
@@ -2870,9 +3091,7 @@ async function updateIssueStatus(
 
 
     const token =
-        localStorage.getItem(
-            "access_token"
-        );
+        getAccessToken();
 
 
     if (!token) {
@@ -2984,7 +3203,6 @@ async function updateIssueStatus(
 }
 
 
-
 /* =========================================================
    WORKFLOW MESSAGE
 ========================================================= */
@@ -3035,24 +3253,35 @@ function showWorkflowMessage(
 }
 
 
-
 /* =========================================================
    LOAD SPRINT BOARD
 ========================================================= */
+
 async function loadSprintBoard() {
 
     const activeSprints =
-        document.getElementById("activeSprints");
+        document.getElementById(
+            "activeSprints"
+        );
+
 
     const backlogIssues =
-        document.getElementById("backlogIssues");
+        document.getElementById(
+            "backlogIssues"
+        );
 
-    if (!activeSprints || !backlogIssues) {
+
+    if (
+        !activeSprints ||
+        !backlogIssues
+    ) {
         return;
     }
 
+
     const token =
-        localStorage.getItem("access_token");
+        getAccessToken();
+
 
     if (!token) {
 
@@ -3062,29 +3291,36 @@ async function loadSprintBoard() {
             </div>
         `;
 
-        backlogIssues.innerHTML = "";
+        backlogIssues.innerHTML =
+            "";
+
         return;
     }
 
+
     try {
 
-        // ====================================================
-        // GET SPRINTS
-        // ====================================================
+        /* ====================================================
+           GET SPRINTS
+        ==================================================== */
 
         const sprintResponse =
             await fetch(
                 `${API_BASE_URL}/api/v1/sprints/`,
                 {
                     method: "GET",
+
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization":
+                            `Bearer ${token}`
                     }
                 }
             );
 
+
         const sprintData =
             await sprintResponse.json();
+
 
         if (!sprintResponse.ok) {
 
@@ -3092,7 +3328,9 @@ async function loadSprintBoard() {
                 sprintData.detail ||
                 "Unable to load sprints."
             );
+
         }
+
 
         const sprints =
             Array.isArray(sprintData)
@@ -3104,36 +3342,47 @@ async function loadSprintBoard() {
                     []
                 );
 
-        // Only ACTIVE sprints appear in Active Sprints section
+
         const active =
-            sprints.filter(function(sprint) {
+            sprints.filter(
+                function(sprint) {
 
-                return String(
-                    sprint.status || ""
-                ).toUpperCase() === "ACTIVE";
+                    return String(
+                        sprint.status || ""
+                    )
+                    .toUpperCase() ===
+                    "ACTIVE";
 
-            });
+                }
+            );
 
-        displayActiveSprints(active);
+
+        displayActiveSprints(
+            active
+        );
 
 
-        // ====================================================
-        // GET PROJECT BACKLOG
-        // ====================================================
+        /* ====================================================
+           GET PROJECT BACKLOG
+        ==================================================== */
 
         const backlogResponse =
             await fetch(
                 `${API_BASE_URL}/api/v1/collaboration/backlog`,
                 {
                     method: "GET",
+
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization":
+                            `Bearer ${token}`
                     }
                 }
             );
 
+
         const backlogData =
             await backlogResponse.json();
+
 
         if (!backlogResponse.ok) {
 
@@ -3141,7 +3390,9 @@ async function loadSprintBoard() {
                 backlogData.detail ||
                 "Unable to load backlog issues."
             );
+
         }
+
 
         const backlog =
             Array.isArray(backlogData)
@@ -3153,13 +3404,7 @@ async function loadSprintBoard() {
                     []
                 );
 
-        console.log(
-            "Sprint Board Backlog:",
-            backlog
-        );
 
-        // Display all issues that are not assigned
-        // to a sprint
         displayBacklog(
             backlog,
             active
@@ -3174,27 +3419,30 @@ async function loadSprintBoard() {
             error
         );
 
+
         activeSprints.innerHTML = `
             <div class="empty-sprint">
                 Unable to load active sprints.
             </div>
         `;
 
+
         backlogIssues.innerHTML = `
             <div class="empty-sprint">
                 Unable to load backlog.
             </div>
         `;
+
     }
+
 }
+
 
 /* =========================================================
    DISPLAY ACTIVE SPRINTS
 ========================================================= */
 
-function displayActiveSprints(
-    sprints
-) {
+function displayActiveSprints(sprints) {
 
     const container =
         document.getElementById(
@@ -3215,9 +3463,7 @@ function displayActiveSprints(
         container.innerHTML = `
 
             <div class="empty-sprint">
-
                 No active sprints available.
-
             </div>
 
         `;
@@ -3270,29 +3516,18 @@ function displayActiveSprints(
                     <div>
 
                         <div class="sprint-name">
-
-                            ${escapeHtml(
-                                sprintName
-                            )}
-
+                            ${escapeHtml(sprintName)}
                         </div>
 
-
                         <div class="sprint-goal">
-
-                            ${escapeHtml(
-                                goal
-                            )}
-
+                            ${escapeHtml(goal)}
                         </div>
 
                     </div>
 
 
                     <span class="sprint-status">
-
                         ACTIVE
-
                     </span>
 
                 </div>
@@ -3300,15 +3535,11 @@ function displayActiveSprints(
 
                 <div class="sprint-dates">
 
-                    ${escapeHtml(
-                        startDate
-                    )}
+                    ${escapeHtml(startDate)}
 
                     &nbsp; → &nbsp;
 
-                    ${escapeHtml(
-                        endDate
-                    )}
+                    ${escapeHtml(endDate)}
 
                 </div>
 
@@ -3319,9 +3550,7 @@ function displayActiveSprints(
                 >
 
                     <div class="empty-sprint">
-
                         Loading sprint issues...
-
                     </div>
 
                 </div>
@@ -3344,14 +3573,11 @@ function displayActiveSprints(
 }
 
 
-
 /* =========================================================
    LOAD SPRINT ISSUES
 ========================================================= */
 
-async function loadSprintIssues(
-    sprintId
-) {
+async function loadSprintIssues(sprintId) {
 
     const container =
         document.getElementById(
@@ -3365,9 +3591,7 @@ async function loadSprintIssues(
 
 
     const token =
-        localStorage.getItem(
-            "access_token"
-        );
+        getAccessToken();
 
 
     try {
@@ -3416,10 +3640,15 @@ async function loadSprintIssues(
                 function(issue) {
 
                     const issueSprintId =
-    issue.sprint_id ??
-    issue.sprintId;
+                        issue.sprint_id ??
+                        issue.sprintId;
 
-return Number(issueSprintId) === Number(sprintId);
+
+                    return Number(
+                        issueSprintId
+                    ) === Number(
+                        sprintId
+                    );
 
                 }
             );
@@ -3432,9 +3661,7 @@ return Number(issueSprintId) === Number(sprintId);
             container.innerHTML = `
 
                 <div class="empty-sprint">
-
                     No issues added to this sprint.
-
                 </div>
 
             `;
@@ -3484,31 +3711,18 @@ return Number(issueSprintId) === Number(sprintId);
                     <div class="sprint-issue-info">
 
                         <div class="sprint-issue-key">
-
-                            ${escapeHtml(
-                                issueKey
-                            )}
-
+                            ${escapeHtml(issueKey)}
                         </div>
 
-
                         <div class="sprint-issue-title">
-
-                            ${escapeHtml(
-                                title
-                            )}
-
+                            ${escapeHtml(title)}
                         </div>
 
                     </div>
 
 
                     <div class="sprint-issue-status">
-
-                        ${escapeHtml(
-                            status
-                        )}
-
+                        ${escapeHtml(status)}
                     </div>
 
                 `;
@@ -3534,9 +3748,7 @@ return Number(issueSprintId) === Number(sprintId);
         container.innerHTML = `
 
             <div class="empty-sprint">
-
                 Unable to load sprint issues.
-
             </div>
 
         `;
@@ -3544,7 +3756,6 @@ return Number(issueSprintId) === Number(sprintId);
     }
 
 }
-
 
 
 /* =========================================================
@@ -3575,9 +3786,7 @@ function displayBacklog(
         container.innerHTML = `
 
             <div class="empty-sprint">
-
                 No issues in backlog.
-
             </div>
 
         `;
@@ -3627,29 +3836,17 @@ function displayBacklog(
                 <div class="backlog-info">
 
                     <div class="backlog-issue-key">
-
-                        ${escapeHtml(
-                            issueKey
-                        )}
-
+                        ${escapeHtml(issueKey)}
                     </div>
-
 
                     <div class="backlog-title">
-
-                        ${escapeHtml(
-                            title
-                        )}
-
+                        ${escapeHtml(title)}
                     </div>
-
 
                     <div class="backlog-status">
 
                         Status:
-                        ${escapeHtml(
-                            status
-                        )}
+                        ${escapeHtml(status)}
 
                     </div>
 
@@ -3657,15 +3854,14 @@ function displayBacklog(
 
 
                 <button
+                    type="button"
                     class="add-sprint-btn"
                     onclick="showSprintOptions(
                         ${issue.id},
                         this
                     )"
                 >
-
                     Add to Sprint
-
                 </button>
 
             `;
@@ -3681,7 +3877,6 @@ function displayBacklog(
 }
 
 
-
 /* =========================================================
    SHOW ACTIVE SPRINT OPTIONS
 ========================================================= */
@@ -3692,9 +3887,7 @@ async function showSprintOptions(
 ) {
 
     const token =
-        localStorage.getItem(
-            "access_token"
-        );
+        getAccessToken();
 
 
     if (!token) {
@@ -3709,6 +3902,7 @@ async function showSprintOptions(
 
     button.disabled =
         true;
+
 
     button.textContent =
         "Loading...";
@@ -3762,8 +3956,8 @@ async function showSprintOptions(
                     return String(
                         sprint.status || ""
                     )
-                    .toUpperCase()
-                    === "ACTIVE";
+                    .toUpperCase() ===
+                    "ACTIVE";
 
                 }
             );
@@ -3782,8 +3976,10 @@ async function showSprintOptions(
             button.disabled =
                 false;
 
+
             button.textContent =
                 "Add to Sprint";
+
 
             return;
         }
@@ -3832,6 +4028,10 @@ async function showSprintOptions(
             document.createElement(
                 "button"
             );
+
+
+        addButton.type =
+            "button";
 
 
         addButton.className =
@@ -3885,13 +4085,13 @@ async function showSprintOptions(
         button.disabled =
             false;
 
+
         button.textContent =
             "Add to Sprint";
 
     }
 
 }
-
 
 
 /* =========================================================
@@ -3906,9 +4106,7 @@ async function addIssueToSprint(
 ) {
 
     const token =
-        localStorage.getItem(
-            "access_token"
-        );
+        getAccessToken();
 
 
     if (!token) {
@@ -3923,6 +4121,7 @@ async function addIssueToSprint(
 
     addButton.disabled =
         true;
+
 
     addButton.textContent =
         "Adding...";
@@ -3986,6 +4185,7 @@ async function addIssueToSprint(
         addButton.disabled =
             false;
 
+
         addButton.textContent =
             "Confirm";
 
@@ -3993,6 +4193,396 @@ async function addIssueToSprint(
 
 }
 
+
+/* =========================================================
+   LOAD LIVE ACTIVITY
+========================================================= */
+
+async function loadLiveActivity() {
+
+    const activityList =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    if (!activityList) {
+        return;
+    }
+
+
+    const token =
+        getAccessToken();
+
+
+    if (!token) {
+
+        activityList.innerHTML = `
+
+            <div class="empty-activity">
+                Please login again.
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/collaboration/activity`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to load activity."
+            );
+
+        }
+
+
+        displayLiveActivity(
+            data
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Live activity error:",
+            error
+        );
+
+
+        activityList.innerHTML = `
+
+            <div class="empty-activity">
+                Unable to load recent activity.
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   DISPLAY LIVE ACTIVITY
+========================================================= */
+
+function displayLiveActivity(
+    activities
+) {
+
+    const container =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (
+        !Array.isArray(activities) ||
+        activities.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-activity">
+                No recent activity found.
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    activities.forEach(
+        function(activity) {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "activity-item";
+
+
+            const oldValue =
+                activity.old_value ||
+                "";
+
+
+            const newValue =
+                activity.new_value ||
+                "";
+
+
+            const action =
+                activity.action ||
+                "ACTIVITY";
+
+
+            const issueId =
+                activity.issue_id ||
+                "-";
+
+
+            const timestamp =
+                formatActivityTime(
+                    activity.timestamp
+                );
+
+
+            let activityText =
+                `Issue #${issueId} - ${action}`;
+
+
+            if (
+                activity.field_name
+            ) {
+
+                activityText +=
+                    `: ${activity.field_name}`;
+
+            }
+
+
+            if (
+                oldValue ||
+                newValue
+            ) {
+
+                activityText +=
+                    ` (${oldValue} → ${newValue})`;
+
+            }
+
+
+            item.innerHTML = `
+
+                <div class="activity-icon">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                </div>
+
+
+                <div class="activity-info">
+
+                    <div class="activity-text">
+
+                        ${escapeHtml(activityText)}
+
+                    </div>
+
+
+                    <div class="activity-time">
+
+                        ${escapeHtml(timestamp)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT ACTIVITY TIME
+========================================================= */
+
+function formatActivityTime(
+    timestamp
+) {
+
+    if (!timestamp) {
+        return "Unknown time";
+    }
+
+
+    const date =
+        new Date(timestamp);
+
+
+    if (
+        isNaN(date.getTime())
+    ) {
+
+        return timestamp;
+
+    }
+
+
+    return date.toLocaleString();
+
+}
+
+
+/* =========================================================
+   GENERATE PDF REPORT
+========================================================= */
+
+async function generatePdfReport() {
+
+    const token =
+        getAccessToken();
+
+
+    if (!token) {
+
+        alert(
+            "Please login again."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/collaboration/report/pdf`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to generate PDF report.";
+
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+
+                errorMessage =
+                    errorData.detail ||
+                    errorMessage;
+
+            }
+
+            catch (error) {
+                // Non-JSON response
+            }
+
+
+            throw new Error(
+                errorMessage
+            );
+
+        }
+
+
+        const blob =
+            await response.blob();
+
+
+        const downloadUrl =
+            window.URL.createObjectURL(
+                blob
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            downloadUrl;
+
+
+        link.download =
+            "bugflow_issue_report.pdf";
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+
+        link.remove();
+
+
+        window.URL.revokeObjectURL(
+            downloadUrl
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "PDF report error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to generate PDF report."
+        );
+
+    }
+
+}
 
 
 /* =========================================================
@@ -4007,595 +4597,28 @@ document.addEventListener(
             displayUserInformation();
 
 
-        if (user) {
-
-            loadUserIssues();
-
-            loadSprintBoard();
-            loadLiveActivity();
-
+        if (!user) {
+            return;
         }
+
+
+        loadUserIssues();
+
+        loadSprintBoard();
+
+        loadLiveActivity();
 
     }
 );
-// =========================================================
-// MILESTONE 2 - LIVE ACTIVITY STREAM
-// =========================================================
-
-async function loadLiveActivity() {
-
-    const activityList =
-        document.getElementById("activityList");
-
-    if (!activityList) return;
-
-    const token =
-        localStorage.getItem("access_token");
-
-    if (!token) {
-
-        activityList.innerHTML = `
-            <div class="empty-activity">
-                Please login again.
-            </div>
-        `;
-
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            `${API_BASE_URL}/api/v1/collaboration/activity`,
-            {
-                method: "GET",
-
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.detail ||
-                "Unable to load activity."
-            );
-
-        }
-
-        displayLiveActivity(data);
-
-    }
-    catch (error) {
-
-        console.error(
-            "Live activity error:",
-            error
-        );
-
-        activityList.innerHTML = `
-            <div class="empty-activity">
-                Unable to load recent activity.
-            </div>
-        `;
-    }
-}
-
-
-// =========================================================
-// DISPLAY LIVE ACTIVITY
-// =========================================================
-
-function displayLiveActivity(activities) {
-
-    const container =
-        document.getElementById("activityList");
-
-    if (!container) return;
-
-
-    if (!Array.isArray(activities) ||
-        activities.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty-activity">
-                No recent activity found.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    activities.forEach(function(activity) {
-
-        const item =
-            document.createElement("div");
-
-        item.className = "activity-item";
-
-
-        const oldValue =
-            activity.old_value || "";
-
-        const newValue =
-            activity.new_value || "";
-
-        const action =
-            activity.action || "ACTIVITY";
-
-        const issueId =
-            activity.issue_id || "-";
-
-        const timestamp =
-            formatActivityTime(activity.timestamp);
-
-
-        let activityText =
-            `Issue #${issueId} - ${action}`;
-
-
-        if (activity.field_name) {
-
-            activityText +=
-                `: ${activity.field_name}`;
-
-        }
-
-
-        if (oldValue || newValue) {
-
-            activityText +=
-                ` (${oldValue} → ${newValue})`;
-
-        }
-
-
-        item.innerHTML = `
-
-            <div class="activity-icon">
-
-                <i class="fa-solid fa-bolt"></i>
-
-            </div>
-
-
-            <div class="activity-info">
-
-                <div class="activity-text">
-
-                    ${escapeHtml(activityText)}
-
-                </div>
-
-
-                <div class="activity-time">
-
-                    ${escapeHtml(timestamp)}
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(item);
-
-    });
-}
-
-
-// =========================================================
-// FORMAT ACTIVITY TIME
-// =========================================================
-
-function formatActivityTime(timestamp) {
-
-    if (!timestamp) {
-        return "Unknown time";
-    }
-
-    const date =
-        new Date(timestamp);
-
-    if (isNaN(date.getTime())) {
-        return timestamp;
-    }
-
-    return date.toLocaleString();
-
-}// =========================================================
-// MILESTONE 2 - LIVE ACTIVITY STREAM
-// =========================================================
-
-async function loadLiveActivity() {
-
-    const activityList =
-        document.getElementById("activityList");
-
-    if (!activityList) return;
-
-    const token =
-        localStorage.getItem("access_token");
-
-    if (!token) {
-
-        activityList.innerHTML = `
-            <div class="empty-activity">
-                Please login again.
-            </div>
-        `;
-
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            `${API_BASE_URL}/api/v1/collaboration/activity`,
-            {
-                method: "GET",
-
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.detail ||
-                "Unable to load activity."
-            );
-
-        }
-
-        displayLiveActivity(data);
-
-    }
-    catch (error) {
-
-        console.error(
-            "Live activity error:",
-            error
-        );
-
-        activityList.innerHTML = `
-            <div class="empty-activity">
-                Unable to load recent activity.
-            </div>
-        `;
-    }
-}
-
-
-// =========================================================
-// DISPLAY LIVE ACTIVITY
-// =========================================================
-
-function displayLiveActivity(activities) {
-
-    const container =
-        document.getElementById("activityList");
-
-    if (!container) return;
-
-
-    if (!Array.isArray(activities) ||
-        activities.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty-activity">
-                No recent activity found.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    activities.forEach(function(activity) {
-
-        const item =
-            document.createElement("div");
-
-        item.className = "activity-item";
-
-
-        const oldValue =
-            activity.old_value || "";
-
-        const newValue =
-            activity.new_value || "";
-
-        const action =
-            activity.action || "ACTIVITY";
-
-        const issueId =
-            activity.issue_id || "-";
-
-        const timestamp =
-            formatActivityTime(activity.timestamp);
-
-
-        let activityText =
-            `Issue #${issueId} - ${action}`;
-
-
-        if (activity.field_name) {
-
-            activityText +=
-                `: ${activity.field_name}`;
-
-        }
-
-
-        if (oldValue || newValue) {
-
-            activityText +=
-                ` (${oldValue} → ${newValue})`;
-
-        }
-
-
-        item.innerHTML = `
-
-            <div class="activity-icon">
-
-                <i class="fa-solid fa-bolt"></i>
-
-            </div>
-
-
-            <div class="activity-info">
-
-                <div class="activity-text">
-
-                    ${escapeHtml(activityText)}
-
-                </div>
-
-
-                <div class="activity-time">
-
-                    ${escapeHtml(timestamp)}
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(item);
-
-    });
-}
-
-
-// =========================================================
-// FORMAT ACTIVITY TIME
-// =========================================================
-
-function formatActivityTime(timestamp) {
-
-    if (!timestamp) {
-        return "Unknown time";
-    }
-
-    const date =
-        new Date(timestamp);
-
-    if (isNaN(date.getTime())) {
-        return timestamp;
-    }
-
-    return date.toLocaleString();
-
-}
-// =========================================================
-// MILESTONE 2 - GENERATE PDF REPORT
-// =========================================================
-
-async function generatePdfReport() {
-
-    const token =
-        localStorage.getItem("access_token");
-
-    if (!token) {
-
-        alert("Please login again.");
-
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            `${API_BASE_URL}/api/v1/collaboration/report/pdf`,
-            {
-                method: "GET",
-
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
-
-        if (!response.ok) {
-
-            let errorMessage =
-                "Unable to generate PDF report.";
-
-            try {
-
-                const errorData =
-                    await response.json();
-
-                errorMessage =
-                    errorData.detail ||
-                    errorMessage;
-
-            } catch (e) {
-                // Response was not JSON
-            }
-
-            throw new Error(errorMessage);
-        }
-
-        const blob =
-            await response.blob();
-
-        const downloadUrl =
-            window.URL.createObjectURL(blob);
-
-        const link =
-            document.createElement("a");
-
-        link.href = downloadUrl;
-
-        link.download =
-            "bugflow_issue_report.pdf";
-
-        document.body.appendChild(link);
-
-        link.click();
-
-        link.remove();
-
-        window.URL.revokeObjectURL(downloadUrl);
-
-    }
-    catch (error) {
-
-        console.error(
-            "PDF report error:",
-            error
-        );
-
-        alert(
-            error.message ||
-            "Unable to generate PDF report."
-        );
-    }
-}
-async function simulateGitWebhook() {
-
-    const responseBox =
-        document.getElementById("m3WebhookResponse");
-
-    responseBox.textContent =
-        "Sending simulated Git commit...";
-
-    try {
-
-        const response =
-            await fetch(
-                "http://127.0.0.1:8000/api/v1/webhooks/git",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        message:
-                            "Merge PR #45: fixes #2 login password crash",
-
-                        commit_hash:
-                            "a7f8c92"
-                    })
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        responseBox.textContent =
-            JSON.stringify(
-                data,
-                null,
-                2
-            );
-
-
-        /*
-         * REFRESH ISSUE DATA
-         *
-         * This makes the dashboard
-         * reflect the webhook result live.
-         */
-
-        if (response.ok) {
-
-            if (typeof loadMyIssues === "function") {
-
-                await loadMyIssues();
-
-            }
-
-            if (typeof loadQualityMetrics === "function") {
-
-                await loadQualityMetrics();
-
-            }
-
-            if (typeof loadDefectTrendChart === "function") {
-
-                await loadDefectTrendChart();
-
-            }
-
-            if (typeof loadSeverityDonutChart === "function") {
-
-                await loadSeverityDonutChart();
-
-            }
-
-            if (typeof loadWorkflowPipelineChart === "function") {
-
-                await loadWorkflowPipelineChart();
-
-            }
-
-        }
-
-    }
-    catch (error) {
-
-        console.error(
-            "Git webhook error:",
-            error
-        );
-
-        responseBox.textContent =
-            "Unable to connect to the BugFlow webhook API.";
-
-    }
-
-}
 
 </script>
-<script src="theme.js"></script>
-<script src="notification.js"></script>
-</body>
 
+
+<!-- =========================================================
+     USER NOTIFICATION SCRIPT
+========================================================= -->
+
+<script src="notification.js"></script>
+
+</body>
 </html>

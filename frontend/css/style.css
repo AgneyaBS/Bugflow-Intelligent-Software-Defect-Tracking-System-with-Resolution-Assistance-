@@ -536,7 +536,7 @@ button {
 
 .stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 18px;
     margin-bottom: 22px;
 }
@@ -1216,4 +1216,131 @@ body.dark-mode .quick strong {
 
 body.dark-mode .quick span {
     color: #9ca3af;
+}
+/* ============================================================
+   ADMIN SIDEBAR - WHITE THEME FOR ALL ADMIN PAGES
+   ============================================================ */
+
+.sidebar {
+    background: #ffffff !important;
+    color: #64748b !important;
+    border-right: 1px solid #e5e7eb !important;
+}
+
+/* BugFlow logo area */
+.sidebar .brand {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+.sidebar .brand h2 {
+    color: #111827 !important;
+}
+
+.sidebar .brand span {
+    color: #94a3b8 !important;
+}
+
+/* Navigation headings */
+.sidebar .nav-heading {
+    color: #94a3b8 !important;
+}
+
+/* Navigation links */
+.sidebar .nav-link {
+    color: #64748b !important;
+    background: transparent !important;
+}
+
+.sidebar .nav-link i {
+    color: #64748b !important;
+}
+
+/* Hover */
+.sidebar .nav-link:hover {
+    background: #f1f5f9 !important;
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link:hover i {
+    color: #4f46e5 !important;
+}
+
+/* Active page */
+.sidebar .nav-link.active {
+    background: #eeeeff !important;
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link.active i {
+    color: #4f46e5 !important;
+}
+
+/* Back button */
+.sidebar .sidebar-back-button {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+
+.sidebar .sidebar-back-button:hover {
+    background: #e2e8f0 !important;
+}
+
+/* System Support */
+.sidebar .support-box {
+    background: #f8fafc !important;
+    color: #111827 !important;
+    border: none !important;
+}
+
+.sidebar .support-box strong {
+    color: #111827 !important;
+}
+
+.sidebar .support-box small {
+    color: #94a3b8 !important;
+}
+
+/* Logout */
+.sidebar .nav-link.logout {
+    color: #64748b !important;
+    background: transparent !important;
+}
+
+.sidebar .nav-link.logout i {
+    color: #64748b !important;
+}
+
+.sidebar .nav-link.logout:hover {
+    background: #f1f5f9 !important;
+    color: #4f46e5 !important;
+}
+
+/* Sidebar bottom area */
+.sidebar .sidebar-bottom {
+    background: #ffffff !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+@media (max-width: 1200px) {
+
+    .stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
 }

@@ -8,7 +8,7 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<link rel="stylesheet" href="admin-sidebar.css">
     <style>
         * {
             box-sizing: border-box;
@@ -363,6 +363,125 @@
     color: #dc2626;
     background: #fee2e2;
 }
+/* ============================================================
+   ADMIN SIDEBAR - FORCE WHITE THEME
+============================================================ */
+
+.sidebar {
+    background: #ffffff !important;
+    color: #64748b !important;
+    border-right: 1px solid #e5e7eb !important;
+}
+
+.sidebar .brand,
+.sidebar .logo-section {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+.sidebar .brand h2,
+.sidebar .logo-section h2 {
+    color: #111827 !important;
+}
+
+.sidebar .brand span,
+.sidebar .logo-section span {
+    color: #94a3b8 !important;
+}
+
+.sidebar .nav-heading {
+    color: #94a3b8 !important;
+}
+
+.sidebar .nav-link {
+    background: transparent !important;
+    color: #64748b !important;
+}
+
+.sidebar .nav-link i {
+    color: #64748b !important;
+}
+
+.sidebar .nav-link:hover {
+    background: #f1f5f9 !important;
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link:hover i {
+    color: #4f46e5 !important;
+}
+
+/* Resolution Assistance active */
+.sidebar .nav-link.active {
+    background: #eeeeff !important;
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link.active i {
+    color: #4f46e5 !important;
+}
+
+/* Back button */
+.sidebar .sidebar-back-button {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border: none !important;
+}
+
+.sidebar .sidebar-back-button i {
+    color: #334155 !important;
+}
+
+/* System Support */
+.sidebar .support-box {
+    background: #f8fafc !important;
+    color: #111827 !important;
+}
+
+.sidebar .support-box strong {
+    color: #111827 !important;
+}
+
+.sidebar .support-box small {
+    color: #94a3b8 !important;
+}
+
+/* Sidebar bottom */
+.sidebar .sidebar-bottom {
+    background: #ffffff !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+/* Logout */
+.sidebar .logout {
+    background: transparent !important;
+    color: #64748b !important;
+}
+
+.sidebar .logout i {
+    color: #64748b !important;
+}
+
+/* Scrollbar */
+.sidebar {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}
     </style>
 </head>
 
@@ -402,7 +521,7 @@
 
 
             <a href="admin-dashboard.html"
-               class="nav-link active">
+               class="nav-link ">
 
                 <i class="fa-solid fa-chart-pie"></i>
 
@@ -440,7 +559,7 @@
             </a>
 
 
-            <a href="resolution.html"
+            <a href="admin-resolution.html"
                class="nav-link">
 
                 <i class="fa-solid fa-robot"></i>
@@ -455,6 +574,10 @@
             <p class="nav-heading second">
                 MANAGEMENT
             </p>
+            <a href="optimization.html" class="nav-link">
+    <i class="fa-solid fa-rocket"></i>
+    <span>Optimization & Finalization</span>
+</a>
 
 
             <a href="admin-analytics.html"
@@ -469,8 +592,8 @@
             </a>
 
 
-            <a href="notifications.html"
-               class="nav-link">
+            <a href="admin-notifications.html"
+               class="nav-link active ">
 
                 <i class="fa-solid fa-bell"></i>
 
@@ -479,18 +602,6 @@
                 </span>
 
                 <b class="badge" id="sidebarNotificationBadge">0</b>
-
-            </a>
-
-
-            <a href="settings.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Settings
-                </span>
 
             </a>
 
@@ -1383,6 +1494,5 @@ document.addEventListener(
     }
 );
 </script>
-<script src="theme.js"></script>
 </body>
 </html>

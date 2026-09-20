@@ -1,0 +1,3058 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | BugFlow</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Shared User Theme -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-theme.css">
+
+    <style>
+
+        /* =========================================================
+           USER NOTIFICATIONS PAGE
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+        }
+
+
+        /* =========================================================
+           APP LAYOUT
+        ========================================================= */
+
+        .app-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+
+            position: fixed;
+            inset: 0 auto 0 0;
+
+            z-index: 100;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background: #111827 !important;
+            color: #ffffff !important;
+
+            border-right: 1px solid #1f2937 !important;
+        }
+
+
+        /* ---------------------------------------------------------
+           BRAND
+        --------------------------------------------------------- */
+
+        .sidebar .brand {
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 22px;
+
+            background: #111827 !important;
+            color: #ffffff !important;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 12px;
+
+            background: #4f46e5 !important;
+            color: #ffffff !important;
+        }
+
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+
+            color: #f8fafc !important;
+        }
+
+        .brand-text span {
+            color: #818cf8 !important;
+        }
+
+
+        /* ---------------------------------------------------------
+           BACK BUTTON
+        --------------------------------------------------------- */
+
+        .sidebar-back-button {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            margin: 15px 15px 20px auto;
+
+            padding: 8px 14px;
+
+            border: 1px solid #334155 !important;
+            border-radius: 7px;
+
+            background: #1f2937 !important;
+            color: #e2e8f0 !important;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-back-button i {
+            color: #cbd5e1 !important;
+        }
+
+        .sidebar-back-button:hover {
+            background: #374151 !important;
+            color: #ffffff !important;
+
+            transform: translateX(-2px);
+        }
+
+
+        /* ---------------------------------------------------------
+           SIDEBAR NAVIGATION
+        --------------------------------------------------------- */
+
+        .sidebar-section {
+            padding: 0 15px 10px;
+
+            flex: 1;
+
+            background: #111827 !important;
+        }
+
+        .sidebar-heading {
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 12px 10px;
+
+            color: #9ca3af !important;
+        }
+
+        .sidebar-heading.management {
+            margin-top: 18px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 12px 13px;
+
+            border-radius: 8px;
+
+            margin-bottom: 5px;
+
+            text-decoration: none;
+
+            background: transparent !important;
+            color: #d1d5db !important;
+
+            font-size: 14px;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .nav-link i {
+            width: 20px;
+
+            text-align: center;
+
+            color: #94a3b8 !important;
+        }
+
+        .nav-link:hover {
+            background: #1f2937 !important;
+            color: #ffffff !important;
+        }
+
+        .nav-link:hover i {
+            color: #ffffff !important;
+        }
+
+        .nav-link.active {
+            background: #4f46e5 !important;
+            color: #ffffff !important;
+        }
+
+        .nav-link.active i {
+            color: #ffffff !important;
+        }
+
+
+        /* Notification badge in sidebar */
+
+        .notification-badge {
+            margin-left: auto;
+
+            min-width: 21px;
+            height: 21px;
+
+            padding: 0 6px;
+
+            border-radius: 999px;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #ef4444;
+
+            color: #ffffff !important;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        /* ---------------------------------------------------------
+           SIDEBAR BOTTOM
+        --------------------------------------------------------- */
+
+        .sidebar-bottom {
+            padding: 15px;
+
+            background: #111827 !important;
+
+            border-top: 1px solid rgba(255,255,255,0.08) !important;
+        }
+
+        .logout-link {
+            background: transparent !important;
+            color: #d1d5db !important;
+        }
+
+        .logout-link i {
+            color: #94a3b8 !important;
+        }
+
+        .logout-link:hover {
+            background: #7f1d1d !important;
+            color: #ffffff !important;
+        }
+
+        .logout-link:hover i {
+            color: #ffffff !important;
+        }
+
+
+        /* ---------------------------------------------------------
+           SIDEBAR SCROLLBAR
+        --------------------------------------------------------- */
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #334155;
+
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+
+        /* =========================================================
+           MAIN CONTENT
+        ========================================================= */
+
+        .main-content {
+            margin-left: 250px;
+
+            width: calc(100% - 250px);
+
+            min-height: 100vh;
+
+            background: #0f172a !important;
+        }
+
+
+        /* =========================================================
+           TOPBAR
+        ========================================================= */
+
+        .topbar {
+            min-height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            background: #111827 !important;
+
+            border-bottom: 1px solid #1f2937 !important;
+        }
+
+        .topbar-title span {
+            display: block;
+
+            font-size: 10px;
+
+            letter-spacing: 1.5px;
+
+            color: #94a3b8;
+        }
+
+        .topbar-title strong {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 18px;
+
+            color: #f8fafc;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        /* ---------------------------------------------------------
+           TOP NOTIFICATION BUTTON
+        --------------------------------------------------------- */
+
+        .notification-button {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+
+            position: relative;
+
+            background: #1f2937;
+
+            color: #cbd5e1;
+
+            transition: 0.2s ease;
+        }
+
+        .notification-button:hover {
+            background: #334155;
+
+            color: #ffffff;
+        }
+
+        .notification-button span {
+            position: absolute;
+
+            top: -4px;
+            right: -4px;
+
+            min-width: 17px;
+            height: 17px;
+
+            padding: 0 4px;
+
+            border-radius: 10px;
+
+            background: #ef4444;
+
+            color: #ffffff;
+
+            font-size: 9px;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =========================================================
+           USER PROFILE
+        ========================================================= */
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+
+            color: #f8fafc;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #4f46e5;
+
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .user-details strong {
+            display: block;
+
+            color: #f8fafc;
+
+            font-size: 13px;
+        }
+
+        .user-details small {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           PAGE CONTENT
+        ========================================================= */
+
+        .content {
+            padding: 30px 28px 45px;
+
+            max-width: 1200px;
+        }
+
+        .page-label {
+            color: #818cf8;
+
+            font-size: 11px;
+
+            letter-spacing: 1.5px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+
+            font-size: 30px;
+
+            color: #f8fafc;
+        }
+
+        .subtitle {
+            margin: 0 0 24px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           ACTION BUTTONS
+        ========================================================= */
+
+        .notification-actions {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+        }
+
+        .action-btn {
+            border: 1px solid #334155;
+
+            background: #1e293b;
+
+            color: #cbd5e1;
+
+            padding: 9px 14px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .action-btn i {
+            margin-right: 6px;
+        }
+
+        .action-btn:hover {
+            background: #334155;
+
+            color: #ffffff;
+
+            border-color: #475569;
+        }
+
+        .action-btn.danger:hover {
+            background: #7f1d1d;
+
+            border-color: #991b1b;
+        }
+
+
+        /* =========================================================
+           NOTIFICATION CARD
+        ========================================================= */
+
+        .notification-card {
+            background: #1e293b;
+
+            border: 1px solid #334155;
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            margin-bottom: 12px;
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 14px;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .notification-card:hover {
+            background: #243247;
+
+            border-color: #475569;
+
+            transform: translateY(-1px);
+        }
+
+        .notification-card.read {
+            opacity: 0.72;
+        }
+
+
+        /* =========================================================
+           CHECKBOX
+        ========================================================= */
+
+        .notification-select {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding-top: 12px;
+        }
+
+        .notification-checkbox {
+            width: 17px;
+            height: 17px;
+
+            cursor: pointer;
+
+            accent-color: #6366f1;
+        }
+
+
+        /* =========================================================
+           NOTIFICATION ICON
+        ========================================================= */
+
+        .notification-icon {
+            width: 44px;
+            height: 44px;
+
+            border-radius: 12px;
+
+            background: #312e81;
+
+            color: #818cf8;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .notification-card.read .notification-icon {
+            background: #263244;
+
+            color: #94a3b8;
+        }
+
+
+        /* =========================================================
+           NOTIFICATION CONTENT
+        ========================================================= */
+
+        .notification-content {
+            flex: 1;
+
+            min-width: 0;
+        }
+
+        .notification-content h3 {
+            margin: 0 0 6px;
+
+            font-size: 15px;
+
+            color: #f8fafc;
+        }
+
+        .notification-content p {
+            margin: 0;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .notification-time {
+            color: #64748b;
+
+            font-size: 11px;
+
+            margin-top: 8px;
+        }
+
+
+        /* =========================================================
+           UNREAD STATUS
+        ========================================================= */
+
+        .notification-status {
+            width: 8px;
+            height: 8px;
+
+            background: #818cf8;
+
+            border-radius: 50%;
+
+            margin-top: 7px;
+
+            flex-shrink: 0;
+        }
+
+        .notification-card.read .notification-status {
+            background: #475569;
+        }
+
+
+        /* =========================================================
+           DELETE BUTTON
+        ========================================================= */
+
+        .notification-delete-btn {
+            margin-left: auto;
+
+            border: none;
+
+            background: transparent;
+
+            color: #64748b;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            padding: 7px;
+
+            border-radius: 6px;
+
+            transition: 0.2s ease;
+        }
+
+        .notification-delete-btn:hover {
+            color: #f87171;
+
+            background: #3f1d25;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            background: #1e293b;
+
+            border: 1px solid #334155;
+
+            border-radius: 14px;
+
+            padding: 55px 25px;
+
+            text-align: center;
+
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 38px;
+
+            color: #64748b;
+
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+
+            color: #e2e8f0;
+
+            font-size: 17px;
+        }
+
+        .empty-state p {
+            margin: 0;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           ERROR STATE
+        ========================================================= */
+
+        .error-state {
+            background: #321b22;
+
+            border: 1px solid #5b2631;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            color: #fca5a5;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .loading-state {
+            background: #1e293b;
+
+            border: 1px solid #334155;
+
+            border-radius: 14px;
+
+            padding: 45px;
+
+            text-align: center;
+
+            color: #94a3b8;
+        }
+
+        .loading-state i {
+            margin-right: 8px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-content {
+                margin-left: 220px;
+
+                width: calc(100% - 220px);
+            }
+
+            .content {
+                padding: 24px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+
+                width: calc(100% - 210px);
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .notification-card {
+                padding: 14px;
+
+                gap: 10px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .app-layout {
+                display: block;
+            }
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+
+                max-height: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+
+                width: 100%;
+            }
+
+            .sidebar-section {
+                padding-bottom: 5px;
+            }
+
+            .sidebar-bottom {
+                padding-top: 10px;
+            }
+
+            .topbar {
+                padding: 12px 18px;
+            }
+
+            .content {
+                padding: 20px 15px 35px;
+            }
+
+            .notification-card {
+                align-items: flex-start;
+            }
+
+            .notification-status {
+                display: none;
+            }
+
+            .notification-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+
+        }
+/* =========================================================
+   BUGFLOW USER NOTIFICATIONS - FINAL DARK THEME OVERRIDES
+   These rules intentionally override old/light admin styles.
+========================================================= */
+
+/* ---------- Entire page ---------- */
+html,
+body {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    min-height: 100%;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    background: #111827 !important;
+    color: #ffffff !important;
+    border-right: 1px solid #1f2937 !important;
+}
+
+/* Sidebar brand */
+.sidebar .brand,
+.sidebar .brand-text,
+.sidebar .brand-text span {
+    color: #ffffff !important;
+}
+
+/* Sidebar headings */
+.sidebar .sidebar-heading {
+    color: #9ca3af !important;
+}
+
+/* Normal navigation links */
+.sidebar .nav-link {
+    background: transparent !important;
+    color: #d1d5db !important;
+    border-radius: 8px !important;
+}
+
+/* Hover */
+.sidebar .nav-link:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+}
+
+/* Active notification link */
+.sidebar .nav-link.active {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+/* Active icon */
+.sidebar .nav-link.active i,
+.sidebar .nav-link.active svg {
+    color: #ffffff !important;
+}
+
+/* ---------- Bottom logout area ---------- */
+.sidebar .sidebar-bottom {
+    background: #111827 !important;
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* Logout */
+.sidebar .logout-link {
+    background: transparent !important;
+    color: #d1d5db !important;
+}
+
+.sidebar .logout-link:hover {
+    background: #7f1d1d !important;
+    color: #ffffff !important;
+}
+
+/* Logout icon */
+.sidebar .logout-link i,
+.sidebar .logout-link svg {
+    color: inherit !important;
+}
+
+/* ---------- Main area ---------- */
+.main,
+.main-content {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+/* ---------- Topbar ---------- */
+.topbar {
+    background: #111827 !important;
+    border-bottom: 1px solid #1f2937 !important;
+    color: #f8fafc !important;
+}
+
+/* ---------- Page headings ---------- */
+.page-title,
+.welcome-section h1,
+.content h1,
+.main h1 {
+    color: #f8fafc !important;
+}
+
+.welcome-section p,
+.page-subtitle,
+.content p {
+    color: #94a3b8 !important;
+}
+
+/* ---------- Notification card ---------- */
+.notifications-card,
+.notification-card,
+#notificationsList {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* If notificationsList is the actual empty-state container */
+#notificationsList {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 12px !important;
+    color: #cbd5e1 !important;
+}
+
+/* ---------- Empty notification state ---------- */
+.empty-state {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    background: #1e293b !important;
+    color: #94a3b8 !important;
+}
+
+.empty-state h3 {
+    color: #f8fafc !important;
+}
+
+.empty-state p {
+    color: #94a3b8 !important;
+}
+
+.empty-state i,
+.empty-state svg {
+    color: #64748b !important;
+}
+
+/* ---------- Buttons ---------- */
+.primary-btn,
+.status-update-btn,
+.add-sprint-btn {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.primary-btn:hover,
+.status-update-btn:hover,
+.add-sprint-btn:hover {
+    background: #4338ca !important;
+}
+
+/* Notification action buttons */
+.notification-action-btn {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #334155 !important;
+}
+
+.notification-action-btn:hover {
+    background: #334155 !important;
+}
+
+/* ---------- Prevent old light container from limiting width ---------- */
+.main > *,
+.main-content > *,
+.content,
+.page-content,
+.notifications-container {
+    box-sizing: border-box;
+}
+
+.notifications-container {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* ---------- Notification rows ---------- */
+.notification-item {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+.notification-item:hover {
+    background: #172033 !important;
+}
+
+.notification-item.unread {
+    background: #172033 !important;
+}
+
+.notification-title {
+    color: #f8fafc !important;
+}
+
+.notification-message {
+    color: #cbd5e1 !important;
+}
+
+.notification-time {
+    color: #64748b !important;
+}
+.notification-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.notification-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notification-action-btn:hover:not(:disabled) {
+    background: #334155;
+    border-color: #475569;
+}
+
+.notification-action-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Delete selected */
+.delete-selected-btn {
+    color: #fca5a5;
+    border-color: #7f1d1d;
+}
+
+.delete-selected-btn:hover:not(:disabled) {
+    background: #7f1d1d;
+    color: #ffffff;
+    border-color: #991b1b;
+}
+.notification-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.notification-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notification-action-btn:hover {
+    background: #334155;
+    color: #ffffff;
+}
+
+.delete-selected-btn {
+    color: #fca5a5;
+    border-color: #7f1d1d;
+}
+
+.delete-selected-btn:hover {
+    background: #7f1d1d;
+    color: #ffffff;
+    border-color: #991b1b;
+}
+    </style>
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- =========================================================
+         USER SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div class="brand-text">
+                Bug<span>Flow</span>
+            </div>
+
+        </div>
+
+
+        <!-- BACK -->
+
+        <button
+            class="sidebar-back-button"
+            type="button"
+            onclick="history.back()"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+
+            <span>
+                Back
+            </span>
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="sidebar-section">
+
+
+            <div class="sidebar-heading">
+                Main
+            </div>
+
+
+            <!-- Dashboard -->
+
+            <a
+                href="user-dashboard.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+            </a>
+
+
+            <!-- Report Issue -->
+
+            <a
+                href="user-report-defect.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-bug"></i>
+
+                <span>
+                    Report Issue
+                </span>
+            </a>
+
+
+            <!-- My Issues -->
+
+            <a
+                href="user-my-issues.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>
+                    My Issues
+                </span>
+            </a>
+
+
+            <!-- Resolution -->
+
+            <a
+                href="user-resolution.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <span>
+                    Resolution Assistance
+                </span>
+            </a>
+
+
+            <!-- MANAGEMENT -->
+
+            <div
+                class="sidebar-heading management"
+            >
+                Management
+            </div>
+
+
+            <!-- Analytics -->
+
+            <a
+                href="user-analytics.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Analytics & Reports
+                </span>
+            </a>
+
+
+            <!-- Notifications -->
+
+            <a
+                href="user-notifications.html"
+                class="nav-link active"
+            >
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <span
+                    id="sidebarNotificationBadge"
+                    class="notification-badge"
+                >
+                    0
+                </span>
+
+            </a>
+
+
+            <!-- System Support -->
+
+            <a
+                href="system-support.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-circle-question"></i>
+
+                <span>
+                    System Support
+                </span>
+            </a>
+
+
+            <!-- Profile -->
+
+            <a
+                href="user-profile.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-user"></i>
+
+                <span>
+                    My Profile
+                </span>
+            </a>
+
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <a
+                href="index.html"
+                class="nav-link logout-link"
+                id="logoutLink"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =====================================================
+             TOP BAR
+        ====================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-title">
+
+                <span>
+                    SOFTWARE ISSUE MANAGEMENT
+                </span>
+
+                <strong>
+                    User Notifications
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <!-- Notification bell -->
+
+                <a
+                    href="user-notifications.html"
+                    class="notification-button"
+                    title="Notifications"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span id="topNotificationBadge">
+                        0
+                    </span>
+
+                </a>
+
+
+                <!-- User profile -->
+
+                <a
+                    href="user-profile.html"
+                    class="user-profile"
+                >
+
+                    <div
+                        class="user-avatar"
+                        id="userAvatar"
+                    >
+                        U
+                    </div>
+
+                    <div class="user-details">
+
+                        <strong id="userName">
+                            User
+                        </strong>
+
+                        <small id="userRole">
+                            User
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             PAGE
+        ====================================================== -->
+
+        <section class="content">
+
+
+            <div class="page-label">
+                MANAGEMENT
+            </div>
+
+
+            <h1>
+                Notifications
+            </h1>
+
+
+            <p class="subtitle">
+                Stay updated with important activities related to your BugFlow account and issues.
+            </p>
+
+
+            <!-- =================================================
+                 ACTIONS
+            ================================================== -->
+
+            <div class="notification-actions">
+
+    <button
+        type="button"
+        class="notification-action-btn"
+        onclick="markAllAsRead()">
+        <i class="fas fa-check-double"></i>
+        Mark all as read
+    </button>
+
+    <button
+        type="button"
+        id="deleteSelectedBtn"
+        class="notification-action-btn delete-selected-btn"
+        onclick="deleteSelectedNotifications()"
+        style="display: none;">
+        <i class="fas fa-trash"></i>
+        Delete selected
+    </button>
+
+    <button
+        type="button"
+        class="notification-action-btn"
+        onclick="clearAllNotifications()">
+        <i class="fas fa-trash-alt"></i>
+        Clear notifications
+    </button>
+
+</div>
+
+
+            <!-- =================================================
+                 NOTIFICATION LIST
+            ================================================== -->
+
+            <div id="notificationsList">
+
+                <div class="loading-state">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Loading your notifications...
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       BUGFLOW USER NOTIFICATIONS
+    ========================================================= */
+
+    const API_BASE =
+        "http://127.0.0.1:8000";
+
+
+    /* =========================================================
+       AUTHENTICATION
+    ========================================================= */
+
+    function getToken() {
+
+        return localStorage.getItem(
+            "access_token"
+        );
+
+    }
+
+
+    function authHeaders() {
+
+        const token =
+            getToken();
+
+        return {
+
+            "Authorization":
+                `Bearer ${token}`,
+
+            "Accept":
+                "application/json"
+
+        };
+
+    }
+
+
+    /* =========================================================
+       CURRENT USER
+    ========================================================= */
+
+    let currentUser = {};
+
+    try {
+
+        currentUser =
+            JSON.parse(
+                localStorage.getItem("user")
+                || "{}"
+            );
+
+    } catch (error) {
+
+        currentUser = {};
+
+    }
+
+
+    /* =========================================================
+       DISPLAY USER INFORMATION
+    ========================================================= */
+
+    function loadUserInformation() {
+
+        const nameElement =
+            document.getElementById(
+                "userName"
+            );
+
+        const roleElement =
+            document.getElementById(
+                "userRole"
+            );
+
+        const avatarElement =
+            document.getElementById(
+                "userAvatar"
+            );
+
+
+        const name =
+            currentUser.full_name
+            || currentUser.username
+            || "User";
+
+
+        const role =
+            currentUser.role
+            || "USER";
+
+
+        if (nameElement) {
+
+            nameElement.textContent =
+                name;
+
+        }
+
+
+        if (roleElement) {
+
+            roleElement.textContent =
+                role;
+
+        }
+
+
+        if (avatarElement) {
+
+            const parts =
+                name
+                    .trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+
+            let initials = "U";
+
+
+            if (parts.length >= 2) {
+
+                initials =
+                    (
+                        parts[0].charAt(0)
+                        +
+                        parts[1].charAt(0)
+                    ).toUpperCase();
+
+            } else if (parts.length === 1) {
+
+                initials =
+                    parts[0]
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+
+
+            avatarElement.textContent =
+                initials;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       NOTIFICATION ICON
+    ========================================================= */
+
+    function getNotificationIcon(type) {
+
+        switch (
+            String(type || "").toUpperCase()
+        ) {
+
+            case "NEW_ISSUE":
+                return "fa-bug";
+
+            case "ISSUE_STATUS":
+                return "fa-code-branch";
+
+            case "NEW_USER":
+                return "fa-user-plus";
+
+            case "ANALYTICS":
+                return "fa-chart-line";
+
+            case "REPORT":
+                return "fa-file-export";
+
+            case "ASSIGNMENT":
+                return "fa-user-check";
+
+            case "COMMENT":
+                return "fa-comment";
+
+            case "RESOLUTION":
+                return "fa-lightbulb";
+
+            default:
+                return "fa-bell";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       FORMAT TIME
+    ========================================================= */
+
+    function formatNotificationTime(
+        dateString
+    ) {
+
+        if (!dateString) {
+
+            return "";
+
+        }
+
+
+        const date =
+            new Date(dateString);
+
+        const now =
+            new Date();
+
+
+        const difference =
+            Math.floor(
+                (now - date) / 1000
+            );
+
+
+        if (
+            Number.isNaN(difference)
+        ) {
+
+            return "";
+
+        }
+
+
+        if (difference < 60) {
+
+            return "Just now";
+
+        }
+
+
+        if (difference < 3600) {
+
+            const minutes =
+                Math.floor(
+                    difference / 60
+                );
+
+            return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+
+        }
+
+
+        if (difference < 86400) {
+
+            const hours =
+                Math.floor(
+                    difference / 3600
+                );
+
+            return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+
+        }
+
+
+        if (difference < 604800) {
+
+            const days =
+                Math.floor(
+                    difference / 86400
+                );
+
+            return `${days} day${days > 1 ? "s" : ""} ago`;
+
+        }
+
+
+        return date.toLocaleDateString();
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null
+            ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+
+    function showNoNotifications() {
+
+        const list =
+            document.getElementById(
+                "notificationsList"
+            );
+
+
+        if (!list) {
+
+            return;
+
+        }
+
+
+        list.innerHTML = `
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-bell-slash"></i>
+
+                <h3>
+                    No notifications
+                </h3>
+
+                <p>
+                    You're all caught up.
+                </p>
+
+            </div>
+
+        `;
+
+        updateDeleteSelectedButton();
+
+    }
+
+
+    /* =========================================================
+       ERROR STATE
+    ========================================================= */
+
+    function showNotificationError(
+        message
+    ) {
+
+        const list =
+            document.getElementById(
+                "notificationsList"
+            );
+
+
+        if (!list) {
+
+            return;
+
+        }
+
+
+        list.innerHTML = `
+
+            <div class="error-state">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                ${escapeHtml(message)}
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       UPDATE BADGES
+    ========================================================= */
+
+    async function updateNotificationBadge() {
+
+        const token =
+            getToken();
+
+
+        if (!token) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/v1/notifications/unread-count`,
+                    {
+                        method: "GET",
+                        headers: authHeaders()
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const unreadCount =
+                Number(
+                    data.unread_count || 0
+                );
+
+
+            /* Sidebar */
+
+            const sidebarBadge =
+                document.getElementById(
+                    "sidebarNotificationBadge"
+                );
+
+
+            if (sidebarBadge) {
+
+                sidebarBadge.textContent =
+                    unreadCount;
+
+                sidebarBadge.style.display =
+                    unreadCount > 0
+                        ? "flex"
+                        : "none";
+
+            }
+
+
+            /* Top bell */
+
+            const topBadge =
+                document.getElementById(
+                    "topNotificationBadge"
+                );
+
+
+            if (topBadge) {
+
+                topBadge.textContent =
+                    unreadCount;
+
+                topBadge.style.display =
+                    unreadCount > 0
+                        ? "flex"
+                        : "none";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Notification badge error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       DISPLAY NOTIFICATIONS
+    ========================================================= */
+
+    function displayNotifications(
+        notifications
+    ) {
+
+        const list =
+            document.getElementById(
+                "notificationsList"
+            );
+
+
+        if (!list) {
+
+            return;
+
+        }
+
+
+        if (
+            !Array.isArray(notifications)
+        ) {
+
+            showNoNotifications();
+
+            return;
+
+        }
+
+
+        const visibleNotifications =
+            notifications.filter(
+                notification =>
+                    !notification.is_deleted
+            );
+
+
+        if (
+            visibleNotifications.length === 0
+        ) {
+
+            showNoNotifications();
+
+            return;
+
+        }
+
+
+        list.innerHTML = "";
+
+
+        visibleNotifications.forEach(
+            function (notification) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "notification-card";
+
+
+                card.dataset.notificationId =
+                    notification.id;
+
+
+                if (
+                    notification.is_read
+                    ||
+                    notification.read
+                ) {
+
+                    card.classList.add(
+                        "read"
+                    );
+
+                }
+
+
+                const notificationType =
+                    notification.notification_type
+                    ||
+                    notification.type
+                    ||
+                    "";
+
+
+                const title =
+                    notification.title
+                    ||
+                    "BugFlow Notification";
+
+
+                const message =
+                    notification.message
+                    ||
+                    "";
+
+
+                const createdAt =
+                    notification.created_at
+                    ||
+                    notification.timestamp
+                    ||
+                    "";
+
+
+                const isRead =
+                    Boolean(
+                        notification.is_read
+                        ||
+                        notification.read
+                    );
+
+
+                card.innerHTML = `
+
+                    <div class="notification-select">
+
+                        <input
+                            type="checkbox"
+                            class="notification-checkbox"
+                            value="${escapeHtml(notification.id)}"
+                            aria-label="Select notification"
+                        >
+
+                    </div>
+
+
+                    <div class="notification-icon">
+
+                        <i class="fa-solid ${getNotificationIcon(notificationType)}"></i>
+
+                    </div>
+
+
+                    <div class="notification-content">
+
+                        <h3>
+                            ${escapeHtml(title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(message)}
+                        </p>
+
+                        <div class="notification-time">
+
+                            ${escapeHtml(
+                                formatNotificationTime(
+                                    createdAt
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="notification-status"
+                        title="${isRead ? "Read" : "Unread"}"
+                    ></div>
+
+
+                    <button
+                        type="button"
+                        class="notification-delete-btn"
+                        title="Delete notification"
+                        aria-label="Delete notification"
+                    >
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                `;
+
+
+                /* ------------------------------------------------
+                   Checkbox
+                ------------------------------------------------ */
+
+                const checkbox =
+                    card.querySelector(
+                        ".notification-checkbox"
+                    );
+
+
+                if (checkbox) {
+
+                    checkbox.addEventListener(
+                        "change",
+                        function () {
+
+                            updateDeleteSelectedButton();
+
+                        }
+                    );
+
+                }
+
+
+                /* ------------------------------------------------
+                   Delete button
+                ------------------------------------------------ */
+
+                const deleteButton =
+                    card.querySelector(
+                        ".notification-delete-btn"
+                    );
+
+
+                if (deleteButton) {
+
+                    deleteButton.addEventListener(
+                        "click",
+                        function (event) {
+
+                            event.stopPropagation();
+
+                            deleteNotification(
+                                notification.id
+                            );
+
+                        }
+                    );
+
+                }
+
+
+                /* ------------------------------------------------
+                   Card click
+                ------------------------------------------------ */
+
+                card.addEventListener(
+                    "click",
+                    function (event) {
+
+                        if (
+                            event.target.closest(
+                                "input"
+                            )
+                            ||
+                            event.target.closest(
+                                "button"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        if (!isRead) {
+
+                            markNotificationRead(
+                                notification.id,
+                                card
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                list.appendChild(card);
+
+            }
+        );
+
+
+        updateDeleteSelectedButton();
+
+    }
+
+
+    /* =========================================================
+       LOAD NOTIFICATIONS
+    ========================================================= */
+
+    async function loadNotifications() {
+
+        const token =
+            getToken();
+
+
+        if (!token) {
+
+            showNotificationError(
+                "Please log in to view your notifications."
+            );
+
+            return;
+
+        }
+
+
+        const list =
+            document.getElementById(
+                "notificationsList"
+            );
+
+
+        if (list) {
+
+            list.innerHTML = `
+
+                <div class="loading-state">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Loading your notifications...
+
+                </div>
+
+            `;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/v1/notifications/`,
+                    {
+                        method: "GET",
+                        headers: authHeaders()
+                    }
+                );
+
+
+            if (
+                response.status === 401
+            ) {
+
+                showNotificationError(
+                    "Your session has expired. Please log in again."
+                );
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            const notifications =
+                await response.json();
+
+
+            displayNotifications(
+                notifications
+            );
+
+
+            await updateNotificationBadge();
+
+        } catch (error) {
+
+            console.error(
+                "Unable to load notifications:",
+                error
+            );
+
+
+            showNotificationError(
+                "Unable to load your notifications. Please try again."
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       MARK ONE NOTIFICATION AS READ
+    ========================================================= */
+
+    async function markNotificationRead(
+        notificationId,
+        card
+    ) {
+
+        if (!notificationId) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/v1/notifications/${notificationId}/read`,
+                    {
+                        method: "PATCH",
+                        headers: authHeaders()
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            if (card) {
+
+                card.classList.add(
+                    "read"
+                );
+
+
+                const status =
+                    card.querySelector(
+                        ".notification-status"
+                    );
+
+
+                if (status) {
+
+                    status.style.background =
+                        "#475569";
+
+                    status.title =
+                        "Read";
+
+                }
+
+            }
+
+
+            await updateNotificationBadge();
+
+        } catch (error) {
+
+            console.error(
+                "Unable to mark notification as read:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       MARK ALL AS READ
+    ========================================================= */
+
+    async function markAllRead() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/v1/notifications/read-all`,
+                    {
+                        method: "PATCH",
+                        headers: authHeaders()
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            const cards =
+                document.querySelectorAll(
+                    "#notificationsList .notification-card"
+                );
+
+
+            cards.forEach(
+                function (card) {
+
+                    card.classList.add(
+                        "read"
+                    );
+
+
+                    const status =
+                        card.querySelector(
+                            ".notification-status"
+                        );
+
+
+                    if (status) {
+
+                        status.style.background =
+                            "#475569";
+
+                        status.title =
+                            "Read";
+
+                    }
+
+                }
+            );
+
+
+            await updateNotificationBadge();
+
+        } catch (error) {
+
+            console.error(
+                "Unable to mark all notifications as read:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       DELETE ONE NOTIFICATION
+    ========================================================= */
+
+    async function deleteNotification(
+        notificationId
+    ) {
+
+        if (!notificationId) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/v1/notifications/${notificationId}`,
+                    {
+                        method: "DELETE",
+                        headers: authHeaders()
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            const card =
+                document.querySelector(
+                    `.notification-card[data-notification-id="${CSS.escape(String(notificationId))}"]`
+                );
+
+
+            if (card) {
+
+                card.remove();
+
+            }
+
+
+            const remaining =
+                document.querySelectorAll(
+                    "#notificationsList .notification-card"
+                );
+
+
+            if (remaining.length === 0) {
+
+                showNoNotifications();
+
+            }
+
+
+            await updateNotificationBadge();
+
+            updateDeleteSelectedButton();
+
+        } catch (error) {
+
+            console.error(
+                "Unable to delete notification:",
+                error
+            );
+
+        }
+
+    }
+/* =========================================================
+   SELECTED NOTIFICATION BUTTON
+========================================================= */
+
+function updateDeleteSelectedButton() {
+
+    const button = document.getElementById("deleteSelectedBtn");
+
+    if (!button) {
+        return;
+    }
+
+    const selected = document.querySelectorAll(
+        ".notification-checkbox:checked"
+    );
+
+    if (selected.length > 0) {
+        button.style.display = "inline-flex";
+        button.disabled = false;
+    } else {
+        button.style.display = "none";
+        button.disabled = true;
+    }
+}
+
+
+/* =========================================================
+   CHECKBOX CHANGE HANDLER
+========================================================= */
+
+function setupNotificationCheckboxes() {
+
+    const checkboxes = document.querySelectorAll(
+        ".notification-checkbox"
+    );
+
+    checkboxes.forEach(function (checkbox) {
+
+        checkbox.addEventListener("change", function () {
+            updateDeleteSelectedButton();
+        });
+
+    });
+
+    updateDeleteSelectedButton();
+}
+
+
+/* =========================================================
+   DELETE SELECTED NOTIFICATIONS
+========================================================= */
+
+async function deleteSelectedNotifications() {
+
+    const selected = Array.from(
+        document.querySelectorAll(
+            ".notification-checkbox:checked"
+        )
+    );
+
+    if (selected.length === 0) {
+        return;
+    }
+
+    const confirmed = confirm(
+        `Delete ${selected.length} selected notification${selected.length > 1 ? "s" : ""}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        for (const checkbox of selected) {
+
+            await deleteNotification(
+                checkbox.value
+            );
+
+        }
+
+        await loadNotifications();
+
+        if (typeof loadUnreadCount === "function") {
+            await loadUnreadCount();
+        }
+
+        updateDeleteSelectedButton();
+
+    } catch (error) {
+
+        console.error(
+            "Error deleting selected notifications:",
+            error
+        );
+
+        alert(
+            "Unable to delete selected notifications."
+        );
+    }
+}
+
+    /* =========================================================
+       CLEAR ALL NOTIFICATIONS
+    ========================================================= */
+
+    async function clearNotifications() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/v1/notifications/`,
+                    {
+                        method: "DELETE",
+                        headers: authHeaders()
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            showNoNotifications();
+
+
+            await updateNotificationBadge();
+
+        } catch (error) {
+
+            console.error(
+                "Unable to clear notifications:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    function setupLogout() {
+
+        const logoutLink =
+            document.getElementById(
+                "logoutLink"
+            );
+
+
+        if (!logoutLink) {
+
+            return;
+
+        }
+
+
+        logoutLink.addEventListener(
+            "click",
+            function () {
+
+                localStorage.removeItem(
+                    "access_token"
+                );
+
+                localStorage.removeItem(
+                    "user"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       WEBSOCKET
+    ========================================================= */
+
+    let notificationSocket =
+        null;
+
+
+    let reconnectTimer =
+        null;
+
+
+    function connectNotificationWebSocket() {
+
+        const token =
+            getToken();
+
+
+        if (!token) {
+
+            return;
+
+        }
+
+
+        try {
+
+            notificationSocket =
+                new WebSocket(
+                    "ws://127.0.0.1:8000/api/v1/notifications/ws"
+                );
+
+
+            notificationSocket.onopen =
+                function () {
+
+                    console.log(
+                        "BugFlow User Notification WebSocket connected."
+                    );
+
+
+                    notificationSocket.send(
+                        token
+                    );
+
+                };
+
+
+            notificationSocket.onmessage =
+                function () {
+
+                    loadNotifications();
+
+                    updateNotificationBadge();
+
+                };
+
+
+            notificationSocket.onclose =
+                function () {
+
+                    if (
+                        reconnectTimer
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    reconnectTimer =
+                        setTimeout(
+                            function () {
+
+                                reconnectTimer =
+                                    null;
+
+                                connectNotificationWebSocket();
+
+                            },
+                            5000
+                        );
+
+                };
+
+
+            notificationSocket.onerror =
+                function (error) {
+
+                    console.error(
+                        "Notification WebSocket error:",
+                        error
+                    );
+
+                };
+
+        } catch (error) {
+
+            console.error(
+                "Unable to connect notification WebSocket:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PAGE INITIALIZATION
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadUserInformation();
+
+            setupLogout();
+
+            loadNotifications();
+
+            updateNotificationBadge();
+
+            connectNotificationWebSocket();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

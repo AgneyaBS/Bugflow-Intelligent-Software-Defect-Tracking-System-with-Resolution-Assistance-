@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>BugFlow - Settings</title>
-
+    <link rel="stylesheet" href="admin-sidebar.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<script src="notification.js"></script>
+<script src="admin-notifications.js"></script>
     <style>
         * {
             margin: 0;
@@ -29,15 +29,16 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 250px;
-            background: #111827;
-            color: white;
-            padding: 22px 15px;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-        }
+    width: 260px;
+    background: #ffffff !important;
+    color: #64748b !important;
+    padding: 0 !important;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
 
         .logo {
             font-size: 24px;
@@ -86,11 +87,8 @@
         }
 
         .sidebar-bottom {
-            position: absolute;
-            bottom: 20px;
-            left: 15px;
-            right: 15px;
-        }
+    margin-top: auto;
+}
 
         .support-box {
             background: #1f2937;
@@ -111,10 +109,11 @@
 
         /* MAIN */
         .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            padding: 30px;
-        }
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-width: 0;
+    padding: 30px 35px;
+}
 
         .topbar {
             display: flex;
@@ -264,6 +263,10 @@
             .settings-grid {
                 grid-template-columns: 1fr;
             }
+            .main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+}
         }
         /* DARK MODE */
 body.dark-mode {
@@ -311,6 +314,138 @@ body.dark-mode select {
     background: #e2e8f0;
     transform: translateX(-2px);
 }
+/* ============================================================
+   ADMIN SIDEBAR - FORCE WHITE THEME
+============================================================ */
+
+.sidebar {
+    background: #ffffff !important;
+    color: #64748b !important;
+    border-right: 1px solid #e5e7eb !important;
+}
+
+.sidebar .brand,
+.sidebar .logo-section {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+.sidebar .brand h2,
+.sidebar .logo-section h2 {
+    color: #111827 !important;
+}
+
+.sidebar .brand span,
+.sidebar .logo-section span {
+    color: #94a3b8 !important;
+}
+
+.sidebar .nav-heading {
+    color: #94a3b8 !important;
+}
+
+.sidebar .nav-link {
+    background: transparent !important;
+    color: #64748b !important;
+}
+
+.sidebar .nav-link i {
+    color: #64748b !important;
+}
+
+.sidebar .nav-link:hover {
+    background: #f1f5f9 !important;
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link:hover i {
+    color: #4f46e5 !important;
+}
+
+/* Resolution Assistance active */
+.sidebar .nav-link.active {
+    background: #eeeeff !important;
+    color: #4f46e5 !important;
+}
+
+.sidebar .nav-link.active i {
+    color: #4f46e5 !important;
+}
+
+/* Back button */
+.sidebar .sidebar-back-button {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border: none !important;
+}
+
+.sidebar .sidebar-back-button i {
+    color: #334155 !important;
+}
+
+/* System Support */
+.sidebar .support-box {
+    background: #f8fafc !important;
+    color: #111827 !important;
+}
+
+.sidebar .support-box strong {
+    color: #111827 !important;
+}
+
+.sidebar .support-box small {
+    color: #94a3b8 !important;
+}
+
+/* Sidebar bottom */
+.sidebar .sidebar-bottom {
+    background: #ffffff !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+/* Logout */
+.sidebar .logout {
+    background: transparent !important;
+    color: #64748b !important;
+}
+
+.sidebar .logout i {
+    color: #64748b !important;
+}
+
+/* Scrollbar */
+.sidebar {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}
+@media (max-width: 650px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+}
+
     </style>
 </head>
 
@@ -350,7 +485,7 @@ body.dark-mode select {
 
 
             <a href="admin-dashboard.html"
-               class="nav-link active">
+               class="nav-link">
 
                 <i class="fa-solid fa-chart-pie"></i>
 
@@ -388,7 +523,7 @@ body.dark-mode select {
             </a>
 
 
-            <a href="resolution.html"
+            <a href="admin-resolution.html"
                class="nav-link">
 
                 <i class="fa-solid fa-robot"></i>
@@ -403,7 +538,10 @@ body.dark-mode select {
             <p class="nav-heading second">
                 MANAGEMENT
             </p>
-
+<a href="optimization.html" class="nav-link">
+    <i class="fa-solid fa-rocket"></i>
+    <span>Optimization & Finalization</span>
+</a>
 
             <a href="admin-analytics.html"
                class="nav-link">
@@ -415,11 +553,7 @@ body.dark-mode select {
                 </span>
 
             </a>
-
-
-
-
-            <a href="notifications.html"
+            <a href="admin-notifications.html"
                class="nav-link">
 
                 <i class="fa-solid fa-bell"></i>
@@ -434,7 +568,7 @@ body.dark-mode select {
 
 
             <a href="settings.html"
-               class="nav-link">
+               class="nav-link active ">
 
                 <i class="fa-solid fa-gear"></i>
 
@@ -450,15 +584,18 @@ body.dark-mode select {
         <div class="sidebar-bottom">
 
             
-<a href="system-support.html"
-   class="support-box"
-   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+<div class="support-box">
 
-    <strong>System Support</strong>
-    <small>All systems online</small>
+    <strong>
+        <i class="fa-solid fa-headset"></i>
+        System Support
+    </strong>
 
-</a>
+    <small>
+        ● All systems online
+    </small>
 
+</div>
             <a href="index.html"
                class="nav-link logout"
                id="logoutBtn">
@@ -732,6 +869,5 @@ document.getElementById("themeSelect").value = savedTheme;
 
 applyTheme(savedTheme);
 </script>
-<script src="theme.js"></script>
 </body>
 </html>

@@ -16,3 +16,6 @@ bugflow_backup.sql
 
 # Docker duplicate
 Dockerfile.txt
+
+# VS Code settings
+.vscode/

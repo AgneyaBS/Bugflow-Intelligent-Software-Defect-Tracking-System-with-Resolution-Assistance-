@@ -1,115 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users | BugFlow</title>
 
-    <!-- BugFlow Main CSS -->
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <link rel="stylesheet" href="admin-sidebar.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link rel="stylesheet" href="css/style.css">
+
     <style>
-
-        /* =====================================================
-           USERS PAGE
-        ===================================================== */
-
         .users-page {
             padding: 38px 40px 50px;
             background: #f6f7fb;
             min-height: calc(100vh - 75px);
         }
 
-
         .users-page-inner {
             max-width: 1135px;
             margin: 0 auto;
         }
 
-
-        /* =====================================================
-           PAGE HEADING
-        ===================================================== */
-
         .page-heading {
             margin-bottom: 28px;
         }
 
-
         .page-heading .eyebrow {
+            margin-bottom: 8px;
+            color: #4f46e5;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 1.5px;
-            color: #4f46e5;
-            margin-bottom: 8px;
         }
 
-
         .page-heading h1 {
-            font-size: 32px;
-            color: #111827;
             margin: 0 0 8px;
+            color: #111827;
+            font-size: 32px;
             font-weight: 700;
         }
 
-
         .page-heading p {
-            font-size: 14px;
-            color: #718096;
             margin: 0;
+            color: #718096;
+            font-size: 14px;
         }
 
-
-        /* =====================================================
-           SEARCH CARD
-        ===================================================== */
-
-        .users-filter-card {
-            background: #ffffff;
+        .users-filter-card,
+        .create-user-card,
+        .users-card {
+            background: #fff;
             border: 1px solid #e5e7eb;
             border-radius: 14px;
-            padding: 24px;
-            margin-bottom: 28px;
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
         }
 
+        .users-filter-card {
+            padding: 24px;
+            margin-bottom: 28px;
+        }
 
         .filter-heading {
             margin-bottom: 18px;
         }
 
-
-        .filter-heading h3 {
+        .filter-heading h3,
+        .users-card-title h3,
+        .create-user-header h3 {
             margin: 0 0 5px;
-            font-size: 17px;
             color: #172033;
+            font-size: 17px;
         }
 
-
-        .filter-heading p {
+        .filter-heading p,
+        .users-card-title p,
+        .create-user-header p {
             margin: 0;
-            font-size: 12px;
             color: #8a94a6;
+            font-size: 12px;
         }
-
 
         .search-row {
             display: flex;
@@ -117,179 +92,254 @@
             align-items: center;
         }
 
-
         .search-box {
-            flex: 1;
             position: relative;
+            flex: 1;
         }
-
 
         .search-box i {
             position: absolute;
-            left: 16px;
             top: 50%;
-            transform: translateY(-50%);
+            left: 16px;
             color: #94a3b8;
             font-size: 14px;
+            transform: translateY(-50%);
         }
 
-
-        .search-box input {
-            width: 100%;
+        .search-box input,
+        .role-filter {
             height: 48px;
-            padding: 0 16px 0 44px;
             border: 1px solid #d9e0ea;
             border-radius: 10px;
             outline: none;
+            background: #fff;
+            color: #374151;
+            font-family: inherit;
             font-size: 14px;
-            color: #1f2937;
-            background: #ffffff;
         }
 
+        .search-box input {
+            width: 100%;
+            padding: 0 16px 0 44px;
+            box-sizing: border-box;
+        }
 
-        .search-box input:focus {
+        .search-box input:focus,
+        .role-filter:focus {
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
         }
 
-
         .role-filter {
-            height: 48px;
-            min-width: 170px;
+            min-width: 180px;
             padding: 0 14px;
+        }
+
+        .reset-btn,
+        .create-user-reset-btn {
             border: 1px solid #d9e0ea;
-            border-radius: 10px;
-            background: #ffffff;
-            color: #374151;
-            font-size: 14px;
-            outline: none;
+            border-radius: 9px;
+            background: #fff;
+            color: #475569;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
         }
-
-
-        .role-filter:focus {
-            border-color: #6366f1;
-        }
-
 
         .reset-btn {
             height: 48px;
             padding: 0 20px;
-            border: 1px solid #d9e0ea;
             border-radius: 10px;
-            background: #ffffff;
-            color: #4b5563;
             font-size: 13px;
-            cursor: pointer;
         }
 
-
-        .reset-btn:hover {
+        .reset-btn:hover,
+        .create-user-reset-btn:hover {
             background: #f8fafc;
         }
 
-
-        /* =====================================================
-           USERS CARD
-        ===================================================== */
-
-        .users-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        .create-user-card {
+            padding: 24px;
+            margin-bottom: 28px;
         }
 
-
-        .users-card-header {
-            padding: 22px 26px;
-            border-bottom: 1px solid #edf0f5;
+        .create-user-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
-
-        .users-card-title h3 {
-            margin: 0 0 5px;
-            font-size: 17px;
-            color: #172033;
-        }
-
-
-        .users-card-title p {
-            margin: 0;
-            font-size: 12px;
-            color: #8a94a6;
-        }
-
-
-        .user-count {
-            font-size: 12px;
-            color: #6366f1;
+        .create-user-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: #eef2ff;
-            padding: 7px 12px;
-            border-radius: 20px;
+            color: #4f46e5;
+            font-size: 17px;
+        }
+
+        .create-user-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .create-user-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .create-user-field label {
+            color: #475569;
+            font-size: 12px;
             font-weight: 600;
         }
 
+        .create-user-field input,
+        .create-user-field select {
+            width: 100%;
+            height: 44px;
+            padding: 0 13px;
+            box-sizing: border-box;
+            border: 1px solid #d9e0ea;
+            border-radius: 9px;
+            outline: none;
+            background: #fff;
+            color: #1f2937;
+            font-family: inherit;
+            font-size: 13px;
+        }
 
-        /* =====================================================
-           TABLE
-        ===================================================== */
+        .create-user-field input:focus,
+        .create-user-field select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+
+        .create-user-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .create-user-btn {
+            height: 44px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 9px;
+            background: #4f46e5;
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .create-user-btn:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .create-user-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .create-user-reset-btn {
+            height: 44px;
+            padding: 0 18px;
+            font-size: 13px;
+        }
+
+        .create-user-message {
+            display: none;
+            margin-top: 15px;
+            padding: 11px 14px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
+
+        .create-user-message.success {
+            display: block;
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .create-user-message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .users-card {
+            overflow: hidden;
+        }
+
+        .users-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 26px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .user-count {
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #6366f1;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
         .users-table-container {
             width: 100%;
             overflow-x: auto;
         }
 
-
         .users-table {
             width: 100%;
-            border-collapse: collapse;
             min-width: 850px;
+            border-collapse: collapse;
         }
-
 
         .users-table thead {
             background: #f8fafc;
         }
 
-
         .users-table th {
             padding: 15px 20px;
-            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            color: #64748b;
             font-size: 11px;
             font-weight: 700;
-            color: #64748b;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
         }
-
 
         .users-table td {
             padding: 17px 20px;
-            font-size: 13px;
-            color: #374151;
             border-bottom: 1px solid #edf0f5;
+            color: #374151;
+            font-size: 13px;
             vertical-align: middle;
         }
-
 
         .users-table tbody tr:hover {
             background: #fafbff;
         }
 
-
         .users-table tbody tr:last-child td {
             border-bottom: none;
         }
-
-
-        /* =====================================================
-           USER INFO
-        ===================================================== */
 
         .user-info {
             display: flex;
@@ -297,134 +347,128 @@
             gap: 12px;
         }
 
-
         .user-avatar-small {
             width: 38px;
             height: 38px;
+            flex-shrink: 0;
             border-radius: 50%;
-            background: #eef2ff;
-            color: #4f46e5;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #eef2ff;
+            color: #4f46e5;
             font-size: 12px;
             font-weight: 700;
-            flex-shrink: 0;
         }
-
 
         .user-name {
+            color: #1f2937;
             font-size: 13px;
             font-weight: 600;
-            color: #1f2937;
         }
-
 
         .user-username {
-            font-size: 11px;
-            color: #94a3b8;
             margin-top: 3px;
+            color: #94a3b8;
+            font-size: 11px;
         }
 
-
-        /* =====================================================
-           ROLE BADGES
-        ===================================================== */
-
-        .role-badge {
+        .role-badge,
+        .active-badge,
+        .inactive-badge {
             display: inline-flex;
             align-items: center;
-            padding: 6px 10px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
         }
 
+        .role-badge {
+            padding: 6px 10px;
+        }
 
         .role-admin {
             background: #ede9fe;
             color: #7c3aed;
         }
 
-
-        .role-user {
-            background: #eef2ff;
-            color: #4f46e5;
+        .role-developer {
+            background: #ecfdf5;
+            color: #047857;
         }
 
+        .role-tester {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .role-triager {
+            background: #fff7ed;
+            color: #c2410c;
+        }
 
         .role-default {
             background: #f1f5f9;
             color: #64748b;
         }
 
-
-        /* =====================================================
-           STATUS
-        ===================================================== */
+        .active-badge,
+        .inactive-badge {
+            gap: 6px;
+            padding: 6px 10px;
+        }
 
         .active-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 20px;
             background: #ecfdf5;
             color: #059669;
-            font-size: 11px;
-            font-weight: 600;
         }
-
-
-        .active-badge i {
-            font-size: 7px;
-        }
-
 
         .inactive-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 20px;
             background: #fef2f2;
             color: #dc2626;
-            font-size: 11px;
-            font-weight: 600;
         }
 
-
+        .active-badge i,
         .inactive-badge i {
             font-size: 7px;
         }
 
-
-        /* =====================================================
-           MESSAGES
-        ===================================================== */
-
         .users-message {
-            text-align: center;
             padding: 55px 20px;
             color: #64748b;
             font-size: 13px;
+            text-align: center;
         }
-
 
         .users-message i {
-            font-size: 28px;
-            color: #a5b4fc;
-            margin-bottom: 12px;
             display: block;
+            margin-bottom: 12px;
+            color: #a5b4fc;
+            font-size: 28px;
         }
 
+        .sidebar-back-button {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin: 15px 15px 20px auto;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 7px;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
+        .sidebar-back-button:hover {
+            background: #e2e8f0;
+            transform: translateX(-2px);
+        }
 
         @media (max-width: 900px) {
-
             .users-page {
                 padding: 25px 20px;
             }
@@ -438,1727 +482,697 @@
             .reset-btn {
                 width: 100%;
             }
-
         }
-        .sidebar-back-button {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin: 15px 15px 20px auto;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 7px;
-    background: #f1f5f9;
-    color: #334155;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
-.sidebar-back-button:hover {
-    background: #e2e8f0;
-    transform: translateX(-2px);
-}
-/* =====================================================
-   CREATE USER / DEVELOPER CARD
-===================================================== */
+        @media (max-width: 700px) {
+            .create-user-form {
+                grid-template-columns: 1fr;
+            }
 
-.create-user-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
-    padding: 24px;
-    margin-bottom: 28px;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
-}
+            .create-user-actions {
+                flex-direction: column;
+            }
 
-.create-user-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+            .create-user-btn,
+            .create-user-reset-btn {
+                width: 100%;
+            }
 
-.create-user-header h3 {
-    margin: 0 0 5px;
-    font-size: 17px;
-    color: #172033;
-}
-
-.create-user-header p {
-    margin: 0;
-    font-size: 12px;
-    color: #8a94a6;
-}
-
-.create-user-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: #eef2ff;
-    color: #4f46e5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-}
-
-.create-user-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-
-.create-user-field {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.create-user-field.full-width {
-    grid-column: 1 / -1;
-}
-
-.create-user-field label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #475569;
-}
-
-.create-user-field input,
-.create-user-field select {
-    width: 100%;
-    height: 44px;
-    padding: 0 13px;
-    border: 1px solid #d9e0ea;
-    border-radius: 9px;
-    background: #ffffff;
-    color: #1f2937;
-    font-family: inherit;
-    font-size: 13px;
-    outline: none;
-    box-sizing: border-box;
-}
-
-.create-user-field input:focus,
-.create-user-field select:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
-}
-
-.create-user-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.create-user-btn {
-    height: 44px;
-    padding: 0 20px;
-    border: none;
-    border-radius: 9px;
-    background: #4f46e5;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.create-user-btn:hover {
-    background: #4338ca;
-    transform: translateY(-1px);
-}
-
-.create-user-reset-btn {
-    height: 44px;
-    padding: 0 18px;
-    border: 1px solid #d9e0ea;
-    border-radius: 9px;
-    background: #ffffff;
-    color: #475569;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.create-user-reset-btn:hover {
-    background: #f8fafc;
-}
-
-.create-user-message {
-    display: none;
-    margin-top: 15px;
-    padding: 11px 14px;
-    border-radius: 9px;
-    font-size: 12px;
-}
-
-.create-user-message.success {
-    display: block;
-    background: #ecfdf5;
-    color: #047857;
-}
-
-.create-user-message.error {
-    display: block;
-    background: #fef2f2;
-    color: #b91c1c;
-}
-
-@media (max-width: 700px) {
-
-    .create-user-form {
-        grid-template-columns: 1fr;
-    }
-
-    .create-user-field.full-width {
-        grid-column: auto;
-    }
-
-    .create-user-actions {
-        flex-direction: column;
-    }
-
-    .create-user-btn,
-    .create-user-reset-btn {
-        width: 100%;
-    }
-}
+            .page-heading h1 {
+                font-size: 28px;
+            }
+        }
     </style>
-
 </head>
 
-
 <body>
-
-
 <div class="app">
 
-
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
-
-        <!-- BRAND -->
-
         <div class="brand">
-
             <div class="brand-logo">
-
                 <i class="fa-solid fa-bug"></i>
-
             </div>
-
 
             <div>
-
-                <h2>
-                    BugFlow
-                </h2>
-
-                <span>
-                    Intelligent Tracking
-                </span>
-
+                <h2>BugFlow</h2>
+                <span>Intelligent Tracking</span>
             </div>
-
         </div>
+
         <button class="sidebar-back-button" onclick="history.back()">
-    <i class="fa-solid fa-arrow-left"></i>
-    <span>Back</span>
-</button>
-
-
-        <!-- MAIN NAVIGATION -->
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back</span>
+        </button>
 
         <nav>
+            <p class="nav-heading">MAIN</p>
 
-            <p class="nav-heading">
-                MAIN
-            </p>
-
-
-            <a href="admin-dashboard.html"
-               class="nav-link">
-
+            <a href="admin-dashboard.html" class="nav-link">
                 <i class="fa-solid fa-chart-pie"></i>
-
-                <span>
-                    Dashboard
-                </span>
-
+                <span>Dashboard</span>
             </a>
 
-
-            <a href="admin-defects.html"
-               class="nav-link">
-
+            <a href="admin-defects.html" class="nav-link">
                 <i class="fa-solid fa-bug"></i>
-
-                <span>
-                    All Issues
-                </span>
-
+                <span>All Issues</span>
             </a>
-            
-<a href="sprints.html" class="nav-link">
-    <i class="fa-solid fa-list-check"></i>
-    <span>Sprints</span>
-</a>
 
-            <a href="users.html"
-               class="nav-link active">
+            <a href="sprints.html" class="nav-link">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Sprints</span>
+            </a>
 
+            <a href="users.html" class="nav-link active">
                 <i class="fa-solid fa-users"></i>
-
-                <span>
-                    Users
-                </span>
-
+                <span>Users</span>
             </a>
 
-
-            <a href="resolution.html"
-               class="nav-link">
-
+            <a href="admin-resolution.html" class="nav-link">
                 <i class="fa-solid fa-robot"></i>
-
-                <span>
-                    Resolution Assistance
-                </span>
-
+                <span>Resolution Assistance</span>
             </a>
 
+            <p class="nav-heading second">MANAGEMENT</p>
 
-            <p class="nav-heading second">
-                MANAGEMENT
-            </p>
+            <a href="optimization.html" class="nav-link">
+                <i class="fa-solid fa-rocket"></i>
+                <span>Optimization & Finalization</span>
+            </a>
 
-
-            <a href="admin-analytics.html"
-               class="nav-link">
-
+            <a href="admin-analytics.html" class="nav-link">
                 <i class="fa-solid fa-chart-line"></i>
-
-                <span>
-                    Analytics
-                </span>
-
+                <span>Analytics</span>
             </a>
 
-
-
-            <a href="notifications.html"
-               class="nav-link">
-
+            <a href="admin-notifications.html" class="nav-link">
                 <i class="fa-solid fa-bell"></i>
-
-                <span>
-                    Notifications
-                </span>
-
-              <span id="topNotificationBadge">0</span>
-
+                <span>Notifications</span>
+                <span id="sidebarNotificationBadge">0</span>
             </a>
-
-
-            <a href="settings.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Settings
-                </span>
-
-            </a>
-
         </nav>
 
+        <div class="sidebar-bottom">
+            <a href="system-support.html"
+               class="support-box"
+               style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+                <strong>System Support</strong>
+                <small>All systems online</small>
+            </a>
 
-      <!-- =====================================================
-     SIDEBAR BOTTOM
-====================================================== -->
+            <a href="index.html"
+               class="nav-link logout"
+               id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
 
-<div class="sidebar-bottom">
-
-    <a href="system-support.html"
-       class="support-box"
-       style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
-
-        <strong>System Support</strong>
-        <small>All systems online</small>
-
-    </a>
-
-    <a href="index.html"
-       class="nav-link logout"
-       id="logoutBtn">
-
-        <i class="fa-solid fa-right-from-bracket"></i>
-
-        <span>
-            Logout
-        </span>
-
-    </a>
-
-</div>
-
-</aside>
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
+    <!-- MAIN -->
     <main class="main">
 
-
-        <!-- =================================================
-             TOPBAR
-        ================================================== -->
-
-        <!-- TOPBAR -->
-
-<header class="topbar">
-
-    <div class="topbar-title">
-
-        <span>
-            SOFTWARE DEFECT MANAGEMENT
-        </span>
-
-        <strong>
-            All Defects
-        </strong>
-
-    </div>
-
-
-    <div class="topbar-right">
-
-        <!-- Notifications -->
-
-        <a href="notifications.html"
-           class="notification-button">
-
-            <i class="fa-regular fa-bell"></i>
-
-           <span id="topNotificationBadge">0</span>
-
-        </a>
-
-
-        <!-- Admin Profile -->
-
-        <a href="profile.html"
-           class="user-profile">
-
-            <div class="avatar admin-avatar"
-                 id="adminAvatar">
-
-                AD
-
+        <header class="topbar">
+            <div class="topbar-title">
+                <span>SOFTWARE DEFECT MANAGEMENT</span>
+                <strong>User Management</strong>
             </div>
 
+            <div class="topbar-right">
 
-            <div>
+                <a href="admin-notifications.html"
+                   class="notification-button">
+                    <i class="fa-regular fa-bell"></i>
+                    <span id="topNotificationBadge">0</span>
+                </a>
 
-                <strong id="adminName">
-                    Administrator
-                </strong>
-                <small id="adminRole">
-                    System Admin
-                </small>
+                <a href="profile.html" class="user-profile">
+                    <div class="avatar admin-avatar" id="adminAvatar">
+                        AD
+                    </div>
+
+                    <div>
+                        <strong id="adminName">Administrator</strong>
+                        <small id="adminRole">System Admin</small>
+                    </div>
+                </a>
 
             </div>
-
-        </a>
-
-    </div>
-
-</header>
-
-
-
-        <!-- =================================================
-             CONTENT
-        ================================================== -->
+        </header>
 
         <section class="content">
-
-
             <div class="content-wrapper">
-
-
                 <div class="users-page">
-
-
                     <div class="users-page-inner">
 
-
                         <!-- PAGE HEADING -->
-
                         <div class="page-heading">
-
-                            <div class="eyebrow">
-                                USER MANAGEMENT
-                            </div>
-
-                            <h1>
-                                Users
-                            </h1>
-
-                            <p>
-                                View and manage registered users across the system.
-                            </p>
-
+                            <div class="eyebrow">USER MANAGEMENT</div>
+                            <h1>Users</h1>
+                            <p>View and manage registered users and developer profiles.</p>
                         </div>
 
-
-
                         <!-- SEARCH & FILTERS -->
-
                         <section class="users-filter-card">
-
-
                             <div class="filter-heading">
-
-                                <h3>
-                                    Search & Filters
-                                </h3>
-
-                                <p>
-                                    Find registered users quickly.
-                                </p>
-
+                                <h3>Search & Filters</h3>
+                                <p>Find registered users by name, username, email or role.</p>
                             </div>
 
-
                             <div class="search-row">
-
-
                                 <div class="search-box">
-
                                     <i class="fa-solid fa-magnifying-glass"></i>
-
                                     <input
                                         type="text"
                                         id="userSearch"
                                         placeholder="Search by name, username or email..."
                                     >
-
                                 </div>
 
-
-                                <select
-                                    id="roleFilter"
-                                    class="role-filter"
-                                >
-
-                                    <option value="">
-                                        All Roles
-                                    </option>
-
-                                    <option value="ADMIN">
-                                        Admin
-                                    </option>
-
-                                    <option value="USER">
-                                        User
-                                    </option>
-
+                                <select id="roleFilter" class="role-filter">
+                                    <option value="">All Roles</option>
+                                    <option value="ADMIN">Admin</option>
+                                    <option value="DEVELOPER">Developer</option>
+                                    <option value="TESTER">Tester</option>
+                                    <option value="TRIAGER">Triager</option>
                                 </select>
 
-
-                                <button
-                                    type="button"
-                                    class="reset-btn"
-                                    id="resetUsers"
-                                >
+                                <button type="button"
+                                        class="reset-btn"
+                                        id="resetUsers">
                                     Reset
                                 </button>
-
-
                             </div>
-
                         </section>
 
-<!-- =====================================================
-     CREATE USER / DEVELOPER
-===================================================== -->
-
-<section class="create-user-card">
-
-    <div class="create-user-header">
-
-        <div>
-            <h3>
-                <i class="fa-solid fa-user-plus"></i>
-                Create User / Developer
-            </h3>
-
-            <p>
-                Register a new BugFlow user and developer profile.
-            </p>
-        </div>
-
-        <div class="create-user-icon">
-            <i class="fa-solid fa-user-plus"></i>
-        </div>
-
-    </div>
-
-
-    <form id="createUserForm">
-
-        <div class="create-user-form">
-
-            <!-- FULL NAME -->
-
-            <div class="create-user-field">
-
-                <label for="newFullName">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="newFullName"
-                    placeholder="Enter full name"
-                    required
-                >
-
-            </div>
-
-
-            <!-- USERNAME -->
-
-            <div class="create-user-field">
-
-                <label for="newUsername">
-                    Username
-                </label>
-
-                <input
-                    type="text"
-                    id="newUsername"
-                    placeholder="Enter username"
-                    required
-                >
-
-            </div>
-
-
-            <!-- EMAIL -->
-
-            <div class="create-user-field">
-
-                <label for="newEmail">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="newEmail"
-                    placeholder="Enter email address"
-                    required
-                >
-
-            </div>
-
-
-            <!-- PASSWORD -->
-
-            <div class="create-user-field">
-
-                <label for="newPassword">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="newPassword"
-                    placeholder="Minimum 6 characters"
-                    minlength="6"
-                    required
-                >
-
-            </div>
-
-
-            <!-- ROLE -->
-
-            <div class="create-user-field">
-
-                <label for="newRole">
-                    Role
-                </label>
-
-                <select id="newRole" required>
-
-                    <option value="DEVELOPER">
-                        Developer
-                    </option>
-
-                    <option value="TESTER">
-                        Tester
-                    </option>
-
-                    <option value="TRIAGER">
-                        Triager
-                    </option>
-
-                    <option value="ADMIN">
-                        Admin
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- TEAM -->
-
-            <div class="create-user-field">
-
-                <label for="newTeam">
-                    Team
-                </label>
-
-                <input
-                    type="text"
-                    id="newTeam"
-                    placeholder="e.g. Backend Team"
-                >
-
-            </div>
-
-
-            <!-- CORE SKILLS -->
-
-            <div class="create-user-field">
-
-                <label for="newCoreSkills">
-                    Core Skills
-                </label>
-
-                <input
-                    type="text"
-                    id="newCoreSkills"
-                    placeholder="e.g. Python, FastAPI, PostgreSQL"
-                >
-
-            </div>
-
-
-            <!-- PROFICIENCY -->
-
-            <div class="create-user-field">
-
-                <label for="newProficiency">
-                    Proficiency
-                </label>
-
-                <select id="newProficiency">
-
-                    <option value="">
-                        Select proficiency
-                    </option>
-
-                    <option value="BEGINNER">
-                        Beginner
-                    </option>
-
-                    <option value="INTERMEDIATE">
-                        Intermediate
-                    </option>
-
-                    <option value="ADVANCED">
-                        Advanced
-                    </option>
-
-                    <option value="EXPERT">
-                        Expert
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- MESSAGE -->
-
-        <div
-            id="createUserMessage"
-            class="create-user-message">
-        </div>
-
-
-        <!-- BUTTONS -->
-
-        <div class="create-user-actions">
-
-            <button
-                type="button"
-                class="create-user-reset-btn"
-                id="resetCreateUser">
-
-                Reset
-
-            </button>
-
-
-            <button
-                type="submit"
-                class="create-user-btn"
-                id="createUserButton">
-
-                <i class="fa-solid fa-user-plus"></i>
-
-                Create User
-
-            </button>
-
-        </div>
-
-    </form>
-
-</section>
+                        <!-- CREATE USER / DEVELOPER -->
+                        <section class="create-user-card">
+
+                            <div class="create-user-header">
+                                <div>
+                                    <h3>
+                                        <i class="fa-solid fa-user-plus"></i>
+                                        Create User / Developer
+                                    </h3>
+                                    <p>
+                                        Register a new BugFlow user and developer profile.
+                                    </p>
+                                </div>
+
+                                <div class="create-user-icon">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                </div>
+                            </div>
+
+                            <form id="createUserForm">
+
+                                <div class="create-user-form">
+
+                                    <div class="create-user-field">
+                                        <label for="newFullName">Full Name</label>
+                                        <input
+                                            type="text"
+                                            id="newFullName"
+                                            placeholder="Enter full name"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newUsername">Username</label>
+                                        <input
+                                            type="text"
+                                            id="newUsername"
+                                            placeholder="Enter username"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newEmail">Email</label>
+                                        <input
+                                            type="email"
+                                            id="newEmail"
+                                            placeholder="Enter email address"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newPassword">Password</label>
+                                        <input
+                                            type="password"
+                                            id="newPassword"
+                                            placeholder="Minimum 6 characters"
+                                            minlength="6"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newRole">Role</label>
+                                        <select id="newRole" required>
+                                            <option value="DEVELOPER">Developer</option>
+                                            <option value="TESTER">Tester</option>
+                                            <option value="TRIAGER">Triager</option>
+                                            <option value="ADMIN">Admin</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newTeam">Team</label>
+                                        <input
+                                            type="text"
+                                            id="newTeam"
+                                            placeholder="e.g. Backend Team"
+                                        >
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newCoreSkills">Core Skills</label>
+                                        <input
+                                            type="text"
+                                            id="newCoreSkills"
+                                            placeholder="e.g. Python, FastAPI, PostgreSQL"
+                                        >
+                                    </div>
+
+                                    <div class="create-user-field">
+                                        <label for="newProficiency">Proficiency</label>
+                                        <select id="newProficiency">
+                                            <option value="">Select proficiency</option>
+                                            <option value="BEGINNER">Beginner</option>
+                                            <option value="INTERMEDIATE">Intermediate</option>
+                                            <option value="ADVANCED">Advanced</option>
+                                            <option value="EXPERT">Expert</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div id="createUserMessage"
+                                     class="create-user-message"></div>
+
+                                <div class="create-user-actions">
+                                    <button
+                                        type="button"
+                                        class="create-user-reset-btn"
+                                        id="resetCreateUser">
+                                        Reset
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        class="create-user-btn"
+                                        id="createUserButton">
+                                        <i class="fa-solid fa-user-plus"></i>
+                                        Create User
+                                    </button>
+                                </div>
+
+                            </form>
+                        </section>
 
                         <!-- USERS TABLE -->
-
                         <section class="users-card">
 
-
                             <div class="users-card-header">
-
-
                                 <div class="users-card-title">
-
-                                    <h3>
-                                        Registered Users
-                                    </h3>
-
-                                    <p>
-                                        Users currently registered in BugFlow.
-                                    </p>
-
+                                    <h3>Registered Users</h3>
+                                    <p>Users currently registered in BugFlow.</p>
                                 </div>
 
-
-                                <div
-                                    class="user-count"
-                                    id="userCount"
-                                >
+                                <div class="user-count" id="userCount">
                                     0 users
                                 </div>
-
-
                             </div>
 
-
-
                             <div class="users-table-container">
-
-
                                 <table class="users-table">
 
-
                                     <thead>
-
                                         <tr>
-
-                                            <th>
-                                                USER
-                                            </th>
-
-                                            <th>
-                                                EMAIL
-                                            </th>
-
-                                            <th>
-                                                ROLE
-                                            </th>
-
-                                            <th>
-                                                STATUS
-                                            </th>
-
-                                            <th>
-                                                CREATED
-                                            </th>
-
+                                            <th>USER</th>
+                                            <th>EMAIL</th>
+                                            <th>ROLE</th>
+                                            <th>STATUS</th>
+                                            <th>CREATED</th>
                                         </tr>
-
                                     </thead>
 
-
                                     <tbody id="usersTableBody">
-
                                         <tr>
-
                                             <td colspan="5">
-
                                                 <div class="users-message">
-
                                                     <i class="fa-solid fa-spinner fa-spin"></i>
-
                                                     Loading users...
-
                                                 </div>
-
                                             </td>
-
                                         </tr>
-
                                     </tbody>
 
-
                                 </table>
-
                             </div>
 
                         </section>
 
-
                     </div>
-
                 </div>
-
-
             </div>
-
         </section>
 
-
     </main>
-
-
 </div>
 
-
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
 <script>
-
-const API_BASE_URL =
-    "http://127.0.0.1:8000";
-
-
+const API_BASE_URL = "http://127.0.0.1:8000";
 let allUsers = [];
 
-
-
-/* ============================================================
-   GET TOKEN
-============================================================ */
-
 function getToken() {
-
-    return localStorage.getItem(
-        "access_token"
-    );
-
+    return localStorage.getItem("access_token");
 }
-
-
-
-/* ============================================================
-   GET CURRENT USER
-============================================================ */
 
 function getCurrentUser() {
-
     try {
-
-        return JSON.parse(
-            localStorage.getItem("user")
-        );
-
-    }
-    catch (error) {
-
+        return JSON.parse(localStorage.getItem("user"));
+    } catch {
         return null;
-
     }
-
 }
-
-
-
-/* ============================================================
-   CHECK ADMIN ACCESS
-============================================================ */
 
 function checkAdminAccess() {
-
-    const token =
-        getToken();
-
-    const user =
-        getCurrentUser();
-
+    const token = getToken();
+    const user = getCurrentUser();
 
     if (!token || !user) {
-
-        window.location.href =
-            "index.html";
-
+        window.location.href = "index.html";
         return false;
-
     }
 
-
-    if (
-        String(user.role).toUpperCase()
-        !== "ADMIN"
-    ) {
-
-        window.location.href =
-            "user-dashboard.html";
-
+    if (String(user.role).toUpperCase() !== "ADMIN") {
+        window.location.href = "user-dashboard.html";
         return false;
-
     }
-
 
     return true;
-
 }
 
-
-
-/* ============================================================
-   DISPLAY ADMIN INFORMATION
-============================================================ */
-
 function displayAdminInformation() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        return;
-
-    }
-
-
-    const adminName =
-        document.getElementById(
-            "adminName"
-        );
-
-
-    const adminRole =
-        document.getElementById(
-            "adminRole"
-        );
-
-
-    const adminAvatar =
-        document.getElementById(
-            "adminAvatar"
-        );
-
+    const user = getCurrentUser();
+    if (!user) return;
 
     const displayName =
         user.full_name ||
         user.username ||
         "Administrator";
 
+    const adminName = document.getElementById("adminName");
+    const adminRole = document.getElementById("adminRole");
+    const adminAvatar = document.getElementById("adminAvatar");
 
     if (adminName) {
-
-        adminName.textContent =
-            displayName;
-
+        adminName.textContent = displayName;
     }
-
 
     if (adminRole) {
-
-        adminRole.textContent =
-            user.role ||
-            "ADMIN";
-
+        adminRole.textContent = user.role || "ADMIN";
     }
-
 
     if (adminAvatar) {
-
-        const initials =
-            getInitials(
-                displayName
-            );
-
-
-        adminAvatar.textContent =
-            initials;
-
+        adminAvatar.textContent = getInitials(displayName);
     }
-
 }
-
-
-
-/* ============================================================
-   LOAD USERS
-============================================================ */
 
 async function loadUsers() {
-
-    const token =
-        getToken();
-
-
-    const tbody =
-        document.getElementById(
-            "usersTableBody"
-        );
-
+    const token = getToken();
+    const tbody = document.getElementById("usersTableBody");
 
     if (!token) {
-
-        window.location.href =
-            "index.html";
-
+        window.location.href = "index.html";
         return;
-
     }
-
 
     try {
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/users/`,
-                {
-                    method: "GET",
-
-                    headers: {
-
-                        "Accept":
-                            "application/json",
-
-                        "Authorization":
-                            "Bearer " + token
-
-                    }
-
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/users/`,
+            {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
-            );
+            }
+        );
 
-
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-
-            localStorage.removeItem(
-                "access_token"
-            );
-
-            localStorage.removeItem(
-                "user"
-            );
-
-            window.location.href =
-                "index.html";
-
+        if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("user");
+            window.location.href = "index.html";
             return;
-
         }
-
 
         if (!response.ok) {
-
             throw new Error(
-                "Failed to load users. Status: "
-                + response.status
+                `Failed to load users. Status: ${response.status}`
             );
-
         }
 
-
-        const result =
-            await response.json();
-
+        const result = await response.json();
 
         if (Array.isArray(result)) {
-
-            allUsers =
-                result;
-
-        }
-        else if (
-            result &&
-            Array.isArray(result.items)
-        ) {
-
-            allUsers =
-                result.items;
-
-        }
-        else if (
-            result &&
-            Array.isArray(result.results)
-        ) {
-
-            allUsers =
-                result.results;
-
-        }
-        else {
-
+            allUsers = result;
+        } else if (Array.isArray(result?.items)) {
+            allUsers = result.items;
+        } else if (Array.isArray(result?.results)) {
+            allUsers = result.results;
+        } else {
             allUsers = [];
-
         }
 
+        renderUsers(allUsers);
 
-        console.log(
-            "Users loaded:",
-            allUsers
-        );
-
-
-        renderUsers(
-            allUsers
-        );
-
-
-    }
-    catch (error) {
-
-        console.error(
-            "Error loading users:",
-            error
-        );
-
+    } catch (error) {
+        console.error("Error loading users:", error);
 
         if (tbody) {
-
             tbody.innerHTML = `
-
                 <tr>
-
                     <td colspan="5">
-
                         <div class="users-message">
-
                             <i class="fa-solid fa-circle-exclamation"></i>
-
                             Unable to load users.
-
                         </div>
-
                     </td>
-
                 </tr>
-
             `;
-
         }
-
     }
-
 }
-
-
-
-/* ============================================================
-   RENDER USERS
-============================================================ */
 
 function renderUsers(users) {
+    const tbody = document.getElementById("usersTableBody");
+    const userCount = document.getElementById("userCount");
 
-    const tbody =
-        document.getElementById(
-            "usersTableBody"
-        );
-
-
-    const userCount =
-        document.getElementById(
-            "userCount"
-        );
-
-
-    if (!tbody) {
-
-        return;
-
-    }
-
+    if (!tbody) return;
 
     if (userCount) {
-
         userCount.textContent =
             `${users.length} user${users.length === 1 ? "" : "s"}`;
-
     }
-
 
     if (users.length === 0) {
-
         tbody.innerHTML = `
-
             <tr>
-
                 <td colspan="5">
-
                     <div class="users-message">
-
                         <i class="fa-solid fa-users"></i>
-
                         No users found.
-
                     </div>
-
                 </td>
-
             </tr>
-
         `;
-
         return;
-
     }
 
-
-    tbody.innerHTML =
-        users.map(function(user) {
-
-
-            const userId =
-                user.id ??
-                user.user_id ??
-                "-";
-
-
-            const fullName =
-                user.full_name ||
-                user.name ||
-                user.username ||
-                "Unknown User";
-
-
-            const username =
-                user.username ||
-                "";
-
-
-            const email =
-                user.email ||
-                "Not provided";
-
-
-            const role =
-                String(
-                    user.role ||
-                    "USER"
-                ).toUpperCase();
-
-
-            const isActive =
-                user.is_active !== undefined
-                    ? user.is_active
-                    : (
-                        user.active !== undefined
-                            ? user.active
-                            : true
-                    );
-
-
-            const createdAt =
-                user.created_at ||
-                user.registered_at ||
-                null;
-
-
-            const initials =
-                getInitials(
-                    fullName
-                );
-
-
-            const roleClass =
-                role === "ADMIN"
-                    ? "role-admin"
-                    : (
-                        role === "USER"
-                            ? "role-user"
-                            : "role-default"
-                    );
-
-
-            const statusHTML =
-                isActive
-                    ? `
-                        <span class="active-badge">
-
-                            <i class="fa-solid fa-circle"></i>
-
-                            Active
-
-                        </span>
-                    `
-                    : `
-                        <span class="inactive-badge">
-
-                            <i class="fa-solid fa-circle"></i>
-
-                            Inactive
-
-                        </span>
-                    `;
-
-
-            return `
-
-                <tr>
-
-
-                    <td>
-
-                        <div class="user-info">
-
-
-                            <div class="user-avatar-small">
-
-                                ${escapeHTML(
-                                    initials
-                                )}
-
-                            </div>
-
-
-                            <div>
-
-                                <div class="user-name">
-
-                                    ${escapeHTML(
-                                        fullName
-                                    )}
-
-                                </div>
-
-
-                                <div class="user-username">
-
-                                    @${escapeHTML(
-                                        username ||
-                                        "user" + userId
-                                    )}
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        ${escapeHTML(
-                            email
-                        )}
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role-badge ${roleClass}">
-
-                            ${escapeHTML(
-                                formatRole(role)
-                            )}
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        ${statusHTML}
-
-                    </td>
-
-
-                    <td>
-
-                        ${formatDate(
-                            createdAt
-                        )}
-
-                    </td>
-
-
-                </tr>
-
+    tbody.innerHTML = users.map(user => {
+        const fullName =
+            user.full_name ||
+            user.name ||
+            user.username ||
+            "Unknown User";
+
+        const username = user.username || "";
+        const email = user.email || "Not provided";
+        const role = String(user.role || "TESTER").toUpperCase();
+
+        const isActive =
+            user.is_active !== undefined
+                ? user.is_active
+                : user.active !== undefined
+                    ? user.active
+                    : true;
+
+        const createdAt =
+            user.created_at ||
+            user.registered_at ||
+            null;
+
+        const roleClass = getRoleClass(role);
+
+        const statusHTML = isActive
+            ? `
+                <span class="active-badge">
+                    <i class="fa-solid fa-circle"></i>
+                    Active
+                </span>
+            `
+            : `
+                <span class="inactive-badge">
+                    <i class="fa-solid fa-circle"></i>
+                    Inactive
+                </span>
             `;
 
-        }).join("");
+        return `
+            <tr>
+                <td>
+                    <div class="user-info">
+                        <div class="user-avatar-small">
+                            ${escapeHTML(getInitials(fullName))}
+                        </div>
 
+                        <div>
+                            <div class="user-name">
+                                ${escapeHTML(fullName)}
+                            </div>
+
+                            <div class="user-username">
+                                @${escapeHTML(username || "user")}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td>${escapeHTML(email)}</td>
+
+                <td>
+                    <span class="role-badge ${roleClass}">
+                        ${escapeHTML(formatRole(role))}
+                    </span>
+                </td>
+
+                <td>${statusHTML}</td>
+
+                <td>${formatDate(createdAt)}</td>
+            </tr>
+        `;
+    }).join("");
 }
 
-
-
-/* ============================================================
-   SEARCH + ROLE FILTER
-============================================================ */
+function getRoleClass(role) {
+    switch (role) {
+        case "ADMIN":
+            return "role-admin";
+        case "DEVELOPER":
+            return "role-developer";
+        case "TESTER":
+            return "role-tester";
+        case "TRIAGER":
+            return "role-triager";
+        default:
+            return "role-default";
+    }
+}
 
 function applyUserFilters() {
-
-    const searchInput =
-        document.getElementById(
-            "userSearch"
-        );
-
-
-    const roleFilter =
-        document.getElementById(
-            "roleFilter"
-        );
-
-
     const search =
-        searchInput
-            ? searchInput.value
-                .trim()
-                .toLowerCase()
-            : "";
+        document.getElementById("userSearch")?.value
+            .trim()
+            .toLowerCase() || "";
 
+    const selectedRole =
+        document.getElementById("roleFilter")?.value || "";
 
-    const role =
-        roleFilter
-            ? roleFilter.value
-            : "";
+    const filteredUsers = allUsers.filter(user => {
+        const fullName =
+            String(user.full_name || user.name || "").toLowerCase();
 
+        const username =
+            String(user.username || "").toLowerCase();
 
-    const filtered =
-        allUsers.filter(function(user) {
+        const email =
+            String(user.email || "").toLowerCase();
 
+        const role =
+            String(user.role || "").toUpperCase();
 
-            const fullName =
-                String(
-                    user.full_name ||
-                    user.name ||
-                    ""
-                ).toLowerCase();
+        const matchesSearch =
+            !search ||
+            fullName.includes(search) ||
+            username.includes(search) ||
+            email.includes(search);
 
+        const matchesRole =
+            !selectedRole ||
+            role === selectedRole;
 
-            const username =
-                String(
-                    user.username ||
-                    ""
-                ).toLowerCase();
+        return matchesSearch && matchesRole;
+    });
 
-
-            const email =
-                String(
-                    user.email ||
-                    ""
-                ).toLowerCase();
-
-
-            const userRole =
-                String(
-                    user.role ||
-                    "USER"
-                ).toUpperCase();
-
-
-            const matchesSearch =
-                !search ||
-                fullName.includes(search) ||
-                username.includes(search) ||
-                email.includes(search);
-
-
-            const matchesRole =
-                !role ||
-                userRole === role;
-
-
-            return (
-                matchesSearch &&
-                matchesRole
-            );
-
-        });
-
-
-    renderUsers(
-        filtered
-    );
-
+    renderUsers(filteredUsers);
 }
-
-
-
-/* ============================================================
-   RESET FILTERS
-============================================================ */
 
 function resetUserFilters() {
-
-    const searchInput =
-        document.getElementById(
-            "userSearch"
-        );
-
-
-    const roleFilter =
-        document.getElementById(
-            "roleFilter"
-        );
-
+    const searchInput = document.getElementById("userSearch");
+    const roleFilter = document.getElementById("roleFilter");
 
     if (searchInput) {
-
-        searchInput.value =
-            "";
-
+        searchInput.value = "";
     }
-
 
     if (roleFilter) {
-
-        roleFilter.value =
-            "";
-
+        roleFilter.value = "";
     }
 
-
-    renderUsers(
-        allUsers
-    );
-
+    renderUsers(allUsers);
 }
 
-
-
-/* ============================================================
-   INITIALS
-============================================================ */
-
 function getInitials(name) {
+    if (!name) return "U";
 
-    if (!name) {
-
-        return "U";
-
-    }
-
-
-    const parts =
-        String(name)
-            .trim()
-            .split(/\s+/);
-
+    const parts = String(name).trim().split(/\s+/);
 
     if (parts.length >= 2) {
-
         return (
             parts[0][0] +
             parts[parts.length - 1][0]
         ).toUpperCase();
-
     }
-
 
     return String(name)
         .substring(0, 2)
         .toUpperCase();
-
 }
-
-
-
-/* ============================================================
-   FORMAT ROLE
-============================================================ */
 
 function formatRole(role) {
-
-    if (!role) {
-
-        return "User";
-
-    }
-
+    if (!role) return "User";
 
     return String(role)
-
-        .replaceAll(
-            "_",
-            " "
-        )
-
+        .replaceAll("_", " ")
         .toLowerCase()
-
-        .replace(
-            /\b\w/g,
-            function(char) {
-
-                return char.toUpperCase();
-
-            }
-        );
-
+        .replace(/\b\w/g, char => char.toUpperCase());
 }
 
-
-
-/* ============================================================
-   FORMAT DATE
-============================================================ */
-
 function formatDate(value) {
+    if (!value) return "-";
 
-    if (!value) {
+    const date = new Date(value);
 
+    if (isNaN(date.getTime())) {
         return "-";
-
     }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return "-";
-
-    }
-
 
     return date.toLocaleDateString(
         "en-IN",
@@ -2168,423 +1182,207 @@ function formatDate(value) {
             year: "numeric"
         }
     );
-
 }
-
-
-
-/* ============================================================
-   ESCAPE HTML
-============================================================ */
 
 function escapeHTML(value) {
-
     return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
-
-
-
-/* ============================================================
-   LOGOUT
-============================================================ */
 
 function logoutUser() {
-
-    localStorage.removeItem(
-        "access_token"
-    );
-
-
-    localStorage.removeItem(
-        "user"
-    );
-
-
-    window.location.href =
-        "index.html";
-
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
+    window.location.href = "index.html";
 }
 
-
-
-/* ============================================================
-   START
-============================================================ */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function() {
-
-
-        if (!checkAdminAccess()) {
-
-            return;
-
-        }
-
-
-        displayAdminInformation();
-
-
-        const searchInput =
-            document.getElementById(
-                "userSearch"
-            );
-
-
-        if (searchInput) {
-
-            searchInput.addEventListener(
-                "input",
-                applyUserFilters
-            );
-
-        }
-
-
-        const roleFilter =
-            document.getElementById(
-                "roleFilter"
-            );
-
-
-        if (roleFilter) {
-
-            roleFilter.addEventListener(
-                "change",
-                applyUserFilters
-            );
-
-        }
-
-
-        const resetButton =
-            document.getElementById(
-                "resetUsers"
-            );
-
-
-        if (resetButton) {
-
-            resetButton.addEventListener(
-                "click",
-                resetUserFilters
-            );
-
-        }
-
-
-        const logoutButton =
-            document.getElementById(
-                "logoutBtn"
-            );
-
-
-        if (logoutButton) {
-
-            logoutButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    logoutUser();
-
-                }
-            );
-
-        }
-
-
-        await loadUsers();
-
-    }
-);
-/* ============================================================
-   CREATE USER / DEVELOPER
-============================================================ */
-
 async function createUser(event) {
-
     event.preventDefault();
 
     const token = getToken();
-
-    const message =
-        document.getElementById("createUserMessage");
-
-    const button =
-        document.getElementById("createUserButton");
-
+    const message = document.getElementById("createUserMessage");
+    const button = document.getElementById("createUserButton");
 
     if (!token) {
-
-        message.className =
-            "create-user-message error";
-
-        message.textContent =
-            "Please login again.";
-
+        showCreateUserMessage(
+            "error",
+            "Please login again."
+        );
         return;
     }
-
 
     const fullName =
-        document.getElementById("newFullName")
-            .value
-            .trim();
+        document.getElementById("newFullName").value.trim();
 
     const username =
-        document.getElementById("newUsername")
-            .value
-            .trim();
+        document.getElementById("newUsername").value.trim();
 
     const email =
-        document.getElementById("newEmail")
-            .value
-            .trim();
+        document.getElementById("newEmail").value.trim();
 
     const password =
-        document.getElementById("newPassword")
-            .value;
+        document.getElementById("newPassword").value;
 
     const role =
-        document.getElementById("newRole")
-            .value;
+        document.getElementById("newRole").value;
 
     const team =
-        document.getElementById("newTeam")
-            .value
-            .trim();
+        document.getElementById("newTeam").value.trim();
 
     const coreSkills =
-        document.getElementById("newCoreSkills")
-            .value
-            .trim();
+        document.getElementById("newCoreSkills").value.trim();
 
     const proficiency =
-        document.getElementById("newProficiency")
-            .value;
+        document.getElementById("newProficiency").value;
 
-
-    if (
-        !fullName ||
-        !username ||
-        !email ||
-        !password
-    ) {
-
-        message.className =
-            "create-user-message error";
-
-        message.textContent =
-            "Please fill in all required fields.";
-
+    if (!fullName || !username || !email || !password) {
+        showCreateUserMessage(
+            "error",
+            "Please fill in all required fields."
+        );
         return;
     }
-
 
     if (password.length < 6) {
-
-        message.className =
-            "create-user-message error";
-
-        message.textContent =
-            "Password must contain at least 6 characters.";
-
+        showCreateUserMessage(
+            "error",
+            "Password must contain at least 6 characters."
+        );
         return;
     }
 
-
     button.disabled = true;
-
     button.innerHTML =
-        `<i class="fa-solid fa-spinner fa-spin"></i>
-         Creating...`;
+        `<i class="fa-solid fa-spinner fa-spin"></i> Creating...`;
 
-
-    message.style.display = "none";
-
+    if (message) {
+        message.style.display = "none";
+    }
 
     try {
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/users/`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                    full_name: fullName,
+                    role,
+                    team: team || null,
+                    core_skills: coreSkills || null,
+                    proficiency: proficiency || null
+                })
+            }
+        );
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/v1/users/`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json",
-
-                        "Accept":
-                            "application/json",
-
-                        "Authorization":
-                            "Bearer " + token
-                    },
-
-                    body: JSON.stringify({
-
-                        username:
-                            username,
-
-                        email:
-                            email,
-
-                        password:
-                            password,
-
-                        full_name:
-                            fullName,
-
-                        role:
-                            role,
-
-                        team:
-                            team || null,
-
-                        core_skills:
-                            coreSkills || null,
-
-                        proficiency:
-                            proficiency || null
-
-                    })
-                }
-            );
-
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         if (!response.ok) {
-
             throw new Error(
-                data.detail ||
-                "Unable to create user."
+                data.detail || "Unable to create user."
             );
-
         }
 
+        showCreateUserMessage(
+            "success",
+            `${data.user.full_name} was created successfully.`
+        );
 
-        message.className =
-            "create-user-message success";
-
-        message.textContent =
-            `${data.user.full_name} was created successfully.`;
-
-
-        document
-            .getElementById("createUserForm")
-            .reset();
-
-
-        /*
-         * Reload users so the new developer
-         * immediately appears in the table.
-         */
+        document.getElementById("createUserForm").reset();
 
         await loadUsers();
 
+    } catch (error) {
+        console.error("Create user error:", error);
 
-    }
-    catch (error) {
-
-        console.error(
-            "Create user error:",
-            error
+        showCreateUserMessage(
+            "error",
+            error.message || "Unable to create user."
         );
 
-
-        message.className =
-            "create-user-message error";
-
-        message.textContent =
-            error.message ||
-            "Unable to create user.";
-
-    }
-    finally {
-
+    } finally {
         button.disabled = false;
-
         button.innerHTML =
-            `<i class="fa-solid fa-user-plus"></i>
-             Create User`;
-
+            `<i class="fa-solid fa-user-plus"></i> Create User`;
     }
-
 }
 
+function showCreateUserMessage(type, text) {
+    const message = document.getElementById("createUserMessage");
 
-/* ============================================================
-   RESET CREATE USER FORM
-============================================================ */
+    if (!message) return;
+
+    message.className =
+        `create-user-message ${type}`;
+
+    message.textContent = text;
+    message.style.display = "block";
+}
 
 function resetCreateUserForm() {
-
-    const form =
-        document.getElementById(
-            "createUserForm"
-        );
-
-    const message =
-        document.getElementById(
-            "createUserMessage"
-        );
-
+    const form = document.getElementById("createUserForm");
+    const message = document.getElementById("createUserMessage");
 
     if (form) {
-
         form.reset();
-
     }
-
 
     if (message) {
+        message.className = "create-user-message";
+        message.style.display = "none";
+        message.textContent = "";
+    }
+}
 
-        message.style.display =
-            "none";
-
-        message.textContent =
-            "";
-
+document.addEventListener("DOMContentLoaded", async () => {
+    if (!checkAdminAccess()) {
+        return;
     }
 
-}
+    displayAdminInformation();
+
+    document
+        .getElementById("userSearch")
+        ?.addEventListener("input", applyUserFilters);
+
+    document
+        .getElementById("roleFilter")
+        ?.addEventListener("change", applyUserFilters);
+
+    document
+        .getElementById("resetUsers")
+        ?.addEventListener("click", resetUserFilters);
+
+    document
+        .getElementById("resetCreateUser")
+        ?.addEventListener("click", resetCreateUserForm);
+
+    document
+        .getElementById("createUserForm")
+        ?.addEventListener("submit", createUser);
+
+    document
+        .getElementById("logoutBtn")
+        ?.addEventListener("click", event => {
+            event.preventDefault();
+            logoutUser();
+        });
+
+    await loadUsers();
+});
 </script>
-<script src="theme.js"></script>
-<script src="notification.js"></script>
+
+<script src="admin-notifications.js"></script>
 
 </body>
-
 </html>

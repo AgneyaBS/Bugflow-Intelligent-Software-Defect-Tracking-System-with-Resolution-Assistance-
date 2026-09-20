@@ -1,0 +1,3239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>BugFlow | Report Issue</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/user-theme.css">
+
+    <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: #080d19;
+    color: #f9fafb;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MAIN APP LAYOUT
+========================================================= */
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: 250px;
+    min-width: 250px;
+    min-height: 100vh;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    background: #111827;
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid #1f2937;
+
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    height: 75px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 25px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 10px;
+
+    background: #4f46e5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 12px;
+
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.brand-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.brand-text span {
+    color: #818cf8;
+}
+
+
+/* =========================================================
+   SIDEBAR BACK BUTTON
+========================================================= */
+
+.sidebar-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    margin: 15px 15px 20px auto;
+
+    padding: 8px 14px;
+
+    min-width: 78px;
+
+    background: #111827 !important;
+    color: #d1d5db !important;
+
+    border: 1px solid #374151 !important;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.sidebar-back-button i {
+    color: #818cf8 !important;
+}
+
+.sidebar-back-button:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+
+    border-color: #4f46e5 !important;
+
+    transform: translateX(-2px);
+}
+
+.sidebar-back-button:hover i {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   SIDEBAR SECTION
+========================================================= */
+
+.sidebar-section {
+    padding: 10px 15px 10px;
+}
+
+.sidebar-heading {
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    color: #9ca3af;
+
+    padding: 0 12px 10px;
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+========================================================= */
+
+.nav-link {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 12px 13px;
+
+    border-radius: 8px;
+
+    color: #9ca3af;
+
+    font-size: 15px;
+
+    margin-bottom: 5px;
+
+    transition: all 0.2s ease;
+}
+
+.nav-link i {
+    width: 20px;
+
+    min-width: 20px;
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    transition: 0.2s ease;
+}
+
+.nav-link:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.nav-link:hover i {
+    color: #ffffff;
+}
+
+
+/* ACTIVE NAVIGATION */
+
+.nav-link.active {
+    background: #4f46e5;
+    color: #ffffff;
+}
+
+.nav-link.active i {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+
+    padding: 15px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.logout-link {
+    color: #9ca3af;
+}
+
+.logout-link i {
+    color: #9ca3af;
+}
+
+.logout-link:hover {
+    background: #7f1d1d;
+    color: #ffffff;
+}
+
+.logout-link:hover i {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content {
+    margin-left: 250px;
+
+    width: calc(100% - 250px);
+
+    min-height: 100vh;
+
+    background: #080d19;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+    height: 75px;
+
+    background: #080d19;
+
+    border-bottom: 1px solid #1f2937;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 32px;
+}
+
+
+/* =========================================================
+   TOPBAR TITLE
+========================================================= */
+
+.topbar-title {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.topbar-title span {
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.2px;
+
+    color: #64748b;
+}
+
+.topbar-title strong {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #f9fafb;
+}
+
+
+/* =========================================================
+   TOPBAR RIGHT
+========================================================= */
+
+.topbar-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   NOTIFICATION BUTTON
+========================================================= */
+
+.notification-button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #111827 !important;
+
+    color: #d1d5db !important;
+
+    border: 1px solid #374151 !important;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.notification-button i {
+    color: #d1d5db !important;
+
+    font-size: 16px;
+}
+
+.notification-button:hover {
+    background: #1f2937 !important;
+
+    color: #ffffff !important;
+
+    border-color: #4f46e5 !important;
+}
+
+.notification-button:hover i {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   USER PROFILE
+========================================================= */
+
+.user-profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 4px 6px;
+
+    border-radius: 8px;
+
+    transition: 0.2s ease;
+}
+
+.user-profile:hover {
+    background: #111827;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: #4f46e5;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+
+    font-size: 14px;
+}
+
+.user-name {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #f9fafb;
+}
+
+.user-role {
+    font-size: 10px;
+
+    color: #9ca3af;
+
+    margin-top: 2px;
+
+    display: block;
+}
+
+
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
+
+.content {
+    padding: 38px 32px 50px;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   WELCOME / PAGE HEADING
+========================================================= */
+
+.welcome-section {
+    margin-bottom: 25px;
+}
+
+.welcome-section h1 {
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    color: #f9fafb;
+
+    margin-bottom: 7px;
+}
+
+.welcome-section p {
+    color: #94a3b8;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+    background: #0f172a;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.card-header {
+    padding: 20px 24px;
+
+    border-bottom: 1px solid #1f2937;
+
+    background: #0f172a;
+}
+
+.card-header h2 {
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #f9fafb;
+
+    margin-bottom: 4px;
+}
+
+.card-header p {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 0 20px;
+}
+
+
+/* Full width field */
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   FORM LABEL
+========================================================= */
+
+.form-label {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #e5e7eb;
+
+    margin-bottom: 8px;
+}
+
+.form-label .required {
+    color: #f87171;
+}
+
+
+/* =========================================================
+   INPUT / SELECT / TEXTAREA
+========================================================= */
+
+input,
+select,
+textarea,
+.issue-select {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    border: 1px solid #334155;
+
+    border-radius: 8px;
+
+    background: #111827;
+
+    color: #f9fafb;
+
+    font-size: 13px;
+
+    outline: none;
+
+    transition: all 0.2s ease;
+}
+
+
+/* Placeholder */
+
+input::placeholder,
+textarea::placeholder {
+    color: #64748b;
+}
+
+
+/* Focus */
+
+input:focus,
+select:focus,
+textarea:focus,
+.issue-select:focus {
+    border-color: #4f46e5;
+
+    box-shadow: 0 0 0 2px rgba(79,70,229,0.15);
+
+    background: #111827;
+}
+
+
+/* Select */
+
+select {
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+
+/* Select options */
+
+select option {
+    background: #111827;
+
+    color: #ffffff;
+}
+
+
+/* Textarea */
+
+textarea {
+    min-height: 110px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   DISABLED / READONLY INPUT
+========================================================= */
+
+input:disabled,
+input[readonly],
+select:disabled,
+textarea:disabled {
+    background: #0b1220;
+
+    color: #64748b;
+
+    cursor: not-allowed;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   FIELD HELP TEXT
+========================================================= */
+
+.form-help {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 11px;
+
+    color: #64748b;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   ISSUE SELECT
+========================================================= */
+
+.issue-select {
+    background: #111827;
+
+    color: #f9fafb;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.primary-btn,
+.submit-btn,
+.analyze-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 11px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #4f46e5;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.primary-btn:hover,
+.submit-btn:hover,
+.analyze-btn:hover {
+    background: #4338ca;
+
+    transform: translateY(-1px);
+}
+
+.primary-btn:disabled,
+.submit-btn:disabled,
+.analyze-btn:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 8px;
+
+    margin-top: 10px;
+
+    border-top: 1px solid #1f2937;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+.error-message {
+    display: none;
+
+    margin-bottom: 18px;
+
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    background: #3f1111;
+
+    color: #fca5a5;
+
+    border: 1px solid #7f1d1d;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGE
+========================================================= */
+
+.success-message {
+    display: none;
+
+    margin-bottom: 18px;
+
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    background: #052e1a;
+
+    color: #86efac;
+
+    border: 1px solid #166534;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+    text-align: center;
+
+    padding: 30px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    color: #64748b;
+}
+
+.empty-state i {
+    font-size: 35px;
+
+    margin-bottom: 12px;
+
+    color: #475569;
+}
+
+
+/* =========================================================
+   ISSUE DETAILS
+========================================================= */
+
+.issue-details {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    background: #111827;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 10px;
+}
+
+.issue-details h3 {
+    font-size: 15px;
+
+    color: #f9fafb;
+
+    margin-bottom: 12px;
+}
+
+.detail-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+.detail-box {
+    background: #0f172a;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 8px;
+
+    padding: 12px;
+}
+
+.detail-label {
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    color: #64748b;
+
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #e5e7eb;
+}
+
+
+/* =========================================================
+   ASSISTANCE CARD
+========================================================= */
+
+.assistance-card {
+    display: none;
+}
+
+.assistance-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.assistance-icon {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 10px;
+
+    background: #1e1b4b;
+
+    color: #818cf8;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+.assistance-title {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #f9fafb;
+}
+
+.assistance-subtitle {
+    font-size: 12px;
+
+    color: #64748b;
+
+    margin-top: 3px;
+}
+
+.recommendation {
+    margin-bottom: 14px;
+
+    padding: 15px;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 9px;
+
+    background: #111827;
+}
+
+.recommendation h3 {
+    font-size: 13px;
+
+    color: #f9fafb;
+
+    margin-bottom: 7px;
+}
+
+.recommendation p {
+    font-size: 12px;
+
+    color: #94a3b8;
+
+    line-height: 1.6;
+}
+
+.steps {
+    padding-left: 20px;
+
+    margin-top: 7px;
+}
+
+.steps li {
+    font-size: 12px;
+
+    color: #94a3b8;
+
+    line-height: 1.7;
+}
+
+.warning-box {
+    background: #422006;
+
+    color: #fbbf24;
+
+    border: 1px solid #92400e;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    margin-top: 15px;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #080d19;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .detail-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        width: 220px;
+
+        min-width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+
+        width: calc(100% - 220px);
+    }
+
+    .content {
+        padding: 25px 20px;
+    }
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+    .user-name,
+    .user-role {
+        display: none;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .app-layout {
+        display: block;
+    }
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        min-width: 100%;
+
+        min-height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+
+        width: 100%;
+    }
+
+    .sidebar-section {
+        padding-bottom: 10px;
+    }
+
+    .sidebar-bottom {
+        margin-top: 0;
+    }
+
+    .topbar {
+        height: 65px;
+
+        padding: 0 15px;
+    }
+
+    .content {
+        padding: 20px 15px;
+    }
+
+    .welcome-section h1 {
+        font-size: 25px;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar-title span {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   EXTRA FORCE - DARK BACK + BELL
+   Prevent other CSS / notification.js styles from changing
+   them back to white.
+========================================================= */
+
+.sidebar button.sidebar-back-button,
+.sidebar .sidebar-back-button {
+    background-color: #111827 !important;
+    color: #d1d5db !important;
+    border-color: #374151 !important;
+}
+
+.sidebar button.sidebar-back-button:hover,
+.sidebar .sidebar-back-button:hover {
+    background-color: #1f2937 !important;
+    color: #ffffff !important;
+    border-color: #4f46e5 !important;
+}
+
+.topbar a.notification-button,
+.topbar .notification-button {
+    background-color: #111827 !important;
+    color: #d1d5db !important;
+    border-color: #374151 !important;
+}
+
+.topbar a.notification-button i,
+.topbar .notification-button i {
+    color: #d1d5db !important;
+}
+
+.topbar a.notification-button:hover,
+.topbar .notification-button:hover {
+    background-color: #1f2937 !important;
+    color: #ffffff !important;
+    border-color: #4f46e5 !important;
+}
+
+.topbar a.notification-button:hover i,
+.topbar .notification-button:hover i {
+    color: #ffffff !important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+
+            <div class="brand-text">
+                Bug<span>Flow</span>
+            </div>
+
+        </div>
+
+        <button
+            class="sidebar-back-button"
+            onclick="history.back()"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back</span>
+        </button>
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+                Main
+            </div>
+
+            <a
+                href="user-dashboard.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="user-report-defect.html"
+                class="nav-link active"
+            >
+                <i class="fa-solid fa-bug"></i>
+                <span>Report Issue</span>
+            </a>
+
+            <a
+                href="user-my-issues.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-list-check"></i>
+                <span>My Issues</span>
+            </a>
+
+            <a
+                href="user-resolution.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Resolution Assistance</span>
+            </a>
+
+            <a
+                href="user-analytics.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Analytics & Reports</span>
+            </a>
+
+            <a
+                href="user-notifications.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+
+            <a
+                href="system-support.html"
+                class="nav-link"
+            >
+                <i class="fa-solid fa-circle-question"></i>
+                <span>System Support</span>
+            </a>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <a
+                href="#"
+                class="nav-link"
+                id="logoutLink"
+            >
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div class="page-title">
+                Report Issue
+            </div>
+
+            <div class="topbar-right">
+
+                <a
+                    href="user-notifications.html"
+                    class="notification"
+                    title="Notifications"
+                >
+                    <i class="fa-regular fa-bell"></i>
+                </a>
+
+                <div class="user-profile">
+
+                    <div
+                        class="user-avatar"
+                        id="userAvatar"
+                    >
+                        U
+                    </div>
+
+                    <div>
+
+                        <div
+                            class="user-name"
+                            id="topUserName"
+                        >
+                            Loading...
+                        </div>
+
+                        <div
+                            class="user-role"
+                            id="topUserRole"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div class="page-heading">
+
+                <h1>
+                    Report a New Issue
+                </h1>
+
+                <p>
+                    Provide detailed information about the software issue you encountered.
+                </p>
+
+            </div>
+
+
+            <div class="form-card">
+
+                <div class="form-header">
+
+                    <h2>
+                        Issue Information
+                    </h2>
+
+                    <p>
+                        Fields marked with
+                        <span class="required">*</span>
+                        are required.
+                    </p>
+
+                </div>
+
+
+                <div class="form-body">
+
+                    <div id="formMessage"></div>
+
+                    <form id="issueForm">
+
+                        <div class="form-grid">
+
+                            <!-- TITLE -->
+
+                            <div class="form-group full-width">
+
+                                <label for="title">
+                                    Issue Title
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="title"
+                                    placeholder="Example: Login button is not responding"
+                                    maxlength="200"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- PROJECT -->
+
+                            <div class="form-group">
+
+                                <label for="project_id">
+                                    Project
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select
+                                    id="project_id"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Loading projects...
+                                    </option>
+
+                                </select>
+
+                                <small class="small-text">
+                                    Projects are loaded from the BugFlow database.
+                                </small>
+
+                            </div>
+
+
+                            <!-- CATEGORY -->
+
+                            <div class="form-group">
+
+                                <label for="category_id">
+                                    Category
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select
+                                    id="category_id"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Loading categories...
+                                    </option>
+
+                                </select>
+
+                                <small class="small-text">
+                                    Category urgency is used by the backend for priority calculation.
+                                </small>
+
+                            </div>
+
+
+                            <!-- ISSUE TYPE -->
+
+                            <div class="form-group">
+
+                                <label for="issue_type">
+                                    Issue Type
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select
+                                    id="issue_type"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Issue Type
+                                    </option>
+
+                                    <option value="BUG">
+                                        Bug
+                                    </option>
+
+                                    <option value="FEATURE_REQUEST">
+                                        Feature Request
+                                    </option>
+
+                                    <option value="ENHANCEMENT">
+                                        Enhancement
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- SEVERITY -->
+
+                            <div class="form-group">
+
+                                <label for="severity">
+                                    Severity
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select
+                                    id="severity"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Severity
+                                    </option>
+
+                                    <option value="TRIVIAL">
+                                        Trivial
+                                    </option>
+
+                                    <option value="MINOR">
+                                        Minor
+                                    </option>
+
+                                    <option value="MAJOR">
+                                        Major
+                                    </option>
+
+                                    <option value="CRITICAL">
+                                        Critical
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- PRIORITY -->
+
+                            <div class="form-group">
+
+                                <label for="priority">
+                                    Priority
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="priority"
+                                    value="Automatically calculated"
+                                    readonly
+                                >
+
+                                <small class="small-text">
+                                    Priority is calculated by the BugFlow backend from severity and category urgency.
+                                </small>
+
+                            </div>
+
+
+                            <!-- ENVIRONMENT -->
+
+                            <div class="form-group">
+
+                                <label for="environment_details">
+                                    Environment
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="environment_details"
+                                    placeholder="Example: Windows 11 / Chrome"
+                                    maxlength="500"
+                                >
+
+                            </div>
+
+
+                            <!-- AFFECTED MODULE -->
+
+                            <div class="form-group">
+
+                                <label for="affected_modules">
+                                    Affected Module
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="affected_modules"
+                                    placeholder="Example: Login / Dashboard"
+                                    maxlength="500"
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="form-group full-width">
+
+                                <label for="description">
+                                    Description
+                                    <span class="required">*</span>
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    placeholder="Describe the issue in detail..."
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <!-- REPRODUCTION -->
+
+                            <div class="form-group full-width">
+
+                                <label for="reproduction_steps">
+                                    Reproduction Steps
+                                </label>
+
+                                <textarea
+                                    id="reproduction_steps"
+                                    placeholder="1. Open the login page&#10;2. Enter valid credentials&#10;3. Click Login&#10;4. Observe the issue"
+                                ></textarea>
+
+                            </div>
+
+
+                            <!-- EXPECTED -->
+
+                            <div class="form-group">
+
+                                <label for="expected_behavior">
+                                    Expected Behavior
+                                </label>
+
+                                <textarea
+                                    id="expected_behavior"
+                                    placeholder="What should have happened?"
+                                ></textarea>
+
+                            </div>
+
+
+                            <!-- ACTUAL -->
+
+                            <div class="form-group">
+
+                                <label for="actual_behavior">
+                                    Actual Behavior
+                                </label>
+
+                                <textarea
+                                    id="actual_behavior"
+                                    placeholder="What actually happened?"
+                                ></textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="button"
+                                class="btn secondary-btn"
+                                onclick="window.location.href='user-dashboard.html'"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn primary-btn"
+                                id="submitButton"
+                            >
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Submit Issue
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+
+/*
+ * Category endpoint.
+ *
+ * IMPORTANT:
+ * Change only this URL if your FastAPI project
+ * exposes categories under a different route.
+ */
+
+const CATEGORY_API_URL =
+    `${API_BASE_URL}/api/v1/bug-categories/`;
+
+
+/* =========================================================
+   TOKEN
+========================================================= */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "access_token"
+    );
+
+}
+
+
+/* =========================================================
+   LOGIN CHECK
+========================================================= */
+
+function requireLogin() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        window.location.href =
+            "index.html";
+
+        return false;
+    }
+
+    return true;
+}
+
+
+/* =========================================================
+   GET LOGGED-IN USER
+========================================================= */
+
+function getStoredUser() {
+
+    const storedUser =
+        localStorage.getItem("user");
+
+    if (!storedUser) {
+        return null;
+    }
+
+    try {
+
+        return JSON.parse(
+            storedUser
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Invalid stored user:",
+            error
+        );
+
+        localStorage.removeItem(
+            "user"
+        );
+
+        return null;
+    }
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function getInitials(name) {
+
+    if (!name) {
+        return "U";
+    }
+
+    const parts =
+        name.trim().split(/\s+/);
+
+    if (parts.length === 1) {
+
+        return parts[0]
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+    return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+    ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   DISPLAY USER
+========================================================= */
+
+function displayUser(user) {
+
+    if (!user) {
+        return;
+    }
+
+    const name =
+        user.full_name ||
+        user.username ||
+        "User";
+
+    const role =
+        user.role ||
+        "TESTER";
+
+    const nameElement =
+        document.getElementById(
+            "topUserName"
+        );
+
+    const roleElement =
+        document.getElementById(
+            "topUserRole"
+        );
+
+    const avatarElement =
+        document.getElementById(
+            "userAvatar"
+        );
+
+
+    if (nameElement) {
+
+        nameElement.textContent =
+            name;
+
+    }
+
+
+    if (roleElement) {
+
+        roleElement.textContent =
+            role;
+
+    }
+
+
+    if (avatarElement) {
+
+        if (user.profile_picture) {
+
+            avatarElement.innerHTML =
+                `<img src="${user.profile_picture}" alt="Profile Picture">`;
+
+        } else {
+
+            avatarElement.textContent =
+                getInitials(name);
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD CURRENT USER FROM PROFILE API
+========================================================= */
+
+async function loadCurrentUser() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+        return null;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/profile/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return null;
+        }
+
+
+        if (!response.ok) {
+
+            console.warn(
+                "Profile API returned:",
+                response.status
+            );
+
+            return getStoredUser();
+
+        }
+
+
+        const user =
+            await response.json();
+
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(user)
+        );
+
+
+        return user;
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to load current user:",
+            error
+        );
+
+        return getStoredUser();
+    }
+
+}
+
+
+/* =========================================================
+   SHOW MESSAGE
+========================================================= */
+
+function showMessage(
+    message,
+    type
+) {
+
+    const box =
+        document.getElementById(
+            "formMessage"
+        );
+
+    if (!box) {
+        return;
+    }
+
+
+    box.textContent =
+        message;
+
+
+    box.className =
+        type === "success"
+            ? "success-message"
+            : type === "loading"
+                ? "loading-message"
+                : "error-message";
+
+
+    box.style.display =
+        "block";
+
+
+    box.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}
+
+
+/* =========================================================
+   RESET MESSAGE
+========================================================= */
+
+function hideMessage() {
+
+    const box =
+        document.getElementById(
+            "formMessage"
+        );
+
+    if (!box) {
+        return;
+    }
+
+    box.style.display =
+        "none";
+
+    box.textContent =
+        "";
+
+}
+
+
+/* =========================================================
+   LOAD PROJECTS
+========================================================= */
+
+async function loadProjects() {
+
+    const token =
+        getToken();
+
+    const projectDropdown =
+        document.getElementById(
+            "project_id"
+        );
+
+
+    if (!projectDropdown) {
+        return false;
+    }
+
+
+    if (!token) {
+
+        projectDropdown.innerHTML = `
+            <option value="">
+                Login required
+            </option>
+        `;
+
+        return false;
+    }
+
+
+    try {
+
+        console.log(
+            "Loading projects..."
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/projects/`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return false;
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Project API returned ${response.status}`
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Project API response:",
+            result
+        );
+
+
+        /*
+         * Support either:
+         *
+         * [
+         *   {...}
+         * ]
+         *
+         * or:
+         *
+         * {
+         *   projects: [...]
+         * }
+         */
+
+        const projects =
+            Array.isArray(result)
+                ? result
+                : Array.isArray(result.projects)
+                    ? result.projects
+                    : [];
+
+
+        projectDropdown.innerHTML = `
+            <option value="">
+                Select Project
+            </option>
+        `;
+
+
+        if (projects.length === 0) {
+
+            projectDropdown.innerHTML = `
+                <option value="">
+                    No projects available
+                </option>
+            `;
+
+            return false;
+        }
+
+
+        projects.forEach(
+            project => {
+
+                const projectId =
+                    project.project_id ??
+                    project.id;
+
+                const projectName =
+                    project.project_name ??
+                    project.name ??
+                    `Project ${projectId}`;
+
+
+                if (!projectId) {
+                    return;
+                }
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    projectId;
+
+
+                option.textContent =
+                    projectName;
+
+
+                projectDropdown.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Error loading projects:",
+            error
+        );
+
+
+        projectDropdown.innerHTML = `
+            <option value="">
+                Unable to load projects
+            </option>
+        `;
+
+
+        showMessage(
+            "Unable to load projects from the BugFlow server.",
+            "error"
+        );
+
+
+        return false;
+    }
+
+}
+
+
+/* =========================================================
+   LOAD CATEGORIES
+========================================================= */
+
+async function loadCategories() {
+
+    const token =
+        getToken();
+
+    const categoryDropdown =
+        document.getElementById(
+            "category_id"
+        );
+
+
+    if (!categoryDropdown) {
+        return false;
+    }
+
+
+    if (!token) {
+
+        categoryDropdown.innerHTML = `
+            <option value="">
+                Login required
+            </option>
+        `;
+
+        return false;
+    }
+
+
+    try {
+
+        console.log(
+            "Loading categories..."
+        );
+
+
+        const response =
+            await fetch(
+                CATEGORY_API_URL,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return false;
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Category API returned ${response.status}`
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Category API response:",
+            result
+        );
+
+
+        /*
+         * Support either:
+         *
+         * [
+         *   {...}
+         * ]
+         *
+         * or:
+         *
+         * {
+         *   categories: [...]
+         * }
+         */
+
+        const categories =
+            Array.isArray(result)
+                ? result
+                : Array.isArray(result.categories)
+                    ? result.categories
+                    : [];
+
+
+        categoryDropdown.innerHTML = `
+            <option value="">
+                Select Category
+            </option>
+        `;
+
+
+        if (categories.length === 0) {
+
+            categoryDropdown.innerHTML = `
+                <option value="">
+                    No categories available
+                </option>
+            `;
+
+            return false;
+        }
+
+
+        categories.forEach(
+            category => {
+
+                const categoryId =
+                    category.category_id ??
+                    category.id;
+
+                const categoryName =
+                    category.category_name ??
+                    category.name ??
+                    `Category ${categoryId}`;
+
+
+                if (!categoryId) {
+                    return;
+                }
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    categoryId;
+
+
+                option.textContent =
+                    categoryName;
+
+
+                /*
+                 * Store urgency in the option.
+                 * This is only for display/debugging.
+                 * The backend remains responsible
+                 * for the actual priority calculation.
+                 */
+
+                if (category.urgency) {
+
+                    option.dataset.urgency =
+                        category.urgency;
+
+                }
+
+
+                categoryDropdown.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Error loading categories:",
+            error
+        );
+
+
+        categoryDropdown.innerHTML = `
+            <option value="">
+                Unable to load categories
+            </option>
+        `;
+
+
+        showMessage(
+            "Unable to load issue categories from the BugFlow server.",
+            "error"
+        );
+
+
+        return false;
+    }
+
+}
+
+
+/* =========================================================
+   SUBMIT ISSUE
+========================================================= */
+
+async function submitIssue(
+    event
+) {
+
+    event.preventDefault();
+
+
+    hideMessage();
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        showMessage(
+            "Your session has expired. Please login again.",
+            "error"
+        );
+
+        setTimeout(
+            () => {
+                window.location.href =
+                    "index.html";
+            },
+            1200
+        );
+
+        return;
+    }
+
+
+    const submitButton =
+        document.getElementById(
+            "submitButton"
+        );
+
+
+    /* =====================================================
+       GET VALUES
+    ===================================================== */
+
+    const title =
+        document.getElementById(
+            "title"
+        ).value.trim();
+
+
+    const projectId =
+        Number(
+            document.getElementById(
+                "project_id"
+            ).value
+        );
+
+
+    const categoryId =
+        Number(
+            document.getElementById(
+                "category_id"
+            ).value
+        );
+
+
+    const issueType =
+        document.getElementById(
+            "issue_type"
+        ).value;
+
+
+    const severity =
+        document.getElementById(
+            "severity"
+        ).value;
+
+
+    const description =
+        document.getElementById(
+            "description"
+        ).value.trim();
+
+
+    const reproductionSteps =
+        document.getElementById(
+            "reproduction_steps"
+        ).value.trim();
+
+
+    const environmentDetails =
+        document.getElementById(
+            "environment_details"
+        ).value.trim();
+
+
+    const affectedModules =
+        document.getElementById(
+            "affected_modules"
+        ).value.trim();
+
+
+    const expectedBehavior =
+        document.getElementById(
+            "expected_behavior"
+        ).value.trim();
+
+
+    const actualBehavior =
+        document.getElementById(
+            "actual_behavior"
+        ).value.trim();
+
+
+    /* =====================================================
+       VALIDATION
+    ===================================================== */
+
+    if (!title) {
+
+        showMessage(
+            "Please enter an issue title.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!projectId) {
+
+        showMessage(
+            "Please select a project.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!categoryId) {
+
+        showMessage(
+            "Please select a category.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!issueType) {
+
+        showMessage(
+            "Please select an issue type.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!severity) {
+
+        showMessage(
+            "Please select severity.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!description) {
+
+        showMessage(
+            "Please enter an issue description.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       LOADING STATE
+    ===================================================== */
+
+    submitButton.disabled =
+        true;
+
+
+    submitButton.innerHTML =
+        '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+
+
+    try {
+
+        /*
+         * IMPORTANT:
+         *
+         * reporter_id is NOT sent.
+         *
+         * assignee_id is NOT sent.
+         *
+         * priority is NOT sent.
+         *
+         * status is NOT sent.
+         *
+         * The backend gets the logged-in user from
+         * the JWT and calculates/assigns these values.
+         */
+
+        const requestBody = {
+
+            project_id:
+                projectId,
+
+            category_id:
+                categoryId,
+
+            issue_type:
+                issueType,
+
+            title:
+                title,
+
+            description:
+                description,
+
+            reproduction_steps:
+                reproductionSteps || null,
+
+            severity:
+                severity,
+
+            dev_stage:
+                null,
+
+            affected_modules:
+                affectedModules || null,
+
+            environment_details:
+                environmentDetails || null,
+
+            estimated_effort:
+                null,
+
+            assignee_id:
+                null,
+
+            sprint_id:
+                null
+
+        };
+
+
+        console.log(
+            "Creating issue:",
+            requestBody
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/`,
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            requestBody
+                        )
+                }
+            );
+
+
+        /*
+         * Try to read JSON.
+         */
+
+        let data = {};
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (jsonError) {
+
+            console.warn(
+                "Response was not JSON:",
+                jsonError
+            );
+
+        }
+
+
+        console.log(
+            "Create Issue Response:",
+            response.status,
+            data
+        );
+
+
+        /* =================================================
+           AUTH ERROR
+        ================================================= */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+
+            showMessage(
+                "Your session has expired. Please login again.",
+                "error"
+            );
+
+
+            setTimeout(
+                () => {
+                    window.location.href =
+                        "index.html";
+                },
+                1200
+            );
+
+
+            return;
+        }
+
+
+        /* =================================================
+           API ERROR
+        ================================================= */
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to submit issue.";
+
+
+            if (data.detail) {
+
+                if (
+                    Array.isArray(
+                        data.detail
+                    )
+                ) {
+
+                    errorMessage =
+                        data.detail
+                            .map(
+                                item =>
+                                    item.msg ||
+                                    item.message ||
+                                    String(item)
+                            )
+                            .join(", ");
+
+                } else {
+
+                    errorMessage =
+                        data.detail;
+
+                }
+
+            }
+
+
+            showMessage(
+                errorMessage,
+                "error"
+            );
+
+
+            return;
+        }
+
+
+        /* =================================================
+           SUCCESS
+        ================================================= */
+
+        const issueId =
+            data.id ??
+            data.issue_id ??
+            "N/A";
+
+
+        const priorityText =
+            data.priority ??
+            "Calculated by backend";
+
+
+        const scoreText =
+            data.priority_score ??
+            data.priority_score === 0
+                ? data.priority_score
+                : "Calculated by backend";
+
+
+        const statusText =
+            data.status ??
+            "REPORTED";
+
+
+        const messageBox =
+            document.getElementById(
+                "formMessage"
+            );
+
+
+        messageBox.innerHTML = `
+
+            <strong>
+                Issue reported successfully! ✅
+            </strong>
+
+            <br><br>
+
+            <strong>
+                Issue ID:
+            </strong>
+            #${issueId}
+
+            <br>
+
+            <strong>
+                Priority:
+            </strong>
+            ${priorityText}
+
+            <br>
+
+            <strong>
+                Priority Score:
+            </strong>
+            ${scoreText}
+
+            <br>
+
+            <strong>
+                Status:
+            </strong>
+            ${statusText}
+
+        `;
+
+
+        messageBox.className =
+            "success-message";
+
+
+        messageBox.style.display =
+            "block";
+
+
+        messageBox.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+
+        submitButton.disabled =
+            true;
+
+
+        submitButton.innerHTML =
+            '<i class="fa-solid fa-check"></i> Submitted';
+
+
+        /*
+         * Reset form before redirecting.
+         */
+
+        document.getElementById(
+            "issueForm"
+        ).reset();
+
+
+        /*
+         * Keep success message visible
+         * before returning to dashboard.
+         */
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "user-dashboard.html";
+
+            },
+            3000
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Create issue error:",
+            error
+        );
+
+
+        showMessage(
+            "Unable to connect to the BugFlow server.",
+            "error"
+        );
+
+    } finally {
+
+        /*
+         * Only restore button if it was not
+         * permanently changed to Submitted.
+         */
+
+        if (
+            !submitButton.disabled ||
+            submitButton.innerText
+                .includes("Submitting")
+        ) {
+
+            submitButton.disabled =
+                false;
+
+            submitButton.innerHTML =
+                '<i class="fa-solid fa-paper-plane"></i> Submit Issue';
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutUser(event) {
+
+    if (event) {
+        event.preventDefault();
+    }
+
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================================================
+   PAGE INITIALIZATION
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        /*
+         * Check authentication.
+         */
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        /*
+         * Show cached user immediately.
+         */
+
+        const storedUser =
+            getStoredUser();
+
+
+        if (storedUser) {
+
+            displayUser(
+                storedUser
+            );
+
+        }
+
+
+        /*
+         * Refresh user information
+         * from backend.
+         */
+
+        const currentUser =
+            await loadCurrentUser();
+
+
+        if (currentUser) {
+
+            displayUser(
+                currentUser
+            );
+
+        }
+
+
+        /*
+         * Load projects and categories.
+         */
+
+        await Promise.all([
+            loadProjects(),
+            loadCategories()
+        ]);
+
+
+        /*
+         * Form submit handler.
+         */
+
+        const issueForm =
+            document.getElementById(
+                "issueForm"
+            );
+
+
+        if (issueForm) {
+
+            issueForm.addEventListener(
+                "submit",
+                submitIssue
+            );
+
+        }
+
+
+        /*
+         * Logout handler.
+         */
+
+        const logoutLink =
+            document.getElementById(
+                "logoutLink"
+            );
+
+
+        if (logoutLink) {
+
+            logoutLink.addEventListener(
+                "click",
+                logoutUser
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

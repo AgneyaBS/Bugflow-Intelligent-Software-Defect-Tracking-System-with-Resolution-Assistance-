@@ -1,0 +1,570 @@
+/* =========================================================
+   BUGFLOW - SHARED USER DARK THEME
+
+   Apply this file to all User pages.
+
+   IMPORTANT:
+   This stylesheet overrides the original style.css only
+   for User pages. Admin pages are not affected because
+   they do not load this file.
+========================================================= */
+
+
+/* =========================================================
+   GLOBAL USER PAGE
+========================================================= */
+
+body {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+.main-content {
+    background: #0f172a;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+}
+
+.page-title {
+    color: #f8fafc;
+}
+
+.notification {
+    background: #1f2937;
+    color: #cbd5e1;
+}
+
+.user-name {
+    color: #f8fafc;
+}
+
+.user-role {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   WELCOME SECTION
+========================================================= */
+
+.welcome-section h1 {
+    color: #f8fafc;
+}
+
+.welcome-section p {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   STAT CARDS
+========================================================= */
+
+.stat-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: none;
+}
+
+.stat-icon {
+    background: #312e81;
+    color: #818cf8;
+}
+
+.stat-label {
+    color: #94a3b8;
+}
+
+.stat-value {
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.card-header {
+    border-bottom-color: #334155;
+}
+
+.card-header h2 {
+    color: #f8fafc;
+}
+
+.card-header p {
+    color: #94a3b8;
+}
+
+.card-body {
+    color: #cbd5e1;
+}
+
+.view-link {
+    color: #818cf8;
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+th {
+    color: #94a3b8;
+    border-bottom-color: #334155;
+}
+
+td {
+    color: #cbd5e1;
+    border-bottom-color: #334155;
+}
+
+.issue-title {
+    color: #f8fafc;
+}
+
+.issue-key {
+    color: #818cf8;
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity-item {
+    background: #172033;
+    border-color: #334155;
+}
+
+.activity-icon {
+    background: #312e81;
+    color: #818cf8;
+}
+
+.activity-text {
+    color: #cbd5e1;
+}
+
+.activity-text strong {
+    color: #f8fafc;
+}
+
+.activity-time {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   WORKFLOW
+========================================================= */
+
+.workflow-item {
+    background: #172033;
+    border-color: #334155;
+}
+
+.workflow-title {
+    color: #f8fafc;
+}
+
+.workflow-issue-key {
+    color: #818cf8;
+}
+
+.status-select {
+    background: #111827;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+
+
+/* =========================================================
+   SPRINTS
+========================================================= */
+
+.sprint-section-title {
+    color: #e2e8f0;
+}
+
+.sprint-item {
+    background: #172033;
+    border-color: #334155;
+}
+
+.sprint-name {
+    color: #f8fafc;
+}
+
+.sprint-goal,
+.sprint-dates {
+    color: #94a3b8;
+}
+
+.sprint-issue {
+    background: #111827;
+    border-color: #334155;
+}
+
+.sprint-issue-title {
+    color: #cbd5e1;
+}
+
+.sprint-issue-key {
+    color: #818cf8;
+}
+
+
+/* =========================================================
+   BACKLOG
+========================================================= */
+
+.backlog-section {
+    border-top-color: #334155;
+}
+
+.backlog-item {
+    background: #111827;
+    border-color: #334155;
+}
+
+.backlog-title {
+    color: #f8fafc;
+}
+
+.backlog-status {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING STATES
+========================================================= */
+
+.empty-state {
+    color: #94a3b8;
+}
+
+.empty-state i {
+    color: #64748b;
+}
+
+.empty-state h3 {
+    color: #e2e8f0;
+}
+
+.loading {
+    color: #94a3b8;
+}
+
+.empty-sprint,
+.empty-activity {
+    color: #94a3b8;
+    border-color: #475569;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   COMPLETE DARK USER SIDEBAR
+========================================================= */
+
+.sidebar {
+    background: #111827 !important;
+    color: #ffffff !important;
+    border-right: 1px solid #1f2937 !important;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR TOP / LOGO AREA
+
+   This fixes the white area behind the BugFlow logo.
+--------------------------------------------------------- */
+
+.sidebar-header,
+.sidebar-top,
+.sidebar-brand,
+.sidebar-logo,
+.sidebar-logo-section {
+    background: #111827 !important;
+    color: #f8fafc !important;
+}
+
+
+/* Logo text */
+
+.sidebar-header *,
+.sidebar-top *,
+.sidebar-brand *,
+.sidebar-logo *,
+.sidebar-logo-section * {
+    color: inherit;
+}
+
+
+/* BugFlow brand text */
+
+.sidebar .brand-name,
+.sidebar .logo-text,
+.sidebar .brand-text {
+    color: #f8fafc !important;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR BACK BUTTON AREA
+--------------------------------------------------------- */
+
+.sidebar-back-button {
+    background: #1f2937 !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #334155 !important;
+}
+
+.sidebar-back-button:hover {
+    background: #374151 !important;
+    color: #ffffff !important;
+}
+
+
+/* If the Back button has a wrapper/container */
+
+.sidebar-back,
+.sidebar-back-container,
+.sidebar .back-section {
+    background: #111827 !important;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR NAVIGATION
+--------------------------------------------------------- */
+
+.nav-link {
+    color: #d1d5db !important;
+    background: transparent !important;
+}
+
+.nav-link:hover {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+}
+
+.nav-link.active {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+
+/* Navigation icons */
+
+.nav-link i {
+    color: #94a3b8;
+}
+
+.nav-link:hover i {
+    color: #ffffff;
+}
+
+.nav-link.active i {
+    color: #ffffff;
+}
+
+
+/* Sidebar section headings */
+
+.sidebar-heading {
+    color: #9ca3af !important;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR BOTTOM / LOGOUT AREA
+
+   This is the main fix for the white section shown
+   at the bottom of your screenshot.
+--------------------------------------------------------- */
+
+.sidebar-bottom {
+    background: #111827 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #d1d5db !important;
+}
+
+
+/* Every element inside bottom section */
+
+.sidebar-bottom * {
+    color: inherit;
+}
+
+
+/* Logout link */
+
+.logout-link {
+    color: #d1d5db !important;
+    background: transparent !important;
+}
+
+.logout-link:hover {
+    background: #7f1d1d !important;
+    color: #ffffff !important;
+}
+
+
+/* Logout icon */
+
+.logout-link i {
+    color: #94a3b8 !important;
+}
+
+.logout-link:hover i {
+    color: #ffffff !important;
+}
+
+
+/* ---------------------------------------------------------
+   OTHER COMMON FOOTER SELECTORS
+   These protect against style.css using a different
+   footer class on individual User pages.
+--------------------------------------------------------- */
+
+.sidebar-footer,
+.sidebar-footer-section,
+.sidebar-bottom-section {
+    background: #111827 !important;
+    color: #d1d5db !important;
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR LINKS GENERALLY
+--------------------------------------------------------- */
+
+.sidebar a {
+    color: #d1d5db;
+}
+
+.sidebar a:hover {
+    color: #ffffff;
+}
+
+
+/* ---------------------------------------------------------
+   SIDEBAR BUTTONS
+--------------------------------------------------------- */
+
+.sidebar button {
+    background: #1f2937;
+    color: #e2e8f0;
+    border-color: #334155;
+}
+
+.sidebar button:hover {
+    background: #374151;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SHARED BUTTONS
+========================================================= */
+
+.primary-btn,
+.status-update-btn,
+.add-sprint-btn {
+    background: #4f46e5;
+    color: #ffffff;
+}
+
+.primary-btn:hover,
+.status-update-btn:hover,
+.add-sprint-btn:hover {
+    background: #4338ca;
+}
+
+
+/* =========================================================
+   USER ANALYTICS
+========================================================= */
+
+.analytics-container {
+    background: #0f172a;
+}
+
+.analytics-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.analytics-card h2,
+.analytics-card h3 {
+    color: #f8fafc;
+}
+
+.analytics-card p {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   FORMS / INPUTS ON USER PAGES
+========================================================= */
+
+input,
+select,
+textarea {
+    background: #111827;
+    color: #e2e8f0;
+    border-color: #334155;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #64748b;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #6366f1;
+    outline: none;
+}
+
+
+/* =========================================================
+   USER PAGE SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}

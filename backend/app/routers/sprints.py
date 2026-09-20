@@ -5,7 +5,7 @@ from app.database.database import get_db
 from app.models.user import User
 from app.models.issue import Issue
 from app.models.sprint import Sprint
-from app.auth.dependencies import get_current_user
+from app.auth.dependencies import get_current_user, require_admin
 from app.schemas.sprint import SprintCreate, SprintResponse
 
 
@@ -146,7 +146,7 @@ def add_issue_to_sprint(
 
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Cannot add an issue to a completed sprint"
+            detail="Sprint is already completed"
         )
 
     # --------------------------------------------------------
@@ -198,8 +198,157 @@ def add_issue_to_sprint(
         "issue_id": issue.id,
         "sprint_id": issue.sprint_id
     }
+# ============================================================
+# REMOVE ISSUE FROM SPRINT
+# ============================================================
 
+@router.delete(
+    "/{sprint_id}/issues/{issue_id}"
+)
+def remove_issue_from_sprint(
+    sprint_id: int,
+    issue_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    """
+    Remove an issue from a sprint and return it to the backlog.
 
+    The issue itself is NOT deleted.
+    Only its sprint assignment is removed.
+    """
+
+    # --------------------------------------------------------
+    # Check sprint
+    # --------------------------------------------------------
+
+    sprint = (
+        db.query(Sprint)
+        .filter(Sprint.id == sprint_id)
+        .first()
+    )
+
+    if not sprint:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sprint not found"
+        )
+
+    # --------------------------------------------------------
+    # Completed sprints cannot be modified
+    # --------------------------------------------------------
+
+    if sprint.status == "COMPLETED":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot remove an issue from a completed sprint"
+        )
+
+    # --------------------------------------------------------
+    # Check issue
+    # --------------------------------------------------------
+
+    issue = (
+        db.query(Issue)
+        .filter(Issue.id == issue_id)
+        .first()
+    )
+
+    if not issue:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Issue not found"
+        )
+
+    # --------------------------------------------------------
+    # Check issue belongs to this sprint
+    # --------------------------------------------------------
+
+    if issue.sprint_id != sprint.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Issue does not belong to this sprint"
+        )
+
+    # --------------------------------------------------------
+    # Remove sprint assignment
+    # --------------------------------------------------------
+
+    issue.sprint_id = None
+
+    db.add(issue)
+
+    db.commit()
+
+    db.refresh(issue)
+
+    # --------------------------------------------------------
+    # Return response
+    # --------------------------------------------------------
+    return {
+        "message": "Issue removed from sprint successfully",
+        "issue_id": issue.id,
+        "sprint_id": None
+    }
+# ============================================================
+# START SPRINT
+# ============================================================
+
+@router.post(
+    "/{sprint_id}/start"
+)
+def start_sprint(
+    sprint_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Start a sprint.
+
+    Allowed lifecycle:
+    PLANNING -> ACTIVE
+    """
+
+    sprint = (
+        db.query(Sprint)
+        .filter(Sprint.id == sprint_id)
+        .first()
+    )
+
+    if not sprint:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sprint not found"
+        )
+
+    if sprint.status == "ACTIVE":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Sprint is already active"
+        )
+
+    if sprint.status == "COMPLETED":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot start a completed sprint"
+        )
+
+    if sprint.status != "PLANNING":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only a planning sprint can be started"
+        )
+
+    sprint.status = "ACTIVE"
+
+    db.commit()
+    db.refresh(sprint)
+
+    return {
+        "message": "Sprint started successfully",
+        "sprint_id": sprint.id,
+        "status": sprint.status
+    }
 # ============================================================
 # COMPLETE SPRINT
 # ============================================================
@@ -240,11 +389,25 @@ def complete_sprint(
     # Check sprint status
     # --------------------------------------------------------
 
-    if sprint.status == "COMPLETED":
+    if sprint.status == "PLANNING":
 
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Planning sprint cannot be completed. Start the sprint first."
+        )
+
+    if sprint.status == "COMPLETED":
+
+        raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
             detail="Sprint is already completed"
+        )
+
+    if sprint.status != "ACTIVE":
+
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only an active sprint can be completed."
         )
 
     # --------------------------------------------------------

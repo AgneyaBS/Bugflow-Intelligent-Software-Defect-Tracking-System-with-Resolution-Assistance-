@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Optimization & Finalization | BugFlow</title>
-
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="admin-sidebar.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script src="theme.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +21,6 @@
 
     <style>
         .optimization-page {
-    margin-left: 260px;
     padding: 28px;
     min-height: 100vh;
     box-sizing: border-box;
@@ -243,43 +240,79 @@
         }
         @media (max-width: 900px) {
     .optimization-page {
-        margin-left: 0;
         padding: 20px;
     }
 }
-.sidebar .logo-section {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 20px 18px;
-    box-sizing: border-box;
+.main {
+    margin-left: 280px !important;
+    width: calc(100% - 280px) !important;
+    min-height: 100vh !important;
 }
 
-.sidebar .logo-icon {
-    position: static !important;
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.topbar {
+    height: 75px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 32px !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    position: relative !important;
+    left: 0 !important;
+    top: 0 !important;
+    z-index: 10 !important;
 }
 
-.sidebar .logo-icon i {
-    position: static !important;
-    font-size: 20px;
+.topbar-title {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    position: relative !important;
+    left: 0 !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    min-width: 250px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-.sidebar .logo-section h2 {
-    margin: 0;
+.topbar-title span {
+    display: block !important;
+    color: #8b95a7 !important;
+    font-size: 9px !important;
+    font-weight: 500 !important;
+    letter-spacing: 1.2px !important;
+    line-height: 1.2 !important;
+    margin: 0 0 5px 0 !important;
+    padding: 0 !important;
 }
 
-.sidebar .logo-section span {
-    display: block;
-    margin-top: 2px;
+.topbar-title strong {
+    display: block !important;
+    color: #111827 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
+.topbar-right {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 18px !important;
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+}
     </style>
 </head>
 
@@ -287,78 +320,251 @@
 
 <div class="dashboard-container">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    
+          <!-- =====================================================
+     ADMIN SIDEBAR
+====================================================== -->
 
-        <div class="logo-section">
-            <div class="logo-icon">
-                <i class="fa-solid fa-bug"></i>
+<aside class="sidebar">
+
+    <!-- BRAND -->
+    <div class="brand">
+
+        <div class="brand-logo">
+            <i class="fa-solid fa-bug"></i>
+        </div>
+
+        <div>
+            <h2>BugFlow</h2>
+            <span>Intelligent Tracking</span>
+        </div>
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+    <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
+
+    <!-- NAVIGATION -->
+    <nav>
+
+        <p class="nav-heading">
+            MAIN
+        </p>
+
+
+        <!-- DASHBOARD -->
+        <a href="admin-dashboard.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- ALL ISSUES -->
+        <a href="admin-defects.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-bug"></i>
+
+            <span>
+                All Issues
+            </span>
+
+        </a>
+
+
+        <!-- SPRINTS -->
+        <a href="sprints.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-list-check"></i>
+
+            <span>
+                Sprints
+            </span>
+
+        </a>
+
+
+        <!-- USERS -->
+        <a href="users.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-users"></i>
+
+            <span>
+                Users
+            </span>
+
+        </a>
+
+
+        <!-- RESOLUTION -->
+        <a href="admin-resolution.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-robot"></i>
+
+            <span>
+                Resolution Assistance
+            </span>
+
+        </a>
+
+
+        <!-- MANAGEMENT -->
+        <p class="nav-heading second">
+            MANAGEMENT
+        </p>
+
+
+        <!-- OPTIMIZATION - ACTIVE -->
+        <a href="optimization.html"
+           class="nav-link active">
+
+            <i class="fa-solid fa-rocket"></i>
+
+            <span>
+                Optimization & Finalization
+            </span>
+
+        </a>
+
+
+        <!-- ANALYTICS -->
+        <a href="admin-analytics.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Analytics &API'S
+            </span>
+
+        </a>
+
+
+        <!-- NOTIFICATIONS -->
+        <a href="admin-notifications.html"
+           class="nav-link">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <span>
+                Notifications
+            </span>
+
+            <b class="badge"
+               id="sidebarNotificationBadge">
+                0
+            </b>
+
+        </a>
+
+    </nav>
+
+
+    <!-- SIDEBAR BOTTOM -->
+    <div class="sidebar-bottom">
+
+
+        <!-- SYSTEM SUPPORT -->
+        <a href="system-support.html"
+           class="support-box"
+           style="
+               text-decoration:none;
+               color:inherit;
+               display:block;
+               cursor:pointer;
+           ">
+
+            <strong>
+                System Support
+            </strong>
+
+            <small>
+                All systems online
+            </small>
+
+        </a>
+
+
+        <!-- LOGOUT -->
+        <a href="index.html"
+           class="nav-link logout"
+           id="logoutBtn">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+</aside>
+    <!-- MAIN CONTENT -->
+    <main class="main">
+        <!-- ADMIN TOPBAR -->
+         <header class="topbar">
+
+    <div class="topbar-title">
+
+        <span>SOFTWARE ISSUE MANAGEMENT</span>
+
+        <strong>Administration</strong>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <a href="admin-notifications.html"
+           class="notification-button">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <span id="topNotificationBadge">0</span>
+
+        </a>
+
+        <a href="profile.html"
+           class="user-profile">
+
+            <div class="avatar admin-avatar"
+                 id="adminAvatar">
+                BA
             </div>
 
             <div>
-                <h2>BugFlow</h2>
-                <span>Issue Management</span>
+
+                <strong id="adminName">
+                    BugFlow Administrator
+                </strong>
+
+                <small id="adminRole">
+                    ADMIN
+                </small>
+
             </div>
-        </div>
 
-        <nav class="sidebar-nav">
+        </a>
 
-            <a href="admin-dashboard.html" class="nav-link">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Dashboard</span>
-            </a>
+    </div>
 
-            <a href="admin-defects.html" class="nav-link">
-                <i class="fa-solid fa-bug"></i>
-                <span>All Issues</span>
-            </a>
-
-            <a href="sprints.html" class="nav-link">
-                <i class="fa-solid fa-list-check"></i>
-                <span>Sprints</span>
-            </a>
-
-            <a href="users.html" class="nav-link">
-                <i class="fa-solid fa-users"></i>
-                <span>Users</span>
-            </a>
-
-            <a href="resolution.html" class="nav-link">
-                <i class="fa-solid fa-lightbulb"></i>
-                <span>Resolution</span>
-            </a>
-
-            <p class="nav-heading second">
-                MANAGEMENT
-            </p>
-
-            <a href="optimization.html" class="nav-link active">
-                <i class="fa-solid fa-rocket"></i>
-                <span>Optimization & Finalization</span>
-            </a>
-
-            <a href="admin-analytics.html" class="nav-link">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Analytics & API'S</span>
-            </a>
-
-            <a href="notifications.html" class="nav-link">
-                <i class="fa-solid fa-bell"></i>
-                <span>Notifications</span>
-            </a>
-
-            <a href="settings.html" class="nav-link">
-                <i class="fa-solid fa-gear"></i>
-                <span>Settings</span>
-            </a>
-
-        </nav>
-
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-
+</header>
+ 
         <div class="optimization-page">
 
             <div class="page-header">
@@ -369,7 +575,7 @@
                 </h1>
 
                 <p>
-                    Module 4 — Performance, productivity, testing and deployment readiness
+                Performance, productivity, testing and deployment readiness
                 </p>
 
             </div>
@@ -580,43 +786,115 @@
 
 const API_BASE_URL = "http://localhost:8000";
 
+/* ============================================================
+   LOAD DEVELOPER PRODUCTIVITY & WORKLOAD
+============================================================ */
+
+let workloadLoading = false;
+
 async function loadDeveloperWorkload() {
+
+    /*
+       Prevent multiple workload requests from running
+       at the same time.
+    */
+    if (workloadLoading) {
+        return;
+    }
+
+    workloadLoading = true;
 
     try {
 
+        /*
+           Add a timestamp so the browser does not reuse
+           an older cached API response.
+        */
+        const cacheBuster = Date.now();
+
         const response = await fetch(
-            `${API_BASE_URL}/api/v1/analytics/developer-workload`
+            `${API_BASE_URL}/api/v1/analytics/developer-workload?t=${cacheBuster}`,
+            {
+                method: "GET",
+                cache: "no-store",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
         );
 
         if (!response.ok) {
-            throw new Error("Unable to load workload data");
+            throw new Error(
+                `Unable to load workload data (${response.status})`
+            );
         }
 
         const data = await response.json();
 
-        const developers = data.developers || [];
+        const developers =
+            Array.isArray(data.developers)
+                ? data.developers
+                : [];
 
-        document.getElementById("developerCount").textContent =
-            developers.length;
+        /*
+           ----------------------------------------------------
+           KPI VALUES
+           ----------------------------------------------------
+        */
 
-        let activeTasks = 0;
-        let completedFixes = 0;
+        const developerCount =
+            document.getElementById("developerCount");
 
-        developers.forEach(developer => {
+        const activeTasksElement =
+            document.getElementById("activeTasks");
 
-            activeTasks += Number(developer.active_tasks || 0);
-            completedFixes += Number(developer.completed_fixes || 0);
+        const completedFixesElement =
+            document.getElementById("completedFixes");
+
+        if (developerCount) {
+            developerCount.textContent =
+                developers.length;
+        }
+
+        let totalActiveTasks = 0;
+        let totalCompletedFixes = 0;
+
+        developers.forEach(function (developer) {
+
+            totalActiveTasks += Number(
+                developer.active_tasks || 0
+            );
+
+            totalCompletedFixes += Number(
+                developer.completed_fixes || 0
+            );
 
         });
 
-        document.getElementById("activeTasks").textContent =
-            activeTasks;
+        if (activeTasksElement) {
+            activeTasksElement.textContent =
+                totalActiveTasks;
+        }
 
-        document.getElementById("completedFixes").textContent =
-            completedFixes;
+        if (completedFixesElement) {
+            completedFixesElement.textContent =
+                totalCompletedFixes;
+        }
+
+        /*
+           ----------------------------------------------------
+           WORKLOAD TABLE
+           ----------------------------------------------------
+        */
 
         const tableBody =
-            document.getElementById("workloadTableBody");
+            document.getElementById(
+                "workloadTableBody"
+            );
+
+        if (!tableBody) {
+            return;
+        }
 
         tableBody.innerHTML = "";
 
@@ -633,49 +911,81 @@ async function loadDeveloperWorkload() {
             return;
         }
 
-        developers.forEach(developer => {
+        developers.forEach(function (developer) {
 
-            const status =
-                developer.workload_status || "BALANCED";
+            const developerName =
+                developer.developer ||
+                developer.full_name ||
+                developer.username ||
+                "-";
+
+            const username =
+                developer.username || "-";
+
+            const team =
+                developer.team ||
+                "Unassigned";
+
+            const activeTasks =
+                Number(
+                    developer.active_tasks || 0
+                );
+
+            const completedFixes =
+                Number(
+                    developer.completed_fixes || 0
+                );
+
+            const averageMTTR =
+                Number(
+                    developer.average_mttr_hours || 0
+                );
+
+            const workloadStatus =
+                String(
+                    developer.workload_status ||
+                    "BALANCED"
+                ).toUpperCase();
 
             const statusClass =
-                status.toLowerCase();
+                workloadStatus.toLowerCase();
 
-            const row = document.createElement("tr");
+            const row =
+                document.createElement("tr");
 
             row.innerHTML = `
 
                 <td>
                     <strong>
-                        ${developer.developer || "-"}
+                        ${developerName}
                     </strong>
+
                     <br>
+
                     <small>
-                        ${developer.username || "-"}
+                        ${username}
                     </small>
                 </td>
 
                 <td>
-                    ${developer.team || "Unassigned"}
+                    ${team}
                 </td>
 
                 <td>
-                    ${developer.active_tasks || 0}
+                    ${activeTasks}
                 </td>
 
                 <td>
-                    ${developer.completed_fixes || 0}
+                    ${completedFixes}
                 </td>
 
                 <td>
-                    ${Number(
-                        developer.average_mttr_hours || 0
-                    ).toFixed(2)} hrs
+                    ${averageMTTR.toFixed(2)} hrs
                 </td>
 
                 <td>
                     <span class="status-badge ${statusClass}">
-                        ${status}
+                        ${workloadStatus}
                     </span>
                 </td>
 
@@ -685,35 +995,190 @@ async function loadDeveloperWorkload() {
 
         });
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(
             "Workload loading error:",
             error
         );
 
-        document.getElementById(
-            "workloadTableBody"
-        ).innerHTML = `
+        const tableBody =
+            document.getElementById(
+                "workloadTableBody"
+            );
 
-            <tr>
-                <td colspan="6" class="loading-row">
-                    Unable to connect to the BugFlow server.
-                </td>
-            </tr>
+        if (tableBody) {
 
-        `;
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="loading-row">
+                        Unable to load developer workload.
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    }
+    finally {
+
+        workloadLoading = false;
+
+    }
+
+}
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /*
+           Initial workload load.
+        */
+        loadDeveloperWorkload();
+
+        /*
+           Initial admin notification count.
+        */
+        updateAdminNotificationCount();
+
+    }
+);
+/* ============================================================
+   REFRESH DEVELOPER WORKLOAD
+============================================================ */
+
+/*
+   Refresh the workload matrix every 5 seconds.
+
+   This makes changes to:
+   - issue assignment
+   - issue status
+   - completed fixes
+   - MTTR
+
+   appear automatically without manually refreshing
+   the Optimization page.
+*/
+
+setInterval(
+    loadDeveloperWorkload,
+    5000
+);
+
+/* ============================================================
+   ADMIN NOTIFICATION COUNT
+============================================================ */
+
+const notificationToken =
+    localStorage.getItem("access_token");
+
+
+async function updateAdminNotificationCount() {
+
+    if (!notificationToken) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/api/v1/notifications/unread-count",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${notificationToken}`,
+
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const unreadCount =
+            Number(
+                data.unread_count || 0
+            );
+
+
+        /* SIDEBAR BADGE */
+
+        const sidebarBadge =
+            document.getElementById(
+                "sidebarNotificationBadge"
+            );
+
+
+        if (sidebarBadge) {
+
+            sidebarBadge.textContent =
+                unreadCount;
+
+
+            sidebarBadge.style.display =
+                unreadCount > 0
+                    ? "flex"
+                    : "none";
+        }
+
+
+        /* TOP RIGHT BADGE */
+
+        const topBadge =
+            document.getElementById(
+                "topNotificationBadge"
+            );
+
+
+        if (topBadge) {
+
+            topBadge.textContent =
+                unreadCount;
+
+
+            topBadge.style.display =
+                unreadCount > 0
+                    ? "inline-flex"
+                    : "none";
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Notification count error:",
+            error
+        );
 
     }
 
 }
 
-document.addEventListener(
-    "DOMContentLoaded",
-    loadDeveloperWorkload
-);
 
+/* ============================================================
+   REFRESH NOTIFICATION COUNT
+============================================================ */
+
+setInterval(
+    updateAdminNotificationCount,
+    3000
+);
 </script>
+
+<script src="admin-notifications.js"></script>
 
 </body>
 </html>

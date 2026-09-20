@@ -587,96 +587,124 @@
     <aside class="sidebar">
 
         <div class="brand">
+
             <div class="brand-icon">
                 <i class="fa-solid fa-bug"></i>
             </div>
 
-            <div>
-    <div class="brand-text">
-        Bug<span>Flow</span>
-    </div>
+            <div class="brand-text">
+                Bug<span>Flow</span>
+            </div>
 
-    <div style="
-        font-size: 12px;
-        color: #94a3b8;
-        margin-top: 2px;
-    ">
-        Intelligent Tracking
-    </div>
-</div>
         </div>
+        <button class="sidebar-back-button" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+</button>
+
 
         <div class="sidebar-section">
 
-            <div class="sidebar-heading">
-                Main
-            </div>
-
-            <a href="admin-dashboard.html" class="nav-link">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="admin-defects.html" class="nav-link  ">
-                <i class="fa-solid fa-bug"></i>
-                <span>All Issues</span>
-            </a>
-<a href="sprints.html" class="nav-link">
-    <i class="fa-solid fa-list-check"></i>
-    <span>Sprints</span>
-</a>
-            <a href="users.html" class="nav-link">
-                <i class="fa-solid fa-users"></i>
-                <span>Users</span>
-            </a>
-
-            <a href="user-resolution.html" class="nav-link">
-                <i class="fa-solid fa-robot"></i>
-                <span>Resolution Assistance</span>
-            </a>
-
-            <div class="sidebar-heading" style="margin-top:18px;">
-                Management
-            </div>
-
-            <a href="optimization.html" class="nav-link">
-    <i class="fa-solid fa-rocket"></i>
-    <span>Optimization & Finalization</span>
-</a>
-            <a href="admin-analytics.html" class="nav-link">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Analytics & Reports</span>
-            </a>
-
-
-            <a href="admin-notifications.html" class="nav-link">
-                <i class="fa-solid fa-bell"></i>
-                <span>Notifications</span>
-               <b class="badge" id="sidebarNotificationBadge">0</b>
-            </a>
-        </div>
-
-        <div class="sidebar-bottom">
-
-    <div class="support-box active">
-        <strong>
-            <i class="fa-solid fa-headset"></i>
-            System Support
-        </strong>
-
-        <small>
-            ● All systems online
-        </small>
+    <div class="sidebar-heading">
+        Main
     </div>
 
-    <a href="index.html" class="nav-link" id="logoutBtn">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Logout</span>
+    <!-- Dashboard -->
+    <a href="user-dashboard.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <!-- Report Issue -->
+    <a href="user-report-defect.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-bug"></i>
+
+        <span>Report Issue</span>
+
+    </a>
+
+
+    <!-- My Issues -->
+    <a href="user-my-issues.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-list-check"></i>
+
+        <span>My Issues</span>
+
+    </a>
+
+    <!-- Resolution Assistance -->
+    <a href="user-resolution.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-lightbulb"></i>
+
+        <span>Resolution Assistance</span>
+
+    </a>
+
+
+    <!-- Analytics & Reports -->
+    <a href="user-analytics.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <span>Analytics & Reports</span>
+
+    </a>
+
+    <!-- Notifications -->
+    <a href="user-notifications.html"
+   class="nav-link">
+
+    <i class="fa-solid fa-bell"></i>
+
+    <span>Notifications</span>
+
+    <span id="sidebarNotificationBadge"
+          class="notification-badge"></span>
+
+</a>
+
+
+    <!-- System Support -->
+    <a href="user-system-support.html"
+       class="nav-link active">
+
+        <i class="fa-solid fa-circle-question"></i>
+
+        <span>System Support</span>
+
     </a>
 
 </div>
 
+
+        <div class="sidebar-bottom">
+
+            <a href="#"
+               class="nav-link logout-link"
+               id="logoutLink">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
     </aside>
+
 
     <!-- ================= MAIN ================= -->
 

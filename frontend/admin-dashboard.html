@@ -15,8 +15,9 @@
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
+
           
-          <script src="theme.js"></script>
+          <link rel="stylesheet" href="admin-sidebar.css">
 
     <link rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -117,6 +118,22 @@ body.dark-mode span {
 .user-profile:hover {
     opacity: 0.8;
 }
+/* ============================================================
+   ADMIN DASHBOARD - FIVE KPI CARDS IN ONE ROW
+============================================================ */
+
+.stats {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    width: 100% !important;
+}
+
+.stats .stat {
+    width: auto !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
 </style>
 
 </head>
@@ -161,7 +178,7 @@ body.dark-mode span {
             </p>
 
 
-            <a href="/frontend/admin-dashboard.html" class="nav-link active">
+            <a href="admin-dashboard.html" class="nav-link active">
 
                 <i class="fa-solid fa-chart-pie"></i>
 
@@ -193,7 +210,7 @@ body.dark-mode span {
             </a>
 
 
-            <a href="resolution.html"
+            <a href="admin-resolution.html"
                class="nav-link">
 
                 <i class="fa-solid fa-robot"></i>
@@ -228,7 +245,7 @@ body.dark-mode span {
            
 
 
-            <a href="notifications.html"
+            <a href="admin-notifications.html"
             class="nav-link">
 
                 <i class="fa-solid fa-bell"></i>
@@ -240,18 +257,6 @@ body.dark-mode span {
                 <b class="badge" id="sidebarNotificationBadge">
     0
 </b>
-
-            </a>
-
-
-            <a href="settings.html"
-               class="nav-link">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Settings
-                </span>
 
             </a>
 
@@ -314,7 +319,7 @@ body.dark-mode span {
 
             <div class="topbar-right">
 
-                <a href="notifications.html" class="notification-button">
+                <a href="admin-notifications.html" class="notification-button">
     <i class="fa-solid fa-bell"></i>
     <span id="topNotificationBadge">0</span>
 </a>
@@ -498,7 +503,34 @@ body.dark-mode span {
                     </div>
 
 
+<!-- IN PROGRESS -->
 
+<div class="stat">
+
+    <div>
+
+        <span>
+            In Progress
+        </span>
+
+        <h2 id="inProgressIssues">
+            0
+        </h2>
+
+        <small>
+            Currently being worked on
+        </small>
+
+    </div>
+
+
+    <div class="stat-icon purple">
+
+        <i class="fa-solid fa-spinner"></i>
+
+    </div>
+
+</div>
                     <!-- RESOLVED -->
 
                     <div class="stat">
@@ -562,13 +594,9 @@ body.dark-mode span {
                             </div>
 
 
-                            <button class="select-btn">
-
-                                This Month
-
-                                <i class="fa-solid fa-chevron-down"></i>
-
-                            </button>
+                            <select id="defectMonthFilter" class="select-btn">
+    <option value="current">This Month</option>
+</select>
 
                         </div>
 
@@ -747,7 +775,7 @@ body.dark-mode span {
 
                         <!-- RESOLUTION -->
 
-                        <a href="resolution.html"
+                        <a href="admin-resolution.html"
                            class="quick">
 
                             <div class="quick-icon green-bg">
@@ -848,7 +876,7 @@ body.dark-mode span {
                     </div>
 
 
-                    <a href="resolution.html"
+                    <a href="admin-resolution.html"
                        class="ai-btn">
 
                         Open Assistant
@@ -1174,54 +1202,433 @@ function normalizeArray(data) {
 
 async function fetchIssues() {
 
-    const response =
-        await fetch(
-            `${API_BASE_URL}/api/v1/issues/`,
-            {
-                method: "GET",
+    /*
+       Fetch all issue pages so the month filter can work
+       with older issues as well as the latest issues.
 
-                headers: {
+       Backend pagination:
+       skip = starting record
+       limit = maximum 100 records per request.
+    */
 
-                    "Accept":
-                        "application/json",
+    const allIssues = [];
 
-                    "Authorization":
-                        "Bearer " + token
+    const pageSize = 100;
 
+    let skip = 0;
+
+
+    while (true) {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/v1/issues/?skip=${skip}&limit=${pageSize}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
                 }
+            );
 
-            }
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleAuthenticationFailure();
+
+            return [];
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load issues. Status: " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const pageIssues =
+            normalizeArray(data);
+
+
+        allIssues.push(
+            ...pageIssues
         );
+
+
+        /*
+           Fewer than 100 records means this is
+           the final page.
+        */
+
+        if (
+            pageIssues.length < pageSize
+        ) {
+            break;
+        }
+
+
+        skip += pageSize;
+
+    }
+
+
+    return allIssues;
+
+}
+
+
+/* ============================================================
+   MONTH FILTER HELPERS
+============================================================ */
+
+
+/*
+   Return a YYYY-MM key from an issue creation date.
+*/
+
+function getIssueMonthKey(issue) {
+
+    if (!issue || !issue.created_at) {
+        return null;
+    }
+
+
+    const date =
+        new Date(issue.created_at);
 
 
     if (
-        response.status === 401 ||
-        response.status === 403
+        isNaN(
+            date.getTime()
+        )
     ) {
-
-        handleAuthenticationFailure();
-
-        return [];
-
+        return null;
     }
 
 
-    if (!response.ok) {
+    return `${date.getFullYear()}-${String(
+        date.getMonth() + 1
+    ).padStart(2, "0")}`;
 
-        throw new Error(
-            "Failed to load issues. Status: " +
-            response.status
+}
+
+
+/*
+   Return a readable month label.
+*/
+
+function getMonthLabel(monthKey) {
+
+    const parts =
+        monthKey.split("-");
+
+
+    const year =
+        Number(parts[0]);
+
+
+    const month =
+        Number(parts[1]) - 1;
+
+
+    const date =
+        new Date(
+            year,
+            month,
+            1
         );
 
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/*
+   Populate the dropdown from actual issue dates.
+   The current month is always available as "This Month".
+   Up to 12 recent months are shown.
+*/
+
+function populateDefectMonthFilter(issues) {
+
+    const filter = document.getElementById("defectMonthFilter");
+
+    if (!filter) {
+        return;
+    }
+
+    const now = new Date();
+
+    const currentKey =
+        `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+    // Collect every valid issue month.
+    const monthSet = new Set();
+
+    issues.forEach(function(issue) {
+        const monthKey = getIssueMonthKey(issue);
+        if (monthKey) {
+            monthSet.add(monthKey);
+        }
+    });
+
+    // Find the earliest month that exists in the data.
+    let earliestDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        1
+    );
+
+    monthSet.forEach(function(monthKey) {
+        const parts = monthKey.split("-");
+        const date = new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            1
+        );
+
+        if (date < earliestDate) {
+            earliestDate = date;
+        }
+    });
+
+    // Build EVERY month from earliest issue month to current month.
+    const months = [];
+    const cursor = new Date(
+        earliestDate.getFullYear(),
+        earliestDate.getMonth(),
+        1
+    );
+
+    while (
+        cursor <=
+        new Date(now.getFullYear(), now.getMonth(), 1)
+    ) {
+        const monthKey =
+            `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`;
+
+        months.push(monthKey);
+
+        cursor.setMonth(cursor.getMonth() + 1);
+    }
+
+    filter.innerHTML = "";
+
+    // IMPORTANT: All Months is the first option.
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "All Months";
+    filter.appendChild(allOption);
+
+    // Add every individual month below All Months.
+    months.reverse().forEach(function(monthKey) {
+
+        const option = document.createElement("option");
+
+        option.value = monthKey;
+
+        option.textContent =
+            monthKey === currentKey
+                ? "This Month"
+                : getMonthLabel(monthKey);
+
+        filter.appendChild(option);
+    });
+
+    // Start the donut chart on All Months when the page is opened.
+    filter.value = "all";
+}
+
+function updateMonthlyDonut(issues) {
+
+    const filter =
+        document.getElementById(
+            "defectMonthFilter"
+        );
+
+    if (!filter) {
+        return;
+    }
+
+    const selectedMonth = filter.value;
+
+    /*
+       IMPORTANT:
+       "All Months" must use ALL issues.
+       Individual month selections use only that month's issues.
+    */
+    let monthlyIssues;
+
+    if (selectedMonth === "all") {
+
+        monthlyIssues = issues;
+
+    } else {
+
+        let monthKey = selectedMonth;
+
+        const now = new Date();
+
+        const currentMonthKey =
+            `${now.getFullYear()}-${String(
+                now.getMonth() + 1
+            ).padStart(2, "0")}`;
+
+        if (monthKey === "current") {
+            monthKey = currentMonthKey;
+        }
+
+        monthlyIssues = issues.filter(function(issue) {
+            return getIssueMonthKey(issue) === monthKey;
+        });
+    }
+
+    let open = 0;
+    let inProgress = 0;
+    let resolved = 0;
+
+    monthlyIssues.forEach(function(issue) {
+
+        const status = getStatus(issue);
+
+        if (isOpen(status)) {
+            open++;
+        }
+        else if (isInProgress(status)) {
+            inProgress++;
+        }
+        else if (isResolved(status)) {
+            resolved++;
+        }
+
+    });
+
+    const total = monthlyIssues.length;
+
+    const donutTotal =
+        document.getElementById("donutTotal");
+
+    if (donutTotal) {
+        donutTotal.textContent = total;
+    }
+
+    const legendOpen =
+        document.getElementById("legendOpen");
+
+    const legendProgress =
+        document.getElementById("legendProgress");
+
+    const legendResolved =
+        document.getElementById("legendResolved");
+
+    if (legendOpen) {
+        legendOpen.textContent = open;
+    }
+
+    if (legendProgress) {
+        legendProgress.textContent = inProgress;
+    }
+
+    if (legendResolved) {
+        legendResolved.textContent = resolved;
+    }
+
+    const donut =
+        document.getElementById("adminDonut");
+
+    if (!donut) {
+        return;
+    }
+
+    if (total === 0) {
+
+        donut.style.background = "#e5e7eb";
+
+        return;
+    }
+
+    const openPercent =
+        (open / total) * 100;
+
+    const progressPercent =
+        (inProgress / total) * 100;
+
+    const resolvedStart =
+        openPercent +
+        progressPercent;
+
+    donut.style.background =
+        `conic-gradient(
+            #f59e0b
+            0 ${openPercent}%,
+
+            #8b5cf6
+            ${openPercent}%
+            ${resolvedStart}%,
+
+            #10b981
+            ${resolvedStart}%
+            100%
+        )`;
+}
+
+
+/*
+   Connect the dropdown to the monthly donut.
+*/
+
+
+function setupDefectMonthFilter(issues) {
+
+    const filter =
+        document.getElementById(
+            "defectMonthFilter"
+        );
+
+
+    if (!filter) {
+        return;
     }
 
 
-    const data =
-        await response.json();
+    filter.addEventListener(
+        "change",
+        function () {
+
+            updateMonthlyDonut(
+                issues
+            );
+
+        }
+    );
 
 
-    return normalizeArray(
-        data
+    updateMonthlyDonut(
+        issues
     );
 
 }
@@ -1567,6 +1974,22 @@ function updateStatistics(issues) {
             open;
 
     }
+    /* --------------------------------------------------------
+   IN PROGRESS ISSUES
+-------------------------------------------------------- */
+
+const inProgressIssues =
+    document.getElementById(
+        "inProgressIssues"
+    );
+
+
+if (inProgressIssues) {
+
+    inProgressIssues.textContent =
+        inProgress;
+
+}
 
 
     /* --------------------------------------------------------
@@ -2452,6 +2875,19 @@ async function loadDashboard() {
 
 
         /* ----------------------------------------------------
+           MONTH FILTER + MONTHLY DONUT
+        ---------------------------------------------------- */
+
+        populateDefectMonthFilter(
+            dashboardIssues
+        );
+
+        setupDefectMonthFilter(
+            dashboardIssues
+        );
+
+
+        /* ----------------------------------------------------
            RECENT ISSUES
         ---------------------------------------------------- */
 
@@ -2708,8 +3144,7 @@ document.addEventListener(
     );
 
 </script>
-
-<script src="notification.js"></script>
+<script src="admin-notifications.js"></script>
 
 </body>
 

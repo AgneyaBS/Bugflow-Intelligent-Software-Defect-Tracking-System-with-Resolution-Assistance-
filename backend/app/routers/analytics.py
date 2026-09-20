@@ -1,9 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from typing import Any
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import case, func
 from sqlalchemy.orm import Session
 
+from app.auth.dependencies import get_current_user
 from app.database.database import get_db
 from app.models.issue import Issue, IssueStatus, Severity
 from app.models.user import User
@@ -16,174 +17,163 @@ router = APIRouter(
 
 
 # ============================================================
-# QUALITY METRICS
+# HELPERS
+# ============================================================
+
+def enum_value(value: Any) -> str:
+    """Return an enum's value as an uppercase string."""
+    if value is None:
+        return ""
+    return str(getattr(value, "value", value)).upper()
+
+
+def resolution_hours(issue: Issue):
+    """Return issue resolution time in hours when available."""
+    if not issue.created_at or not issue.resolved_at:
+        return None
+
+    try:
+        hours = (
+            issue.resolved_at - issue.created_at
+        ).total_seconds() / 3600
+        return hours if hours >= 0 else None
+    except Exception:
+        return None
+
+
+def is_resolved(issue: Issue) -> bool:
+    return enum_value(issue.status) in {
+        "RESOLVED",
+        "CLOSED"
+    }
+
+
+def is_production_issue(issue: Issue) -> bool:
+    environment = getattr(
+        issue,
+        "environment_details",
+        None
+    )
+    return bool(
+        environment
+        and "production" in str(environment).lower()
+    )
+
+
+def user_issue_query(
+    db: Session,
+    current_user: User
+):
+    """Issues reported by OR assigned to the logged-in user."""
+    return (
+        db.query(Issue)
+        .filter(
+            (Issue.reporter_id == current_user.id)
+            | (Issue.assignee_id == current_user.id)
+        )
+    )
+
+
+# ============================================================
+# ADMIN / SYSTEM-WIDE QUALITY METRICS
+# KEEPING EXISTING ADMIN ENDPOINT SEMANTICS
 # ============================================================
 
 @router.get("/quality-metrics")
-def get_quality_metrics(db: Session = Depends(get_db)):
-
-    # --------------------------------------------------------
-    # Get all issues
-    # --------------------------------------------------------
-
+def quality_metrics(
+    db: Session = Depends(get_db)
+):
     issues = db.query(Issue).all()
 
     total_bugs = len(issues)
-
-    # --------------------------------------------------------
-    # Fix Rate
-    # Resolved + Closed / Total Bugs * 100
-    # --------------------------------------------------------
-
-    resolved_bugs = sum(
-        1 for issue in issues
-        if issue.status in [
-            IssueStatus.RESOLVED,
-            IssueStatus.CLOSED
-        ]
+    resolved_count = sum(
+        1 for issue in issues if is_resolved(issue)
     )
 
-    if total_bugs > 0:
-        fix_rate_percentage = (
-            resolved_bugs / total_bugs
-        ) * 100
-    else:
-        fix_rate_percentage = 0.0
+    fix_rate = round(
+        (resolved_count / total_bugs) * 100,
+        2
+    ) if total_bugs else 0
 
-    # --------------------------------------------------------
-    # Mean Time To Resolution (MTTR)
-    # --------------------------------------------------------
+    resolution_times = [
+        hours
+        for issue in issues
+        if (hours := resolution_hours(issue)) is not None
+    ]
 
-    resolution_times = []
+    mttr = round(
+        sum(resolution_times) / len(resolution_times),
+        2
+    ) if resolution_times else 0
 
-    for issue in issues:
+    production_bugs = sum(
+        1 for issue in issues
+        if is_production_issue(issue)
+    )
 
-        if issue.created_at and issue.resolved_at:
+    defect_leakage = round(
+        (production_bugs / total_bugs) * 100,
+        2
+    ) if total_bugs else 0
 
-            time_difference = (
-                issue.resolved_at - issue.created_at
+    open_critical = sum(
+        1
+        for issue in issues
+        if enum_value(issue.severity) == "CRITICAL"
+        and not is_resolved(issue)
+    )
+
+    backlog_health = round(
+        max(
+            0,
+            100 - (
+                (open_critical / total_bugs) * 100
             )
-
-            hours = time_difference.total_seconds() / 3600
-
-            resolution_times.append(hours)
-
-    if resolution_times:
-        mean_time_to_resolution_hours = (
-            sum(resolution_times) / len(resolution_times)
-        )
-    else:
-        mean_time_to_resolution_hours = 0.0
-
-    # --------------------------------------------------------
-    # Defect Leakage Rate
-    #
-    # Production bugs / Total Bugs * 100
-    #
-    # We identify production issues using the
-    # environment_details field.
-    # --------------------------------------------------------
-
-    production_bugs = 0
-
-    for issue in issues:
-
-        environment = (
-            issue.environment_details or ""
-        ).lower()
-
-        if "production" in environment:
-            production_bugs += 1
-
-    if total_bugs > 0:
-        defect_leakage_rate_percentage = (
-            production_bugs / total_bugs
-        ) * 100
-    else:
-        defect_leakage_rate_percentage = 0.0
-
-    # --------------------------------------------------------
-    # Backlog Health Score
-    #
-    # Start at 100.
-    # Open Critical bugs reduce the score.
-    # --------------------------------------------------------
-
-    open_critical_bugs = sum(
-        1 for issue in issues
-        if issue.severity == Severity.CRITICAL
-        and issue.status not in [
-            IssueStatus.RESOLVED,
-            IssueStatus.CLOSED
-        ]
-    )
-
-    # Deduct 10 points for every open critical bug.
-    backlog_health_score = max(
-        0,
-        100 - (open_critical_bugs * 10)
-    )
-
-    # --------------------------------------------------------
-    # Return metrics
-    # --------------------------------------------------------
+        ),
+        2
+    ) if total_bugs else 100
 
     return {
         "total_bugs": total_bugs,
-        "resolved_bugs": resolved_bugs,
-        "fix_rate_percentage": round(
-            fix_rate_percentage, 2
-        ),
-        "mean_time_to_resolution_hours": round(
-            mean_time_to_resolution_hours, 2
-        ),
-        "production_bugs": production_bugs,
-        "defect_leakage_rate_percentage": round(
-            defect_leakage_rate_percentage, 2
-        ),
-        "open_critical_bugs": open_critical_bugs,
-        "backlog_health_score": backlog_health_score
+        "fix_rate_percentage": fix_rate,
+        "mean_time_to_resolution_hours": mttr,
+        "defect_leakage_rate_percentage": defect_leakage,
+        "open_critical_bugs": open_critical,
+        "backlog_health_score": backlog_health
     }
-    # ============================================================
-# DEFECT TRENDS - LAST 14 DAYS
+
+
+# ============================================================
+# ADMIN / SYSTEM-WIDE DEFECT TRENDS
 # ============================================================
 
 @router.get("/defect-trends")
-def get_defect_trends(db: Session = Depends(get_db)):
+def defect_trends(
+    db: Session = Depends(get_db)
+):
+    issues = db.query(Issue).all()
 
-    from datetime import timedelta
-
-    today = datetime.utcnow().date()
+    end_date = datetime.utcnow().date()
+    start_date = end_date - timedelta(days=13)
 
     trends = []
 
-    for i in range(13, -1, -1):
+    for offset in range(14):
+        current_date = start_date + timedelta(days=offset)
 
-        current_date = today - timedelta(days=i)
+        new_bugs = sum(
+            1
+            for issue in issues
+            if issue.created_at
+            and issue.created_at.date() == current_date
+        )
 
-        next_date = current_date + timedelta(days=1)
-
-        new_bugs = db.query(Issue).filter(
-            Issue.created_at >= datetime.combine(
-                current_date,
-                datetime.min.time()
-            ),
-            Issue.created_at < datetime.combine(
-                next_date,
-                datetime.min.time()
-            )
-        ).count()
-
-        resolved_bugs = db.query(Issue).filter(
-            Issue.resolved_at >= datetime.combine(
-                current_date,
-                datetime.min.time()
-            ),
-            Issue.resolved_at < datetime.combine(
-                next_date,
-                datetime.min.time()
-            )
-        ).count()
+        resolved_bugs = sum(
+            1
+            for issue in issues
+            if issue.resolved_at
+            and issue.resolved_at.date() == current_date
+        )
 
         trends.append({
             "date": current_date.isoformat(),
@@ -192,23 +182,21 @@ def get_defect_trends(db: Session = Depends(get_db)):
         })
 
     return {
-        "period_days": 14,
         "trends": trends
     }
-    # ============================================================
-# PLOTLY CHART DATA
+
+
+# ============================================================
+# ADMIN / SYSTEM-WIDE PLOTLY DATA
 # ============================================================
 
 @router.get("/plotly-charts")
-def get_plotly_charts(db: Session = Depends(get_db)):
-
+def plotly_charts(
+    db: Session = Depends(get_db)
+):
     issues = db.query(Issue).all()
 
-    # --------------------------------------------------------
-    # Severity distribution
-    # --------------------------------------------------------
-
-    severity_counts = {
+    severity_distribution = {
         "CRITICAL": 0,
         "MAJOR": 0,
         "MINOR": 0,
@@ -216,65 +204,245 @@ def get_plotly_charts(db: Session = Depends(get_db)):
     }
 
     for issue in issues:
-        severity_counts[issue.severity.value] += 1
+        severity = enum_value(issue.severity)
+        if severity in severity_distribution:
+            severity_distribution[severity] += 1
 
-    # --------------------------------------------------------
-    # Workflow pipeline
-    # --------------------------------------------------------
+    workflow_pipeline = {
+        "REPORTED": 0,
+        "TRIAGED": 0,
+        "IN_PROGRESS": 0,
+        "CODE_REVIEW": 0,
+        "QA_VERIFICATION": 0,
+        "RESOLVED": 0,
+        "CLOSED": 0
+    }
 
-    workflow_statuses = [
-        "REPORTED",
-        "IN_PROGRESS",
-        "QA_VERIFICATION",
-        "RESOLVED"
-    ]
+    for issue in issues:
+        status_value = enum_value(issue.status)
+        if status_value in workflow_pipeline:
+            workflow_pipeline[status_value] += 1
 
-    workflow_counts = {}
+    end_date = datetime.utcnow().date()
+    start_date = end_date - timedelta(days=13)
 
-    for workflow_status in workflow_statuses:
+    trends = []
+    for offset in range(14):
+        current_date = start_date + timedelta(days=offset)
 
-        workflow_counts[workflow_status] = sum(
-            1
-            for issue in issues
-            if issue.status.value == workflow_status
+        trends.append({
+            "date": current_date.isoformat(),
+            "new_bugs": sum(
+                1
+                for issue in issues
+                if issue.created_at
+                and issue.created_at.date() == current_date
+            ),
+            "resolved_bugs": sum(
+                1
+                for issue in issues
+                if issue.resolved_at
+                and issue.resolved_at.date() == current_date
+            )
+        })
+
+    return {
+        "severity_distribution": severity_distribution,
+        "workflow_pipeline": workflow_pipeline,
+        "trends": trends
+    }
+
+
+# ============================================================
+# ADMIN / SYSTEM-WIDE DEVELOPER WORKLOAD
+# ============================================================
+
+@router.get("/developer-workload")
+def developer_workload(
+    db: Session = Depends(get_db)
+):
+    developers = (
+        db.query(User)
+        .filter(User.role == "DEVELOPER")
+        .all()
+    )
+
+    # If the database uses a different role naming convention,
+    # include users who have developer-like skills as a fallback.
+    if not developers:
+        developers = (
+            db.query(User)
+            .filter(User.is_active.is_(True))
+            .all()
         )
 
-    # --------------------------------------------------------
-    # Defect trends - reuse the same calculation
-    # --------------------------------------------------------
+    all_issues = db.query(Issue).all()
+    results = []
 
-    from datetime import timedelta
+    for developer in developers:
+        active = [
+            issue
+            for issue in all_issues
+            if issue.assignee_id == developer.id
+            and enum_value(issue.status) in {
+                "IN_PROGRESS",
+                "CODE_REVIEW"
+            }
+        ]
 
-    today = datetime.utcnow().date()
+        completed = [
+            issue
+            for issue in all_issues
+            if issue.assignee_id == developer.id
+            and enum_value(issue.status) in {
+                "RESOLVED",
+                "CLOSED"
+            }
+        ]
+
+        times = [
+            hours
+            for issue in completed
+            if (hours := resolution_hours(issue)) is not None
+        ]
+
+        avg_mttr = round(
+            sum(times) / len(times),
+            2
+        ) if times else 0
+
+        active_count = len(active)
+
+        if active_count >= 6:
+            workload = "HIGH"
+        elif active_count >= 3:
+            workload = "MEDIUM"
+        else:
+            workload = "BALANCED"
+
+        results.append({
+            "user_id": developer.id,
+            "username": developer.username,
+            "full_name": developer.full_name,
+            "team": developer.team or "Unassigned",
+            "active_tasks": active_count,
+            "completed_fixes": len(completed),
+            "avg_mttr_hours": avg_mttr,
+            "workload_status": workload
+        })
+
+    return {
+        "total_developers": len(results),
+        "developers": results
+    }
+
+
+# ============================================================
+# USER-SPECIFIC ANALYTICS
+# ============================================================
+
+@router.get("/my/quality-metrics")
+def my_quality_metrics(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    issues = user_issue_query(
+        db,
+        current_user
+    ).all()
+
+    total_bugs = len(issues)
+    resolved_count = sum(
+        1 for issue in issues if is_resolved(issue)
+    )
+
+    fix_rate = round(
+        (resolved_count / total_bugs) * 100,
+        2
+    ) if total_bugs else 0
+
+    resolution_times = [
+        hours
+        for issue in issues
+        if (hours := resolution_hours(issue)) is not None
+    ]
+
+    mttr = round(
+        sum(resolution_times) / len(resolution_times),
+        2
+    ) if resolution_times else 0
+
+    production_bugs = sum(
+        1 for issue in issues
+        if is_production_issue(issue)
+    )
+
+    defect_leakage = round(
+        (production_bugs / total_bugs) * 100,
+        2
+    ) if total_bugs else 0
+
+    open_critical = sum(
+        1
+        for issue in issues
+        if enum_value(issue.severity) == "CRITICAL"
+        and not is_resolved(issue)
+    )
+
+    backlog_health = round(
+        max(
+            0,
+            100 - (
+                (open_critical / total_bugs) * 100
+            )
+        ),
+        2
+    ) if total_bugs else 100
+
+    return {
+        "user_id": current_user.id,
+        "username": current_user.username,
+        "full_name": current_user.full_name,
+        "total_bugs": total_bugs,
+        "fix_rate_percentage": fix_rate,
+        "mean_time_to_resolution_hours": mttr,
+        "defect_leakage_rate_percentage": defect_leakage,
+        "open_critical_bugs": open_critical,
+        "backlog_health_score": backlog_health
+    }
+
+
+@router.get("/my/defect-trends")
+def my_defect_trends(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    issues = user_issue_query(
+        db,
+        current_user
+    ).all()
+
+    end_date = datetime.utcnow().date()
+    start_date = end_date - timedelta(days=13)
 
     trends = []
 
-    for i in range(13, -1, -1):
+    for offset in range(14):
+        current_date = start_date + timedelta(days=offset)
 
-        current_date = today - timedelta(days=i)
-        next_date = current_date + timedelta(days=1)
+        new_bugs = sum(
+            1
+            for issue in issues
+            if issue.created_at
+            and issue.created_at.date() == current_date
+        )
 
-        new_bugs = db.query(Issue).filter(
-            Issue.created_at >= datetime.combine(
-                current_date,
-                datetime.min.time()
-            ),
-            Issue.created_at < datetime.combine(
-                next_date,
-                datetime.min.time()
-            )
-        ).count()
-
-        resolved_bugs = db.query(Issue).filter(
-            Issue.resolved_at >= datetime.combine(
-                current_date,
-                datetime.min.time()
-            ),
-            Issue.resolved_at < datetime.combine(
-                next_date,
-                datetime.min.time()
-            )
-        ).count()
+        resolved_bugs = sum(
+            1
+            for issue in issues
+            if issue.resolved_at
+            and issue.resolved_at.date() == current_date
+        )
 
         trends.append({
             "date": current_date.isoformat(),
@@ -283,152 +451,78 @@ def get_plotly_charts(db: Session = Depends(get_db)):
         })
 
     return {
-        "defect_trends": trends,
-        "severity_distribution": severity_counts,
-        "workflow_pipeline": workflow_counts
+        "user_id": current_user.id,
+        "username": current_user.username,
+        "full_name": current_user.full_name,
+        "trends": trends
     }
-    
-    # ============================================================
-# DEVELOPER WORKLOAD MATRIX
-# MODULE 4
-# ============================================================
 
-@router.get("/developer-workload")
-def get_developer_workload(
-    db: Session = Depends(get_db)
+
+@router.get("/my/plotly-charts")
+def my_plotly_charts(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
-    """
-    Returns workload and productivity statistics
-    for every active developer.
-    """
+    issues = user_issue_query(
+        db,
+        current_user
+    ).all()
 
-    # --------------------------------------------------------
-    # Get all active developers
-    # --------------------------------------------------------
+    severity_distribution = {
+        "CRITICAL": 0,
+        "MAJOR": 0,
+        "MINOR": 0,
+        "TRIVIAL": 0
+    }
 
-    developers = (
-        db.query(User)
-        .filter(
-            User.role == "DEVELOPER",
-            User.is_active == True
-        )
-        .order_by(User.full_name)
-        .all()
-    )
+    for issue in issues:
+        severity = enum_value(issue.severity)
+        if severity in severity_distribution:
+            severity_distribution[severity] += 1
 
-    results = []
+    workflow_pipeline = {
+        "REPORTED": 0,
+        "TRIAGED": 0,
+        "IN_PROGRESS": 0,
+        "CODE_REVIEW": 0,
+        "QA_VERIFICATION": 0,
+        "RESOLVED": 0,
+        "CLOSED": 0
+    }
 
-    # --------------------------------------------------------
-    # Calculate workload for each developer
-    # --------------------------------------------------------
+    for issue in issues:
+        status_value = enum_value(issue.status)
+        if status_value in workflow_pipeline:
+            workflow_pipeline[status_value] += 1
 
-    for developer in developers:
+    end_date = datetime.utcnow().date()
+    start_date = end_date - timedelta(days=13)
 
-        # ----------------------------------------------------
-        # Active Tasks
-        #
-        # Only IN_PROGRESS and CODE_REVIEW
-        # ----------------------------------------------------
+    trends = []
+    for offset in range(14):
+        current_date = start_date + timedelta(days=offset)
 
-        active_tasks = (
-            db.query(Issue)
-            .filter(
-                Issue.assignee_id == developer.id,
-                Issue.status.in_([
-                    IssueStatus.IN_PROGRESS,
-                    IssueStatus.CODE_REVIEW
-                ])
+        trends.append({
+            "date": current_date.isoformat(),
+            "new_bugs": sum(
+                1
+                for issue in issues
+                if issue.created_at
+                and issue.created_at.date() == current_date
+            ),
+            "resolved_bugs": sum(
+                1
+                for issue in issues
+                if issue.resolved_at
+                and issue.resolved_at.date() == current_date
             )
-            .count()
-        )
-
-        # ----------------------------------------------------
-        # Completed Fixes
-        #
-        # RESOLVED + CLOSED
-        # ----------------------------------------------------
-
-        completed_fixes = (
-            db.query(Issue)
-            .filter(
-                Issue.assignee_id == developer.id,
-                Issue.status.in_([
-                    IssueStatus.RESOLVED,
-                    IssueStatus.CLOSED
-                ])
-            )
-            .count()
-        )
-
-        # ----------------------------------------------------
-        # Average MTTR
-        #
-        # MTTR = resolved_at - created_at
-        #
-        # Only completed issues with valid timestamps
-        # are included.
-        # ----------------------------------------------------
-
-        mttr_result = (
-            db.query(
-                func.avg(
-                    func.extract(
-                        "epoch",
-                        Issue.resolved_at - Issue.created_at
-                    )
-                ) / 3600
-            )
-            .filter(
-                Issue.assignee_id == developer.id,
-                Issue.status.in_([
-                    IssueStatus.RESOLVED,
-                    IssueStatus.CLOSED
-                ]),
-                Issue.created_at.isnot(None),
-                Issue.resolved_at.isnot(None)
-            )
-            .scalar()
-        )
-
-        if mttr_result is None:
-            average_mttr_hours = 0.0
-        else:
-            average_mttr_hours = round(
-                float(mttr_result),
-                2
-            )
-
-        # ----------------------------------------------------
-        # Resource Balance Indicator
-        # ----------------------------------------------------
-
-        if active_tasks >= 8:
-            workload_status = "HIGH"
-        elif active_tasks >= 5:
-            workload_status = "MEDIUM"
-        else:
-            workload_status = "BALANCED"
-
-        # ----------------------------------------------------
-        # Add developer information
-        # ----------------------------------------------------
-
-        results.append({
-            "developer_id": developer.id,
-            "developer": developer.full_name,
-            "username": developer.username,
-            "team": developer.team or "Unassigned",
-            "active_tasks": active_tasks,
-            "completed_fixes": completed_fixes,
-            "average_mttr_hours": average_mttr_hours,
-            "workload_status": workload_status
         })
 
-    # --------------------------------------------------------
-    # Return response
-    # --------------------------------------------------------
-
     return {
-        "total_developers": len(results),
-        "developers": results
+        "user_id": current_user.id,
+        "username": current_user.username,
+        "full_name": current_user.full_name,
+        "severity_distribution": severity_distribution,
+        "workflow_pipeline": workflow_pipeline,
+        "trends": trends
     }
