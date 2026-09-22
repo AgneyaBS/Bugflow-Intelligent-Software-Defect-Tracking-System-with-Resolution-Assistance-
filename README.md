@@ -1,6 +1,6 @@
 # BugFlow – Software Issue Tracking & Resolution Platform
 
-BugFlow is a software issue tracking and resolution platform.. It is built with **FastAPI, PostgreSQL, SQLAlchemy and JWT authentication**, with a browser-based frontend.
+BugFlow is a software issue tracking and resolution platform.It is built with **FastAPI, PostgreSQL, SQLAlchemy and JWT authentication**, with a browser-based frontend.
 
 ## Project Overview
 
