@@ -2,11 +2,8 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>BugFlow | Report Issue</title>
 
@@ -15,1259 +12,846 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <link
-        rel="stylesheet"
-        href="css/user-theme.css">
-
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: #080d19;
+            color: #f9fafb;
+            font-size: 14px;
+            line-height: 1.5;
+        }
 
-/* =========================================================
-   RESET
-========================================================= */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
 
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-}
+        button {
+            cursor: pointer;
+        }
 
-body {
-    font-family: "Inter", "Segoe UI", Arial, sans-serif;
-    background: #080d19;
-    color: #f9fafb;
-    font-size: 14px;
-    line-height: 1.5;
-}
+        /* =========================
+           APP LAYOUT
+        ========================= */
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
 
-button,
-input,
-select,
-textarea {
-    font-family: inherit;
-}
+        /* =========================
+           SIDEBAR
+        ========================= */
 
-button {
-    cursor: pointer;
-}
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            min-height: 100vh;
 
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
 
-/* =========================================================
-   MAIN APP LAYOUT
-========================================================= */
+            background: #111827;
+            color: #ffffff;
 
-.app-layout {
-    display: flex;
-    min-height: 100vh;
-    width: 100%;
-}
+            display: flex;
+            flex-direction: column;
 
+            border-right: 1px solid #1f2937;
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+            z-index: 1000;
+        }
 
-.sidebar {
-    width: 250px;
-    min-width: 250px;
-    min-height: 100vh;
+        .brand {
+            height: 75px;
 
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
+            display: flex;
+            align-items: center;
 
-    background: #111827;
-    color: #ffffff;
+            padding: 0 25px;
 
-    display: flex;
-    flex-direction: column;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-    border-right: 1px solid #1f2937;
+        .brand-icon {
+            width: 38px;
+            height: 38px;
 
-    z-index: 1000;
-}
+            border-radius: 10px;
 
+            background: #4f46e5;
 
-/* =========================================================
-   BRAND
-========================================================= */
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-.brand {
-    height: 75px;
+            margin-right: 12px;
 
-    display: flex;
-    align-items: center;
+            color: #ffffff;
+            font-size: 18px;
+        }
 
-    padding: 0 25px;
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+        }
 
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
+        .brand-text span {
+            color: #818cf8;
+        }
 
-.brand-icon {
-    width: 38px;
-    height: 38px;
+        .sidebar-back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    border-radius: 10px;
+            gap: 7px;
 
-    background: #4f46e5;
+            margin: 15px 15px 20px auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            padding: 8px 14px;
 
-    margin-right: 12px;
+            min-width: 78px;
 
-    color: #ffffff;
-    font-size: 18px;
-}
+            background: #111827;
+            color: #d1d5db;
 
-.brand-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: #ffffff;
-}
+            border: 1px solid #374151;
 
-.brand-text span {
-    color: #818cf8;
-}
+            border-radius: 7px;
 
+            font-size: 13px;
+            font-weight: 600;
 
-/* =========================================================
-   SIDEBAR BACK BUTTON
-========================================================= */
+            cursor: pointer;
 
-.sidebar-back-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            transition: all 0.2s ease;
+        }
 
-    gap: 7px;
+        .sidebar-back-button i {
+            color: #818cf8;
+        }
 
-    margin: 15px 15px 20px auto;
+        .sidebar-back-button:hover {
+            background: #1f2937;
+            color: #ffffff;
+            border-color: #4f46e5;
+            transform: translateX(-2px);
+        }
 
-    padding: 8px 14px;
+        .sidebar-back-button:hover i {
+            color: #ffffff;
+        }
 
-    min-width: 78px;
+        .sidebar-section {
+            padding: 10px 15px 10px;
+        }
 
-    background: #111827 !important;
-    color: #d1d5db !important;
+        .sidebar-heading {
+            font-size: 11px;
 
-    border: 1px solid #374151 !important;
+            text-transform: uppercase;
 
-    border-radius: 7px;
+            letter-spacing: 1px;
 
-    font-size: 13px;
-    font-weight: 600;
+            color: #9ca3af;
 
-    cursor: pointer;
+            padding: 0 12px 10px;
+        }
 
-    transition: all 0.2s ease;
-}
+        .nav-link {
+            display: flex;
+            align-items: center;
 
-.sidebar-back-button i {
-    color: #818cf8 !important;
-}
+            gap: 13px;
 
-.sidebar-back-button:hover {
-    background: #1f2937 !important;
-    color: #ffffff !important;
+            padding: 12px 13px;
 
-    border-color: #4f46e5 !important;
+            border-radius: 8px;
 
-    transform: translateX(-2px);
-}
+            color: #9ca3af;
 
-.sidebar-back-button:hover i {
-    color: #ffffff !important;
-}
+            font-size: 15px;
 
+            margin-bottom: 5px;
 
-/* =========================================================
-   SIDEBAR SECTION
-========================================================= */
+            transition: all 0.2s ease;
+        }
 
-.sidebar-section {
-    padding: 10px 15px 10px;
-}
+        .nav-link i {
+            width: 20px;
+            min-width: 20px;
 
-.sidebar-heading {
-    font-size: 11px;
+            text-align: center;
 
-    text-transform: uppercase;
+            color: #9ca3af;
 
-    letter-spacing: 1px;
+            transition: 0.2s ease;
+        }
 
-    color: #9ca3af;
+        .nav-link:hover {
+            background: #1f2937;
+            color: #ffffff;
+        }
 
-    padding: 0 12px 10px;
-}
+        .nav-link:hover i {
+            color: #ffffff;
+        }
 
+        .nav-link.active {
+            background: #4f46e5;
+            color: #ffffff;
+        }
 
-/* =========================================================
-   NAVIGATION LINKS
-========================================================= */
+        .nav-link.active i {
+            color: #ffffff;
+        }
 
-.nav-link {
-    display: flex;
-    align-items: center;
+        .sidebar-bottom {
+            margin-top: auto;
 
-    gap: 13px;
+            padding: 15px;
 
-    padding: 12px 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-    border-radius: 8px;
+        .logout-link {
+            color: #9ca3af;
+        }
 
-    color: #9ca3af;
+        .logout-link i {
+            color: #9ca3af;
+        }
 
-    font-size: 15px;
+        .logout-link:hover {
+            background: #7f1d1d;
+            color: #ffffff;
+        }
 
-    margin-bottom: 5px;
+        .logout-link:hover i {
+            color: #ffffff;
+        }
 
-    transition: all 0.2s ease;
-}
+        /* =========================
+           MAIN CONTENT
+        ========================= */
 
-.nav-link i {
-    width: 20px;
+        .main-content {
+            margin-left: 250px;
 
-    min-width: 20px;
+            width: calc(100% - 250px);
 
-    text-align: center;
+            min-height: 100vh;
 
-    color: #9ca3af;
+            background: #080d19;
+        }
 
-    transition: 0.2s ease;
-}
+        /* =========================
+           TOPBAR
+        ========================= */
 
-.nav-link:hover {
-    background: #1f2937;
-    color: #ffffff;
-}
+        .topbar {
+            height: 75px;
 
-.nav-link:hover i {
-    color: #ffffff;
-}
+            background: #080d19;
 
+            border-bottom: 1px solid #1f2937;
 
-/* ACTIVE NAVIGATION */
+            display: flex;
 
-.nav-link.active {
-    background: #4f46e5;
-    color: #ffffff;
-}
+            align-items: center;
 
-.nav-link.active i {
-    color: #ffffff;
-}
+            justify-content: space-between;
 
+            padding: 0 32px;
+        }
 
-/* =========================================================
-   SIDEBAR BOTTOM
-========================================================= */
+        .page-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #f9fafb;
+        }
 
-.sidebar-bottom {
-    margin-top: auto;
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    padding: 15px;
+        /* =========================
+           NOTIFICATION
+        ========================= */
 
-    border-top: 1px solid rgba(255,255,255,0.08);
-}
+        .notification {
+            width: 42px;
+            height: 42px;
 
-.logout-link {
-    color: #9ca3af;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-.logout-link i {
-    color: #9ca3af;
-}
+            background: #111827;
 
-.logout-link:hover {
-    background: #7f1d1d;
-    color: #ffffff;
-}
+            color: #d1d5db;
 
-.logout-link:hover i {
-    color: #ffffff;
-}
+            border: 1px solid #374151;
 
+            border-radius: 8px;
 
-/* =========================================================
-   MAIN CONTENT
-========================================================= */
+            cursor: pointer;
 
-.main-content {
-    margin-left: 250px;
+            transition: all 0.2s ease;
+        }
 
-    width: calc(100% - 250px);
+        .notification i {
+            font-size: 16px;
+        }
 
-    min-height: 100vh;
+        .notification:hover {
+            background: #1f2937;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
 
-    background: #080d19;
-}
+        /* =========================
+           USER PROFILE
+        ========================= */
 
+        .user-profile {
+            display: flex;
+            align-items: center;
 
-/* =========================================================
-   TOPBAR
-========================================================= */
+            gap: 10px;
 
-.topbar {
-    height: 75px;
+            padding: 4px 7px;
 
-    background: #080d19;
+            border-radius: 9px;
 
-    border-bottom: 1px solid #1f2937;
+            cursor: pointer;
 
-    display: flex;
+            transition: all 0.2s ease;
+        }
 
-    align-items: center;
+        .user-profile:hover {
+            background: #111827;
+        }
 
-    justify-content: space-between;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
 
-    padding: 0 32px;
-}
+            min-width: 40px;
 
+            border-radius: 50%;
 
-/* =========================================================
-   TOPBAR TITLE
-========================================================= */
+            background: #4f46e5;
+            color: #ffffff;
 
-.topbar-title {
-    display: flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    flex-direction: column;
+            font-weight: 700;
+            font-size: 14px;
 
-    gap: 2px;
-}
+            overflow: hidden;
 
-.topbar-title span {
-    font-size: 9px;
+            border: 1px solid #6366f1;
+        }
 
-    text-transform: uppercase;
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
 
-    letter-spacing: 1.2px;
+            object-fit: cover;
 
-    color: #64748b;
-}
+            display: block;
+        }
 
-.topbar-title strong {
-    font-size: 14px;
+        .user-name {
+            font-size: 13px;
 
-    font-weight: 700;
+            font-weight: 700;
 
-    color: #f9fafb;
-}
+            color: #f9fafb;
+        }
 
+        .user-role {
+            font-size: 10px;
 
-/* =========================================================
-   TOPBAR RIGHT
-========================================================= */
+            color: #9ca3af;
 
-.topbar-right {
-    display: flex;
+            margin-top: 2px;
 
-    align-items: center;
+            display: block;
+        }
 
-    gap: 12px;
-}
+        /* =========================
+           PAGE CONTENT
+        ========================= */
 
+        .content {
+            padding: 38px 32px 50px;
 
-/* =========================================================
-   NOTIFICATION BUTTON
-========================================================= */
+            max-width: 1500px;
 
-.notification-button {
-    width: 42px;
-    height: 42px;
+            margin: 0 auto;
+        }
 
-    display: flex;
+        .page-heading {
+            margin-bottom: 25px;
+        }
 
-    align-items: center;
-    justify-content: center;
+        .page-heading h1 {
+            font-size: 30px;
 
-    background: #111827 !important;
+            line-height: 1.2;
 
-    color: #d1d5db !important;
+            font-weight: 700;
 
-    border: 1px solid #374151 !important;
+            color: #f9fafb;
 
-    border-radius: 8px;
+            margin-bottom: 7px;
+        }
 
-    text-decoration: none;
+        .page-heading p {
+            color: #94a3b8;
 
-    cursor: pointer;
+            font-size: 14px;
+        }
 
-    transition: all 0.2s ease;
-}
+        /* =========================
+           FORM CARD
+        ========================= */
 
-.notification-button i {
-    color: #d1d5db !important;
+        .form-card {
+            background: #0f172a;
 
-    font-size: 16px;
-}
+            border: 1px solid #1f2937;
 
-.notification-button:hover {
-    background: #1f2937 !important;
+            border-radius: 12px;
 
-    color: #ffffff !important;
+            overflow: hidden;
 
-    border-color: #4f46e5 !important;
-}
+            margin-bottom: 20px;
 
-.notification-button:hover i {
-    color: #ffffff !important;
-}
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
 
+        .form-header {
+            padding: 20px 24px;
 
-/* =========================================================
-   USER PROFILE
-========================================================= */
+            border-bottom: 1px solid #1f2937;
 
-.user-profile {
-    display: flex;
+            background: #0f172a;
+        }
 
-    align-items: center;
+        .form-header h2 {
+            font-size: 17px;
 
-    gap: 10px;
+            font-weight: 700;
 
-    padding: 4px 6px;
+            color: #f9fafb;
 
-    border-radius: 8px;
+            margin-bottom: 4px;
+        }
 
-    transition: 0.2s ease;
-}
+        .form-header p {
+            color: #64748b;
 
-.user-profile:hover {
-    background: #111827;
-}
+            font-size: 12px;
+        }
 
-.user-avatar {
-    width: 38px;
-    height: 38px;
+        .form-body {
+            padding: 24px;
+        }
 
-    border-radius: 50%;
+        .form-grid {
+            display: grid;
 
-    background: #4f46e5;
+            grid-template-columns: 1fr 1fr;
 
-    color: #ffffff;
+            gap: 0 20px;
+        }
 
-    display: flex;
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
 
-    align-items: center;
-    justify-content: center;
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    font-weight: 700;
+        .form-group label {
+            display: block;
 
-    font-size: 14px;
-}
+            font-size: 13px;
 
-.user-name {
-    font-size: 13px;
+            font-weight: 600;
 
-    font-weight: 700;
+            color: #e5e7eb;
 
-    color: #f9fafb;
-}
+            margin-bottom: 8px;
+        }
 
-.user-role {
-    font-size: 10px;
+        .required {
+            color: #f87171;
+        }
 
-    color: #9ca3af;
+        input,
+        select,
+        textarea {
+            width: 100%;
 
-    margin-top: 2px;
+            padding: 12px 13px;
 
-    display: block;
-}
+            border: 1px solid #334155;
 
+            border-radius: 8px;
 
-/* =========================================================
-   PAGE CONTENT
-========================================================= */
+            background: #111827;
 
-.content {
-    padding: 38px 32px 50px;
+            color: #f9fafb;
 
-    max-width: 1500px;
+            font-size: 13px;
 
-    margin: 0 auto;
-}
+            outline: none;
 
+            transition: all 0.2s ease;
+        }
 
-/* =========================================================
-   WELCOME / PAGE HEADING
-========================================================= */
+        input::placeholder,
+        textarea::placeholder {
+            color: #64748b;
+        }
 
-.welcome-section {
-    margin-bottom: 25px;
-}
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4f46e5;
 
-.welcome-section h1 {
-    font-size: 30px;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
 
-    line-height: 1.2;
+            background: #111827;
+        }
 
-    font-weight: 700;
+        select {
+            cursor: pointer;
+        }
 
-    color: #f9fafb;
+        select option {
+            background: #111827;
 
-    margin-bottom: 7px;
-}
+            color: #ffffff;
+        }
 
-.welcome-section p {
-    color: #94a3b8;
+        textarea {
+            min-height: 115px;
 
-    font-size: 14px;
-}
+            resize: vertical;
 
+            line-height: 1.5;
+        }
 
-/* =========================================================
-   CARDS
-========================================================= */
+        input[readonly] {
+            background: #0b1220;
 
-.card {
-    background: #0f172a;
+            color: #64748b;
 
-    border: 1px solid #1f2937;
+            cursor: not-allowed;
+        }
 
-    border-radius: 12px;
+        .small-text {
+            display: block;
 
-    overflow: hidden;
+            margin-top: 6px;
 
-    margin-bottom: 20px;
+            font-size: 11px;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-}
+            color: #64748b;
 
-.card-header {
-    padding: 20px 24px;
+            line-height: 1.4;
+        }
 
-    border-bottom: 1px solid #1f2937;
+        .form-actions {
+            display: flex;
 
-    background: #0f172a;
-}
+            align-items: center;
 
-.card-header h2 {
-    font-size: 17px;
+            justify-content: flex-end;
 
-    font-weight: 700;
+            gap: 10px;
 
-    color: #f9fafb;
+            padding-top: 18px;
 
-    margin-bottom: 4px;
-}
+            margin-top: 8px;
 
-.card-header p {
-    color: #64748b;
+            border-top: 1px solid #1f2937;
+        }
 
-    font-size: 12px;
-}
+        .btn {
+            display: inline-flex;
 
-.card-body {
-    padding: 24px;
-}
+            align-items: center;
 
+            justify-content: center;
 
-/* =========================================================
-   FORM GRID
-========================================================= */
+            gap: 8px;
 
-.form-grid {
-    display: grid;
+            padding: 11px 18px;
 
-    grid-template-columns: 1fr 1fr;
+            border-radius: 8px;
 
-    gap: 0 20px;
-}
+            font-size: 13px;
 
+            font-weight: 600;
 
-/* Full width field */
+            border: none;
 
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
+            transition: all 0.2s ease;
+        }
 
+        .primary-btn {
+            background: #4f46e5;
 
-/* =========================================================
-   FORM GROUP
-========================================================= */
+            color: #ffffff;
+        }
 
-.form-group {
-    margin-bottom: 20px;
-}
+        .primary-btn:hover {
+            background: #4338ca;
 
+            transform: translateY(-1px);
+        }
 
-/* =========================================================
-   FORM LABEL
-========================================================= */
+        .primary-btn:disabled {
+            opacity: 0.6;
 
-.form-label {
-    display: block;
+            cursor: not-allowed;
 
-    font-size: 13px;
+            transform: none;
+        }
 
-    font-weight: 600;
+        .secondary-btn {
+            background: #111827;
 
-    color: #e5e7eb;
+            color: #d1d5db;
 
-    margin-bottom: 8px;
-}
+            border: 1px solid #374151;
+        }
 
-.form-label .required {
-    color: #f87171;
-}
+        .secondary-btn:hover {
+            background: #1f2937;
 
+            color: #ffffff;
 
-/* =========================================================
-   INPUT / SELECT / TEXTAREA
-========================================================= */
+            border-color: #4f46e5;
+        }
 
-input,
-select,
-textarea,
-.issue-select {
-    width: 100%;
+        /* =========================
+           MESSAGES
+        ========================= */
 
-    padding: 12px 13px;
+        #formMessage {
+            margin-bottom: 18px;
+        }
 
-    border: 1px solid #334155;
+        .error-message {
+            padding: 13px 15px;
 
-    border-radius: 8px;
+            border-radius: 8px;
 
-    background: #111827;
+            background: #3f1111;
 
-    color: #f9fafb;
+            color: #fca5a5;
 
-    font-size: 13px;
+            border: 1px solid #7f1d1d;
 
-    outline: none;
+            font-size: 12px;
 
-    transition: all 0.2s ease;
-}
+            line-height: 1.5;
+        }
 
+        .success-message {
+            padding: 13px 15px;
 
-/* Placeholder */
+            border-radius: 8px;
 
-input::placeholder,
-textarea::placeholder {
-    color: #64748b;
-}
+            background: #052e1a;
 
+            color: #86efac;
 
-/* Focus */
+            border: 1px solid #166534;
 
-input:focus,
-select:focus,
-textarea:focus,
-.issue-select:focus {
-    border-color: #4f46e5;
+            font-size: 12px;
 
-    box-shadow: 0 0 0 2px rgba(79,70,229,0.15);
+            line-height: 1.5;
+        }
 
-    background: #111827;
-}
+        .loading-message {
+            padding: 13px 15px;
 
+            border-radius: 8px;
 
-/* Select */
+            background: #172033;
 
-select {
-    appearance: auto;
+            color: #cbd5e1;
 
-    cursor: pointer;
-}
+            border: 1px solid #334155;
 
+            font-size: 12px;
+        }
 
-/* Select options */
+        /* =========================
+           SCROLLBAR
+        ========================= */
 
-select option {
-    background: #111827;
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-    color: #ffffff;
-}
+        ::-webkit-scrollbar-track {
+            background: #080d19;
+        }
 
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
 
-/* Textarea */
+            border-radius: 10px;
+        }
 
-textarea {
-    min-height: 110px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
 
-    resize: vertical;
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
-    line-height: 1.5;
-}
+        @media (max-width: 1000px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
 
+            .form-group.full-width {
+                grid-column: auto;
+            }
+        }
 
-/* =========================================================
-   DISABLED / READONLY INPUT
-========================================================= */
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 220px;
 
-input:disabled,
-input[readonly],
-select:disabled,
-textarea:disabled {
-    background: #0b1220;
+                min-width: 220px;
+            }
 
-    color: #64748b;
+            .main-content {
+                margin-left: 220px;
 
-    cursor: not-allowed;
+                width: calc(100% - 220px);
+            }
 
-    opacity: 1;
-}
+            .content {
+                padding: 25px 20px;
+            }
 
+            .topbar {
+                padding: 0 20px;
+            }
 
-/* =========================================================
-   FIELD HELP TEXT
-========================================================= */
+            .user-name,
+            .user-role {
+                display: none;
+            }
+        }
 
-.form-help {
-    display: block;
+        @media (max-width: 650px) {
+            .app-layout {
+                display: block;
+            }
 
-    margin-top: 6px;
+            .sidebar {
+                position: relative;
 
-    font-size: 11px;
+                width: 100%;
 
-    color: #64748b;
+                min-width: 100%;
 
-    line-height: 1.4;
-}
+                min-height: auto;
+            }
 
+            .main-content {
+                margin-left: 0;
 
-/* =========================================================
-   ISSUE SELECT
-========================================================= */
+                width: 100%;
+            }
 
-.issue-select {
-    background: #111827;
+            .sidebar-bottom {
+                margin-top: 0;
+            }
 
-    color: #f9fafb;
-}
+            .topbar {
+                height: 65px;
 
+                padding: 0 15px;
+            }
 
-/* =========================================================
-   BUTTONS
-========================================================= */
+            .content {
+                padding: 20px 15px;
+            }
 
-.primary-btn,
-.submit-btn,
-.analyze-btn {
-    display: inline-flex;
+            .page-heading h1 {
+                font-size: 25px;
+            }
 
-    align-items: center;
+            .form-body {
+                padding: 18px;
+            }
 
-    justify-content: center;
+            .form-header {
+                padding: 18px;
+            }
 
-    gap: 8px;
+            .form-actions {
+                flex-direction: column-reverse;
+            }
 
-    padding: 11px 18px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #4f46e5;
-
-    color: #ffffff;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.primary-btn:hover,
-.submit-btn:hover,
-.analyze-btn:hover {
-    background: #4338ca;
-
-    transform: translateY(-1px);
-}
-
-.primary-btn:disabled,
-.submit-btn:disabled,
-.analyze-btn:disabled {
-    opacity: 0.6;
-
-    cursor: not-allowed;
-
-    transform: none;
-}
-
-
-/* =========================================================
-   FORM ACTIONS
-========================================================= */
-
-.form-actions {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    padding-top: 8px;
-
-    margin-top: 10px;
-
-    border-top: 1px solid #1f2937;
-}
-
-
-/* =========================================================
-   ERROR MESSAGE
-========================================================= */
-
-.error-message {
-    display: none;
-
-    margin-bottom: 18px;
-
-    padding: 12px 14px;
-
-    border-radius: 8px;
-
-    background: #3f1111;
-
-    color: #fca5a5;
-
-    border: 1px solid #7f1d1d;
-
-    font-size: 12px;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   SUCCESS MESSAGE
-========================================================= */
-
-.success-message {
-    display: none;
-
-    margin-bottom: 18px;
-
-    padding: 12px 14px;
-
-    border-radius: 8px;
-
-    background: #052e1a;
-
-    color: #86efac;
-
-    border: 1px solid #166534;
-
-    font-size: 12px;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading {
-    text-align: center;
-
-    padding: 30px;
-
-    color: #64748b;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   EMPTY STATE
-========================================================= */
-
-.empty-state {
-    text-align: center;
-
-    padding: 35px 20px;
-
-    color: #64748b;
-}
-
-.empty-state i {
-    font-size: 35px;
-
-    margin-bottom: 12px;
-
-    color: #475569;
-}
-
-
-/* =========================================================
-   ISSUE DETAILS
-========================================================= */
-
-.issue-details {
-    display: none;
-
-    margin-top: 20px;
-
-    padding: 18px;
-
-    background: #111827;
-
-    border: 1px solid #1f2937;
-
-    border-radius: 10px;
-}
-
-.issue-details h3 {
-    font-size: 15px;
-
-    color: #f9fafb;
-
-    margin-bottom: 12px;
-}
-
-.detail-grid {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 12px;
-}
-
-.detail-box {
-    background: #0f172a;
-
-    border: 1px solid #1f2937;
-
-    border-radius: 8px;
-
-    padding: 12px;
-}
-
-.detail-label {
-    font-size: 10px;
-
-    text-transform: uppercase;
-
-    color: #64748b;
-
-    margin-bottom: 4px;
-}
-
-.detail-value {
-    font-size: 13px;
-
-    font-weight: 600;
-
-    color: #e5e7eb;
-}
-
-
-/* =========================================================
-   ASSISTANCE CARD
-========================================================= */
-
-.assistance-card {
-    display: none;
-}
-
-.assistance-header {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 18px;
-}
-
-.assistance-icon {
-    width: 44px;
-    height: 44px;
-
-    border-radius: 10px;
-
-    background: #1e1b4b;
-
-    color: #818cf8;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 19px;
-}
-
-.assistance-title {
-    font-size: 16px;
-
-    font-weight: 700;
-
-    color: #f9fafb;
-}
-
-.assistance-subtitle {
-    font-size: 12px;
-
-    color: #64748b;
-
-    margin-top: 3px;
-}
-
-.recommendation {
-    margin-bottom: 14px;
-
-    padding: 15px;
-
-    border: 1px solid #1f2937;
-
-    border-radius: 9px;
-
-    background: #111827;
-}
-
-.recommendation h3 {
-    font-size: 13px;
-
-    color: #f9fafb;
-
-    margin-bottom: 7px;
-}
-
-.recommendation p {
-    font-size: 12px;
-
-    color: #94a3b8;
-
-    line-height: 1.6;
-}
-
-.steps {
-    padding-left: 20px;
-
-    margin-top: 7px;
-}
-
-.steps li {
-    font-size: 12px;
-
-    color: #94a3b8;
-
-    line-height: 1.7;
-}
-
-.warning-box {
-    background: #422006;
-
-    color: #fbbf24;
-
-    border: 1px solid #92400e;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    font-size: 12px;
-
-    line-height: 1.5;
-
-    margin-top: 15px;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #080d19;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #334155;
-
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #475569;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1000px) {
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-group.full-width {
-        grid-column: auto;
-    }
-
-    .detail-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-
-@media (max-width: 800px) {
-
-    .sidebar {
-        width: 220px;
-
-        min-width: 220px;
-    }
-
-    .main-content {
-        margin-left: 220px;
-
-        width: calc(100% - 220px);
-    }
-
-    .content {
-        padding: 25px 20px;
-    }
-
-    .topbar {
-        padding: 0 20px;
-    }
-
-    .user-name,
-    .user-role {
-        display: none;
-    }
-}
-
-
-@media (max-width: 650px) {
-
-    .app-layout {
-        display: block;
-    }
-
-    .sidebar {
-        position: relative;
-
-        width: 100%;
-
-        min-width: 100%;
-
-        min-height: auto;
-    }
-
-    .main-content {
-        margin-left: 0;
-
-        width: 100%;
-    }
-
-    .sidebar-section {
-        padding-bottom: 10px;
-    }
-
-    .sidebar-bottom {
-        margin-top: 0;
-    }
-
-    .topbar {
-        height: 65px;
-
-        padding: 0 15px;
-    }
-
-    .content {
-        padding: 20px 15px;
-    }
-
-    .welcome-section h1 {
-        font-size: 25px;
-    }
-
-    .detail-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .topbar-title span {
-        display: none;
-    }
-}
-
-
-/* =========================================================
-   EXTRA FORCE - DARK BACK + BELL
-   Prevent other CSS / notification.js styles from changing
-   them back to white.
-========================================================= */
-
-.sidebar button.sidebar-back-button,
-.sidebar .sidebar-back-button {
-    background-color: #111827 !important;
-    color: #d1d5db !important;
-    border-color: #374151 !important;
-}
-
-.sidebar button.sidebar-back-button:hover,
-.sidebar .sidebar-back-button:hover {
-    background-color: #1f2937 !important;
-    color: #ffffff !important;
-    border-color: #4f46e5 !important;
-}
-
-.topbar a.notification-button,
-.topbar .notification-button {
-    background-color: #111827 !important;
-    color: #d1d5db !important;
-    border-color: #374151 !important;
-}
-
-.topbar a.notification-button i,
-.topbar .notification-button i {
-    color: #d1d5db !important;
-}
-
-.topbar a.notification-button:hover,
-.topbar .notification-button:hover {
-    background-color: #1f2937 !important;
-    color: #ffffff !important;
-    border-color: #4f46e5 !important;
-}
-
-.topbar a.notification-button:hover i,
-.topbar .notification-button:hover i {
-    color: #ffffff !important;
-}
-
-</style>
-
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="app-layout">
 
-    <!-- =====================================================
+    <!-- =========================
          SIDEBAR
-    ===================================================== -->
+    ========================== -->
 
     <aside class="sidebar">
 
@@ -1284,6 +868,7 @@ textarea:disabled {
         </div>
 
         <button
+            type="button"
             class="sidebar-back-button"
             onclick="history.back()"
         >
@@ -1359,7 +944,7 @@ textarea:disabled {
 
             <a
                 href="#"
-                class="nav-link"
+                class="nav-link logout-link"
                 id="logoutLink"
             >
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -1370,10 +955,9 @@ textarea:disabled {
 
     </aside>
 
-
-    <!-- =====================================================
+    <!-- =========================
          MAIN CONTENT
-    ===================================================== -->
+    ========================== -->
 
     <main class="main-content">
 
@@ -1393,7 +977,14 @@ textarea:disabled {
                     <i class="fa-regular fa-bell"></i>
                 </a>
 
-                <div class="user-profile">
+                <!-- SHARED USER PROFILE -->
+
+                <a
+                    href="user-profile.html"
+                    class="user-profile"
+                    id="profileLink"
+                    title="Open Profile"
+                >
 
                     <div
                         class="user-avatar"
@@ -1420,12 +1011,15 @@ textarea:disabled {
 
                     </div>
 
-                </div>
+                </a>
 
             </div>
 
         </header>
 
+        <!-- =========================
+             PAGE CONTENT
+        ========================== -->
 
         <section class="content">
 
@@ -1440,7 +1034,6 @@ textarea:disabled {
                 </p>
 
             </div>
-
 
             <div class="form-card">
 
@@ -1458,10 +1051,9 @@ textarea:disabled {
 
                 </div>
 
-
                 <div class="form-body">
 
-                    <div id="formMessage"></div>
+                    <div id="formMessage" style="display:none;"></div>
 
                     <form id="issueForm">
 
@@ -1485,7 +1077,6 @@ textarea:disabled {
                                 >
 
                             </div>
-
 
                             <!-- PROJECT -->
 
@@ -1513,7 +1104,6 @@ textarea:disabled {
 
                             </div>
 
-
                             <!-- CATEGORY -->
 
                             <div class="form-group">
@@ -1539,7 +1129,6 @@ textarea:disabled {
                                 </small>
 
                             </div>
-
 
                             <!-- ISSUE TYPE -->
 
@@ -1574,7 +1163,6 @@ textarea:disabled {
                                 </select>
 
                             </div>
-
 
                             <!-- SEVERITY -->
 
@@ -1614,7 +1202,6 @@ textarea:disabled {
 
                             </div>
 
-
                             <!-- PRIORITY -->
 
                             <div class="form-group">
@@ -1636,7 +1223,6 @@ textarea:disabled {
 
                             </div>
 
-
                             <!-- ENVIRONMENT -->
 
                             <div class="form-group">
@@ -1653,7 +1239,6 @@ textarea:disabled {
                                 >
 
                             </div>
-
 
                             <!-- AFFECTED MODULE -->
 
@@ -1672,7 +1257,6 @@ textarea:disabled {
 
                             </div>
 
-
                             <!-- DESCRIPTION -->
 
                             <div class="form-group full-width">
@@ -1690,8 +1274,7 @@ textarea:disabled {
 
                             </div>
 
-
-                            <!-- REPRODUCTION -->
+                            <!-- REPRODUCTION STEPS -->
 
                             <div class="form-group full-width">
 
@@ -1705,7 +1288,6 @@ textarea:disabled {
                                 ></textarea>
 
                             </div>
-
 
                             <!-- EXPECTED -->
 
@@ -1721,7 +1303,6 @@ textarea:disabled {
                                 ></textarea>
 
                             </div>
-
 
                             <!-- ACTUAL -->
 
@@ -1739,7 +1320,6 @@ textarea:disabled {
                             </div>
 
                         </div>
-
 
                         <div class="form-actions">
 
@@ -1774,24 +1354,13 @@ textarea:disabled {
 
 </div>
 
-
 <script>
 
 /* =========================================================
    CONFIGURATION
 ========================================================= */
 
-const API_BASE_URL =
-    "http://127.0.0.1:8000";
-
-
-/*
- * Category endpoint.
- *
- * IMPORTANT:
- * Change only this URL if your FastAPI project
- * exposes categories under a different route.
- */
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 const CATEGORY_API_URL =
     `${API_BASE_URL}/api/categories/`;
@@ -1803,9 +1372,7 @@ const CATEGORY_API_URL =
 
 function getToken() {
 
-    return localStorage.getItem(
-        "access_token"
-    );
+    return localStorage.getItem("access_token");
 
 }
 
@@ -1816,13 +1383,11 @@ function getToken() {
 
 function requireLogin() {
 
-    const token =
-        getToken();
+    const token = getToken();
 
     if (!token) {
 
-        window.location.href =
-            "index.html";
+        window.location.href = "index.html";
 
         return false;
     }
@@ -1832,7 +1397,7 @@ function requireLogin() {
 
 
 /* =========================================================
-   GET LOGGED-IN USER
+   STORED USER
 ========================================================= */
 
 function getStoredUser() {
@@ -1846,9 +1411,7 @@ function getStoredUser() {
 
     try {
 
-        return JSON.parse(
-            storedUser
-        );
+        return JSON.parse(storedUser);
 
     } catch (error) {
 
@@ -1857,9 +1420,7 @@ function getStoredUser() {
             error
         );
 
-        localStorage.removeItem(
-            "user"
-        );
+        localStorage.removeItem("user");
 
         return null;
     }
@@ -1884,14 +1445,60 @@ function getInitials(name) {
         return parts[0]
             .substring(0, 2)
             .toUpperCase();
-
     }
 
     return (
         parts[0][0] +
         parts[parts.length - 1][0]
     ).toUpperCase();
+}
 
+
+/* =========================================================
+   PROFILE IMAGE URL
+========================================================= */
+
+function getProfileImageUrl(profilePicture) {
+
+    /*
+     * IMPORTANT:
+     *
+     * null / empty / undefined means
+     * the user has removed the picture.
+     *
+     * We MUST NOT create an image URL in
+     * this case.
+     */
+
+    if (
+        profilePicture === null ||
+        profilePicture === undefined ||
+        profilePicture === ""
+    ) {
+        return null;
+    }
+
+    const value =
+        String(profilePicture).trim();
+
+    if (!value) {
+        return null;
+    }
+
+    if (
+        value.startsWith("http://") ||
+        value.startsWith("https://") ||
+        value.startsWith("data:")
+    ) {
+        return value;
+    }
+
+    if (value.startsWith("/")) {
+
+        return `${API_BASE_URL}${value}`;
+    }
+
+    return `${API_BASE_URL}/${value}`;
 }
 
 
@@ -1915,26 +1522,19 @@ function displayUser(user) {
         "TESTER";
 
     const nameElement =
-        document.getElementById(
-            "topUserName"
-        );
+        document.getElementById("topUserName");
 
     const roleElement =
-        document.getElementById(
-            "topUserRole"
-        );
+        document.getElementById("topUserRole");
 
     const avatarElement =
-        document.getElementById(
-            "userAvatar"
-        );
+        document.getElementById("userAvatar");
 
 
     if (nameElement) {
 
         nameElement.textContent =
             name;
-
     }
 
 
@@ -1942,31 +1542,83 @@ function displayUser(user) {
 
         roleElement.textContent =
             role;
-
     }
 
 
     if (avatarElement) {
 
-        if (user.profile_picture) {
+        /*
+         * ALWAYS clear old image first.
+         *
+         * This is important when the user
+         * removes the profile picture.
+         */
 
-            avatarElement.innerHTML =
-                `<img src="${user.profile_picture}" alt="Profile Picture">`;
+        avatarElement.innerHTML = "";
 
-        } else {
+        const imageUrl =
+            getProfileImageUrl(
+                user.profile_picture
+            );
+
+
+        /*
+         * NO PROFILE PICTURE
+         *
+         * Show initials.
+         */
+
+        if (!imageUrl) {
 
             avatarElement.textContent =
                 getInitials(name);
 
+            return;
         }
 
-    }
 
+        /*
+         * PROFILE PICTURE EXISTS
+         */
+
+        const image =
+            document.createElement("img");
+
+        image.src =
+            imageUrl;
+
+        image.alt =
+            "Profile Picture";
+
+        image.loading =
+            "eager";
+
+
+        /*
+         * If image cannot be loaded,
+         * show initials instead.
+         */
+
+        image.onerror =
+            function() {
+
+                avatarElement.innerHTML = "";
+
+                avatarElement.textContent =
+                    getInitials(name);
+            };
+
+
+        avatarElement.appendChild(
+            image
+        );
+    }
 }
 
 
 /* =========================================================
-   LOAD CURRENT USER FROM PROFILE API
+   LOAD CURRENT USER
+   BACKEND IS SOURCE OF TRUTH
 ========================================================= */
 
 async function loadCurrentUser() {
@@ -1977,6 +1629,7 @@ async function loadCurrentUser() {
     if (!token) {
         return null;
     }
+
 
     try {
 
@@ -1992,13 +1645,21 @@ async function loadCurrentUser() {
 
                         "Authorization":
                             `Bearer ${token}`
-                    }
+                    },
+
+                    cache: "no-store"
                 }
             );
 
 
-        if (response.status === 401 ||
-            response.status === 403) {
+        /*
+         * SESSION EXPIRED
+         */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
 
             localStorage.removeItem(
                 "access_token"
@@ -2015,6 +1676,10 @@ async function loadCurrentUser() {
         }
 
 
+        /*
+         * SERVER ERROR
+         */
+
         if (!response.ok) {
 
             console.warn(
@@ -2023,13 +1688,26 @@ async function loadCurrentUser() {
             );
 
             return getStoredUser();
-
         }
 
 
         const user =
             await response.json();
 
+
+        /*
+         * IMPORTANT FIX
+         *
+         * Replace the COMPLETE local
+         * user object with the latest
+         * backend object.
+         *
+         * This means:
+         *
+         * picture added -> saved
+         * picture changed -> replaced
+         * picture removed -> becomes null
+         */
 
         localStorage.setItem(
             "user",
@@ -2048,7 +1726,6 @@ async function loadCurrentUser() {
 
         return getStoredUser();
     }
-
 }
 
 
@@ -2056,10 +1733,7 @@ async function loadCurrentUser() {
    SHOW MESSAGE
 ========================================================= */
 
-function showMessage(
-    message,
-    type
-) {
+function showMessage(message, type) {
 
     const box =
         document.getElementById(
@@ -2069,7 +1743,6 @@ function showMessage(
     if (!box) {
         return;
     }
-
 
     box.textContent =
         message;
@@ -2091,12 +1764,11 @@ function showMessage(
         behavior: "smooth",
         block: "center"
     });
-
 }
 
 
 /* =========================================================
-   RESET MESSAGE
+   HIDE MESSAGE
 ========================================================= */
 
 function hideMessage() {
@@ -2116,6 +1788,8 @@ function hideMessage() {
     box.textContent =
         "";
 
+    box.className =
+        "";
 }
 
 
@@ -2153,11 +1827,6 @@ async function loadProjects() {
 
     try {
 
-        console.log(
-            "Loading projects..."
-        );
-
-
         const response =
             await fetch(
                 `${API_BASE_URL}/api/v1/projects/`,
@@ -2175,8 +1844,10 @@ async function loadProjects() {
             );
 
 
-        if (response.status === 401 ||
-            response.status === 403) {
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
 
             localStorage.removeItem(
                 "access_token"
@@ -2198,33 +1869,12 @@ async function loadProjects() {
             throw new Error(
                 `Project API returned ${response.status}`
             );
-
         }
 
 
         const result =
             await response.json();
 
-
-        console.log(
-            "Project API response:",
-            result
-        );
-
-
-        /*
-         * Support either:
-         *
-         * [
-         *   {...}
-         * ]
-         *
-         * or:
-         *
-         * {
-         *   projects: [...]
-         * }
-         */
 
         const projects =
             Array.isArray(result)
@@ -2280,7 +1930,6 @@ async function loadProjects() {
                 option.value =
                     projectId;
 
-
                 option.textContent =
                     projectName;
 
@@ -2288,7 +1937,6 @@ async function loadProjects() {
                 projectDropdown.appendChild(
                     option
                 );
-
             }
         );
 
@@ -2318,7 +1966,6 @@ async function loadProjects() {
 
         return false;
     }
-
 }
 
 
@@ -2356,11 +2003,6 @@ async function loadCategories() {
 
     try {
 
-        console.log(
-            "Loading categories..."
-        );
-
-
         const response =
             await fetch(
                 CATEGORY_API_URL,
@@ -2378,8 +2020,10 @@ async function loadCategories() {
             );
 
 
-        if (response.status === 401 ||
-            response.status === 403) {
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
 
             localStorage.removeItem(
                 "access_token"
@@ -2401,33 +2045,12 @@ async function loadCategories() {
             throw new Error(
                 `Category API returned ${response.status}`
             );
-
         }
 
 
         const result =
             await response.json();
 
-
-        console.log(
-            "Category API response:",
-            result
-        );
-
-
-        /*
-         * Support either:
-         *
-         * [
-         *   {...}
-         * ]
-         *
-         * or:
-         *
-         * {
-         *   categories: [...]
-         * }
-         */
 
         const categories =
             Array.isArray(result)
@@ -2483,30 +2106,20 @@ async function loadCategories() {
                 option.value =
                     categoryId;
 
-
                 option.textContent =
                     categoryName;
 
-
-                /*
-                 * Store urgency in the option.
-                 * This is only for display/debugging.
-                 * The backend remains responsible
-                 * for the actual priority calculation.
-                 */
 
                 if (category.urgency) {
 
                     option.dataset.urgency =
                         category.urgency;
-
                 }
 
 
                 categoryDropdown.appendChild(
                     option
                 );
-
             }
         );
 
@@ -2536,7 +2149,6 @@ async function loadCategories() {
 
         return false;
     }
-
 }
 
 
@@ -2544,12 +2156,9 @@ async function loadCategories() {
    SUBMIT ISSUE
 ========================================================= */
 
-async function submitIssue(
-    event
-) {
+async function submitIssue(event) {
 
     event.preventDefault();
-
 
     hideMessage();
 
@@ -2565,10 +2174,13 @@ async function submitIssue(
             "error"
         );
 
+
         setTimeout(
             () => {
+
                 window.location.href =
                     "index.html";
+
             },
             1200
         );
@@ -2582,10 +2194,6 @@ async function submitIssue(
             "submitButton"
         );
 
-
-    /* =====================================================
-       GET VALUES
-    ===================================================== */
 
     const title =
         document.getElementById(
@@ -2657,9 +2265,9 @@ async function submitIssue(
         ).value.trim();
 
 
-    /* =====================================================
+    /* =========================
        VALIDATION
-    ===================================================== */
+    ========================= */
 
     if (!title) {
 
@@ -2727,34 +2335,18 @@ async function submitIssue(
     }
 
 
-    /* =====================================================
-       LOADING STATE
-    ===================================================== */
+    /* =========================
+       LOADING
+    ========================= */
 
     submitButton.disabled =
         true;
-
 
     submitButton.innerHTML =
         '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
 
     try {
-
-        /*
-         * IMPORTANT:
-         *
-         * reporter_id is NOT sent.
-         *
-         * assignee_id is NOT sent.
-         *
-         * priority is NOT sent.
-         *
-         * status is NOT sent.
-         *
-         * The backend gets the logged-in user from
-         * the JWT and calculates/assigns these values.
-         */
 
         const requestBody = {
 
@@ -2774,7 +2366,8 @@ async function submitIssue(
                 description,
 
             reproduction_steps:
-                reproductionSteps || null,
+                reproductionSteps ||
+                null,
 
             severity:
                 severity,
@@ -2783,10 +2376,12 @@ async function submitIssue(
                 null,
 
             affected_modules:
-                affectedModules || null,
+                affectedModules ||
+                null,
 
             environment_details:
-                environmentDetails || null,
+                environmentDetails ||
+                null,
 
             estimated_effort:
                 null,
@@ -2796,7 +2391,6 @@ async function submitIssue(
 
             sprint_id:
                 null
-
         };
 
 
@@ -2822,7 +2416,6 @@ async function submitIssue(
 
                         "Authorization":
                             `Bearer ${token}`
-
                     },
 
                     body:
@@ -2833,11 +2426,8 @@ async function submitIssue(
             );
 
 
-        /*
-         * Try to read JSON.
-         */
-
         let data = {};
+
 
         try {
 
@@ -2850,7 +2440,6 @@ async function submitIssue(
                 "Response was not JSON:",
                 jsonError
             );
-
         }
 
 
@@ -2861,9 +2450,9 @@ async function submitIssue(
         );
 
 
-        /* =================================================
+        /* =========================
            AUTH ERROR
-        ================================================= */
+        ========================= */
 
         if (
             response.status === 401 ||
@@ -2887,8 +2476,10 @@ async function submitIssue(
 
             setTimeout(
                 () => {
+
                     window.location.href =
                         "index.html";
+
                 },
                 1200
             );
@@ -2898,9 +2489,9 @@ async function submitIssue(
         }
 
 
-        /* =================================================
+        /* =========================
            API ERROR
-        ================================================= */
+        ========================= */
 
         if (!response.ok) {
 
@@ -2929,10 +2520,10 @@ async function submitIssue(
                 } else {
 
                     errorMessage =
-                        data.detail;
-
+                        String(
+                            data.detail
+                        );
                 }
-
             }
 
 
@@ -2946,9 +2537,9 @@ async function submitIssue(
         }
 
 
-        /* =================================================
+        /* =========================
            SUCCESS
-        ================================================= */
+        ========================= */
 
         const issueId =
             data.id ??
@@ -2962,8 +2553,8 @@ async function submitIssue(
 
 
         const scoreText =
-            data.priority_score ??
-            data.priority_score === 0
+            data.priority_score !== undefined &&
+            data.priority_score !== null
                 ? data.priority_score
                 : "Calculated by backend";
 
@@ -3038,22 +2629,13 @@ async function submitIssue(
             '<i class="fa-solid fa-check"></i> Submitted';
 
 
-        /*
-         * Reset form before redirecting.
-         */
-
         document.getElementById(
             "issueForm"
         ).reset();
 
 
-        /*
-         * Keep success message visible
-         * before returning to dashboard.
-         */
-
         setTimeout(
-            function() {
+            () => {
 
                 window.location.href =
                     "user-dashboard.html";
@@ -3061,6 +2643,7 @@ async function submitIssue(
             },
             3000
         );
+
 
     } catch (error) {
 
@@ -3075,29 +2658,14 @@ async function submitIssue(
             "error"
         );
 
-    } finally {
 
-        /*
-         * Only restore button if it was not
-         * permanently changed to Submitted.
-         */
+        submitButton.disabled =
+            false;
 
-        if (
-            !submitButton.disabled ||
-            submitButton.innerText
-                .includes("Submitting")
-        ) {
 
-            submitButton.disabled =
-                false;
-
-            submitButton.innerHTML =
-                '<i class="fa-solid fa-paper-plane"></i> Submit Issue';
-
-        }
-
+        submitButton.innerHTML =
+            '<i class="fa-solid fa-paper-plane"></i> Submit Issue';
     }
-
 }
 
 
@@ -3124,7 +2692,6 @@ function logoutUser(event) {
 
     window.location.href =
         "index.html";
-
 }
 
 
@@ -3137,7 +2704,8 @@ document.addEventListener(
     async function() {
 
         /*
-         * Check authentication.
+         * STEP 1
+         * Check login.
          */
 
         if (!requireLogin()) {
@@ -3146,7 +2714,10 @@ document.addEventListener(
 
 
         /*
-         * Show cached user immediately.
+         * STEP 2
+         * Immediately show cached profile.
+         *
+         * This makes the page feel fast.
          */
 
         const storedUser =
@@ -3158,13 +2729,36 @@ document.addEventListener(
             displayUser(
                 storedUser
             );
-
         }
 
 
         /*
-         * Refresh user information
-         * from backend.
+         * STEP 3
+         *
+         * IMPORTANT FIX:
+         *
+         * Always request the latest
+         * profile from the backend.
+         *
+         * Therefore:
+         *
+         * Dashboard picture changed
+         *        ↓
+         * backend updated
+         *        ↓
+         * open Report Issue
+         *        ↓
+         * latest picture loaded
+         *
+         * And:
+         *
+         * Dashboard picture removed
+         *        ↓
+         * backend profile_picture = null
+         *        ↓
+         * localStorage user replaced
+         *        ↓
+         * initials displayed
          */
 
         const currentUser =
@@ -3176,12 +2770,12 @@ document.addEventListener(
             displayUser(
                 currentUser
             );
-
         }
 
 
         /*
-         * Load projects and categories.
+         * STEP 4
+         * Load project/category data.
          */
 
         await Promise.all([
@@ -3191,7 +2785,8 @@ document.addEventListener(
 
 
         /*
-         * Form submit handler.
+         * STEP 5
+         * Form submit.
          */
 
         const issueForm =
@@ -3206,12 +2801,12 @@ document.addEventListener(
                 "submit",
                 submitIssue
             );
-
         }
 
 
         /*
-         * Logout handler.
+         * STEP 6
+         * Logout.
          */
 
         const logoutLink =
@@ -3226,7 +2821,39 @@ document.addEventListener(
                 "click",
                 logoutUser
             );
+        }
 
+
+        /*
+         * STEP 7
+         * Profile navigation.
+         *
+         * The <a> already handles this.
+         * No duplicate forced navigation
+         * is needed.
+         */
+
+        const profileLink =
+            document.getElementById(
+                "profileLink"
+            );
+
+
+        if (profileLink) {
+
+            profileLink.addEventListener(
+                "click",
+                function() {
+
+                    /*
+                     * Do NOT manually change
+                     * the location here.
+                     *
+                     * The anchor href does it.
+                     */
+
+                }
+            );
         }
 
     }
@@ -3235,5 +2862,4 @@ document.addEventListener(
 </script>
 
 </body>
-
 </html>

@@ -762,6 +762,55 @@
         }
 
 
+
+        /* =====================================================
+           REMOVE PROFILE PICTURE BUTTON
+        ====================================================== */
+
+        .remove-picture-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 10px;
+            padding: 9px 13px;
+            border: 1px solid #7f1d1d;
+            border-radius: 8px;
+            background: #450a0a;
+            color: #fca5a5;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .remove-picture-btn:hover {
+            background: #7f1d1d;
+            color: #ffffff;
+        }
+
+        .remove-picture-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+
+        /* Keep profile images inside their avatar containers. */
+        .large-avatar img,
+        .avatar img,
+        .top-avatar img,
+        #topAvatar img,
+        #dropdownAvatar img {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+            display: block;
+        }
+
         /* =====================================================
            RESPONSIVE
         ====================================================== */
@@ -1188,6 +1237,17 @@
                             Change Picture
 
                         </label>
+
+                        <button
+                            type="button"
+                            id="removeProfilePictureBtn"
+                            class="remove-picture-btn">
+
+                            <i class="fas fa-trash"></i>
+
+                            Remove Picture
+
+                        </button>
 
                     </div>
 
@@ -2256,6 +2316,9 @@ function setAvatar(
 
     else {
 
+        element.innerHTML =
+            "";
+
         element.textContent =
             initials;
 
@@ -2298,6 +2361,8 @@ function addSkill(
    PROFILE PICTURE
 ========================================================= */
 
+let profilePictureRemoved = false;
+
 document
     .getElementById(
         "profileImageInput"
@@ -2309,11 +2374,11 @@ document
             const file =
                 event.target.files[0];
 
-
             if (!file) {
                 return;
             }
 
+            profilePictureRemoved = false;
 
             if (
                 file.size >
@@ -2324,45 +2389,110 @@ document
                     "Profile picture must be smaller than 2 MB."
                 );
 
-                event.target.value =
-                    "";
-
+                event.target.value = "";
                 return;
-
             }
-
 
             const reader =
                 new FileReader();
 
-
             reader.onload =
                 function(e) {
 
+                    const image =
+                        `<img src="${e.target.result}" alt="Profile Picture">`;
+
                     document.getElementById(
                         "profileAvatar"
-                    ).innerHTML =
-                        `<img src="${e.target.result}" alt="Profile Picture">`;
+                    ).innerHTML = image;
 
                     document.getElementById(
                         "topAvatar"
-                    ).innerHTML =
-                        `<img src="${e.target.result}" alt="Profile Picture">`;
+                    ).innerHTML = image;
 
                     document.getElementById(
                         "dropdownAvatar"
-                    ).innerHTML =
-                        `<img src="${e.target.result}" alt="Profile Picture">`;
-
+                    ).innerHTML = image;
                 };
 
-
-            reader.readAsDataURL(
-                file
-            );
-
+            reader.readAsDataURL(file);
         }
     );
+
+
+/* =========================================================
+   REMOVE PROFILE PICTURE
+========================================================= */
+
+function removeProfilePicture() {
+
+    profilePictureRemoved = true;
+
+    const input =
+        document.getElementById(
+            "profileImageInput"
+        );
+
+    if (input) {
+        input.value = "";
+    }
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("user") || "{}"
+        );
+
+    const name =
+        document.getElementById("fullName")?.value?.trim() ||
+        user.full_name ||
+        user.username ||
+        "User";
+
+    const initials =
+        getInitials(name);
+
+    [
+        "profileAvatar",
+        "topAvatar",
+        "dropdownAvatar"
+    ].forEach(function(id) {
+
+        const avatar =
+            document.getElementById(id);
+
+        if (!avatar) {
+            return;
+        }
+
+        avatar.innerHTML = "";
+        avatar.textContent = initials;
+    });
+
+    user.profile_picture = null;
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+    );
+
+    showSuccess(
+        "Profile picture removed. Click Save Profile to keep the change."
+    );
+}
+
+
+const removeProfilePictureBtn =
+    document.getElementById(
+        "removeProfilePictureBtn"
+    );
+
+if (removeProfilePictureBtn) {
+
+    removeProfilePictureBtn.addEventListener(
+        "click",
+        removeProfilePicture
+    );
+}
 
 
 /* =========================================================
@@ -2493,7 +2623,7 @@ async function saveProfile() {
         );
 
 
-    if (profileImage) {
+    if (!profilePictureRemoved && profileImage) {
 
         profilePicture =
             profileImage.src;
@@ -2608,24 +2738,24 @@ if (profileEmailElement) {
             name;
 
 
-        if (!profileImage) {
+        if (!profilePicture) {
 
-            document.getElementById(
-                "profileAvatar"
-            ).textContent =
-                initials;
-
-
-            document.getElementById(
-                "topAvatar"
-            ).textContent =
-                initials;
-
-
-            document.getElementById(
+            [
+                "profileAvatar",
+                "topAvatar",
                 "dropdownAvatar"
-            ).textContent =
-                initials;
+            ].forEach(function(id) {
+
+                const avatar =
+                    document.getElementById(id);
+
+                if (!avatar) {
+                    return;
+                }
+
+                avatar.innerHTML = "";
+                avatar.textContent = initials;
+            });
 
         }
 
@@ -2654,36 +2784,17 @@ if (profileEmailElement) {
                 email;
 
 
-            if (phone) {
+            storedUser.phone =
+                phone || null;
 
-                storedUser.phone =
-                    phone;
+            storedUser.department =
+                department || null;
 
-            }
+            storedUser.about =
+                about || null;
 
-
-            if (department) {
-
-                storedUser.department =
-                    department;
-
-            }
-
-
-            if (about) {
-
-                storedUser.about =
-                    about;
-
-            }
-
-
-            if (profilePicture) {
-
-                storedUser.profile_picture =
-                    profilePicture;
-
-            }
+            storedUser.profile_picture =
+                profilePicture || null;
 
 
             localStorage.setItem(
@@ -2702,6 +2813,8 @@ if (profileEmailElement) {
 
         }
 
+
+        profilePictureRemoved = false;
 
         showSuccess(
             "Profile details saved successfully."
