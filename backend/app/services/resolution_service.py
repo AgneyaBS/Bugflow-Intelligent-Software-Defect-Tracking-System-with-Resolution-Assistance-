@@ -1,5 +1,7 @@
+
 # ============================================================
 # BUGFLOW - RESOLUTION ASSISTANCE SERVICE
+# Rule-based issue-specific resolution assistance
 # ============================================================
 
 from sqlalchemy.orm import Session
@@ -7,10 +9,6 @@ from sqlalchemy.orm import Session
 from app.models.issue import Issue
 from app.models.bug_category import BugCategory
 
-
-# ============================================================
-# SERVICE LOAD DEBUG
-# ============================================================
 
 print("================================================")
 print("BUGFLOW RESOLUTION SERVICE LOADED")
@@ -23,9 +21,7 @@ print("================================================")
 # ============================================================
 
 def _get_enum_value(value) -> str:
-    """
-    Safely get the value of an Enum or normal string.
-    """
+    """Convert an Enum or normal value into a string."""
 
     if value is None:
         return ""
@@ -37,12 +33,7 @@ def _get_enum_value(value) -> str:
 
 
 def _contains_any(text: str, keywords: list[str]) -> bool:
-    """
-    Check whether any keyword exists in the supplied text.
-
-    This is deterministic keyword matching.
-    It does NOT use NLP or machine learning.
-    """
+    """Case-insensitive keyword matching without NLP."""
 
     text = text.lower()
 
@@ -50,6 +41,469 @@ def _contains_any(text: str, keywords: list[str]) -> bool:
         keyword.lower() in text
         for keyword in keywords
     )
+
+
+def _get_category(db: Session, issue: Issue) -> str:
+    """Retrieve the issue category safely from the database."""
+
+    category_id = getattr(issue, "category_id", None)
+
+    print("CATEGORY ID:", category_id)
+
+    if category_id is None:
+        return "Unknown"
+
+    try:
+        category = (
+            db.query(BugCategory)
+            .filter(
+                BugCategory.category_id == int(category_id)
+            )
+            .first()
+        )
+
+        if category is not None:
+            category_name = getattr(
+                category,
+                "category_name",
+                None
+            )
+
+            if category_name:
+                print("CATEGORY FOUND:", category_name)
+                return str(category_name)
+
+        print("CATEGORY NOT FOUND:", category_id)
+
+    except (TypeError, ValueError) as exc:
+        print("CATEGORY LOOKUP ERROR:", exc)
+
+    return "Unknown"
+
+
+# ============================================================
+# RESOLUTION RULES
+# ============================================================
+
+def _database_connection():
+    return {
+        "rule": "DATABASE / CONNECTION",
+        "analysis": (
+            "The issue appears to involve database or server "
+            "connectivity. Check database availability, host and "
+            "port configuration, credentials, network access, "
+            "and connection settings."
+        ),
+        "resolution": (
+            "Verify that the database server is running. Check the "
+            "configured host, port, database name, and credentials. "
+            "Inspect the backend connection error and correct the "
+            "configuration or connectivity problem."
+        ),
+        "steps": [
+            "Reproduce the connection failure.",
+            "Verify that PostgreSQL or the required server is running.",
+            "Check the configured host and port.",
+            "Verify the database name and username.",
+            "Check credentials without exposing passwords in logs.",
+            "Inspect backend logs for the exact connection error.",
+            "Retest the operation after correcting the problem."
+        ],
+        "prevention": (
+            "Use database health checks, connection monitoring, "
+            "configuration validation, and automated connectivity tests."
+        )
+    }
+
+
+def _database_query():
+    return {
+        "rule": "DATABASE / SQL",
+        "analysis": (
+            "The issue appears to involve an SQL query or database "
+            "operation. The likely investigation areas are query "
+            "syntax, parameters, schema, and database constraints."
+        ),
+        "resolution": (
+            "Inspect the failing SQL operation and its parameters. "
+            "Verify the tables, columns, data types, and constraints. "
+            "Correct the query or database operation and retest it."
+        ),
+        "steps": [
+            "Reproduce the database operation.",
+            "Inspect the failing SQL statement and error message.",
+            "Verify table and column names.",
+            "Check parameters, data types, and constraints.",
+            "Correct the query or database operation.",
+            "Run database integration tests."
+        ],
+        "prevention": (
+            "Use SQL validation, schema migration checks, and "
+            "database integration tests."
+        )
+    }
+
+
+def _database_general():
+    return {
+        "rule": "DATABASE",
+        "analysis": (
+            "The issue appears to affect database functionality. "
+            "Investigate database operations, transactions, schema, "
+            "data integrity, and backend database handling."
+        ),
+        "resolution": (
+            "Identify the affected database operation. Inspect the "
+            "database logs, schema, transaction handling, and data. "
+            "Correct the failing operation and verify the result."
+        ),
+        "steps": [
+            "Reproduce the database issue.",
+            "Inspect backend and database logs.",
+            "Identify the affected database operation.",
+            "Check the schema and data constraints.",
+            "Correct the failing database operation.",
+            "Retest the affected workflow."
+        ],
+        "prevention": (
+            "Use database integration tests, schema validation, "
+            "transaction handling, and monitoring."
+        )
+    }
+
+
+def _authentication_login():
+    return {
+        "rule": "AUTHENTICATION / LOGIN",
+        "analysis": (
+            "The issue appears to affect the login process. "
+            "Investigate credential validation, password verification, "
+            "the login request, and the authentication response."
+        ),
+        "resolution": (
+            "Inspect the login request and backend authentication flow. "
+            "Verify that credentials reach the backend correctly and "
+            "that password verification and error handling work as intended."
+        ),
+        "steps": [
+            "Reproduce the login failure.",
+            "Inspect the login request and response.",
+            "Check backend credential validation.",
+            "Verify password hashing and password verification.",
+            "Inspect authentication errors in the backend logs.",
+            "Retest login with valid and invalid credentials."
+        ],
+        "prevention": (
+            "Use automated login tests, secure password handling, "
+            "input validation, and authentication regression tests."
+        )
+    }
+
+
+def _authentication_token():
+    return {
+        "rule": "AUTHENTICATION / JWT",
+        "analysis": (
+            "The issue appears to involve JWT or authentication-token "
+            "handling. Investigate token creation, expiration, signature "
+            "validation, storage, and transmission."
+        ),
+        "resolution": (
+            "Inspect the token creation and validation flow. Verify "
+            "expiration and signature settings, and confirm that the "
+            "client sends the required Authorization header."
+        ),
+        "steps": [
+            "Reproduce the token-related failure.",
+            "Inspect the Authorization header.",
+            "Check token generation and required claims.",
+            "Verify expiration and signature validation.",
+            "Inspect the protected API response.",
+            "Retest with a valid token and an expired token."
+        ],
+        "prevention": (
+            "Use consistent token validation, secure token handling, "
+            "appropriate expiration, and protected-endpoint tests."
+        )
+    }
+
+
+def _authentication_authorization():
+    return {
+        "rule": "AUTHENTICATION / AUTHORIZATION",
+        "analysis": (
+            "The issue appears to involve identity verification or "
+            "access permissions. Investigate the authenticated user, "
+            "role assignments, and authorization checks."
+        ),
+        "resolution": (
+            "Trace the authentication and authorization flow. Verify "
+            "the current user's identity, assigned role, required "
+            "permissions, and access-control rules."
+        ),
+        "steps": [
+            "Reproduce the access failure.",
+            "Verify the authenticated user.",
+            "Inspect the assigned role and permissions.",
+            "Check the protected endpoint's access rules.",
+            "Retest using accounts with the expected permissions."
+        ],
+        "prevention": (
+            "Use centralized RBAC rules, authorization tests, and "
+            "security logging."
+        )
+    }
+
+
+def _frontend_button():
+    return {
+        "rule": "FRONTEND / BUTTON",
+        "analysis": (
+            "The issue appears to involve a button or user interaction. "
+            "Investigate its event handler, JavaScript function, "
+            "and any API request triggered by the action."
+        ),
+        "resolution": (
+            "Inspect the button's event handler and related JavaScript. "
+            "Check browser console errors and the network request. "
+            "Correct the failing interaction and verify the result."
+        ),
+        "steps": [
+            "Reproduce the button failure.",
+            "Inspect browser console errors.",
+            "Verify the button event handler.",
+            "Check the JavaScript function.",
+            "Inspect any API request and response.",
+            "Retest the interaction."
+        ],
+        "prevention": (
+            "Use UI interaction tests, JavaScript error handling, "
+            "and frontend regression tests."
+        )
+    }
+
+
+def _frontend_responsive():
+    return {
+        "rule": "FRONTEND / RESPONSIVE",
+        "analysis": (
+            "The issue appears to involve responsive layout behavior. "
+            "Investigate CSS breakpoints, viewport sizing, overflowing "
+            "elements, and mobile-specific styles."
+        ),
+        "resolution": (
+            "Inspect the affected HTML elements and CSS media queries. "
+            "Correct the layout, sizing, or responsive styles and test "
+            "the page across different viewport sizes."
+        ),
+        "steps": [
+            "Reproduce the issue at the affected screen size.",
+            "Inspect the affected HTML elements.",
+            "Check CSS media queries and breakpoints.",
+            "Inspect overflow, width, and alignment rules.",
+            "Correct the responsive styles.",
+            "Test mobile, tablet, and desktop layouts."
+        ],
+        "prevention": (
+            "Use responsive design checks and UI regression tests "
+            "across multiple viewport sizes."
+        )
+    }
+
+
+def _frontend_general():
+    return {
+        "rule": "FRONTEND / UI",
+        "analysis": (
+            "The issue appears to affect the frontend interface. "
+            "Investigate the relevant HTML, CSS, JavaScript, browser "
+            "behavior, and affected UI component."
+        ),
+        "resolution": (
+            "Reproduce the interface problem and inspect the affected "
+            "component. Identify the incorrect rendering or interaction, "
+            "correct the responsible frontend code, and verify the result."
+        ),
+        "steps": [
+            "Reproduce the issue in the browser.",
+            "Inspect browser console errors.",
+            "Check the affected HTML and CSS.",
+            "Inspect related JavaScript behavior.",
+            "Check API requests if the component uses the backend.",
+            "Retest the interface."
+        ],
+        "prevention": (
+            "Use UI validation, browser testing, and frontend regression tests."
+        )
+    }
+
+
+def _backend_server_error():
+    return {
+        "rule": "BACKEND / SERVER ERROR",
+        "analysis": (
+            "The issue appears to involve a backend server error. "
+            "Investigate the failing endpoint, request processing, "
+            "exception traceback, and related database operations."
+        ),
+        "resolution": (
+            "Reproduce the failing request and inspect the FastAPI "
+            "logs and traceback. Identify the operation causing the "
+            "exception, correct the backend logic, and retest the endpoint."
+        ),
+        "steps": [
+            "Reproduce the failing API request.",
+            "Inspect FastAPI logs and the traceback.",
+            "Identify the failing function or operation.",
+            "Check request validation and database operations.",
+            "Correct the backend logic or error handling.",
+            "Retest valid and invalid request scenarios."
+        ],
+        "prevention": (
+            "Use API tests, input validation, structured logging, "
+            "exception handling, and backend monitoring."
+        )
+    }
+
+
+def _backend_not_found():
+    return {
+        "rule": "BACKEND / 404",
+        "analysis": (
+            "The issue appears to involve a missing API endpoint or "
+            "resource. Investigate the URL, HTTP method, router registration, "
+            "and requested resource identifier."
+        ),
+        "resolution": (
+            "Verify the URL and HTTP method. Check FastAPI router "
+            "registration and confirm that the requested resource exists. "
+            "Correct the route or resource lookup as required."
+        ),
+        "steps": [
+            "Reproduce the 404 response.",
+            "Verify the requested URL and HTTP method.",
+            "Check FastAPI route registration.",
+            "Verify the requested resource identifier.",
+            "Check whether the resource exists.",
+            "Retest the endpoint."
+        ],
+        "prevention": (
+            "Use API integration tests, route documentation, and "
+            "resource-lookup regression tests."
+        )
+    }
+
+
+def _backend_general():
+    return {
+        "rule": "BACKEND / API",
+        "analysis": (
+            "The issue appears to involve backend or API processing. "
+            "Investigate request data, validation, endpoint logic, "
+            "authentication, database interaction, and the response."
+        ),
+        "resolution": (
+            "Trace the request through the affected API endpoint. "
+            "Inspect validation, backend processing, and database "
+            "operations. Correct the failing step and verify the response."
+        ),
+        "steps": [
+            "Reproduce the API request.",
+            "Inspect the request payload and HTTP status.",
+            "Check authentication and input validation.",
+            "Inspect endpoint logic and backend logs.",
+            "Verify any database operations.",
+            "Retest the API endpoint."
+        ],
+        "prevention": (
+            "Use API validation, exception handling, automated endpoint "
+            "tests, and backend monitoring."
+        )
+    }
+
+
+def _performance():
+    return {
+        "rule": "PERFORMANCE",
+        "analysis": (
+            "The issue appears to involve application performance. "
+            "Investigate response time, resource usage, database queries, "
+            "and expensive backend or frontend operations."
+        ),
+        "resolution": (
+            "Measure the affected operation, identify the performance "
+            "bottleneck, optimize the responsible component, and measure "
+            "the result again."
+        ),
+        "steps": [
+            "Reproduce the performance issue.",
+            "Measure response time and resource usage.",
+            "Inspect slow database queries.",
+            "Profile backend or frontend processing.",
+            "Optimize the identified bottleneck.",
+            "Compare performance before and after the change."
+        ],
+        "prevention": (
+            "Use performance monitoring, profiling, query optimization, "
+            "and load testing."
+        )
+    }
+
+
+def _validation():
+    return {
+        "rule": "FUNCTIONAL / VALIDATION",
+        "analysis": (
+            "The issue appears to involve input validation or incorrect "
+            "handling of data. Investigate input values, validation rules, "
+            "error messages, and the affected workflow."
+        ),
+        "resolution": (
+            "Reproduce the validation failure, inspect the input and "
+            "validation rules, correct the responsible logic, and verify "
+            "both valid and invalid inputs."
+        ),
+        "steps": [
+            "Reproduce the validation problem.",
+            "Identify the input that triggers the failure.",
+            "Inspect frontend and backend validation rules.",
+            "Check error messages and boundary conditions.",
+            "Correct the validation logic.",
+            "Test valid, invalid, and boundary inputs."
+        ],
+        "prevention": (
+            "Use centralized validation, boundary testing, and automated "
+            "negative test cases."
+        )
+    }
+
+
+def _generic_functional(title: str):
+    return {
+        "rule": "GENERIC FUNCTIONAL",
+        "analysis": (
+            f"The issue '{title or 'Untitled issue'}' requires "
+            "investigation of its reported behavior. Compare actual "
+            "and expected results to identify the affected component."
+        ),
+        "resolution": (
+            "Reproduce the reported behavior, compare actual and expected "
+            "results, trace the affected workflow, correct the responsible "
+            "component, and verify the complete workflow."
+        ),
+        "steps": [
+            "Review the issue title and description.",
+            "Reproduce the reported behavior.",
+            "Compare actual and expected results.",
+            "Trace the affected component.",
+            "Identify the root cause and apply a correction.",
+            "Retest the complete workflow."
+        ],
+        "prevention": (
+            "Add regression tests for the reported scenario and include "
+            "the affected workflow in future testing."
+        )
+    }
 
 
 # ============================================================
@@ -61,42 +515,16 @@ def generate_resolution_assistance(
     issue: Issue
 ) -> dict:
     """
-    Generate issue-specific resolution assistance.
+    Generate deterministic, issue-specific resolution guidance.
 
-    The service does NOT use NLP or machine learning.
-
-    Guidance is generated using:
-        - Issue category
-        - Issue severity
-        - Issue priority
-        - Issue title
-        - Issue description
-        - Issue type
+    No NLP or machine learning is used.
     """
 
-    # ========================================================
-    # 1. BASIC ISSUE INFORMATION
-    # ========================================================
+    issue_id = getattr(issue, "id", None)
+    issue_key = getattr(issue, "issue_key", None)
 
-    issue_id = issue.id
-
-    issue_key = getattr(
-        issue,
-        "issue_key",
-        None
-    )
-
-    title = str(
-        getattr(issue, "title", "") or ""
-    )
-
-    description = str(
-        getattr(issue, "description", "") or ""
-    )
-
-    # ========================================================
-    # 2. SEVERITY / PRIORITY / ISSUE TYPE
-    # ========================================================
+    title = str(getattr(issue, "title", "") or "")
+    description = str(getattr(issue, "description", "") or "")
 
     severity = _get_enum_value(
         getattr(issue, "severity", None)
@@ -109,367 +537,146 @@ def generate_resolution_assistance(
     issue_type = _get_enum_value(
         getattr(issue, "issue_type", None)
     )
-# ========================================================
-# 3. CATEGORY
-# ========================================================
 
-    category = "Unknown"
-
-    category_id = getattr(issue, "category_id", None)
-
-    print("CATEGORY DEBUG")
-    print("Category ID from Issue :", category_id)
-
-    if category_id is not None:
-
-        issue_category = (
-        db.query(BugCategory)
-        .filter(
-            BugCategory.category_id == int(category_id)
-        )
-        .first()
-    )
-
-    print("Category DB Result     :", issue_category)
-
-    if issue_category:
-        print(
-            "Category Name from DB  :",
-            issue_category.category_name
-        )
-
-        category = issue_category.category_name
-
+    category = _get_category(db, issue)
     category_lower = category.lower()
 
-    print("Final Category         :", category)
-    print("Final Category Lower   :", category_lower)
-# ========================================================
-# 4. COMBINED ISSUE TEXT
-# ========================================================
+    issue_text = f"{title} {description}".lower()
 
-    issue_text = (
-        f"{title} {description}"
-    ).lower()
+    print("\n==============================================")
+    print("BUGFLOW RESOLUTION DEBUG")
+    print("Issue ID:", issue_id)
+    print("Issue Key:", issue_key)
+    print("Title:", title)
+    print("Category:", category)
+    print("Severity:", severity)
+    print("Priority:", priority)
+    print("Issue Type:", issue_type)
+    print("Issue Text:", issue_text)
+    print("==============================================")
 
-    # ========================================================
-    # DEBUG INFORMATION
-    # ========================================================
+    # --------------------------------------------------------
+    # Determine the category family.
+    # Specific categories take precedence over general keywords.
+    # --------------------------------------------------------
 
-    print("\n")
-    print("================================================")
-    print("       BUGFLOW RESOLUTION DEBUG")
-    print("================================================")
-    print("Issue ID       :", issue_id)
-    print("Issue Key      :", issue_key)
-    print("Title          :", title)
-    print("Description    :", description)
-    print("Category ID    :", getattr(issue, "category_id", None))
-    print("Category       :", category)
-    print("Category Lower :", category_lower)
-    print("Severity       :", severity)
-    print("Priority       :", priority)
-    print("Issue Type     :", issue_type)
-    print("Issue Text     :", issue_text)
-    print("================================================")
-
-    # ========================================================
-    # 5. DEFAULT GUIDANCE
-    # ========================================================
-
-    analysis = (
-        "The issue should be investigated using the reported "
-        "information, affected component, severity, and priority."
-    )
-
-    resolution = (
-        "Reproduce the reported behavior, inspect the affected "
-        "component, identify the cause, apply the required "
-        "correction, and verify the result."
-    )
-
-    steps = [
-        "Review the issue title and description.",
-        "Reproduce the reported behavior.",
-        "Inspect the affected application component and logs.",
-        "Identify the likely cause and apply the correction.",
-        "Retest the issue and verify that the expected behavior is restored."
-    ]
-
-    prevention = (
-        "Add appropriate validation, testing, logging, "
-        "and monitoring to reduce the chance of recurrence."
-    )
-
-    selected_rule = "DEFAULT"
-
-    # ========================================================
-    # 6. DATABASE / CONNECTION ISSUES
-    # ========================================================
-
-    database_keywords = [
-        "database",
-        "db",
-        "postgres",
-        "postgresql",
-        "sql",
-        "query",
-        "connection",
-        "connect",
-        "db connection",
-        "database connection",
-        "connection refused",
-        "connection failed",
-        "connection failure",
-        "connect failed",
-        "unable to connect",
-        "cannot connect",
-        "could not connect",
-        "server connection",
-        "server unavailable",
-        "database unavailable",
-        "database down",
-        "database server",
-        "foreign key",
-        "constraint",
-        "transaction",
-        "table",
-        "column"
-    ]
-
-    if (
+    database_category = (
         "database" in category_lower
-        or "db" in category_lower
-        or _contains_any(issue_text, database_keywords)
-    ):
+        or category_lower.strip() == "db"
+    )
 
-        # ----------------------------------------------------
-        # Database connection
-        # ----------------------------------------------------
-
-        connection_keywords = [
-            "connection",
-            "connect",
-            "connection refused",
-            "connection failed",
-            "connection failure",
-            "connect failed",
-            "unable to connect",
-            "cannot connect",
-            "could not connect",
-            "server connection",
-            "server unavailable",
-            "database unavailable",
-            "database down",
-            "database server",
-            "host unreachable",
-            "connection timeout",
-            "database timeout"
+    auth_category = any(
+        word in category_lower
+        for word in [
+            "authentication",
+            "authorization",
+            "login",
+            "security",
+            "access control"
         ]
+    )
+
+    frontend_category = any(
+        word in category_lower
+        for word in [
+            "frontend",
+            "front end",
+            "user interface",
+            "ui"
+        ]
+    )
+
+    backend_category = any(
+        word in category_lower
+        for word in [
+            "backend",
+            "back end",
+            "api"
+        ]
+    )
+
+    performance_category = "performance" in category_lower
+
+    # --------------------------------------------------------
+    # 1. DATABASE
+    # --------------------------------------------------------
+
+    if database_category or _contains_any(
+        issue_text,
+        [
+            "postgres",
+            "postgresql",
+            "database connection",
+            "database server",
+            "database down",
+            "unable to connect to database",
+            "cannot connect to database",
+            "could not connect to database",
+            "foreign key",
+            "sql query",
+            "database query"
+        ]
+    ):
 
         if _contains_any(
             issue_text,
-            connection_keywords
-        ):
-
-            selected_rule = "DATABASE / CONNECTION"
-
-            print(">>> DATABASE / CONNECTION RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve server or database "
-                "connectivity. The investigation should focus on "
-                "the database/server availability, host and port "
-                "configuration, credentials, network access, "
-                "connection settings, and connection pooling."
-            )
-
-            resolution = (
-                "Verify that the required server or database is "
-                "available and that the application is using the "
-                "correct host, port, credentials, and database name. "
-                "Inspect the connection error and correct the "
-                "configuration, network access, or server availability problem."
-            )
-
-            steps = [
-                "Reproduce the connection failure.",
-                "Verify that the PostgreSQL/database or required server is running.",
-                "Check the configured host and port.",
-                "Verify the database name, username, and credentials.",
-                "Inspect backend logs for the exact connection error.",
-                "Check network access and firewall settings if required.",
-                "Retest the affected operation after correcting the configuration."
+            [
+                "connection refused",
+                "connection failed",
+                "connection failure",
+                "unable to connect",
+                "cannot connect",
+                "could not connect",
+                "database down",
+                "server unavailable",
+                "host unreachable",
+                "connection timeout"
             ]
-
-            prevention = (
-                "Use server and database health checks, connection "
-                "monitoring, connection-pool configuration, "
-                "configuration validation, and automated connectivity tests."
-            )
-
-        # ----------------------------------------------------
-        # SQL / query problems
-        # ----------------------------------------------------
+        ):
+            result = _database_connection()
 
         elif _contains_any(
             issue_text,
             [
                 "query",
                 "sql",
-                "select",
-                "insert",
-                "update",
-                "delete"
+                "select statement",
+                "insert statement",
+                "update statement",
+                "delete statement",
+                "foreign key",
+                "constraint violation"
             ]
         ):
-
-            selected_rule = "DATABASE / SQL"
-
-            print(">>> DATABASE / SQL RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve a database query or "
-                "database operation. The investigation should focus "
-                "on the SQL statement, parameters, schema, and "
-                "database response."
-            )
-
-            resolution = (
-                "Inspect the failing SQL operation and its parameters, "
-                "verify that the referenced tables and columns exist, "
-                "correct the query or database interaction, and "
-                "retest the operation."
-            )
-
-            steps = [
-                "Reproduce the database operation.",
-                "Capture the failing SQL query and parameters.",
-                "Verify the affected tables, columns, and constraints.",
-                "Correct the query or backend database operation.",
-                "Retest the complete application workflow."
-            ]
-
-            prevention = (
-                "Use query validation, database integration tests, "
-                "schema migration checks, and SQL error monitoring."
-            )
-
-        # ----------------------------------------------------
-        # General database problem
-        # ----------------------------------------------------
+            result = _database_query()
 
         else:
+            result = _database_general()
 
-            selected_rule = "DATABASE"
+    # --------------------------------------------------------
+    # 2. AUTHENTICATION AND AUTHORIZATION
+    # --------------------------------------------------------
 
-            print(">>> DATABASE RULE SELECTED")
-
-            analysis = (
-                "The issue is related to database functionality. "
-                "The investigation should focus on database access, "
-                "queries, transactions, schema configuration, and "
-                "backend database handling."
-            )
-
-            resolution = (
-                "Inspect the database operation associated with the "
-                "issue, verify the schema and configuration, identify "
-                "the failing database interaction, apply the required "
-                "correction, and retest the operation."
-            )
-
-            steps = [
-                "Reproduce the database-related issue.",
-                "Inspect backend logs and database errors.",
-                "Check the affected database operation and schema.",
-                "Apply the required database or backend correction.",
-                "Retest the affected workflow."
-            ]
-
-            prevention = (
-                "Use database integration tests, health checks, "
-                "schema validation, logging, and monitoring."
-            )
-
-    # ========================================================
-    # 7. AUTHENTICATION / LOGIN ISSUES
-    # ========================================================
-
-    elif (
-        "authentication" in category_lower
-        or "authorization" in category_lower
-        or "login" in category_lower
-        or _contains_any(
-            issue_text,
-            [
-                "login",
-                "logout",
-                "password",
-                "jwt",
-                "token",
-                "authentication",
-                "authorization",
-                "unauthorized",
-                "forbidden",
-                "403",
-                "401",
-                "sign in",
-                "signin"
-            ]
-        )
+    elif auth_category or _contains_any(
+        issue_text,
+        [
+            "login",
+            "log in",
+            "sign in",
+            "signin",
+            "password",
+            "jwt",
+            "token",
+            "unauthorized",
+            "forbidden",
+            "authentication",
+            "authorization",
+            "access denied",
+            "permission denied"
+        ]
     ):
 
-        # ----------------------------------------------------
-        # Login failure
-        # ----------------------------------------------------
-
         if _contains_any(
-            issue_text,
-            [
-                "login",
-                "sign in",
-                "signin"
-            ]
-        ):
-
-            selected_rule = "AUTHENTICATION / LOGIN"
-
-            print(">>> AUTHENTICATION / LOGIN RULE SELECTED")
-
-            analysis = (
-                "The issue appears to affect the login process. "
-                "The investigation should focus on credential "
-                "validation, authentication requests, password "
-                "verification, and the returned authentication response."
-            )
-
-            resolution = (
-                "Inspect the login request and authentication flow. "
-                "Verify that the submitted credentials reach the backend "
-                "correctly, confirm password verification, inspect the "
-                "authentication response, and correct the failing step."
-            )
-
-            steps = [
-                "Reproduce the login failure.",
-                "Inspect the browser request and login payload.",
-                "Verify backend credential validation.",
-                "Check password hashing and verification.",
-                "Inspect the authentication response.",
-                "Retest successful login and protected-page access."
-            ]
-
-            prevention = (
-                "Add automated login tests, authentication error logging, "
-                "input validation, and regression tests for the login flow."
-            )
-
-        # ----------------------------------------------------
-        # JWT / token
-        # ----------------------------------------------------
-
-        elif _contains_any(
             issue_text,
             [
                 "jwt",
@@ -478,551 +685,184 @@ def generate_resolution_assistance(
                 "invalid token"
             ]
         ):
+            result = _authentication_token()
 
-            selected_rule = "AUTHENTICATION / JWT"
-
-            print(">>> AUTHENTICATION / JWT RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve authentication tokens. "
-                "The investigation should focus on token generation, "
-                "storage, expiration, decoding, and validation."
-            )
-
-            resolution = (
-                "Inspect token generation and validation, verify the "
-                "token payload and expiration time, confirm that the "
-                "client sends the correct Authorization header, and "
-                "correct the failing authentication step."
-            )
-
-            steps = [
-                "Reproduce the authentication failure.",
-                "Inspect the Authorization header sent by the client.",
-                "Verify JWT creation and payload information.",
-                "Check token expiration and signature validation.",
-                "Retest the protected API request."
+        elif _contains_any(
+            issue_text,
+            [
+                "login",
+                "log in",
+                "sign in",
+                "signin",
+                "password"
             ]
-
-            prevention = (
-                "Use consistent JWT validation, token expiration, "
-                "secure token handling, and automated protected-endpoint tests."
-            )
-
-        # ----------------------------------------------------
-        # General authentication / authorization
-        # ----------------------------------------------------
+        ):
+            result = _authentication_login()
 
         else:
+            result = _authentication_authorization()
 
-            selected_rule = "AUTHENTICATION / AUTHORIZATION"
+    # --------------------------------------------------------
+    # 3. FRONTEND
+    # --------------------------------------------------------
 
-            print(">>> AUTHENTICATION / AUTHORIZATION RULE SELECTED")
+    elif frontend_category or _contains_any(
+        issue_text,
+        [
+            "button not working",
+            "button does not work",
+            "onclick",
+            "css layout",
+            "javascript error",
+            "responsive layout",
+            "mobile layout",
+            "alignment issue",
+            "dropdown not working",
+            "sidebar not working",
+            "page layout"
+        ]
+    ):
 
-            analysis = (
-                "The issue appears to involve authentication or "
-                "authorization. The investigation should focus on "
-                "identity verification, access rules, credentials, "
-                "and protected API requests."
-            )
-
-            resolution = (
-                "Trace the authentication and authorization flow, "
-                "verify the current user's identity and permissions, "
-                "identify the failing access check, and correct the "
-                "authentication configuration or authorization rule."
-            )
-
-            steps = [
-                "Reproduce the authentication or authorization failure.",
-                "Inspect the authenticated user information.",
-                "Check the required permissions and access rules.",
-                "Inspect the protected API response.",
-                "Retest the operation with the correct permissions."
+        if _contains_any(
+            issue_text,
+            [
+                "mobile",
+                "responsive",
+                "phone screen",
+                "screen size",
+                "media query"
             ]
+        ):
+            result = _frontend_responsive()
 
-            prevention = (
-                "Use centralized authentication, consistent RBAC rules, "
-                "automated authorization tests, and security logging."
-            )
-
-    # ========================================================
-    # 8. FRONTEND / UI ISSUES
-    # ========================================================
-
-    elif (
-        "ui" in category_lower
-        or "frontend" in category_lower
-        or "front end" in category_lower
-        or _contains_any(
+        elif _contains_any(
             issue_text,
             [
                 "button",
                 "click",
                 "onclick",
-                "page",
-                "screen",
-                "css",
-                "html",
-                "javascript",
-                "layout",
-                "design",
-                "display",
-                "responsive",
-                "mobile",
-                "alignment",
                 "dropdown",
-                "form",
-                "modal",
-                "navbar",
-                "sidebar"
-            ]
-        )
-    ):
-
-        # ----------------------------------------------------
-        # Button / interaction
-        # ----------------------------------------------------
-
-        if _contains_any(
-            issue_text,
-            [
-                "button",
-                "click",
-                "not working",
-                "onclick"
+                "sidebar not working"
             ]
         ):
-
-            selected_rule = "FRONTEND / BUTTON"
-
-            print(">>> FRONTEND / BUTTON RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve a frontend interaction. "
-                "The investigation should focus on the affected button, "
-                "event handler, JavaScript logic, and API request."
-            )
-
-            resolution = (
-                "Inspect the affected button and its event handler, "
-                "verify that the JavaScript function is executed, "
-                "check any API request triggered by the action, "
-                "and correct the failing frontend logic."
-            )
-
-            steps = [
-                "Reproduce the button interaction.",
-                "Inspect browser console errors.",
-                "Verify the button event handler.",
-                "Check JavaScript execution and API requests.",
-                "Inspect the network request and response.",
-                "Retest the button after applying the correction."
-            ]
-
-            prevention = (
-                "Use frontend event testing, browser console monitoring, "
-                "JavaScript error handling, and UI regression tests."
-            )
-
-        # ----------------------------------------------------
-        # Mobile / responsive
-        # ----------------------------------------------------
-
-        elif _contains_any(
-            issue_text,
-            [
-                "mobile",
-                "responsive",
-                "phone",
-                "screen size"
-            ]
-        ):
-
-            selected_rule = "FRONTEND / RESPONSIVE"
-
-            print(">>> FRONTEND / RESPONSIVE RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve responsive frontend "
-                "behavior. The investigation should focus on layout "
-                "rules, viewport handling, CSS breakpoints, and "
-                "mobile-specific rendering."
-            )
-
-            resolution = (
-                "Inspect the responsive layout and CSS breakpoints, "
-                "identify the element that behaves incorrectly on "
-                "smaller screens, adjust the layout rules, and verify "
-                "the page across multiple viewport sizes."
-            )
-
-            steps = [
-                "Reproduce the issue using a mobile viewport.",
-                "Inspect the affected HTML elements.",
-                "Check CSS media queries and responsive rules.",
-                "Correct the layout or sizing behavior.",
-                "Test the page on mobile, tablet, and desktop sizes."
-            ]
-
-            prevention = (
-                "Use responsive design testing, multiple viewport tests, "
-                "and UI regression testing."
-            )
-
-        # ----------------------------------------------------
-        # General frontend issue
-        # ----------------------------------------------------
+            result = _frontend_button()
 
         else:
+            result = _frontend_general()
 
-            selected_rule = "FRONTEND / UI"
+    # --------------------------------------------------------
+    # 4. BACKEND / API
+    # --------------------------------------------------------
 
-            print(">>> FRONTEND / UI RULE SELECTED")
-
-            analysis = (
-                "The issue appears to affect the frontend interface. "
-                "The investigation should focus on HTML, CSS, JavaScript, "
-                "browser behavior, and the affected UI component."
-            )
-
-            resolution = (
-                "Inspect the affected frontend component, identify the "
-                "incorrect browser-side behavior or visual rule, apply "
-                "the required correction, and verify the interface."
-            )
-
-            steps = [
-                "Reproduce the issue in the browser.",
-                "Inspect browser console errors.",
-                "Inspect the affected HTML and CSS.",
-                "Check related JavaScript and API calls.",
-                "Retest the interface after the correction."
-            ]
-
-            prevention = (
-                "Use UI validation, browser testing, JavaScript error "
-                "handling, and frontend regression testing."
-            )
-
-    # ========================================================
-    # 9. BACKEND / API ISSUES
-    # ========================================================
-
-    elif (
-        "backend" in category_lower
-        or "api" in category_lower
-        or _contains_any(
-            issue_text,
-            [
-                "api",
-                "endpoint",
-                "server error",
-                "internal server",
-                "500",
-                "404",
-                "request",
-                "response",
-                "fastapi"
-            ]
-        )
+    elif backend_category or _contains_any(
+        issue_text,
+        [
+            "fastapi",
+            "api endpoint",
+            "endpoint error",
+            "internal server error",
+            "http 500",
+            "http 404",
+            "api request",
+            "api response"
+        ]
     ):
-
-        # ----------------------------------------------------
-        # 500 / server error
-        # ----------------------------------------------------
 
         if _contains_any(
             issue_text,
             [
-                "500",
-                "internal server",
+                "internal server error",
+                "http 500",
+                "status code 500",
                 "server error"
             ]
         ):
-
-            selected_rule = "BACKEND / SERVER ERROR"
-
-            print(">>> BACKEND / SERVER ERROR RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve a backend server error. "
-                "The investigation should focus on the failing endpoint, "
-                "request processing, exceptions, database operations, "
-                "and server logs."
-            )
-
-            resolution = (
-                "Reproduce the failing API request, inspect the backend "
-                "logs and stack trace, identify the failing operation, "
-                "correct the backend logic or data handling, and retest "
-                "the endpoint."
-            )
-
-            steps = [
-                "Reproduce the API request.",
-                "Inspect the FastAPI/server logs and traceback.",
-                "Identify the function or operation causing the error.",
-                "Correct the backend logic or data handling.",
-                "Retest the endpoint with valid and invalid inputs."
-            ]
-
-            prevention = (
-                "Use exception handling, API tests, structured logging, "
-                "input validation, and backend monitoring."
-            )
-
-        # ----------------------------------------------------
-        # 404
-        # ----------------------------------------------------
+            result = _backend_server_error()
 
         elif _contains_any(
             issue_text,
             [
-                "404",
-                "not found",
-                "missing endpoint"
+                "http 404",
+                "status code 404",
+                "missing endpoint",
+                "endpoint not found"
             ]
         ):
-
-            selected_rule = "BACKEND / 404"
-
-            print(">>> BACKEND / 404 RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve a missing API resource "
-                "or endpoint. The investigation should focus on the "
-                "requested URL, router registration, resource ID, "
-                "and endpoint configuration."
-            )
-
-            resolution = (
-                "Verify the requested API path and resource identifier, "
-                "check that the corresponding FastAPI router is registered, "
-                "and correct the URL, route, or missing resource."
-            )
-
-            steps = [
-                "Reproduce the 404 request.",
-                "Verify the requested URL and HTTP method.",
-                "Check the FastAPI router and endpoint registration.",
-                "Verify the requested resource ID.",
-                "Retest the endpoint."
-            ]
-
-            prevention = (
-                "Use API integration tests, route documentation, "
-                "endpoint validation, and automated regression tests."
-            )
-
-        # ----------------------------------------------------
-        # General backend/API
-        # ----------------------------------------------------
+            result = _backend_not_found()
 
         else:
+            result = _backend_general()
 
-            selected_rule = "BACKEND / API"
+    # --------------------------------------------------------
+    # 5. PERFORMANCE
+    # --------------------------------------------------------
 
-            print(">>> BACKEND / API RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve backend or API processing. "
-                "The investigation should focus on the request, validation, "
-                "authentication, database interaction, endpoint logic, "
-                "and response."
-            )
-
-            resolution = (
-                "Inspect the affected API endpoint and request data, "
-                "trace the request through backend processing, identify "
-                "the failing operation, apply the correction, and verify "
-                "the expected response."
-            )
-
-            steps = [
-                "Reproduce the API request.",
-                "Check the request payload and authentication.",
-                "Inspect endpoint logic and backend logs.",
-                "Verify validation and database operations.",
-                "Retest the API and confirm the expected response."
-            ]
-
-            prevention = (
-                "Add API validation, exception handling, logging, "
-                "automated endpoint tests, and monitoring."
-            )
-
-    # ========================================================
-    # 10. PERFORMANCE ISSUES
-    # ========================================================
-
-    elif (
-        "performance" in category_lower
-        or _contains_any(
-            issue_text,
-            [
-                "slow",
-                "latency",
-                "response time",
-                "performance",
-                "timeout",
-                "loading slowly"
-            ]
-        )
-    ):
-
-        selected_rule = "PERFORMANCE"
-
-        print(">>> PERFORMANCE RULE SELECTED")
-
-        analysis = (
-            "The issue appears to involve application performance. "
-            "The investigation should focus on response time, database "
-            "queries, backend processing, resource usage, and expensive "
-            "operations."
-        )
-
-        resolution = (
-            "Measure the affected operation, identify the performance "
-            "bottleneck, optimize the responsible component, and "
-            "measure the result again to verify the improvement."
-        )
-
-        steps = [
-            "Reproduce the performance problem.",
-            "Measure the API and page response time.",
-            "Inspect database queries and backend processing.",
-            "Identify expensive or unnecessary operations.",
-            "Apply the optimization and measure performance again."
+    elif performance_category or _contains_any(
+        issue_text,
+        [
+            "slow response",
+            "response time",
+            "latency",
+            "performance issue",
+            "loading slowly",
+            "application is slow",
+            "request timeout",
+            "page is slow"
         ]
+    ):
+        result = _performance()
 
-        prevention = (
-            "Use performance monitoring, query optimization, appropriate "
-            "caching, profiling, and regular load testing."
-        )
+    # --------------------------------------------------------
+    # 6. FUNCTIONAL VALIDATION
+    # --------------------------------------------------------
 
-    # ========================================================
-    # 11. BUG / FUNCTIONAL ISSUE
-    # ========================================================
+    elif _contains_any(
+        issue_text,
+        [
+            "validation",
+            "invalid input",
+            "incorrect error message",
+            "form validation",
+            "required field",
+            "invalid data"
+        ]
+    ):
+        result = _validation()
+
+    # --------------------------------------------------------
+    # 7. DEFAULT FUNCTIONAL ISSUE
+    # --------------------------------------------------------
 
     else:
+        result = _generic_functional(title)
 
-        # ----------------------------------------------------
-        # Validation
-        # ----------------------------------------------------
-
-        if _contains_any(
-            issue_text,
-            [
-                "validation",
-                "invalid input",
-                "error message",
-                "form"
-            ]
-        ):
-
-            selected_rule = "FUNCTIONAL / VALIDATION"
-
-            print(">>> FUNCTIONAL / VALIDATION RULE SELECTED")
-
-            analysis = (
-                "The issue appears to involve input or data validation. "
-                "The investigation should focus on the input values, "
-                "validation rules, error handling, and the affected "
-                "application workflow."
-            )
-
-            resolution = (
-                "Reproduce the validation failure, inspect the input "
-                "and validation rules, identify the incorrect validation "
-                "behavior, update the validation logic, and retest valid "
-                "and invalid inputs."
-            )
-
-            steps = [
-                "Reproduce the validation problem.",
-                "Identify the input that causes the failure.",
-                "Inspect frontend and backend validation rules.",
-                "Correct the validation or error-handling logic.",
-                "Test both valid and invalid input cases."
-            ]
-
-            prevention = (
-                "Use centralized validation, boundary testing, "
-                "negative test cases, and automated validation tests."
-            )
-
-        # ----------------------------------------------------
-        # Generic functional bug
-        # ----------------------------------------------------
-
-        else:
-
-            selected_rule = "GENERIC FUNCTIONAL"
-
-            print(">>> GENERIC FUNCTIONAL RULE SELECTED")
-
-            analysis = (
-                f"The issue '{title or issue_key or issue_id}' requires "
-                "functional investigation based on the reported behavior. "
-                "The title and description should be used to reproduce "
-                "the problem and identify the affected component."
-            )
-
-            resolution = (
-                "Reproduce the exact behavior described in the issue, "
-                "compare the actual result with the expected result, "
-                "trace the affected application flow, identify the "
-                "failing component, apply the correction, and verify "
-                "the complete workflow."
-            )
-
-            steps = [
-                "Review the issue title and description carefully.",
-                "Reproduce the exact reported behavior.",
-                "Compare the actual result with the expected result.",
-                "Trace the affected application component and identify the cause.",
-                "Apply the correction and retest the complete workflow."
-            ]
-
-            prevention = (
-                "Add a regression test for the reported scenario and "
-                "include the affected workflow in future testing."
-            )
-
-    # ========================================================
-    # 12. FINAL DEBUG INFORMATION
-    # ========================================================
-
-    print("------------------------------------------------")
-    print("SELECTED RESOLUTION RULE:", selected_rule)
-    print("------------------------------------------------")
-
-    # ========================================================
-    # 13. SEVERITY AND PRIORITY INFORMATION
-    # ========================================================
-
-    priority_note = (
-        f"The issue has severity '{severity or 'Not specified'}' "
-        f"and priority '{priority or 'Not specified'}'."
-    )
+    # --------------------------------------------------------
+    # Add issue-specific context to the returned result.
+    # --------------------------------------------------------
 
     analysis = (
-        f"{analysis} {priority_note}"
+        f"{result['analysis']} "
+        f"Issue ID: {issue_id}. "
+        f"Category: {category}. "
+        f"Severity: {severity or 'Not specified'}. "
+        f"Priority: {priority or 'Not specified'}."
     )
 
-    # ========================================================
-    # 14. RETURN STRUCTURED RESULT
-    # ========================================================
-
-    return {
+    final_result = {
         "issue_id": issue_id,
         "issue_key": issue_key,
         "category": category,
         "severity": severity,
         "priority": priority,
         "analysis": analysis,
-        "resolution": resolution,
-        "steps": steps,
-        "prevention": prevention
+        "resolution": result["resolution"],
+        "steps": result["steps"],
+        "prevention": result["prevention"]
     }
+
+    print("SELECTED RESOLUTION RULE:", result["rule"])
+    print("ISSUE ID:", issue_id)
+    print("RESOLUTION:", result["resolution"])
+    print("==============================================\n")
+
+    return final_result

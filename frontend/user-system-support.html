@@ -1,959 +1,1302 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Support | BugFlow</title>
 
-    <title>System Support - BugFlow</title>
-<link rel="stylesheet" href="admin-sidebar.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<script src="admin-notifications.js"></script>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+        }
+
+        :root {
+            --sidebar-bg: #111827;
+            --sidebar-border: #1f2937;
+            --sidebar-text: #d1d5db;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #818cf8;
+            --page-bg: #0f172a;
+            --surface: #1e293b;
+            --surface-alt: #172033;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
         }
 
         body {
-            background: #f5f7fb;
-            color: #1f2937;
-        }
-
-        .app {
-            display: flex;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: var(--page-bg);
+            color: var(--text);
+            font-size: 15px;
             min-height: 100vh;
         }
 
-        /* ================= SIDEBAR ================= */
+        button, textarea {
+            font-family: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* SIDEBAR - MATCH USER ANALYTICS */
 
         .sidebar {
             width: 250px;
-            background: #111827;
-            color: white;
+            height: 100vh;
             min-height: 100vh;
-            padding: 22px 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background: #111827;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
+            border-right: 1px solid #1f2937;
+            overflow-y: auto;
+            z-index: 100;
         }
 
         .brand {
+            height: 75px;
+            min-height: 75px;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 5px 10px 30px;
+            padding: 0 25px;
+            background: #111827;
+            border-bottom: 1px solid #1f2937;
+            font-size: 20px;
+            font-weight: 700;
+            color: #f8fafc;
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
-            background: #2563eb;
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
             border-radius: 10px;
+            background: #4f46e5;
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 18px;
         }
 
-        .brand-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: #111827 !important;
-    white-space: nowrap;
-}
-
-.brand-text span {
-    color: #111827 !important;
-}
-
-        .sidebar-section {
-            flex: 1;
+        .brand-name {
+            color: #f8fafc;
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        .sidebar-heading {
+        .nav-section {
+            padding: 24px 14px 10px;
             color: #9ca3af;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 10px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
         }
 
-        .nav-link {
+        .nav-links {
+            list-style: none;
+            padding: 0 12px;
+        }
+
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+
+        .nav-links a {
             display: flex;
             align-items: center;
             gap: 13px;
-            padding: 12px 14px;
-            margin: 5px 0;
+            padding: 12px 13px;
             border-radius: 8px;
             color: #d1d5db;
-            text-decoration: none;
             font-size: 14px;
+            transition: all .2s ease;
         }
 
-        .nav-link:hover,
-        .nav-link.active {
-            background: #1f2937;
-            color: white;
-        }
-
-        .nav-link i {
+        .nav-links a i {
             width: 20px;
             text-align: center;
+            font-size: 15px;
+            color: #94a3b8;
         }
 
-        .badge {
-            margin-left: auto;
-            background: #ef4444;
-            color: white;
-            font-size: 10px;
-            padding: 3px 7px;
-            border-radius: 10px;
+        .nav-links a:hover {
+            background: #1f2937;
+            color: #ffffff;
+        }
+
+        .nav-links a:hover i {
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            background: #4f46e5;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .nav-links a.active i {
+            color: #ffffff;
         }
 
         .sidebar-bottom {
             margin-top: auto;
+            padding: 15px 12px 22px;
+            background: #111827;
+            border-top: 1px solid rgba(255,255,255,.08);
         }
 
-        .support-box {
+        .sidebar-bottom a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 13px;
+            border-radius: 8px;
+            color: #d1d5db;
+            font-size: 14px;
+            transition: all .2s ease;
+        }
+
+        .sidebar-bottom a i {
+            width: 20px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .sidebar-bottom a:hover {
+            background: #7f1d1d;
+            color: #ffffff;
+        }
+
+        .sidebar-bottom a:hover i {
+            color: #ffffff;
+        }
+
+        /* MAIN LAYOUT */
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            background: #0f172a;
+        }
+
+        /* TOPBAR - MATCH USER ANALYTICS */
+
+        .topbar {
+            height: 75px;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background: #111827;
+            border-bottom: 1px solid #1f2937;
+            color: #f8fafc;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-title {
+            color: #f8fafc;
+            font-size: 19px;
+            font-weight: 650;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            color: #f8fafc;
+        }
+
+        .icon-button {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .icon-button:hover {
             background: #1f2937;
-            border-radius: 10px;
-            padding: 14px;
-            margin: 10px 0 15px;
+            color: #ffffff;
         }
 
-        .support-box strong {
-            display: block;
+        .notification-dot {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 9px;
+            height: 9px;
+            background: #ef4444;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .user-name {
+            color: #f8fafc;
             font-size: 13px;
-            margin-bottom: 4px;
+            font-weight: 650;
         }
 
-        .support-box small {
-            color: #86efac;
+        .user-role {
+            margin-top: 3px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* PAGE HEADING */
+
+        .page-content {
+            max-width: 1550px;
+            margin: 0 auto;
+            padding: 30px 34px;
+        }
+
+        .page-heading {
+            margin-bottom: 23px;
+        }
+
+        .page-heading h1 {
+            margin-bottom: 8px;
+            color: #f8fafc;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .page-heading p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* CHAT CARD */
+
+        .chat-card {
+            height: calc(100vh - 195px);
+            min-height: 480px;
+            max-height: 900px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.12);
+        }
+
+        .chat-header {
+            min-height: 76px;
+            padding: 15px 23px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .bot-avatar {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: #312e81;
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .chat-title {
+            color: #f8fafc;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .chat-subtitle {
+            margin-top: 5px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .status-indicator {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .status-indicator::before {
+            content: "";
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            margin-right: 5px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .new-chat-button {
+            padding: 10px 13px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #172033;
+            color: #cbd5e1;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .new-chat-button:hover {
+            background: #312e81;
+            border-color: #4f46e5;
+            color: #ffffff;
+        }
+
+        /* CHAT MESSAGES */
+
+        .chat-messages {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #172033;
+        }
+
+        .welcome-panel {
+            max-width: 650px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .welcome-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            background: #312e81;
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+        }
+
+        .welcome-panel h2 {
+            margin-bottom: 12px;
+            color: #f8fafc;
+            font-size: 23px;
+        }
+
+        .welcome-panel p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .message {
+            max-width: 88%;
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            background: #312e81;
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message.user .message-avatar {
+            background: #1e3a8a;
+            color: #bfdbfe;
+        }
+
+        .message-body {
+            min-width: 0;
+        }
+
+        .message-label {
+            margin-bottom: 6px;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .message.user .message-label {
+            text-align: right;
+        }
+
+        .message-text {
+            padding: 13px 16px;
+            border: 1px solid #334155;
+            border-radius: 4px 13px 13px 13px;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        .message.user .message-text {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+            border-radius: 13px 4px 13px 13px;
+        }
+
+        .message-text.error {
+            color: #fecaca;
+            background: #450a0a;
+            border-color: #7f1d1d;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 8px 25px;
+            background: #172033;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* SUGGESTED QUESTIONS */
+
+        .suggestions {
+            padding: 13px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            background: #1e293b;
+            border-top: 1px solid #334155;
+        }
+
+        .suggestion-label {
+            margin-right: 3px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .suggestion {
+            padding: 8px 11px;
+            border: 1px solid #475569;
+            border-radius: 20px;
+            background: #172033;
+            color: #cbd5e1;
+            font-size: 12px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .suggestion:hover {
+            background: #312e81;
+            border-color: #4f46e5;
+            color: #ffffff;
+        }
+
+        /* INPUT AREA */
+
+        .chat-input-area {
+            padding: 16px 22px 18px;
+            background: #1e293b;
+            border-top: 1px solid #334155;
+        }
+
+        .chat-form {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            padding: 8px 9px 8px 15px;
+            border: 1px solid #475569;
+            border-radius: 12px;
+            background: #172033;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .chat-form:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(79,70,229,.18);
+        }
+
+        .chat-input {
+            flex: 1;
+            min-width: 0;
+            min-height: 34px;
+            max-height: 120px;
+            resize: none;
+            padding: 8px 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #f8fafc;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .chat-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .chat-input:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+        }
+
+        .send-button {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: .2s;
+        }
+
+        .send-button:hover {
+            background: #4338ca;
+        }
+
+        .send-button:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .input-note {
+            margin-top: 10px;
+            color: #64748b;
+            text-align: center;
             font-size: 11px;
         }
 
-        /* ================= MAIN ================= */
+        /* RESPONSIVE */
 
-        .main {
-    flex: 1;
-    margin-left: 260px;
-    width: calc(100% - 260px);
-    min-width: 0;
-    padding: 25px 35px;
-}
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .topbar h1 {
-            font-size: 26px;
-            margin-bottom: 5px;
-        }
-
-        .topbar p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .admin-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #2563eb;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* ================= SYSTEM STATUS ================= */
-
-        .status-banner {
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .status-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #10b981;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .status-banner h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .status-banner p {
-            color: #047857;
-            font-size: 13px;
-        }
-
-        /* ================= CARDS ================= */
-
-        .support-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .support-card {
-            background: white;
-            border-radius: 12px;
-            padding: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-
-        .support-card h3 {
-            font-size: 17px;
-            margin-bottom: 18px;
-        }
-
-        .service-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 13px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .service-row:last-child {
-            border-bottom: none;
-        }
-
-        .service-name {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-        }
-
-        .service-name i {
-            width: 20px;
-            color: #2563eb;
-        }
-
-        .service-status {
-            color: #059669;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-
-        /* ================= INFO ================= */
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 14px;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: #6b7280;
-        }
-
-        .info-value {
-            font-weight: 600;
-        }
-
-        /* ================= HELP ================= */
-
-        .help-card {
-            margin-top: 20px;
-            background: white;
-            border-radius: 12px;
-            padding: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-
-        .help-card h3 {
-            margin-bottom: 8px;
-        }
-
-        .help-card p {
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 18px;
-        }
-
-        .help-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .help-btn {
-            border: none;
-            padding: 11px 18px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 13px;
-            background: #2563eb;
-            color: white;
-        }
-
-        .help-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .help-btn.secondary {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        /* ================= RESPONSIVE ================= */
-
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
             .sidebar {
-                width: 210px;
+                width: 220px;
             }
 
-            .support-grid {
-                grid-template-columns: 1fr;
+            .main-content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .page-content {
+                padding: 24px 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
             }
         }
 
-        @media (max-width: 650px) {
+        @media (max-width: 700px) {
+            .sidebar {
+                width: 68px;
+            }
 
-    .sidebar {
-        display: none;
-    }
+            .brand {
+                justify-content: center;
+                padding: 0;
+            }
 
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px;
-    }
+            .brand-name,
+            .nav-section,
+            .nav-links a span,
+            .sidebar-bottom a span {
+                display: none;
+            }
 
-    .topbar {
-        align-items: flex-start;
-    }
-}
+            .nav-links {
+                padding: 0 8px;
+            }
 
-        /* ================= DARK MODE ================= */
+            .nav-links a,
+            .sidebar-bottom a {
+                justify-content: center;
+                padding: 14px 0;
+            }
 
-        body.dark-mode {
-            background: #111827;
-            color: #f3f4f6;
+            .nav-links a i,
+            .sidebar-bottom a i {
+                width: auto;
+                font-size: 18px;
+            }
+
+            .main-content {
+                margin-left: 68px;
+                width: calc(100% - 68px);
+            }
+
+            .topbar {
+                padding: 0 13px;
+            }
+
+            .topbar-title {
+                font-size: 15px;
+            }
+
+            .user-name,
+            .user-role {
+                display: none;
+            }
+
+            .topbar-right {
+                gap: 8px;
+            }
+
+            .page-content {
+                padding: 20px 12px;
+            }
+
+            .page-heading h1 {
+                font-size: 22px;
+            }
+
+            .chat-card {
+                height: calc(100vh - 180px);
+                min-height: 450px;
+            }
+
+            .chat-header {
+                padding: 12px;
+            }
+
+            .chat-messages {
+                padding: 15px 10px;
+            }
+
+            .message {
+                max-width: 96%;
+            }
+
+            .suggestions {
+                padding: 12px;
+            }
+
+            .chat-input-area {
+                padding: 12px;
+            }
         }
 
-        body.dark-mode .support-card,
-        body.dark-mode .help-card {
-            background: #1f2937;
-            color: #f3f4f6;
+        @media (max-width: 420px) {
+            .chat-title {
+                font-size: 14px;
+            }
+
+            .bot-avatar {
+                width: 38px;
+                height: 38px;
+            }
+
+            .new-chat-button {
+                padding: 9px;
+            }
+
+            .suggestion {
+                font-size: 11px;
+            }
         }
-
-        body.dark-mode .topbar p,
-        body.dark-mode .help-card p,
-        body.dark-mode .info-label {
-            color: #9ca3af;
-        }
-
-        body.dark-mode .service-row,
-        body.dark-mode .info-row {
-            border-color: #374151;
-        }
-
-        body.dark-mode .status-banner {
-            background: #064e3b;
-            border-color: #065f46;
-        }
-
-        body.dark-mode .status-banner p {
-            color: #a7f3d0;
-        }
-
-        body.dark-mode .help-btn.secondary {
-            background: #374151;
-            color: white;
-        }
-        /* ============================================================
-   ADMIN SIDEBAR - FORCE WHITE THEME
-============================================================ */
-
-.sidebar {
-    background: #ffffff !important;
-    color: #64748b !important;
-    border-right: 1px solid #e5e7eb !important;
-}
-
-.sidebar .brand,
-.sidebar .logo-section {
-    background: #ffffff !important;
-    color: #111827 !important;
-}
-
-.sidebar .brand h2,
-.sidebar .logo-section h2 {
-    color: #111827 !important;
-}
-
-.sidebar .brand span,
-.sidebar .logo-section span {
-    color: #94a3b8 !important;
-}
-
-.sidebar .nav-heading {
-    color: #94a3b8 !important;
-}
-
-.sidebar .nav-link {
-    background: transparent !important;
-    color: #64748b !important;
-}
-
-.sidebar .nav-link i {
-    color: #64748b !important;
-}
-
-.sidebar .nav-link:hover {
-    background: #f1f5f9 !important;
-    color: #4f46e5 !important;
-}
-
-.sidebar .nav-link:hover i {
-    color: #4f46e5 !important;
-}
-
-/* Resolution Assistance active */
-.sidebar .nav-link.active {
-    background: #eeeeff !important;
-    color: #4f46e5 !important;
-}
-
-.sidebar .nav-link.active i {
-    color: #4f46e5 !important;
-}
-
-/* Back button */
-.sidebar .sidebar-back-button {
-    background: #f1f5f9 !important;
-    color: #334155 !important;
-    border: none !important;
-}
-
-.sidebar .sidebar-back-button i {
-    color: #334155 !important;
-}
-
-/* System Support */
-.sidebar .support-box {
-    background: #f8fafc !important;
-    color: #111827 !important;
-}
-
-.sidebar .support-box strong {
-    color: #111827 !important;
-}
-
-.sidebar .support-box small {
-    color: #94a3b8 !important;
-}
-
-/* Sidebar bottom */
-.sidebar .sidebar-bottom {
-    background: #ffffff !important;
-    border-top: 1px solid #e5e7eb !important;
-}
-
-/* Logout */
-.sidebar .logout {
-    background: transparent !important;
-    color: #64748b !important;
-}
-
-.sidebar .logout i {
-    color: #64748b !important;
-}
-
-/* Scrollbar */
-.sidebar {
-    height: 100vh !important;
-    max-height: 100vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-}
-
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-    background: #ffffff;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 10px;
-}
-/* ============================================================
-   SYSTEM SUPPORT - ACTIVE STATE
-============================================================ */
-
-.sidebar .support-box {
-    display: block !important;
-    width: auto !important;
-    box-sizing: border-box !important;
-    margin: 0 16px 18px 16px !important;
-    padding: 16px !important;
-
-    border-radius: 12px !important;
-
-    background: #f8fafc !important;
-    color: #111827 !important;
-    text-decoration: none !important;
-}
-
-.sidebar .support-box strong {
-    display: block !important;
-    color: #111827 !important;
-}
-
-.sidebar .support-box strong i {
-    margin-right: 6px !important;
-    color: #64748b !important;
-}
-
-.sidebar .support-box small {
-    display: block !important;
-    margin-top: 6px !important;
-    color: #94a3b8 !important;
-}
-
-
-/* ACTIVE SYSTEM SUPPORT */
-
-.sidebar .support-box.active {
-    background: #eeeeff !important;
-}
-
-.sidebar .support-box.active strong {
-    color: #4f46e5 !important;
-}
-
-.sidebar .support-box.active strong i {
-    color: #4f46e5 !important;
-}
-
-.sidebar .support-box.active small {
-    color: #64748b !important;
-}
     </style>
 </head>
 
 <body>
 
-<div class="app">
-
-    <!-- ================= SIDEBAR ================= -->
-
+    <!-- USER SIDEBAR -->
     <aside class="sidebar">
-
         <div class="brand">
-
             <div class="brand-icon">
                 <i class="fa-solid fa-bug"></i>
             </div>
-
-            <div class="brand-text">
-                Bug<span>Flow</span>
-            </div>
-
+            <span class="brand-name">BugFlow</span>
         </div>
-        <button class="sidebar-back-button" onclick="history.back()">
-    <i class="fa-solid fa-arrow-left"></i>
-    <span>Back</span>
-</button>
 
+        <div class="nav-section">WORKSPACE</div>
 
-        <div class="sidebar-section">
+        <ul class="nav-links">
+            <li>
+                <a href="user-dashboard.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-    <div class="sidebar-heading">
-        Main
-    </div>
+            <li>
+                <a href="user-report-defect.html">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    <span>Report Issue</span>
+                </a>
+            </li>
 
-    <!-- Dashboard -->
-    <a href="user-dashboard.html"
-       class="nav-link">
+            <li>
+                <a href="user-my-issues.html">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>My Issues</span>
+                </a>
+            </li>
 
-        <i class="fa-solid fa-chart-line"></i>
+            <li>
+                <a href="user-resolution.html">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Resolution Assistance</span>
+                </a>
+            </li>
 
-        <span>Dashboard</span>
+            <li>
+                <a href="user-analytics.html">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
 
-    </a>
+            <li>
+                <a href="user-notifications.html">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
 
-
-    <!-- Report Issue -->
-    <a href="user-report-defect.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-bug"></i>
-
-        <span>Report Issue</span>
-
-    </a>
-
-
-    <!-- My Issues -->
-    <a href="user-my-issues.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-list-check"></i>
-
-        <span>My Issues</span>
-
-    </a>
-
-    <!-- Resolution Assistance -->
-    <a href="user-resolution.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-lightbulb"></i>
-
-        <span>Resolution Assistance</span>
-
-    </a>
-
-
-    <!-- Analytics & Reports -->
-    <a href="user-analytics.html"
-       class="nav-link">
-
-        <i class="fa-solid fa-chart-pie"></i>
-
-        <span>Analytics & Reports</span>
-
-    </a>
-
-    <!-- Notifications -->
-    <a href="user-notifications.html"
-   class="nav-link">
-
-    <i class="fa-solid fa-bell"></i>
-
-    <span>Notifications</span>
-
-    <span id="sidebarNotificationBadge"
-          class="notification-badge"></span>
-
-</a>
-
-
-    <!-- System Support -->
-    <a href="user-system-support.html"
-       class="nav-link active">
-
-        <i class="fa-solid fa-circle-question"></i>
-
-        <span>System Support</span>
-
-    </a>
-
-</div>
-
+            <li>
+                <a href="user-system-support.html" class="active">
+                    <i class="fa-solid fa-headset"></i>
+                    <span>System Support</span>
+                </a>
+            </li>
+        </ul>
 
         <div class="sidebar-bottom">
-
-            <a href="#"
-               class="nav-link logout-link"
-               id="logoutLink">
-
+            <a href="#" id="logoutButton">
                 <i class="fa-solid fa-right-from-bracket"></i>
-
                 <span>Logout</span>
-
             </a>
-
         </div>
-
     </aside>
 
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
 
-    <!-- ================= MAIN ================= -->
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-title">System Support</div>
 
-    <main class="main">
+            <div class="topbar-right">
+                <a href="user-notifications.html"
+                   class="icon-button"
+                   aria-label="Notifications"
+                   title="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot" id="notificationDot"></span>
+                </a>
 
-        <div class="topbar">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
 
-            <div>
+                    <div>
+                        <div class="user-name" id="userName">User</div>
+                        <div class="user-role" id="userRole">Tester</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CHAT PAGE -->
+        <section class="page-content">
+
+            <div class="page-heading">
                 <h1>System Support</h1>
-                <p>Monitor BugFlow system health and services.</p>
-            </div>
-
-            <div class="admin-info">
-
-                <div>
-                    <strong id="adminName">Admin</strong>
-                </div>
-
-                <div class="avatar" id="adminAvatar">
-                    A
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- SYSTEM STATUS -->
-
-        <div class="status-banner">
-
-            <div class="status-icon">
-                <i class="fa-solid fa-check"></i>
-            </div>
-
-            <div>
-                <h2>All Systems Operational</h2>
-
                 <p>
-                    BugFlow services are currently running normally.
+                    Ask questions about BugFlow, issue reporting, assignments,
+                    priorities, and troubleshooting.
                 </p>
             </div>
 
-        </div>
+            <section class="chat-card">
 
-        <!-- SERVICE STATUS -->
+                <!-- CHAT HEADER -->
+                <div class="chat-header">
+                    <div class="chat-header-left">
+                        <div class="bot-avatar">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
 
-        <div class="support-grid">
-
-            <div class="support-card">
-
-                <h3>
-                    <i class="fa-solid fa-server"></i>
-                    Service Status
-                </h3>
-
-                <div class="service-row">
-
-                    <div class="service-name">
-                        <i class="fa-solid fa-code"></i>
-                        FastAPI Backend
+                        <div>
+                            <div class="chat-title">BugFlow Assistant</div>
+                            <div class="chat-subtitle">
+                                <span class="status-indicator">Ready to help</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
+                    <button class="new-chat-button" id="clearChatButton" type="button">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        New Chat
+                    </button>
+                </div>
+
+                <!-- MESSAGES -->
+                <div class="chat-messages" id="chatMessages" aria-live="polite">
+                    <div class="welcome-panel" id="welcomePanel">
+                        <div class="welcome-icon">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+
+                        <h2>How can I help you?</h2>
+
+                        <p>
+                            Type your question below and I'll help you with
+                            BugFlow. You can ask your own questions or select
+                            one of the suggestions.
+                        </p>
                     </div>
-
                 </div>
 
-                <div class="service-row">
+                <div class="typing-indicator" id="typingIndicator">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    Assistant is preparing a response...
+                </div>
 
-                    <div class="service-name">
-                        <i class="fa-solid fa-database"></i>
-                        PostgreSQL Database
+                <!-- OPTIONAL QUESTION SUGGESTIONS -->
+                <div class="suggestions">
+                    <span class="suggestion-label">Try asking:</span>
+
+                    <button type="button" class="suggestion"
+                            data-prompt="How do I report an issue?">
+                        Report an issue
+                    </button>
+
+                    <button type="button" class="suggestion"
+                            data-prompt="How can I check my issue status?">
+                        Check issue status
+                    </button>
+
+                    <button type="button" class="suggestion"
+                            data-prompt="What do issue priorities mean?">
+                        Issue priorities
+                    </button>
+                </div>
+
+                <!-- INPUT -->
+                <div class="chat-input-area">
+                    <form class="chat-form" id="chatForm">
+                        <textarea
+                            class="chat-input"
+                            id="chatInput"
+                            placeholder="Ask your question here..."
+                            rows="1"
+                            maxlength="4000"
+                            aria-label="Type your question"
+                            required></textarea>
+
+                        <button class="send-button"
+                                id="sendButton"
+                                type="submit"
+                                aria-label="Send message"
+                                title="Send message">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+
+                    <div class="input-note">
+                        Press Enter to send · Shift + Enter for a new line
                     </div>
-
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
                 </div>
 
-                <div class="service-row">
-
-                    <div class="service-name">
-                        <i class="fa-solid fa-key"></i>
-                        Authentication Service
-                    </div>
-
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
-                </div>
-
-                <div class="service-row">
-
-                    <div class="service-name">
-                        <i class="fa-solid fa-file-export"></i>
-                        Export Service
-                    </div>
-
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- SYSTEM INFORMATION -->
-
-            <div class="support-card">
-
-                <h3>
-                    <i class="fa-solid fa-circle-info"></i>
-                    System Information
-                </h3>
-
-                <div class="info-row">
-                    <span class="info-label">Application</span>
-                    <span class="info-value">BugFlow</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Backend</span>
-                    <span class="info-value">FastAPI</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Database</span>
-                    <span class="info-value">PostgreSQL</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Authentication</span>
-                    <span class="info-value">JWT</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">API Status</span>
-                    <span class="info-value" style="color:#059669;">
-                        Online
-                    </span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- HELP -->
-
-        <div class="help-card">
-
-            <h3>
-                <i class="fa-solid fa-headset"></i>
-                Need Help?
-            </h3>
-
-            <p>
-                If you experience an issue with BugFlow,
-                use the options below to check the system or return
-                to the main dashboard.
-            </p>
-
-            <div class="help-buttons">
-
-                <button class="help-btn" onclick="checkSystem()">
-                    <i class="fa-solid fa-rotate"></i>
-                    Check System
-                </button>
-
-                <button class="help-btn secondary"
-                        onclick="location.href='admin-dashboard.html'">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Back to Dashboard
-                </button>
-
-            </div>
-
-        </div>
-
+            </section>
+        </section>
     </main>
 
-</div>
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:8000";
+        const CHAT_API_URL = `${API_BASE_URL}/api/v1/chatbot/message`;
 
-<script>
+        const chatMessages = document.getElementById("chatMessages");
+        const chatForm = document.getElementById("chatForm");
+        const chatInput = document.getElementById("chatInput");
+        const sendButton = document.getElementById("sendButton");
+        const clearChatButton = document.getElementById("clearChatButton");
+        const typingIndicator = document.getElementById("typingIndicator");
 
-    /* ================= ADMIN INFO ================= */
+        let conversation = [];
+        let isSending = false;
 
-    const storedUser = localStorage.getItem("user");
+        // LOAD USER DETAILS
+        function loadUserDetails() {
+            let user = {};
 
-    if (storedUser) {
-
-        try {
-
-            const user = JSON.parse(storedUser);
+            try {
+                user = JSON.parse(localStorage.getItem("user") || "{}");
+            } catch (error) {
+                user = {};
+            }
 
             const name =
                 user.full_name ||
+                user.fullName ||
                 user.username ||
                 user.name ||
-                "Admin";
+                "User";
 
-            document.getElementById("adminName").textContent = name;
+            const role = user.role || "Tester";
 
-            document.getElementById("adminAvatar").textContent =
-                name.charAt(0).toUpperCase();
+            document.getElementById("userName").textContent = name;
+            document.getElementById("userRole").textContent =
+                String(role).replace(/^ROLE_/, "");
 
-        } catch (error) {
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part[0].toUpperCase())
+                .join("");
 
-            console.log("Unable to load admin information.");
-
+            document.getElementById("userAvatar").textContent =
+                initials || "U";
         }
-    }
 
+        // CHECK LOGIN
+        function getAccessToken() {
+            return localStorage.getItem("access_token");
+        }
 
-    /* ================= SYSTEM CHECK ================= */
+        // CREATE MESSAGE ELEMENTS SAFELY
+        function addMessage(role, content, isError = false) {
+            const welcome = document.getElementById("welcomePanel");
 
-    function checkSystem() {
+            if (welcome) {
+                welcome.remove();
+            }
 
-        alert(
-            "System Check Complete!\n\n" +
-            "✓ FastAPI Backend: Operational\n" +
-            "✓ PostgreSQL Database: Operational\n" +
-            "✓ Authentication Service: Operational\n" +
-            "✓ Export Service: Operational\n\n" +
-            "All BugFlow systems are running normally."
+            const message = document.createElement("div");
+            message.className = `message ${role}`;
+
+            const avatar = document.createElement("div");
+            avatar.className = "message-avatar";
+
+            const avatarIcon = document.createElement("i");
+            avatarIcon.className = role === "user"
+                ? "fa-solid fa-user"
+                : "fa-solid fa-robot";
+
+            avatar.appendChild(avatarIcon);
+
+            const body = document.createElement("div");
+            body.className = "message-body";
+
+            const label = document.createElement("div");
+            label.className = "message-label";
+            label.textContent =
+                role === "user" ? "You" : "BugFlow Assistant";
+
+            const text = document.createElement("div");
+            text.className = "message-text";
+
+            if (isError) {
+                text.classList.add("error");
+            }
+
+            text.textContent = content;
+
+            body.appendChild(label);
+            body.appendChild(text);
+            message.appendChild(avatar);
+            message.appendChild(body);
+
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            return message;
+        }
+
+        function setLoading(loading) {
+            isSending = loading;
+            sendButton.disabled = loading;
+            chatInput.disabled = loading;
+            typingIndicator.style.display = loading ? "block" : "none";
+
+            sendButton.innerHTML = loading
+                ? '<i class="fa-solid fa-spinner fa-spin"></i>'
+                : '<i class="fa-solid fa-paper-plane"></i>';
+
+            if (loading) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // SEND QUESTION TO BUGFLOW BACKEND
+        async function sendMessage(message) {
+            const question = message.trim();
+
+            if (!question || isSending) {
+                return;
+            }
+
+            const token = getAccessToken();
+
+            if (!token) {
+                addMessage(
+                    "assistant",
+                    "Your login session could not be found. Please log in to BugFlow again.",
+                    true
+                );
+                return;
+            }
+
+            addMessage("user", question);
+
+            conversation.push({
+                role: "user",
+                content: question
+            });
+
+            conversation = conversation.slice(-12);
+
+            chatInput.value = "";
+            chatInput.style.height = "34px";
+
+            setLoading(true);
+
+            try {
+                const response = await fetch(CHAT_API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        message: question,
+                        conversation: conversation
+                    })
+                });
+
+                if (response.status === 401) {
+                    throw new Error(
+                        "Your session has expired. Please log in again."
+                    );
+                }
+
+                if (response.status === 403) {
+                    throw new Error(
+                        "Your account does not currently have permission to use this chatbot. The backend access setting needs to be updated for regular users."
+                    );
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        `The support service returned an error (${response.status}).`
+                    );
+                }
+
+                const data = await response.json();
+
+                const reply =
+                    data.reply ||
+                    data.response ||
+                    "I couldn't prepare a response. Please try asking another question.";
+
+                addMessage("assistant", reply);
+
+                conversation.push({
+                    role: "assistant",
+                    content: reply
+                });
+
+                conversation = conversation.slice(-12);
+
+            } catch (error) {
+                addMessage(
+                    "assistant",
+                    error.message ||
+                    "Unable to connect to the support service. Please check that the BugFlow backend is running.",
+                    true
+                );
+            } finally {
+                setLoading(false);
+                chatInput.focus();
+            }
+        }
+
+        // SUBMIT QUESTION
+        chatForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            sendMessage(chatInput.value);
+        });
+
+        // ENTER SENDS; SHIFT + ENTER ADDS A NEW LINE
+        chatInput.addEventListener("keydown", function (event) {
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey &&
+                !event.isComposing
+            ) {
+                event.preventDefault();
+                chatForm.requestSubmit();
+            }
+        });
+
+        // AUTO-RESIZE INPUT
+        chatInput.addEventListener("input", function () {
+            chatInput.style.height = "34px";
+            chatInput.style.height =
+                Math.min(chatInput.scrollHeight, 120) + "px";
+        });
+
+        // OPTIONAL SUGGESTIONS; USERS CAN STILL TYPE ANY QUESTION
+        document.querySelectorAll(".suggestion").forEach(button => {
+            button.addEventListener("click", function () {
+                if (isSending) return;
+
+                chatInput.value = this.dataset.prompt || "";
+                chatInput.focus();
+                chatInput.style.height = "34px";
+                chatInput.style.height =
+                    Math.min(chatInput.scrollHeight, 120) + "px";
+            });
+        });
+
+        // CLEAR CURRENT CHAT
+        clearChatButton.addEventListener("click", function () {
+            if (isSending) return;
+
+            conversation = [];
+
+            chatMessages.innerHTML = `
+                <div class="welcome-panel" id="welcomePanel">
+                    <div class="welcome-icon">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h2>How can I help you?</h2>
+                    <p>
+                        Type your question below and I'll help you with
+                        BugFlow. You can ask your own questions or select
+                        one of the suggestions.
+                    </p>
+                </div>
+            `;
+
+            chatInput.value = "";
+            chatInput.style.height = "34px";
+            chatInput.focus();
+        });
+
+        // LOGOUT
+        document.getElementById("logoutButton").addEventListener(
+            "click",
+            function (event) {
+                event.preventDefault();
+
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("user");
+
+                window.location.href = "index.html";
+            }
         );
 
-    }
+        // CHECK UNREAD NOTIFICATIONS
+        async function loadNotificationStatus() {
+            const token = getAccessToken();
 
+            if (!token) return;
 
-    /* ================= LOGOUT ================= */
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/api/v1/notifications/unread-count`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    }
+                );
 
-    document.getElementById("logoutBtn").addEventListener(
-        "click",
-        function () {
+                if (!response.ok) return;
 
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("user");
+                const data = await response.json();
+                const count = Number(
+                    data.unread_count ?? data.count ?? 0
+                );
 
+                document.getElementById("notificationDot").style.display =
+                    count > 0 ? "block" : "none";
+
+            } catch (error) {
+                console.warn("Could not load notification status.");
+            }
         }
-    );
 
-</script>
-<script src="js/user-profile-sync.js"></script>
+        // INITIALIZE PAGE
+        loadUserDetails();
+        loadNotificationStatus();
+        chatInput.focus();
+    </script>
+
 </body>
 </html>

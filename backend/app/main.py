@@ -23,7 +23,7 @@ from app.routers.password_router import router as password_router
 from app.routers.exports import router as exports_router
 from app.routers.notifications import router as notifications_router
 from app.routers.profile_router import router as profile_router
-
+from app.routers.chatbot import router as chatbot_router
 
 app = FastAPI(
     title="BugFlow - Software Issue Tracking & Resolution Platform",
@@ -39,12 +39,15 @@ app.add_middleware(
     allow_origins=[
         "null",
         "http://127.0.0.1:5500",
-        "http://localhost:5500"
+        "http://localhost:5500",
+        "http://127.0.0.1:5501",
+        "http://localhost:5501",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # Create database tables if they do not already exist
 Base.metadata.create_all(bind=engine)
@@ -66,7 +69,7 @@ app.include_router(exports_router)
 
 app.include_router(notifications_router)
 app.include_router(profile_router)
-
+app.include_router(chatbot_router)
 
 @app.get("/")
 def root():

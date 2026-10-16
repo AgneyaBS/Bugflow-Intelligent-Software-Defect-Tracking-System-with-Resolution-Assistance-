@@ -1,14 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>System Support - BugFlow</title>
-<link rel="stylesheet" href="admin-sidebar.css">
+    <title>Admin AI Support - BugFlow</title>
+
+    <link rel="stylesheet" href="admin-sidebar.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<script src="admin-notifications.js"></script>
+    <link rel="stylesheet" href="ai-chatbot.css">
+
+    <script src="admin-notifications.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -27,12 +32,14 @@
             min-height: 100vh;
         }
 
-        /* ================= SIDEBAR ================= */
+        /* SIDEBAR */
 
         .sidebar {
             width: 250px;
-            background: #111827;
-            color: white;
+            flex-shrink: 0;
+            background: #fff !important;
+            color: #64748b !important;
+            border-right: 1px solid #e5e7eb !important;
             min-height: 100vh;
             padding: 22px 15px;
             display: flex;
@@ -49,30 +56,32 @@
         .brand-icon {
             width: 40px;
             height: 40px;
+            flex-shrink: 0;
             background: #2563eb;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
         }
 
         .brand-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: #111827 !important;
-    white-space: nowrap;
-}
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827 !important;
+            white-space: nowrap;
+        }
 
-.brand-text span {
-    color: #111827 !important;
-}
+        .brand-text span {
+            color: #4f46e5 !important;
+        }
 
         .sidebar-section {
             flex: 1;
         }
 
         .sidebar-heading {
-            color: #9ca3af;
+            color: #94a3b8;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -86,20 +95,34 @@
             padding: 12px 14px;
             margin: 5px 0;
             border-radius: 8px;
-            color: #d1d5db;
+            background: transparent !important;
+            color: #64748b !important;
             text-decoration: none;
             font-size: 14px;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background: #1f2937;
-            color: white;
         }
 
         .nav-link i {
             width: 20px;
             text-align: center;
+            color: #64748b;
+        }
+
+        .nav-link:hover {
+            background: #f1f5f9 !important;
+            color: #4f46e5 !important;
+        }
+
+        .nav-link:hover i {
+            color: #4f46e5;
+        }
+
+        .nav-link.active {
+            background: #eeeeff !important;
+            color: #4f46e5 !important;
+        }
+
+        .nav-link.active i {
+            color: #4f46e5;
         }
 
         .badge {
@@ -113,51 +136,82 @@
 
         .sidebar-bottom {
             margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
         }
 
         .support-box {
-            background: #1f2937;
-            border-radius: 10px;
-            padding: 14px;
-            margin: 10px 0 15px;
+            display: block;
+            margin: 0 0 12px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #eeeeff;
+            color: #4f46e5;
+            text-decoration: none;
         }
 
         .support-box strong {
             display: block;
             font-size: 13px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+        }
+
+        .support-box strong i {
+            margin-right: 6px;
         }
 
         .support-box small {
-            color: #86efac;
+            display: block;
+            color: #64748b;
             font-size: 11px;
         }
 
-        /* ================= MAIN ================= */
+        .sidebar {
+            height: 100vh;
+            max-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 10;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+
+        /* MAIN CONTENT */
 
         .main {
-    flex: 1;
-    margin-left: 260px;
-    width: calc(100% - 260px);
-    min-width: 0;
-    padding: 25px 35px;
-}
+            flex: 1;
+            margin-left: 250px;
+            min-width: 0;
+            padding: 25px 35px;
+        }
 
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .topbar h1 {
             font-size: 26px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .topbar p {
             color: #6b7280;
             font-size: 14px;
+            line-height: 1.5;
         }
 
         .admin-info {
@@ -178,70 +232,78 @@
             font-weight: bold;
         }
 
-        /* ================= SYSTEM STATUS ================= */
+        /* SYSTEM STATUS */
 
         .status-banner {
             background: #ecfdf5;
             border: 1px solid #a7f3d0;
             border-radius: 12px;
-            padding: 20px;
+            padding: 18px;
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .status-icon {
-            width: 50px;
-            height: 50px;
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
             border-radius: 50%;
             background: #10b981;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .status-banner h2 {
-            font-size: 18px;
+            font-size: 17px;
             margin-bottom: 5px;
         }
 
         .status-banner p {
             color: #047857;
             font-size: 13px;
+            line-height: 1.5;
         }
 
-        /* ================= CARDS ================= */
+        /* SERVICE CARDS */
 
         .support-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 20px;
+            margin-bottom: 22px;
         }
 
         .support-card {
             background: white;
             border-radius: 12px;
             padding: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            min-width: 0;
         }
 
         .support-card h3 {
             font-size: 17px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
-        .service-row {
+        .service-row,
+        .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
             padding: 13px 0;
             border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
         }
 
-        .service-row:last-child {
+        .service-row:last-child,
+        .info-row:last-child {
             border-bottom: none;
         }
 
@@ -249,7 +311,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
         }
 
         .service-name i {
@@ -261,6 +322,7 @@
             color: #059669;
             font-size: 12px;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .status-dot {
@@ -272,36 +334,201 @@
             margin-right: 5px;
         }
 
-        /* ================= INFO ================= */
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 14px;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
         .info-label {
             color: #6b7280;
         }
 
         .info-value {
             font-weight: 600;
+            text-align: right;
         }
 
-        /* ================= HELP ================= */
+        /* CHATBOT */
+
+        .chatbot-panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 22px;
+        }
+
+        .chatbot-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 22px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .chatbot-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chatbot-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #eeeeff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chatbot-title h2 {
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .chatbot-title p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .chatbot-header button {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .chatbot-header button:hover {
+            background: #f3f4f6;
+        }
+
+        .chat-messages {
+            min-height: 230px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #fcfcfd;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 12px 15px;
+            border-radius: 13px;
+            line-height: 1.6;
+            font-size: 14px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .chat-message.assistant {
+            align-self: flex-start;
+            background: #f1f5f9;
+            color: #1e293b;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user {
+            align-self: flex-end;
+            background: #4f46e5;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chatbot-prompts {
+            padding: 0 20px 17px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            background: #fcfcfd;
+        }
+
+        .chatbot-prompts button {
+            border: 1px solid #dbe3ef;
+            border-radius: 20px;
+            padding: 9px 13px;
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .chatbot-prompts button:hover {
+            border-color: #818cf8;
+            background: #eeeeff;
+            color: #4338ca;
+        }
+
+        .chatbot-form {
+            display: flex;
+            gap: 10px;
+            padding: 16px 20px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .chatbot-form input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chatbot-form input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+
+        .chatbot-form button {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 19px;
+            background: #4f46e5;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .chatbot-form button:hover {
+            background: #4338ca;
+        }
+
+        .chatbot-form button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .chatbot-status {
+            padding: 0 20px 13px;
+            color: #6b7280;
+            font-size: 12px;
+            background: white;
+        }
+
+        .chatbot-note {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
+            padding: 0 20px 15px;
+            background: white;
+        }
+
+        /* HELP */
 
         .help-card {
-            margin-top: 20px;
             background: white;
             border-radius: 12px;
             padding: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .help-card h3 {
@@ -311,11 +538,13 @@
         .help-card p {
             color: #6b7280;
             font-size: 14px;
-            margin-bottom: 18px;
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         .help-buttons {
             display: flex;
+            flex-wrap: wrap;
             gap: 12px;
         }
 
@@ -338,56 +567,53 @@
             color: #374151;
         }
 
-        /* ================= RESPONSIVE ================= */
-
-        @media (max-width: 900px) {
-            .sidebar {
-                width: 210px;
-            }
-
-            .support-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 650px) {
-
-    .sidebar {
-        display: none;
-    }
-
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px;
-    }
-
-    .topbar {
-        align-items: flex-start;
-    }
-}
-
-        /* ================= DARK MODE ================= */
+        /* DARK MODE */
 
         body.dark-mode {
             background: #111827;
             color: #f3f4f6;
         }
 
+        body.dark-mode .main,
+        body.dark-mode .topbar p,
+        body.dark-mode .info-label,
+        body.dark-mode .help-card p {
+            color: #f3f4f6;
+        }
+
         body.dark-mode .support-card,
-        body.dark-mode .help-card {
+        body.dark-mode .help-card,
+        body.dark-mode .chatbot-panel,
+        body.dark-mode .chatbot-header,
+        body.dark-mode .chatbot-form,
+        body.dark-mode .chatbot-status,
+        body.dark-mode .chatbot-note {
             background: #1f2937;
             color: #f3f4f6;
         }
 
-        body.dark-mode .topbar p,
-        body.dark-mode .help-card p,
-        body.dark-mode .info-label {
-            color: #9ca3af;
+        body.dark-mode .chat-messages,
+        body.dark-mode .chatbot-prompts {
+            background: #111827;
+        }
+
+        body.dark-mode .chat-message.assistant {
+            background: #374151;
+            color: #f9fafb;
+        }
+
+        body.dark-mode .chatbot-prompts button,
+        body.dark-mode .chatbot-header button,
+        body.dark-mode .chatbot-form input {
+            background: #374151;
+            color: #f9fafb;
+            border-color: #4b5563;
         }
 
         body.dark-mode .service-row,
-        body.dark-mode .info-row {
+        body.dark-mode .info-row,
+        body.dark-mode .chatbot-header,
+        body.dark-mode .chatbot-form {
             border-color: #374151;
         }
 
@@ -400,189 +626,269 @@
             color: #a7f3d0;
         }
 
-        body.dark-mode .help-btn.secondary {
-            background: #374151;
-            color: white;
+        body.dark-mode .sidebar {
+            background: #ffffff !important;
         }
-        /* ============================================================
-   ADMIN SIDEBAR - FORCE WHITE THEME
-============================================================ */
 
-.sidebar {
-    background: #ffffff !important;
-    color: #64748b !important;
-    border-right: 1px solid #e5e7eb !important;
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            .main {
+                padding: 22px;
+            }
+
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 16px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+
+            .admin-info {
+                gap: 6px;
+            }
+
+            .admin-info strong {
+                font-size: 12px;
+            }
+
+            .avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+            .chatbot-header {
+                padding: 14px;
+            }
+
+            .chatbot-title p {
+                line-height: 1.4;
+            }
+
+            .chat-messages {
+                padding: 14px;
+                min-height: 200px;
+            }
+
+            .chatbot-prompts {
+                padding: 0 14px 14px;
+            }
+
+            .chatbot-form {
+                padding: 12px;
+            }
+
+            .chatbot-form button {
+                padding: 11px 13px;
+            }
+
+            .chat-message {
+                max-width: 95%;
+            }
+        }
+
+/* CHATBOT-ONLY PAGE */
+
+.main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar .brand,
-.sidebar .logo-section {
-    background: #ffffff !important;
-    color: #111827 !important;
-}
-
-.sidebar .brand h2,
-.sidebar .logo-section h2 {
-    color: #111827 !important;
-}
-
-.sidebar .brand span,
-.sidebar .logo-section span {
-    color: #94a3b8 !important;
-}
-
-.sidebar .nav-heading {
-    color: #94a3b8 !important;
-}
-
-.sidebar .nav-link {
-    background: transparent !important;
-    color: #64748b !important;
-}
-
-.sidebar .nav-link i {
-    color: #64748b !important;
-}
-
-.sidebar .nav-link:hover {
-    background: #f1f5f9 !important;
-    color: #4f46e5 !important;
-}
-
-.sidebar .nav-link:hover i {
-    color: #4f46e5 !important;
-}
-
-/* Resolution Assistance active */
-.sidebar .nav-link.active {
-    background: #eeeeff !important;
-    color: #4f46e5 !important;
-}
-
-.sidebar .nav-link.active i {
-    color: #4f46e5 !important;
-}
-
-/* Back button */
-.sidebar .sidebar-back-button {
-    background: #f1f5f9 !important;
-    color: #334155 !important;
-    border: none !important;
-}
-
-.sidebar .sidebar-back-button i {
-    color: #334155 !important;
-}
-
-/* System Support */
-.sidebar .support-box {
-    background: #f8fafc !important;
-    color: #111827 !important;
-}
-
-.sidebar .support-box strong {
-    color: #111827 !important;
-}
-
-.sidebar .support-box small {
-    color: #94a3b8 !important;
-}
-
-/* Sidebar bottom */
-.sidebar .sidebar-bottom {
-    background: #ffffff !important;
-    border-top: 1px solid #e5e7eb !important;
-}
-
-/* Logout */
-.sidebar .logout {
-    background: transparent !important;
-    color: #64748b !important;
-}
-
-.sidebar .logout i {
-    color: #64748b !important;
-}
-
-/* Scrollbar */
-.sidebar {
-    height: 100vh !important;
-    max-height: 100vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-}
-
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
+.chatbot-panel {
+    flex: 1;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
     background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 10px;
-}
-/* ============================================================
-   SYSTEM SUPPORT - ACTIVE STATE
-============================================================ */
-
-.sidebar .support-box {
-    display: block !important;
-    width: auto !important;
-    box-sizing: border-box !important;
-    margin: 0 16px 18px 16px !important;
-    padding: 16px !important;
-
-    border-radius: 12px !important;
-
-    background: #f8fafc !important;
-    color: #111827 !important;
-    text-decoration: none !important;
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.sidebar .support-box strong {
-    display: block !important;
-    color: #111827 !important;
+.chatbot-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.sidebar .support-box strong i {
-    margin-right: 6px !important;
-    color: #64748b !important;
+.chatbot-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #eeeeff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
 }
 
-.sidebar .support-box small {
-    display: block !important;
-    margin-top: 6px !important;
-    color: #94a3b8 !important;
+.chatbot-title h2 {
+    font-size: 17px;
+    margin-bottom: 5px;
 }
 
-
-/* ACTIVE SYSTEM SUPPORT */
-
-.sidebar .support-box.active {
-    background: #eeeeff !important;
+.chatbot-title p {
+    color: #6b7280;
+    font-size: 12px;
 }
 
-.sidebar .support-box.active strong {
-    color: #4f46e5 !important;
+.chatbot-header button {
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
 }
 
-.sidebar .support-box.active strong i {
-    color: #4f46e5 !important;
+.chat-messages {
+    flex: 1;
+    min-height: 260px;
+    max-height: 55vh;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #fcfcfd;
 }
 
-.sidebar .support-box.active small {
-    color: #64748b !important;
+.chat-message {
+    max-width: 85%;
+    padding: 12px 15px;
+    border-radius: 13px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
+
+.chat-message.assistant {
+    align-self: flex-start;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.chat-message.user {
+    align-self: flex-end;
+    background: #4f46e5;
+    color: #ffffff;
+}
+
+.chatbot-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 14px 20px;
+    background: #fcfcfd;
+}
+
+.chatbot-prompts button {
+    padding: 9px 13px;
+    border: 1px solid #dbe3ef;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.chatbot-prompts button:hover {
+    background: #eeeeff;
+    border-color: #818cf8;
+}
+
+.chatbot-form {
+    display: flex;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.chatbot-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+}
+
+.chatbot-form input:focus {
+    border-color: #6366f1;
+}
+
+.chatbot-form button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 9px;
+    background: #4f46e5;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.chatbot-status {
+    padding: 0 20px 12px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+@media (max-width: 650px) {
+    .main {
+        margin-left: 0;
+        padding: 16px;
+    }
+
+    .chatbot-header {
+        padding: 14px;
+    }
+
+    .chatbot-form {
+        padding: 12px;
+    }
+
+    .chatbot-form button {
+        padding: 10px;
+    }
+}
+
     </style>
 </head>
 
-<body>
+<body data-role="admin">
 
 <div class="app">
 
-    <!-- ================= SIDEBAR ================= -->
+    <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
@@ -592,39 +898,35 @@
             </div>
 
             <div>
-    <div class="brand-text">
-        Bug<span>Flow</span>
-    </div>
+                <div class="brand-text">
+                    Bug<span>Flow</span>
+                </div>
 
-    <div style="
-        font-size: 12px;
-        color: #94a3b8;
-        margin-top: 2px;
-    ">
-        Intelligent Tracking
-    </div>
-</div>
+                <div style="font-size:12px;color:#94a3b8;margin-top:2px;">
+                    Intelligent Tracking
+                </div>
+            </div>
         </div>
 
         <div class="sidebar-section">
 
-            <div class="sidebar-heading">
-                Main
-            </div>
+            <div class="sidebar-heading">Main</div>
 
             <a href="admin-dashboard.html" class="nav-link">
                 <i class="fa-solid fa-chart-pie"></i>
                 <span>Dashboard</span>
             </a>
 
-            <a href="admin-defects.html" class="nav-link  ">
+            <a href="admin-defects.html" class="nav-link">
                 <i class="fa-solid fa-bug"></i>
                 <span>All Issues</span>
             </a>
-<a href="sprints.html" class="nav-link">
-    <i class="fa-solid fa-list-check"></i>
-    <span>Sprints</span>
-</a>
+
+            <a href="sprints.html" class="nav-link">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Sprints</span>
+            </a>
+
             <a href="users.html" class="nav-link">
                 <i class="fa-solid fa-users"></i>
                 <span>Users</span>
@@ -640,242 +942,165 @@
             </div>
 
             <a href="optimization.html" class="nav-link">
-    <i class="fa-solid fa-rocket"></i>
-    <span>Optimization & Finalization</span>
-</a>
-            <a href="admin-analytics.html" class="nav-link">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Analytics & Reports</span>
+                <i class="fa-solid fa-rocket"></i>
+                <span>Optimization &amp; Finalization</span>
             </a>
 
+            <a href="admin-analytics.html" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Analytics &amp; Reports</span>
+            </a>
 
             <a href="admin-notifications.html" class="nav-link">
                 <i class="fa-solid fa-bell"></i>
                 <span>Notifications</span>
-               <b class="badge" id="sidebarNotificationBadge">0</b>
+                <b class="badge" id="sidebarNotificationBadge">0</b>
             </a>
+
         </div>
 
         <div class="sidebar-bottom">
 
-    <div class="support-box active">
-        <strong>
-            <i class="fa-solid fa-headset"></i>
-            System Support
-        </strong>
+            <div class="support-box active">
+                <strong>
+                    <i class="fa-solid fa-robot"></i>
+                    Admin AI Support
+                </strong>
+                <small>Ask questions about BugFlow</small>
+            </div>
 
-        <small>
-            ● All systems online
-        </small>
-    </div>
+            <a href="index.html" class="nav-link" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
 
-    <a href="index.html" class="nav-link" id="logoutBtn">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Logout</span>
-    </a>
-
-</div>
+        </div>
 
     </aside>
 
-    <!-- ================= MAIN ================= -->
+    <!-- MAIN CONTENT -->
 
-    <main class="main">
 
-        <div class="topbar">
+<main class="main">
 
+    <!-- TOPBAR: KEEP ADMIN HEADER -->
+
+    <div class="topbar">
+        <div>
+            <h1>Admin AI Support</h1>
+            <p>Ask questions and get help with BugFlow.</p>
+        </div>
+
+        <div class="admin-info">
             <div>
-                <h1>System Support</h1>
-                <p>Monitor BugFlow system health and services.</p>
+                <strong id="adminName">Admin</strong>
             </div>
 
-            <div class="admin-info">
+            <div class="avatar" id="adminAvatar">A</div>
+        </div>
+    </div>
+
+    <!-- AI CHATBOT ONLY -->
+
+    <section class="chatbot-panel">
+
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <div class="chatbot-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
 
                 <div>
-                    <strong id="adminName">Admin</strong>
+                    <h2>BugFlow AI Assistant</h2>
+                    <p>How can I help you today?</p>
                 </div>
-
-                <div class="avatar" id="adminAvatar">
-                    A
-                </div>
-
             </div>
 
+            <button type="button" id="clearChat">
+                <i class="fa-solid fa-rotate-left"></i>
+                New Chat
+            </button>
         </div>
 
-        <!-- SYSTEM STATUS -->
-
-        <div class="status-banner">
-
-            <div class="status-icon">
-                <i class="fa-solid fa-check"></i>
-            </div>
-
-            <div>
-                <h2>All Systems Operational</h2>
-
-                <p>
-                    BugFlow services are currently running normally.
-                </p>
-            </div>
-
+        <div id="chatMessages"
+             class="chat-messages"
+             aria-live="polite"
+             aria-label="Chat messages">
         </div>
 
-        <!-- SERVICE STATUS -->
+        <!-- BUILT-IN ADMIN QUESTIONS -->
 
-        <div class="support-grid">
+        <div class="chatbot-prompts">
+            <button type="button"
+                    data-prompt="How do I review a newly reported issue?">
+                Review new issues
+            </button>
 
-            <div class="support-card">
+            <button type="button"
+                    data-prompt="How do I assign an issue to a developer?">
+                Assign issues
+            </button>
 
-                <h3>
-                    <i class="fa-solid fa-server"></i>
-                    Service Status
-                </h3>
+            <button type="button"
+                    data-prompt="How should I handle a critical or urgent issue?">
+                Critical issues
+            </button>
 
-                <div class="service-row">
+            <button type="button"
+                    data-prompt="How can I view resolution assistance for an issue?">
+                Resolution assistance
+            </button>
 
-                    <div class="service-name">
-                        <i class="fa-solid fa-code"></i>
-                        FastAPI Backend
-                    </div>
+            <button type="button"
+                    data-prompt="How do I manage user accounts and roles in BugFlow?">
+                User management
+            </button>
 
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
-                </div>
-
-                <div class="service-row">
-
-                    <div class="service-name">
-                        <i class="fa-solid fa-database"></i>
-                        PostgreSQL Database
-                    </div>
-
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
-                </div>
-
-                <div class="service-row">
-
-                    <div class="service-name">
-                        <i class="fa-solid fa-key"></i>
-                        Authentication Service
-                    </div>
-
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
-                </div>
-
-                <div class="service-row">
-
-                    <div class="service-name">
-                        <i class="fa-solid fa-file-export"></i>
-                        Export Service
-                    </div>
-
-                    <div class="service-status">
-                        <span class="status-dot"></span>
-                        Operational
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- SYSTEM INFORMATION -->
-
-            <div class="support-card">
-
-                <h3>
-                    <i class="fa-solid fa-circle-info"></i>
-                    System Information
-                </h3>
-
-                <div class="info-row">
-                    <span class="info-label">Application</span>
-                    <span class="info-value">BugFlow</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Backend</span>
-                    <span class="info-value">FastAPI</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Database</span>
-                    <span class="info-value">PostgreSQL</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Authentication</span>
-                    <span class="info-value">JWT</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">API Status</span>
-                    <span class="info-value" style="color:#059669;">
-                        Online
-                    </span>
-                </div>
-
-            </div>
-
+            <button type="button"
+                    data-prompt="How can I troubleshoot a backend or API error?">
+                Troubleshoot errors
+            </button>
         </div>
 
-        <!-- HELP -->
+        <!-- MESSAGE INPUT -->
 
-        <div class="help-card">
+        <form id="chatForm" class="chatbot-form">
+            <input
+                type="text"
+                id="chatInput"
+                name="message"
+                maxlength="2000"
+                placeholder="Ask your question..."
+                autocomplete="off"
+                required
+                aria-label="Enter your message">
 
-            <h3>
-                <i class="fa-solid fa-headset"></i>
-                Need Help?
-            </h3>
+            <button type="submit" id="sendButton">
+                <i class="fa-solid fa-paper-plane"></i>
+                Send
+            </button>
+        </form>
 
-            <p>
-                If you experience an issue with BugFlow,
-                use the options below to check the system or return
-                to the main dashboard.
-            </p>
-
-            <div class="help-buttons">
-
-                <button class="help-btn" onclick="checkSystem()">
-                    <i class="fa-solid fa-rotate"></i>
-                    Check System
-                </button>
-
-                <button class="help-btn secondary"
-                        onclick="location.href='admin-dashboard.html'">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Back to Dashboard
-                </button>
-
-            </div>
-
+        <div id="chatStatus"
+             class="chatbot-status"
+             role="status">
+            Ready to help
         </div>
 
-    </main>
+    </section>
+
+</main>
+
 
 </div>
 
 <script>
-
-    /* ================= ADMIN INFO ================= */
+    /* ADMIN INFORMATION */
 
     const storedUser = localStorage.getItem("user");
 
     if (storedUser) {
-
         try {
-
             const user = JSON.parse(storedUser);
 
             const name =
@@ -885,47 +1110,37 @@
                 "Admin";
 
             document.getElementById("adminName").textContent = name;
-
             document.getElementById("adminAvatar").textContent =
                 name.charAt(0).toUpperCase();
 
         } catch (error) {
-
-            console.log("Unable to load admin information.");
-
+            console.error("Unable to load admin information.");
         }
     }
 
+    /* FOCUS CHAT INPUT */
 
-    /* ================= SYSTEM CHECK ================= */
-
-    function checkSystem() {
-
-        alert(
-            "System Check Complete!\n\n" +
-            "✓ FastAPI Backend: Operational\n" +
-            "✓ PostgreSQL Database: Operational\n" +
-            "✓ Authentication Service: Operational\n" +
-            "✓ Export Service: Operational\n\n" +
-            "All BugFlow systems are running normally."
-        );
-
+    function focusChat() {
+        const input = document.getElementById("chatInput");
+        if (input) {
+            input.focus();
+            input.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
     }
 
+    /* LOGOUT */
 
-    /* ================= LOGOUT ================= */
-
-    document.getElementById("logoutBtn").addEventListener(
-        "click",
-        function () {
-
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("user");
-
-        }
-    );
-
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
+    });
 </script>
+
+<!-- Shared chatbot logic; we will create this file in the next step. -->
+<script src="ai-chatbot.js"></script>
 
 </body>
 </html>
